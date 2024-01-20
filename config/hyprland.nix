@@ -155,6 +155,8 @@ dwindle {
 
 master {
     new_is_master = true
+    new_on_top = true
+    no_gaps_when_only = true
 }
 
 general {
@@ -168,15 +170,26 @@ general {
 }
 
 decoration {
-    # See https://wiki.hyprland.org/Configuring/Variables/ for more
+    rounding=18
+    blur {
+        enabled=1
+        size=6.8 # minimum 1
+        passes=2 # minimum 1, more passes = more resource intensive.
+        new_optimizations = true   
 
-    rounding = 5
-    
-    blur = false
-    drop_shadow = false
-    shadow_range = 4
-    shadow_render_power = 3
-    col.shadow = rgba(1a1a1aee)
+        # Your blur "amount" is size * passes, but high size (over around 5-ish)
+        # will produce artifacts.
+        # if you want heavy blur, you need to up the passes.
+        # the more passes, the more you can up the size without noticing artifacts.
+    }
+    drop_shadow=true
+    shadow_range=15
+    col.shadow=0xffa7caff
+    col.shadow_inactive=0x50000000
 }
-    '';
+
+# Blur for waybar 
+blurls=waybar
+blurls=lockscreen
+'';
 }
