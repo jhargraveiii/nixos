@@ -143,8 +143,8 @@
       exclude = [".Trash" ".log" ".tmp" "/home/*/.cache" "/home/jimh/BACKUP/*"];
       initialize = true;
       passwordFile = "/etc/nixos/restic-password";
-      paths = ["/home" "/var/lib"];
-      repository = "home/jimh/Backup/backup-restic";
+      paths = ["/home"];
+      repository = "/home/jimh/BACKUP/backup-restic";
 
       timerConfig =  {
         OnBootSec = "60";

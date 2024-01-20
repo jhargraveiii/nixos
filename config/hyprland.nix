@@ -38,8 +38,10 @@ gestures {
 # Ensure Mouse or Keyboard Inputs Turn On Displays
 misc {
     disable_hyprland_logo = true
+    disable_splash_rendering=true
     mouse_move_enables_dpms = true
     key_press_enables_dpms = true
+    vfr = true
 } 
 
 animations {
@@ -79,7 +81,6 @@ env = XDG_SESSION_DESKTO,Hyprland
 env = GBM_BACKEND,nvidia
 env = QT_QPA_PLATFORM,wayland
 env = __GLX_VENDOR_LIBRARY_NAME,nvidia
-env = WLR_DRM_NO_ATOMIC,1
 
 $mainMod = SUPER
 # System Application Keybinds
@@ -171,16 +172,8 @@ decoration {
 
     rounding = 5
     
-    blur {
-        enabled = true
-        size = 5
-        passes = 3
-        new_optimizations = true
-    }
-
-    blurls = lockscreen
-
-    drop_shadow = yes
+    blur = false
+    drop_shadow = false
     shadow_range = 4
     shadow_render_power = 3
     col.shadow = rgba(1a1a1aee)
