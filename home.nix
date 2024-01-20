@@ -34,6 +34,7 @@
     enable = true;
     userName = "${gitUsername}";
     userEmail = "${gitEmail}";
+    package = pkgs.gitFull;
   };
 
   # Starship Prompt
@@ -71,7 +72,7 @@
 
   # Install Packages For The User
   home.packages = with pkgs; [
-    neofetch lolcat git git-cola cmatrix firefox btop libvirt
+    neofetch lolcat git-cola cmatrix firefox btop libvirt
     swww polkit_gnome grim slurp lm_sensors unzip unrar gnome.file-roller
     libnotify sway swaynotificationcenter rofi-wayland imv v4l-utils
     ydotool wl-clipboard socat lsd pkg-config transmission-gtk mpv
