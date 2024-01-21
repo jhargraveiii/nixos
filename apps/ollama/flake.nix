@@ -104,7 +104,7 @@
         with lib; {
           options = {
             services.ollama = {
-              enable = true;
+              enable = mkEnableOption "Enable Ollama LLM runner service";
               openFirewall = lib.mkOption {
                 type = lib.types.bool;
                 default = false;
