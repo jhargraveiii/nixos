@@ -168,8 +168,6 @@
     };
 
     shellAliases = {
-      backup=''restic -r ~/BACKUP/backup-restic --verbose backup ~/ --exclude="/home/jimh/BACKUP/*" --password-file /etc/nixos/restic-password'';
-      sn="sudo nano";
       flake-rebuild="sudo nixos-rebuild switch --flake ~/nixos/#workstation";
       n="nano";
       ls="lsd";

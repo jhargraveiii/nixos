@@ -18,7 +18,7 @@
       window_padding_width = 6;
       confirm_os_window_close = 0;
       enable_wayland_osc = true;
-      background_opacity = "0.7";  # Set opacity to 1.0 to disable transparency
+      background_opacity = "0.5";  # Set opacity to 1.0 to disable transparency
       show_error_hints = true;     # Make errors more readable
     };
     extraConfig = ''
@@ -44,8 +44,6 @@
       cursor_text_color #${config.colorScheme.colors.base00}
       selection_foreground none
       selection_background #${config.colorScheme.colors.base08}
-      url_color #${config.colorScheme.colors.base00}
-      url_style bold underline
       active_border_color #${config.colorScheme.colors.base04}
       inactive_border_color #${config.colorScheme.colors.base00}
       bell_border_color #${config.colorScheme.colors.base03}

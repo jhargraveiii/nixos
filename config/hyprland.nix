@@ -15,10 +15,10 @@
 # flipped + 270 degrees -> 7
 monitor=,3440x1440@100,auto,1          # Automatic Configuration
 
-#windowrule = opacity 0.9 0.9 ^(Codium)$
-#windowrule = opacity 0.9 0.9 ^(thunderbird)$
-#windowrule = opacity 0.9 0.9 ^(slack)$
-#windowrule = opacity 0.9 0.9 ^(idea-ultimate)$
+windowrule = opacity 0.9 0.9 ^(Codium)$
+windowrule = opacity 0.9 0.9 ^(thunderbird)$
+windowrule = opacity 0.9 0.9 ^(slack)$
+windowrule = opacity 0.9 0.9 ^(idea-ultimate)$
 
 input {
     kb_layout = us
@@ -41,7 +41,7 @@ misc {
     disable_splash_rendering=true
     mouse_move_enables_dpms = true
     key_press_enables_dpms = true
-    vfr = true
+    vfr = false
 } 
 
 animations {
@@ -78,7 +78,7 @@ env = LIBVA_DRIVER_NAME,nvidia
 env = XDG_SESSION_TYPE,wayland
 env = XDG_CURRENT_DESKTOP,Hyprland
 env = XDG_SESSION_DESKTO,Hyprland
-env = GBM_BACKEND,nvidia
+env = GBM_BACKEND,nvidia-drm
 env = QT_QPA_PLATFORM,wayland
 env = __GLX_VENDOR_LIBRARY_NAME,nvidia
 
