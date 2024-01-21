@@ -158,6 +158,13 @@
     };
   };
 
+  services.ollama = {
+    enable = true;
+    openFirewall = true;  # Set to true if you want to open the port in the firewall
+    port = 11434;  # Adjust the port if needed
+    host = "127.0.0.1";  # Adjust the host if needed
+  };
+
   system.stateVersion = "23.11";
   nix = {
     settings.auto-optimise-store = true;
