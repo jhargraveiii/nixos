@@ -7,7 +7,7 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     hyprland.url = "github:hyprwm/Hyprland";
     nix-colors.url = "github:misterio77/nix-colors";
-    ollama-flake.url = "github:jhargraveiii/nixos/master/apps/ollama";
+    ollama.url = "github:jhargraveiii/nixos?dir=apps/ollama";
   };
 
   outputs = inputs@{ nixpkgs, home-manager, ... }:

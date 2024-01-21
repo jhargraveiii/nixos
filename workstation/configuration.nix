@@ -41,7 +41,7 @@
     LC_TIME = "${theLocale}";
   };
 
- # User account
+  # User account
   users.users.${username} = {
     isNormalUser = true;
     description = "${gitUsername}";
@@ -90,6 +90,8 @@
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
+  
+  #services.ollama.enable = true;
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
@@ -99,7 +101,7 @@
     enableSSHSupport = true;
   };
 
-# List services that you want to enable:
+  # List services that you want to enable:
   services.printing.enable = true;
   services.printing.stateless = true;
   services.avahi = {
@@ -156,13 +158,6 @@
       "--keep-yearly 75"
       ];
     };
-  };
-
-  services.ollama = {
-    enable = true;
-    openFirewall = true;  # Set to true if you want to open the port in the firewall
-    port = 11434;  # Adjust the port if needed
-    host = "127.0.0.1";  # Adjust the host if needed
   };
 
   system.stateVersion = "23.11";

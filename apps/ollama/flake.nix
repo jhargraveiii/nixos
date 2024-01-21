@@ -9,7 +9,7 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
   };
 
-  outputs = { self, nixpkgs }:
+  outputs = { self, nixpkgs, ...}:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -104,7 +104,7 @@
         with lib; {
           options = {
             services.ollama = {
-              enable = mkEnableOption "Enable Ollama LLM runner service";
+              enable = true;
               openFirewall = lib.mkOption {
                 type = lib.types.bool;
                 default = false;
@@ -121,7 +121,6 @@
                 description = "The host to listen on";
               };
             };
-
           };
           config = mkIf cfg.enable {
             assertions = [
