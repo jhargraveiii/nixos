@@ -13,15 +13,15 @@
 
   imports = [
     inputs.nix-colors.homeManagerModules.default
-    ./config/waybar.nix
-    ./config/swaync.nix
-    ./config/swaylock.nix
-    ./config/neofetch.nix
-    ./config/hyprland.nix
-    ./config/kitty.nix
-    ./config/rofi.nix
-    ./config/vim.nix
-    ./config/files.nix
+    ../config/waybar.nix
+    ../config/swaync.nix
+    ../config/swaylock.nix
+    ../config/hyprland.nix
+    ../config/files.nix
+
+    ../modules/programs/kitty.nix
+    ../modules/programs/rofi.nix
+    ../modules/programs/neofetch.nix
   ];
 
   # Define Settings For Xresources
@@ -82,10 +82,10 @@
     microsoft-edge appimage-run cliphist swaylock swayidle wl-clipboard wlsunset
     meld openjdk11
     # Import Scripts
-    (import ./config/scripts/emopicker9000.nix { inherit pkgs; })
-    (import ./config/scripts/task-waybar.nix { inherit pkgs; })
-    (import ./config/scripts/squirtle.nix { inherit pkgs; })
-    (import ./config/scripts/wallsetter.nix { inherit pkgs; })
+    (import ../config/scripts/emopicker9000.nix { inherit pkgs; })
+    (import ../config/scripts/task-waybar.nix { inherit pkgs; })
+    (import ../config/scripts/squirtle.nix { inherit pkgs; })
+    (import ../config/scripts/wallsetter.nix { inherit pkgs; })
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;

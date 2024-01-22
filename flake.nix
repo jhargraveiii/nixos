@@ -7,10 +7,10 @@
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     hyprland.url = "github:hyprwm/Hyprland";
     nix-colors.url = "github:misterio77/nix-colors";
-    ollama.url = "github:jhargraveiii/nixos?dir=apps/ollama";
+    #ollama.url = "github:jhargraveiii/nixos?dir=apps/ollama";
   };
 
-  outputs = inputs@{ nixpkgs, home-manager, ... }:
+  outputs = inputs@{ self, nixpkgs, home-manager, ... }:
   let
     system = "x86_64-linux";
 
@@ -36,7 +36,8 @@
             inherit username; inherit hostname; inherit gitUsername;
             inherit gitEmail; inherit theLocale; inherit theTimezone;
         };
-	    modules = [ ./workstation/configuration.nix
+	    modules = [ 
+          ./workstation/configuration.nix
           home-manager.nixosModules.home-manager {
 	        home-manager.extraSpecialArgs = { inherit username; 
                 inherit gitUsername; inherit gitEmail; inherit inputs; inherit theme;
@@ -44,7 +45,7 @@
             };
 	        home-manager.useGlobalPkgs = true;
 	        home-manager.useUserPackages = true;
-	        home-manager.users.${username} = import ./home.nix;
+	        home-manager.users.${username} = import ./workstation/home.nix;
 	      }
 	    ];
       };
