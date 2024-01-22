@@ -77,7 +77,7 @@
     ydotool wl-clipboard socat lsd pkg-config transmission-gtk mpv
     meson gnumake ant maven jetbrains.idea-ultimate slack chromium 
     pavucontrol material-icons thunderbird zathura python3 appimage-run
-    libreoffice pulseaudio wlogout networkmanagerapplet
+    libreoffice pulseaudio wlogout networkmanager networkmanagerapplet
     microsoft-edge appimage-run cliphist swaylock swayidle wl-clipboard wlsunset
     meld openjdk11 openvpn
     # Import Scripts
