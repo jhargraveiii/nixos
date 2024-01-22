@@ -88,5 +88,5 @@
     }
   '';
 
-  home.file.".config/rofi/rofi.jpg".source = ./files/rofi.jpg;
+  home.file.".config/rofi/rofi.jpg".source = ../../config/files/rofi.jpg;
 }

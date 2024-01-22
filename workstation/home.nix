@@ -18,7 +18,6 @@
     ../config/swaylock.nix
     ../config/hyprland.nix
     ../config/files.nix
-
     ../modules/programs/kitty.nix
     ../modules/programs/rofi.nix
     ../modules/programs/neofetch.nix
