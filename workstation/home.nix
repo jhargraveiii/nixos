@@ -79,7 +79,7 @@
     pavucontrol material-icons thunderbird zathura python3 appimage-run
     libreoffice pulseaudio wlogout networkmanagerapplet
     microsoft-edge appimage-run cliphist swaylock swayidle wl-clipboard wlsunset
-    meld openjdk11
+    meld openjdk11 openvpn
     # Import Scripts
     (import ../config/scripts/emopicker9000.nix { inherit pkgs; })
     (import ../config/scripts/task-waybar.nix { inherit pkgs; })

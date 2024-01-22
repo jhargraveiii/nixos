@@ -56,7 +56,10 @@
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
+    extraPackages = with pkgs; [ vaapiVdpau ];
   };
+
+  hardware.bluetooth.enable = true;
 
   # Load nvidia driver for Xorg and Wayland
   nixpkgs.config.nvidia.acceptLicense = true;
