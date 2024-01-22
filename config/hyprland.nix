@@ -13,7 +13,7 @@
 # flipped + 90 degrees -> 5
 # flipped + 180 degrees -> 6
 # flipped + 270 degrees -> 7
-monitor=,3440x1440@100,auto,1          # Automatic Configuration
+monitor=,3440x1440@99.98200,auto,1          # Automatic Configuration
 
 windowrule = opacity 0.9 0.9 ^(Codium)$
 windowrule = opacity 0.9 0.9 ^(thunderbird)$
