@@ -68,6 +68,7 @@ exec-once = systemctl --user import-environment QT_QPA_PLATFORMTHEME WAYLAND_DIS
 exec-once = swww init
 exec-once = waybar
 exec-once = swaync
+exec-once = nm-applet
 exec-once = wallsetter
 exec-once = hyprctl setcursor Bibata-Modern-Ice 24
 exec-once = wl-paste --watch cliphist store

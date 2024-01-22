@@ -73,7 +73,6 @@
         format-wifi = "{icon} {signalStrength}%";
         format-disconnected = "󰤮";
         tooltip = false;
-				on-click = "nm-applet";
       };
       "tray" = {
         spacing = 12;
