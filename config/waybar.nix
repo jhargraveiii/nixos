@@ -55,7 +55,7 @@
       };
       "memory" = {
       	interval = 5;
-      	format = " {}%";
+      	format = " {used:0.1f}G/{total:0.1f}G";
         tooltip = true;
       };
       "cpu" = {
@@ -73,7 +73,7 @@
         format-wifi = "{icon} {signalStrength}%";
         format-disconnected = "󰤮";
         tooltip = false;
-				on-click = "nm-connection-editor";
+				on-click = "nm-applet";
       };
       "tray" = {
         spacing = 12;
