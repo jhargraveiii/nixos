@@ -17,6 +17,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelModules = [ "v4l2loopback" ];
   boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
+  boot.kernelPackages = pkgs.linuxPackages_6_6;
 
   networking.hostName = "${hostname}"; # Define your hostname.
 
@@ -185,6 +186,7 @@
 
   # Set Environment Variables
   environment.variables={
+  M2_COLORS = "true";     
    _JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
    NIXOS_OZONE_WL = "1";
    JAVA_HOME = "\${HOME}/.jdks/openjdk11/lib/openjdk";
