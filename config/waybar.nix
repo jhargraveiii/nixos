@@ -10,7 +10,7 @@
       position = "top";
 
       modules-left = [ "hyprland/window" ];
-      modules-center = [ "temperature" "network" "pulseaudio" "cpu" "hyprland/workspaces" "memory" "disk" "clock" ];
+      modules-center = [ "temperature" "network" "bluetooth" "pulseaudio" "cpu" "hyprland/workspaces" "memory" "disk" "clock" ];
       modules-right = [ "custom/notification" "tray" ];
       "hyprland/workspaces" = {
       	format = "{icon}";
@@ -66,6 +66,14 @@
       "disk" = {
         format = "  {free}";
         tooltip = true;
+      };
+			"bluetooth" = {
+        	format = "<span color='#0056A3'></span> {status}";
+					 # an empty format will hide the module
+        	format-disabled = "";
+        	format-connected = "<span color='#0056A3'></span> {num_connections}";
+        	tooltip-format = "{device_enumerate}";
+        	tooltip-format-enumerate-connected = "{device_alias}   {device_address}";
       };
       "network" = {
         format-icons = ["󰤯" "󰤟" "󰤢" "󰤥" "󰤨"];
@@ -217,6 +225,13 @@
     		color: #${config.colorScheme.colors.base03};
     		background: #${config.colorScheme.colors.base00};
     		border-radius: 15px 50px 15px 50px;
+    		margin: 5px;
+    		padding: 2px 20px;
+	}
+	#bluetooth {
+    		color: #${config.colorScheme.colors.base07};
+    		background: #${config.colorScheme.colors.base00};
+    		border-radius: 50px 15px 50px 15px;
     		margin: 5px;
     		padding: 2px 20px;
 	}

@@ -7,6 +7,7 @@
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
   home.stateVersion = "23.11";
+  nixpkgs.config.allowUnfree = true;
 
   # Set The Colorscheme
   colorScheme = inputs.nix-colors.colorSchemes."${theme}";
@@ -41,6 +42,19 @@
     enable = true;
     package = pkgs.starship;
     settings = {
+        status = {
+          symbol = "[x](bold red) ";
+        };
+        sudo = {
+          symbol = "sudo ";
+        };
+        username = {
+          style_user = "green bold";
+          style_root = "red bold";
+          format = "[$user]($style)";
+          disabled = false;
+          show_always = true;
+        };
         add_newline = true;
         character = {
             success_symbol = "[➜](bold green)";
@@ -77,9 +91,9 @@
     ydotool wl-clipboard socat lsd pkg-config transmission-gtk mpv
     meson gnumake ant maven jetbrains.idea-ultimate slack chromium 
     pavucontrol material-icons thunderbird zathura python3 appimage-run
-    libreoffice pulseaudio brave wlogout networkmanager networkmanagerapplet
+    pulseaudio brave wlogout networkmanager networkmanagerapplet
     microsoft-edge appimage-run cliphist swaylock swayidle wl-clipboard wlsunset
-    meld openjdk11 openvpn
+    meld openjdk11 openvpn libreoffice-qt hunspell hunspellDicts.en_US
     # Import Scripts
     (import ../config/scripts/emopicker9000.nix { inherit pkgs; })
     (import ../config/scripts/task-waybar.nix { inherit pkgs; })
@@ -90,14 +104,16 @@
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
   home.file.".jdks/openjdk17".source = pkgs.openjdk17;
 
-   programs.vscode = {
-     enable = true;
-     package = pkgs.vscodium;
-     extensions = with pkgs.vscode-extensions; [
-       dracula-theme.theme-dracula
-       jnoortheen.nix-ide       
-      ];
-    };
+  programs.vscode = {
+    enable = true;
+    package = pkgs.vscodium;
+    enableUpdateCheck = true;
+    enableExtensionUpdateCheck = true;
+    extensions = with pkgs.vscode-extensions; [
+      dracula-theme.theme-dracula
+      jnoortheen.nix-ide       
+    ];
+  };
 
   # Configure Cursor Theme
   home.pointerCursor = {

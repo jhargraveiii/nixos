@@ -15,6 +15,11 @@
 # flipped + 270 degrees -> 7
 monitor=,3440x1440@99.98200,auto,1          # Automatic Configuration
 
+# Example windowrule v1
+# windowrule = float, ^(kitty)$
+# Example windowrule v2
+# windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
+# See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
 windowrule = opacity 0.9 0.9 ^(Codium)$
 windowrule = opacity 0.9 0.9 ^(thunderbird)$
 windowrule = opacity 0.9 0.9 ^(slack)$
@@ -41,12 +46,12 @@ misc {
     disable_splash_rendering=true
     mouse_move_enables_dpms = true
     key_press_enables_dpms = true
-    vfr = false
+    enable_swallow = true
+    swallow_regex = ^(Alacritty|kitty)$
 } 
 
 animations {
     enabled = yes
-
     # Define Settings For Animation Bezier Curve
     bezier = wind, 0.05, 0.9, 0.1, 1.05
     bezier = winIn, 0.1, 1.1, 0.1, 1.1
@@ -79,8 +84,9 @@ env = LIBVA_DRIVER_NAME,nvidia
 env = XDG_SESSION_TYPE,wayland
 env = XDG_CURRENT_DESKTOP,Hyprland
 env = XDG_SESSION_DESKTO,Hyprland
-env = GBM_BACKEND,nvidia-drm
+# cuases crash? env = GBM_BACKEND,nvidia-drm
 env = QT_QPA_PLATFORM,wayland
+env = GDK_BACKEND,wayland,x11
 env = __GLX_VENDOR_LIBRARY_NAME,nvidia
 
 $mainMod = SUPER
@@ -141,6 +147,11 @@ bind = $mainMod SHIFT,	2,		movetoworkspace, 2
 bind = $mainMod SHIFT,	3,		movetoworkspace, 3
 bind = $mainMod SHIFT,	4,		movetoworkspace, 4
 bind = $mainMod SHIFT,	5,		movetoworkspace, 5
+bind = $mainMod SHIFT,	6,		movetoworkspace, 6
+bind = $mainMod SHIFT,	7,		movetoworkspace, 7
+bind = $mainMod SHIFT,	8,		movetoworkspace, 8
+bind = $mainMod SHIFT,	9,		movetoworkspace, 9
+bind = $mainMod SHIFT,	0,		movetoworkspace, 0
 
 # Scroll through existing workspaces with mainMod + scroll
 bind = $mainMod,		mouse_down, workspace, e+1

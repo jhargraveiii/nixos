@@ -46,7 +46,7 @@
   users.users.${username} = {
     isNormalUser = true;
     description = "${gitUsername}";
-    extraGroups = [ "networkmanager" "wheel" ];
+    extraGroups = [ "networkmanager" "wheel" "docker"];
     packages = with pkgs; [];
     uid = 1000;
       openssh.authorizedKeys.keys = [
@@ -65,7 +65,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    nano wget curl git restic linuxKernel.packages.linux_latest_libre.virtualboxGuestAdditions
+    docker-compose nano wget curl git restic linuxKernel.packages.linux_latest_libre.virtualboxGuestAdditions
   ];
 
   fonts.packages = with pkgs; [
@@ -85,13 +85,30 @@
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
   ];
 
-  security.pam.services.swaylock = {};
-  security.pam.services.swaylock.fprintAuth = false;
+  # Unlock with Swaylock
+  security = {
+    pam = {
+      services = {
+        swaylock = {
+          fprintAuth = false;
+          text = ''
+            auth include login
+          '';
+        };
+      };
+    };
+  };
+
   programs.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
   };
   
+  # Docker can also be run rootless
+  virtualisation.docker = {
+    enable = true;
+  };
+
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   programs.mtr.enable = true;
@@ -100,8 +117,20 @@
     enableSSHSupport = true;
   };
 
+  programs._1password.enable = true;
+  programs._1password-gui = {
+    enable = true;
+    # Certain features, including CLI integration and system authentication support,
+    # require enabling PolKit integration on some desktop environments (e.g. Plasma).
+    polkitPolicyOwners = [ "${username}" ];
+  };
+
+  # Enable 1password to open with gnomekeyring
+  security.pam.services."1password".enableGnomeKeyring = true;
+
   # List services that you want to enable:
-   # Hide the mouse cursor when not in use
+  
+  # Hide the mouse cursor when not in use
   services.unclutter = {
     enable = true;
     timeout = 2;
@@ -111,11 +140,7 @@
   
   services.printing.enable = true;
   services.printing.stateless = true;
-  services.avahi = {
-    enable = true;
-    nssmdns = true;
-    openFirewall = true;
-  };
+
   hardware.printers = {
     ensurePrinters = [
       {
@@ -140,6 +165,7 @@
     pulse.enable = true;
     jack.enable = true;
   };
+
   hardware.pulseaudio.enable = false;
   sound.enable = true;
   security.rtkit.enable = true;
@@ -206,7 +232,7 @@
    XCURSOR_SIZE = "24";
    XCURSOR_THEME = "Bibata-Modern-Ice";
    QT_QPA_PLATFORM = "wayland";
-   QT_QPA_PLATFORMTHEME = "qt5ct";
+   QT_QPA_PLATFORMTHEME = "qt6ct";
    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
    MOZ_ENABLE_WAYLAND = "1";

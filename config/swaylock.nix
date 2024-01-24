@@ -1,7 +1,8 @@
-{ pkgs, config, ... }:
-
+{ pkgs, home-manager, config, ... }:
 {
+  
   home.file.".config/swaylock/config".text = ''
+".config/swaylock/background.jpg".source = ../files/media/Wallpapers/nix-wallpaper-dracula.png;
 daemonize
 show-failed-attempts
 clock
