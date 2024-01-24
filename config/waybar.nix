@@ -74,13 +74,14 @@
         	format-connected = "<span color='#0056A3'></span> {num_connections}";
         	tooltip-format = "{device_enumerate}";
         	tooltip-format-enumerate-connected = "{device_alias}   {device_address}";
+					tooltip = true;
       };
       "network" = {
         format-icons = ["󰤯" "󰤟" "󰤢" "󰤥" "󰤨"];
         format-ethernet = ": {bandwidthDownOctets} : {bandwidthUpOctets}";
         format-wifi = "{icon} {signalStrength}%";
         format-disconnected = "󰤮";
-        tooltip = false;
+        tooltip = true;
       };
       "tray" = {
         spacing = 12;
@@ -112,7 +113,7 @@
 						""
 						""
 					];
-				tooltip = false;
+				tooltip = true;
         critical-threshold = 60;
         format-critical = " {temperatureC}°C";
         on-click = "kitty --start-as=fullscreen --title btop sh -c 'btop'";
