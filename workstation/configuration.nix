@@ -66,7 +66,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     docker-compose nano wget curl git restic linuxKernel.packages.linux_latest_libre.virtualboxGuestAdditions
-    wayland wayland-protocols wayland-scanner
   ];
 
   fonts.packages = with pkgs; [

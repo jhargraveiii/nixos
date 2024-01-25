@@ -69,7 +69,7 @@ animations {
 
 exec-once = dbus-update-activation-environment --systemd --all
 exec-once = systemctl --user import-environment QT_QPA_PLATFORMTHEME WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-exec-once= hyprpaper
+#exec-once= hyprpaper
 exec-once = waybar
 exec-once = swaync
 exec-once = nm-applet --indicator
