@@ -85,9 +85,9 @@
 
   # Install Packages For The User
   home.packages = with pkgs; [
-    neofetch lolcat git-cola cmatrix firefox btop libvirt
-    swww polkit_gnome grim slurp lm_sensors unzip unrar gnome.file-roller
-    libnotify sway swaynotificationcenter rofi-wayland imv v4l-utils
+    hyprpaper neofetch lolcat git-cola cmatrix firefox btop libvirt
+    polkit_gnome grim slurp lm_sensors unzip unrar gnome.file-roller
+    libnotify swaynotificationcenter rofi-wayland imv v4l-utils
     ydotool wl-clipboard socat lsd pkg-config transmission-gtk mpv
     meson gnumake ant maven jetbrains.idea-ultimate slack chromium 
     pavucontrol material-icons thunderbird zathura python3 appimage-run
@@ -98,7 +98,6 @@
     (import ../config/scripts/emopicker9000.nix { inherit pkgs; })
     (import ../config/scripts/task-waybar.nix { inherit pkgs; })
     (import ../config/scripts/squirtle.nix { inherit pkgs; })
-    (import ../config/scripts/wallsetter.nix { inherit pkgs; })
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;

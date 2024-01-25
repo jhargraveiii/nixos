@@ -1,7 +1,11 @@
-{ pkgs, config, ... }:
+{ lib, inputs, pkgs, config, ... }:
 
 {
-    home.file.".config/hypr/hyprland.conf".text = ''
+  imports = [
+    inputs.hyprland.homeManagerModules.default
+  ];
+
+ home.file.".config/hypr/hyprland.conf".text = ''
 
 # monitor=[monitor-name],[resolution@framerate],[pos-x,y],[scale factor],transform,[rotation]
 # Rotation Degrees Shorthand
@@ -20,6 +24,10 @@ monitor=,3440x1440@99.98200,auto,1          # Automatic Configuration
 # Example windowrule v2
 # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
 # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
+
+xwayland = {
+    force_zero_scaling = true
+}
 
 input {
     kb_layout = us
@@ -66,15 +74,15 @@ animations {
 
 exec-once = dbus-update-activation-environment --systemd --all
 exec-once = systemctl --user import-environment QT_QPA_PLATFORMTHEME WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-exec-once = swww init
+exec-once= hyprpaper
 exec-once = waybar
 exec-once = swaync
-exec-once = nm-applet
+exec-once = nm-applet --indicator
 exec-once = wallsetter
 exec-once = hyprctl setcursor Bibata-Modern-Ice 24
 exec-once = wl-paste --watch cliphist store
 exec-once = wlsunset -S 7:00 -s 18:00;notify-send "Brightness value changed: $(wlsunset -l)"
-exec-once = swayidle timeout 900 'swaylock -f -c 000000' before-sleep 'swaylock -f -c 000000'
+exec-once = swayidle timeout 900 'swaylock -f -c 000000'
 env = WLR_NO_HARDWARE_CURSORS,1
 env = LIBVA_DRIVER_NAME,nvidia
 env = XDG_SESSION_TYPE,wayland
