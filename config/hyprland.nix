@@ -25,10 +25,6 @@ monitor=,3440x1440@99.98200,auto,1          # Automatic Configuration
 # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
 # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
 
-xwayland = {
-    force_zero_scaling = true
-}
-
 input {
     kb_layout = us
     follow_mouse = 1
@@ -41,7 +37,6 @@ input {
 
 gestures {
     workspace_swipe = false
-    #workspace_swipe_fingers = 3
 }
 
 # Ensure Mouse or Keyboard Inputs Turn On Displays
