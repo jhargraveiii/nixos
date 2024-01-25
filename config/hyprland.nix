@@ -20,10 +20,6 @@ monitor=,3440x1440@99.98200,auto,1          # Automatic Configuration
 # Example windowrule v2
 # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
 # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
-windowrule = opacity 0.9 0.9 ^(Codium)$
-windowrule = opacity 0.9 0.9 ^(thunderbird)$
-windowrule = opacity 0.9 0.9 ^(slack)$
-windowrule = opacity 0.9 0.9 ^(idea-ultimate)$
 
 input {
     kb_layout = us

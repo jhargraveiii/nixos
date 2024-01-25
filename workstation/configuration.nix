@@ -182,7 +182,7 @@
       repository = "/home/jimh/BACKUP/backup-restic";
 
       timerConfig =  {
-        OnBootSec = "60";
+        OnBootSec = "600";
       };
       pruneOpts = [
       "--keep-daily 7"
