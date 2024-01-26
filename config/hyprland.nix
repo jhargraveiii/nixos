@@ -80,9 +80,9 @@ env = LIBVA_DRIVER_NAME,nvidia
 env = XDG_SESSION_TYPE,wayland
 env = XDG_CURRENT_DESKTOP,Hyprland
 env = XDG_SESSION_DESKTO,Hyprland
-# cuases crash? env = GBM_BACKEND,nvidia-drm
+env = GBM_BACKEND,nvidia-drm
 env = QT_QPA_PLATFORM,wayland
-env = GDK_BACKEND,wayland,x11
+env = GDK_BACKEND,wayland
 env = __GLX_VENDOR_LIBRARY_NAME,nvidia
 
 $mainMod = SUPER

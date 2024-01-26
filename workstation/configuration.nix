@@ -16,9 +16,12 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelModules = [ "v4l2loopback" ];
-  boot.extraModulePackages = [ config.boot.kernelPackages.v4l2loopback ];
   boot.kernelPackages = pkgs.linuxPackages_6_6;
+  boot.initrd.availableKernelModules = [ "thunderbolt" "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.kernelModules = [ ];
+  boot.kernelModules = [ "kvm-amd" ];
+  boot.kernelParams = [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
+  boot.extraModulePackages = [ ];
 
   networking.hostName = "${hostname}"; # Define your hostname.
 
@@ -228,6 +231,25 @@
         "\${HOME}/oxygenDeveloper"
         "\$/usr/local/bin"
       ];
+   M2_COLORS = "true";     
+   _JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
+   JAVA_HOME = "\${HOME}/.jdks/openjdk11/lib/openjdk";
+   NIXOS_OZONE_WL = "1";
+   NIXPKGS_ALLOW_UNFREE = "1";
+   SCRIPTDIR = "\${HOME}/.local/share/scriptdeps";
+   XDG_CURRENT_DESKTOP = "Hyprland";
+   XDG_SESSION_TYPE = "wayland";
+   XDG_SESSION_DESKTOP = "Hyprland";
+   GDK_BACKEND = "wayland";
+   CLUTTER_BACKEND = "wayland";
+   SDL_VIDEODRIVER = "x11";
+   XCURSOR_SIZE = "24";
+   XCURSOR_THEME = "Bibata-Modern-Ice";
+   QT_QPA_PLATFORM = "wayland";
+   QT_QPA_PLATFORMTHEME = "gtk2";
+   QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+   QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+   MOZ_ENABLE_WAYLAND = "1";
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

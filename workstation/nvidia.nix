@@ -10,7 +10,14 @@
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
-    extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl mesa.drivers];
+    extraPackages = with pkgs; [
+      #mesa.drivers 
+      # trying to fix `WLR_RENDERER=vulkan sway`
+      vulkan-validation-layers
+      # https://nixos.wiki/wiki/Accelerated_Video_Playback
+      vaapiVdpau
+      libvdpau-va-gl
+    ];
   };
 
   # Load nvidia driver for Xorg and Wayland
@@ -48,7 +55,7 @@
     modesetting.enable = true;
 
     # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    powerManagement.enable = false;
+    powerManagement.enable = true;
     # Fine-grained power management. Turns off GPU when not in use.
     # Experimental and only works on modern Nvidia GPUs (Turing or newer).
     powerManagement.finegrained = false;
@@ -66,7 +73,7 @@
     # accessible via `nvidia-settings`.
     nvidiaSettings = true;
 
-    nvidiaPersistenced = true;
+    #nvidiaPersistenced = true;
 
     forceFullCompositionPipeline = true;
     
