@@ -93,7 +93,7 @@ bind = $mainMod,		W,		exec, chromium
 bind = $mainMod,		E,		exec, thunderbird
 bind = $mainMod,		J,		exec, idea-ultimate
 bind = $mainMod,		T,		exec, thunar
-bind = $mainMod,		C,		exec, codium
+bind = $mainMod,		C,		exec, WAYLAND_DISPLAY="" codium
 bind = $mainMod,		V,		exec, VirtualBox
 bind = $mainMod,		S,		exec, slack
 bind = $mainMod,		O,		exec, sh ~/oxygenDeveloper/oxygenDeveloper.sh
