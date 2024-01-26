@@ -10,8 +10,8 @@
       position = "top";
 
       modules-left = [ "hyprland/window" ];
-      modules-center = [ "temperature" "network" "bluetooth" "pulseaudio" "cpu" "hyprland/workspaces" "memory" "disk" "clock" ];
-      modules-right = [ "custom/weather" "custom/notification" "tray" ];
+      modules-center = [ "temperature" "network" "bluetooth" "pulseaudio" "cpu" "hyprland/workspaces" "memory" "disk" "clock" "custom/weather"];
+      modules-right = [ "custom/notification" "tray" ];
       "hyprland/workspaces" = {
       	format = "{icon}";
       	format-icons = {
