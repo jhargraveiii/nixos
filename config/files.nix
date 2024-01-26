@@ -2,7 +2,7 @@
 
 {
   # Place Files Inside Home Directory
-  home.file.".config/waybar/scripts/weather.py".source = ./files/weather.py;
+  home.file.".config/waybar/scripts/weather.py".source = ./files/weather.py; 
   home.file.".face".source = ./files/face.jpg;
   home.file.".emoji".source = ./files/emoji;
   home.file."Pictures/Wallpapers" = {
