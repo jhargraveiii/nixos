@@ -8,11 +8,10 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
   
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+  boot.initrd.availableKernelModules = [ "thunderbolt" "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ "kvm-amd" ];
   boot.extraModulePackages = [ ];
-  boot.kernelParams = [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
 
   fileSystems."/" =
     { device = "/dev/disk/by-uuid/7a47889a-8c5f-4a66-ae13-a20bb8c0c45a";
@@ -49,71 +48,6 @@
   # networking.interfaces.wlp5s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
   hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
-  
-  # Enable OpenGL
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-    extraPackages = with pkgs; [ vaapiVdpau ];
-  };
-
-  hardware.bluetooth.enable = true;
-
-  # Load nvidia driver for Xorg and Wayland
-  nixpkgs.config.nvidia.acceptLicense = true;
-  services.xserver = {
-    enable = true;
-    layout = "us";
-    xkbVariant = "";
-    libinput.enable = true;
-    videoDrivers = [ "nvidia" ];
-    displayManager.gdm = {
-      enable = true;
-      wayland = true;
-    };
-   config = ''
-      Section "Device"
-          Identifier "nvidia"
-          Driver "nvidia"
-          BusID "PCI:1:0:0"
-          Option "AllowEmptyInitialConfiguration"
-      EndSection
-    '';
-    screenSection = ''
-      Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
-      Option         "AllowIndirectGLXProtocol" "off"
-      Option         "TripleBuffer" "on"
-    '';
-  };
-
-  hardware.nvidia = {
-
-    # Modesetting is required.
-    modesetting.enable = true;
-
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    powerManagement.enable = false;
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
-    powerManagement.finegrained = false;
-
-    # Use the NVidia open source kernel module (not to be confused with the
-    # independent third-party "nouveau" open source driver).
-    # Support is limited to the Turing and later architectures. Full list of 
-    # supported GPUs is at: 
-    # https://github.com/NVIDIA/open-gpu-kernel-modules#compatible-gpus 
-    # Only available from driver 515.43.04+
-    # Currently alpha-quality/buggy, so false is currently the recommended setting.
-    open = false;
-
-    # Enable the Nvidia settings menu,
-    # accessible via `nvidia-settings`.
-    nvidiaSettings = true;
-
-    forceFullCompositionPipeline = true;
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
-    package = config.boot.kernelPackages.nvidiaPackages.stable;
- };
 }

@@ -11,14 +11,26 @@
 
       modules-left = [ "hyprland/window" ];
       modules-center = [ "temperature" "network" "bluetooth" "pulseaudio" "cpu" "hyprland/workspaces" "memory" "disk" "clock" ];
-      modules-right = [ "custom/notification" "tray" ];
+      modules-right = [ "custom/weather" "custom/notification" "tray" ];
       "hyprland/workspaces" = {
       	format = "{icon}";
       	format-icons = {
-          default = " ";
-          active = " ";
-          urgent = " ";
+          active = " 󱎴";
+          default = "󰍹";
       	};
+				persistent-workspaces = {
+					    "0" = [];
+              "1" = [];
+              "2" = [];
+              "3" = [];
+              "4" = [];
+              "5" = [];
+              "6" = [];
+              "7" = [];
+              "8" = [];
+              "9" = [];
+        };
+				on-click = "activate";
       	on-scroll-up = "hyprctl dispatch workspace e+1";
       	on-scroll-down = "hyprctl dispatch workspace e-1";
       };
@@ -51,7 +63,7 @@
       };
       "hyprland/window" = {
       	max-length = 60;
-      	separate-outputs = false;
+      	separate-outputs = true;
       };
       "memory" = {
       	interval = 5;
@@ -67,14 +79,15 @@
         format = "  {free}";
         tooltip = true;
       };
-			"bluetooth" = {
-        	format = "<span color='#0056A3'></span> {status}";
-					 # an empty format will hide the module
-        	format-disabled = "";
-        	format-connected = "<span color='#0056A3'></span> {num_connections}";
-        	tooltip-format = "{device_enumerate}";
-        	tooltip-format-enumerate-connected = "{device_alias}   {device_address}";
-					tooltip = false;
+			 "bluetooth" = {
+            format = "{icon}";
+            format-alt = "bluetooth: {status}";
+            interval = 30;
+            format-icons = {
+              enabled = "";
+              disabled = "󰂲";
+            };
+            tooltip-format = "{status}";
       };
       "network" = {
         format-icons = ["󰤯" "󰤟" "󰤢" "󰤥" "󰤨"];
@@ -118,6 +131,12 @@
         format-critical = " {temperatureC}°C";
         on-click = "kitty --start-as=fullscreen --title btop sh -c 'btop'";
       };
+
+			"custom/weather" = {
+					exec = "nix-shell ~/.config/waybar/scripts/weather.py";
+					restart-interval = 300;
+					return-type = "json";
+				};
 
       "custom/notification" = {
         tooltip = false;
@@ -274,6 +293,66 @@
     		margin: 5px;
     		padding: 2px 20px;
 	}
+  #custom-weather,
+	#custom-weather.severe,
+	#custom-weather.sunnyDay,
+	#custom-weather.clearNight,
+	#custom-weather.cloudyFoggyDay,
+	#custom-weather.cloudyFoggyNight,
+	#custom-weather.rainyDay,
+	#custom-weather.rainyNight,
+	#custom-weather.showyIcyDay,
+	#custom-weather.snowyIcyNight,
+	#custom-weather.default {
+		color: #e5e5e5;
+		border-radius: 6px;
+		padding: 2px 10px;
+		background-color: #252733;
+		border-radius: 8px;
+		font-size: 16px;
+
+		margin-left: 4px;
+		margin-right: 4px;
+
+		margin-top: 8.5px;
+		margin-bottom: 8.5px;
+	}	
+	#custom-weather {
+				font-family: Iosevka Nerd Font;
+				font-size: 19px;
+				color: #8a909e;
+			}
+
+			#custom-weather.severe {
+				color: #eb937d;
+			}
+
+			#custom-weather.sunnyDay {
+				color: #c2ca76;
+			}
+
+			#custom-weather.clearNight {
+				color: #cad3f5;
+			}
+
+			#custom-weather.cloudyFoggyDay,
+			#custom-weather.cloudyFoggyNight {
+				color: #c2ddda;
+			}
+
+			#custom-weather.rainyDay,
+			#custom-weather.rainyNight {
+				color: #5aaca5;
+			}
+
+			#custom-weather.showyIcyDay,
+			#custom-weather.snowyIcyNight {
+				color: #d6e7e5;
+			}
+
+			#custom-weather.default {
+				color: #dbd9d8;
+			}
     '';
   };
 }

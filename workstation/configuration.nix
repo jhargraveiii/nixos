@@ -10,6 +10,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./nvidia.nix
     ];
 
   # Bootloader.
@@ -129,7 +130,9 @@
   security.pam.services."1password".enableGnomeKeyring = true;
 
   # List services that you want to enable:
-  
+  hardware.bluetooth.enable = true;
+  services.blueman.enable = true;
+
   # Hide the mouse cursor when not in use
   services.unclutter = {
     enable = true;
@@ -156,6 +159,7 @@
     ensureDefaultPrinter = "Canon_MF450_Series";
   };
 
+  services.flatpak.enable = true;
   services.openssh.enable = true;
   services.fstrim.enable = true;
   services.pipewire = {
@@ -169,7 +173,14 @@
   hardware.pulseaudio.enable = false;
   sound.enable = true;
   security.rtkit.enable = true;
-  programs.thunar.enable = true;
+  programs.thunar = {
+    enable = true;
+    plugins = with pkgs.xfce; [
+      thunar-archive-plugin
+      thunar-volman
+      xfconf
+    ];
+  };
   services.gvfs.enable = true;
   services.tumbler.enable = true;
   
@@ -212,30 +223,11 @@
 
   # Set Environment Variables
   environment.variables={
-  M2_COLORS = "true";     
-   _JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
-   NIXOS_OZONE_WL = "1";
-   JAVA_HOME = "\${HOME}/.jdks/openjdk11/lib/openjdk";
-   PATH = [
-     "\${HOME}/.cargo/bin"
-     "\${HOME}/oxygenDeveloper"
-     "\$/usr/local/bin"
-   ];
-   NIXPKGS_ALLOW_UNFREE = "1";
-   SCRIPTDIR = "\${HOME}/.local/share/scriptdeps";
-   XDG_CURRENT_DESKTOP = "Hyprland";
-   XDG_SESSION_TYPE = "wayland";
-   XDG_SESSION_DESKTOP = "Hyprland";
-   GDK_BACKEND = "wayland";
-   CLUTTER_BACKEND = "wayland";
-   SDL_VIDEODRIVER = "x11";
-   XCURSOR_SIZE = "24";
-   XCURSOR_THEME = "Bibata-Modern-Ice";
-   QT_QPA_PLATFORM = "wayland";
-   QT_QPA_PLATFORMTHEME = "qt6ct";
-   QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-   QT_AUTO_SCREEN_SCALE_FACTOR = "1";
-   MOZ_ENABLE_WAYLAND = "1";
+    PATH = [
+        "\${HOME}/.cargo/bin"
+        "\${HOME}/oxygenDeveloper"
+        "\$/usr/local/bin"
+      ];
   };
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];

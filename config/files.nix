@@ -2,8 +2,9 @@
 
 {
   # Place Files Inside Home Directory
-  home.file.".emoji".source = ./files/emoji;
+  home.file.".config/waybar/scripts".source = ./files/weather.py;
   home.file.".face".source = ./files/face.jpg;
+  home.file.".emoji".source = ./files/emoji;
   home.file."Pictures/Wallpapers" = {
     source = ./files/media/Wallpapers;
     recursive = true;

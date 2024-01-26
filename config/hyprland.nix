@@ -1,12 +1,9 @@
 { lib, inputs, pkgs, config, ... }:
 
 {
-  imports = [
-    inputs.hyprland.homeManagerModules.default
-  ];
-
- home.file.".config/hypr/hyprland.conf".text = ''
-
+wayland.windowManager.hyprland.enable = true;
+wayland.windowManager.hyprland.extraConfig = 
+''
 # monitor=[monitor-name],[resolution@framerate],[pos-x,y],[scale factor],transform,[rotation]
 # Rotation Degrees Shorthand
 # normal (no transforms) -> 0
@@ -17,7 +14,7 @@
 # flipped + 90 degrees -> 5
 # flipped + 180 degrees -> 6
 # flipped + 270 degrees -> 7
-monitor=,3440x1440@99.98200,auto,1          # Automatic Configuration
+monitor=,3440x1440@99.98,auto,1          # Automatic Configuration
 
 # Example windowrule v1
 # windowrule = float, ^(kitty)$
@@ -45,8 +42,8 @@ misc {
     disable_splash_rendering=true
     mouse_move_enables_dpms = true
     key_press_enables_dpms = true
-    enable_swallow = true
-    swallow_regex = ^(Alacritty|kitty)$
+    vfr = true
+    hide_cursor_on_touch = true
 } 
 
 animations {
@@ -70,6 +67,7 @@ animations {
 exec-once = dbus-update-activation-environment --systemd --all
 exec-once = systemctl --user import-environment QT_QPA_PLATFORMTHEME WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 #exec-once= hyprpaper
+exec-once=  blueman-applet # Make sure you have installed blueman + blueman-utils
 exec-once = waybar
 exec-once = swaync
 exec-once = nm-applet --indicator

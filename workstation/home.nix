@@ -85,13 +85,14 @@
 
   # Install Packages For The User
   home.packages = with pkgs; [
-    hyprpaper neofetch lolcat git-cola cmatrix firefox btop libvirt
+    libsForQt5.qt5.qtwayland blueman
+    hyprland-protocols hyprpaper neofetch lolcat git-cola cmatrix firefox btop libvirt
     polkit_gnome grim slurp lm_sensors unzip unrar gnome.file-roller
     libnotify swaynotificationcenter rofi-wayland imv v4l-utils
     ydotool wl-clipboard socat lsd pkg-config transmission-gtk mpv
-    meson gnumake ant maven jetbrains.idea-ultimate slack chromium 
+    meson gnumake ant maven jetbrains.idea-ultimate slack ungoogled-chromium 
     pavucontrol material-icons thunderbird zathura python3 appimage-run
-    pulseaudio brave wlogout networkmanager networkmanagerapplet
+    pulseaudio wlogout networkmanager networkmanagerapplet
     microsoft-edge appimage-run cliphist swaylock swayidle wl-clipboard wlsunset
     meld openjdk11 openvpn libreoffice-qt hunspell hunspellDicts.en_US
     # Import Scripts
@@ -125,7 +126,7 @@
 
   # Enable & Configure QT
   qt.enable = true;
-  qt.platformTheme = "gtk";
+  qt.platformTheme = "qtct";
   qt.style.name = "adwaita-dark";
   qt.style.package = pkgs.adwaita-qt;
 
@@ -152,11 +153,13 @@
     gtk3.extraConfig = {
       Settings = ''
       gtk-application-prefer-dark-theme=1
+      gtk-cursor-theme-name=Bibata-Modern-Classic
       '';
     };
     gtk4.extraConfig = {
       Settings = ''
       gtk-application-prefer-dark-theme=1
+      gtk-cursor-theme-name=Bibata-Modern-Classic
       '';
     };
   };
@@ -191,6 +194,42 @@
       ".."="cd ..";
     };
   };
-
+  home.sessionVariables = {
+      M2_COLORS = "true";     
+      _JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
+      JAVA_HOME = "\${HOME}/.jdks/openjdk11/lib/openjdk";
+      NIXPKGS_ALLOW_UNFREE = "1";
+      SCRIPTDIR = "\${HOME}/.local/share/scriptdeps";
+      BROWSER = "chromium";
+      EDITOR = "nona";
+      TERMINAL = "kitty";
+      NIXOS_OZONE_WL = "1";
+      QT_QPA_PLATFORMTHEME = "qt5ct";
+      QT_SCALE_FACTOR = "1";
+      MOZ_ENABLE_WAYLAND = "1";
+      SDL_VIDEODRIVER = "wayland";
+      _JAVA_AWT_WM_NONREPARENTING = "1";
+      QT_QPA_PLATFORM = "wayland";
+      QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+      QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+      #WLR_DRM_DEVICES = "/dev/dri/card1:/dev/dri/card0";
+      WLR_NO_HARDWARE_CURSORS = "1"; # if no cursor,uncomment this line  
+      GBM_BACKEND = "nvidia-drm";
+      CLUTTER_BACKEND = "wayland";
+      __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+      LIBVA_DRIVER_NAME = "nvidia";
+      WLR_RENDERER = "vulkan";
+      XDG_CURRENT_DESKTOP = "Hyprland";
+      XDG_SESSION_DESKTOP = "Hyprland";
+      XDG_SESSION_TYPE = "wayland";
+      GTK_USE_PORTAL = "1";
+      #NIXOS_XDG_OPEN_USE_PORTAL = "1";
+      XDG_CACHE_HOME = "\${HOME}/.cache";
+      XDG_CONFIG_HOME = "\${HOME}/.config";
+      #XDG_BIN_HOME = "\${HOME}/.local/bin";
+      XDG_DATA_HOME = "\${HOME}/.local/share";
+      XCURSOR_SIZE = "24";
+      XCURSOR_THEME = "Bibata-Modern-Ice";
+  };
   programs.home-manager.enable = true;
 }

@@ -4,9 +4,12 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
     home-manager.url = "github:nix-community/home-manager/release-23.11";
-    hyprland.url = "github:hyprwm/Hyprland";
+    hyprland = {
+      url = "github:hyprwm/Hyprland";
+    };
     nix-colors.url = "github:misterio77/nix-colors";
-    #ollama.url = "github:jhargraveiii/nixos?dir=apps/ollama";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";   
+    #ollama.url = "github:jhargraveiii/nixos?dir=flakes/ollama";
   };
 
   outputs = inputs@{ self, nixpkgs, home-manager, ... }:
