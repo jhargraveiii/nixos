@@ -19,7 +19,6 @@
           default = "󰍹";
       	};
 				persistent-workspaces = {
-					    "0" = [];
               "1" = [];
               "2" = [];
               "3" = [];
