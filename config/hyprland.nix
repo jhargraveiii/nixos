@@ -1,9 +1,7 @@
 { lib, inputs, pkgs, config, ... }:
 
 {
-wayland.windowManager.hyprland.enable = true;
-wayland.windowManager.hyprland.extraConfig = 
-''
+home.file.".config/hypr/hyprland.conf".text =''
 # monitor=[monitor-name],[resolution@framerate],[pos-x,y],[scale factor],transform,[rotation]
 # Rotation Degrees Shorthand
 # normal (no transforms) -> 0
@@ -81,9 +79,10 @@ env = XDG_SESSION_TYPE,wayland
 env = XDG_CURRENT_DESKTOP,Hyprland
 env = XDG_SESSION_DESKTO,Hyprland
 env = GBM_BACKEND,nvidia-drm
-env = QT_QPA_PLATFORM,wayland
-env = GDK_BACKEND,wayland
+env = QT_QPA_PLATFORM,wayland-egl
+env = GDK_BACKEND,wayland,x11
 env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+env = NIXOS_OZONE_WL,1
 
 $mainMod = SUPER
 # System Application Keybinds
