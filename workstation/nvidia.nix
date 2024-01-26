@@ -31,7 +31,6 @@
           Driver "nvidia"
           BusID "PCI:10:0:0"
           Option "AllowEmptyInitialConfiguration"
-          Option "TearFree" "true"
       EndSection
     '';
     screenSection = ''
@@ -40,7 +39,6 @@
       Option         "TripleBuffer" "on"
     '';
     deviceSection = '' 
-      Option "TearFree" "true"
     '';
   };
 
