@@ -217,6 +217,16 @@
     };
   };
 
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [
+        xdg-desktop-portal-wlr
+        xdg-desktop-portal-gtk
+      ];
+    };
+  };
+
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 631 53 ];
   networking.firewall.allowedUDPPorts = [ 5353 ];

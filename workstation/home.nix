@@ -85,12 +85,12 @@
 
   # Install Packages For The User
   home.packages = with pkgs; [
-    blueman
+    blueman slack
     hyprpaper neofetch lolcat git-cola cmatrix firefox btop libvirt
     polkit_gnome grim slurp lm_sensors unzip unrar gnome.file-roller
     libnotify swaynotificationcenter rofi-wayland imv v4l-utils
     ydotool wl-clipboard socat lsd pkg-config transmission-gtk mpv
-    meson gnumake ant maven jetbrains.idea-ultimate slack chromium 
+    meson gnumake ant maven jetbrains.idea-ultimate chromium 
     pavucontrol material-icons thunderbird zathura python3 appimage-run
     pulseaudio wlogout networkmanager networkmanagerapplet
     microsoft-edge appimage-run cliphist swaylock swayidle wl-clipboard wlsunset
