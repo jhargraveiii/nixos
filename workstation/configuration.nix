@@ -11,18 +11,9 @@
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./nvidia.nix
+      ./displaymanager.nix
     ];
-
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_6_6;
-  boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-amd" ];
-  boot.kernelParams = [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
-  boot.extraModulePackages = [ ];
-
+  
   networking.hostName = "${hostname}"; # Define your hostname.
 
   # Enable networking
@@ -50,7 +41,7 @@
   users.users.${username} = {
     isNormalUser = true;
     description = "${gitUsername}";
-    extraGroups = [ "networkmanager" "wheel" "docker"];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" ];
     packages = with pkgs; [];
     uid = 1000;
       openssh.authorizedKeys.keys = [
@@ -69,6 +60,11 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    sddm lolcat neofetch htop btop libvirt
+    polkit_gnome lm_sensors unzip unrar libnotify eza
+    v4l-utils wl-clipboard lsd lshw
+    pkg-config gnumake
+    noto-fonts-color-emoji material-icons 
     docker-compose nano wget curl git restic linuxKernel.packages.linux_latest_libre.virtualboxGuestAdditions
   ];
 
@@ -103,9 +99,11 @@
     };
   };
 
+  programs.dconf.enable = true;
   programs.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    xwayland.enable = true;
   };
   
   # Docker can also be run rootless
@@ -131,18 +129,6 @@
 
   # Enable 1password to open with gnomekeyring
   security.pam.services."1password".enableGnomeKeyring = true;
-
-  # List services that you want to enable:
-  hardware.bluetooth.enable = true;
-  services.blueman.enable = true;
-
-  # Hide the mouse cursor when not in use
-  services.unclutter = {
-    enable = true;
-    timeout = 2;
-    keystroke = false;
-    extraOptions = [ "noevents" ];
-  };
   
   services.printing.enable = true;
   services.printing.stateless = true;
@@ -175,6 +161,10 @@
 
   hardware.pulseaudio.enable = false;
   sound.enable = true;
+  hardware.bluetooth.enable = true; # enables support for Bluetooth
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  services.blueman.enable = true;
+
   security.rtkit.enable = true;
   programs.thunar = {
     enable = true;
@@ -196,7 +186,7 @@
       repository = "/home/jimh/BACKUP/backup-restic";
 
       timerConfig =  {
-        OnBootSec = "600";
+        OnBootSec = "900";
       };
       pruneOpts = [
       "--keep-daily 7"
@@ -208,8 +198,16 @@
   };
 
   system.stateVersion = "23.11";
+   # Optimization settings and garbage collection automation
   nix = {
-    settings.auto-optimise-store = true;
+    settings = {
+      auto-optimise-store = true;
+      experimental-features = [ "nix-command" "flakes" ];
+      substituters = ["https://hyprland.cachix.org"];
+      trusted-public-keys = [
+        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
+      ];
+    };
     gc = {
       automatic = true;
       dates = "weekly";
@@ -217,15 +215,17 @@
     };
   };
 
-  xdg = {
-    portal = {
-      enable = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-wlr
-        xdg-desktop-portal-gtk
-      ];
-    };
+   xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal
+    ];
+    configPackages = [ pkgs.xdg-desktop-portal-gtk
+      pkgs.xdg-desktop-portal-hyprland
+      pkgs.xdg-desktop-portal
+    ];
   };
+
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 631 53 ];
@@ -259,9 +259,6 @@
    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
    MOZ_ENABLE_WAYLAND = "1";
+  __GLX_VENDOR_LIBRARY_NAME="nvidia";
   };
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  system.autoUpgrade.enable = true;
-  system.autoUpgrade.allowReboot = true;
 }

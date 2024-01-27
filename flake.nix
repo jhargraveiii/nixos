@@ -8,7 +8,11 @@
       url = "github:hyprwm/Hyprland";
     };
     nix-colors.url = "github:misterio77/nix-colors";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";   
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";  
+    hyprland-plugins = {
+      url = "github:hyprwm/hyprland-plugins";
+      inputs.hyprland.follows = "hyprland";
+    }; 
     #ollama.url = "github:jhargraveiii/nixos?dir=flakes/ollama";
   };
 
@@ -24,25 +28,27 @@
     theLocale = "en_US.UTF-8";
     theTimezone = "America/Denver";
     theme = "tokyo-night-storm";
+    theKBDLayout = "us";
+    flakeDir = "/home/${username}/nixos";
 
     pkgs = import nixpkgs {
       inherit system;
       config = {
-	      allowUnfree = true;
+	 allowUnfree = true;
       };
     };
   in {
     nixosConfigurations = {
-      workstation = nixpkgs.lib.nixosSystem {
+      "${hostname}" = nixpkgs.lib.nixosSystem {
 	    specialArgs = { inherit system; inherit inputs; 
-            inherit username; inherit hostname; inherit gitUsername;
+            inherit theKBDLayout; inherit username; inherit hostname; inherit gitUsername;
             inherit gitEmail; inherit theLocale; inherit theTimezone;
         };
 	    modules = [ 
           ./workstation/configuration.nix
           home-manager.nixosModules.home-manager {
 	        home-manager.extraSpecialArgs = { inherit username; 
-                inherit gitUsername; inherit gitEmail; inherit inputs; inherit theme;
+                inherit flakeDir; inherit gitUsername; inherit gitEmail; inherit inputs; inherit theme;
                 inherit (inputs.nix-colors.lib-contrib {inherit pkgs;}) gtkThemeFromScheme;
             };
 	        home-manager.useGlobalPkgs = true;

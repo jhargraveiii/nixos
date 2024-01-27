@@ -61,16 +61,16 @@
             "buttons-grid": {
                 "actions": [
                     {
+                        "label": "󰜉",
+                        "command": "systemctl reboot"
+                    },
+                    {
                         "label": "",
                         "command": "wlogout"
                     },
                     {
                         "label": "",
                         "command": "sh -c '(sleep 0.5s; swaylock -c 000000)' & disown"
-                    },
-                    {
-                        "label": "󰜉",
-                        "command": "systemctl reboot"
                     },
                     {
                         "label": "",

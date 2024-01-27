@@ -5,57 +5,16 @@
   #Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # Enable OpenGL
-  hardware.opengl = {
-    enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
-    extraPackages = with pkgs; [
-      #mesa.drivers 
-      # trying to fix `WLR_RENDERER=vulkan sway`
-      vulkan-validation-layers
-      # https://nixos.wiki/wiki/Accelerated_Video_Playback
-      vaapiVdpau
-      libvdpau-va-gl
-    ];
-  };
-
   # Load nvidia driver for Xorg and Wayland
   nixpkgs.config.nvidia.acceptLicense = true;
-  services.xserver = {
-    enable = true;
-    layout = "us";
-    xkbVariant = "";
-    libinput.enable = true;
-    videoDrivers = [ "nvidia" ];
-    displayManager.gdm = {
-      enable = true;
-      wayland = true;
-    };
-   config = ''
-      Section "Device"
-          Identifier "nvidia"
-          Driver "nvidia"
-          BusID "PCI:10:0:0"
-          Option "AllowEmptyInitialConfiguration"
-      EndSection
-    '';
-    screenSection = ''
-      Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
-      Option         "AllowIndirectGLXProtocol" "off"
-      Option         "TripleBuffer" "on"
-    '';
-    deviceSection = '' 
-    '';
-  };
-
+  services.xserver.videoDrivers = ["nvidia"];
   hardware.nvidia = {
 
     # Modesetting is required.
     modesetting.enable = true;
 
     # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
-    powerManagement.enable = true;
+    powerManagement.enable = false;
     # Fine-grained power management. Turns off GPU when not in use.
     # Experimental and only works on modern Nvidia GPUs (Turing or newer).
     powerManagement.finegrained = false;

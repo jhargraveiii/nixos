@@ -1,7 +1,19 @@
-{ lib, inputs, pkgs, config, ... }:
+{ pkgs, config, lib, inputs, ... }:
 
-{
-home.file.".config/hypr/hyprland.conf".text =''
+let
+  theme = config.colorScheme.colors;
+  hyprplugins = inputs.hyprland-plugins.packages.${pkgs.system};
+in with lib; {
+  wayland.windowManager.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+    systemd.enable = true;
+    plugins = [
+      hyprplugins.hyprtrails
+    ];
+    extraConfig = let
+      modifier = "SUPER";
+    in concatStrings [ ''
 # monitor=[monitor-name],[resolution@framerate],[pos-x,y],[scale factor],transform,[rotation]
 # Rotation Degrees Shorthand
 # normal (no transforms) -> 0
@@ -12,7 +24,8 @@ home.file.".config/hypr/hyprland.conf".text =''
 # flipped + 90 degrees -> 5
 # flipped + 180 degrees -> 6
 # flipped + 270 degrees -> 7
-monitor=,3440x1440@99.98,auto,1          # Automatic Configuration
+monitor=,preferred,auto,1
+
 
 # Example windowrule v1
 # windowrule = float, ^(kitty)$
@@ -40,7 +53,7 @@ misc {
     disable_splash_rendering=true
     mouse_move_enables_dpms = true
     key_press_enables_dpms = true
-    #vfr = true
+    vfr = true
 } 
 
 animations {
@@ -68,20 +81,29 @@ exec-once=  blueman-applet # Make sure you have installed blueman + blueman-util
 exec-once = waybar
 exec-once = swaync
 exec-once = nm-applet --indicator
-exec-once = wallsetter
 exec-once = hyprctl setcursor Bibata-Modern-Ice 24
 exec-once = wl-paste --watch cliphist store
 exec-once = wlsunset -S 7:00 -s 18:00;notify-send "Brightness value changed: $(wlsunset -l)"
-exec-once = swayidle timeout 900 'swaylock -f -c 000000'
+exec-once = swayidle -w timeout 150 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
 env = WLR_NO_HARDWARE_CURSORS,1
 env = LIBVA_DRIVER_NAME,nvidia
 env = XDG_SESSION_TYPE,wayland
 env = XDG_CURRENT_DESKTOP,Hyprland
 env = XDG_SESSION_DESKTO,Hyprland
 env = GBM_BACKEND,nvidia-drm
-env = QT_QPA_PLATFORM,wayland-egl
+env = QT_QPA_PLATFORM,wayland
 env = GDK_BACKEND,wayland,x11
 env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+env = QT_WAYLAND_DISABLE_WINDOWDECORATION, 1
+env = QT_AUTO_SCREEN_SCALE_FACTOR, 1
+env = CLUTTER_BACKEND, wayland
+env = SDL_VIDEODRIVER, x11
+env = XCURSOR_SIZE, 24
+env = XCURSOR_THEME, Bibata-Modern-Ice
+env = NIXPKGS_ALLOW_UNFREE, 1
+env = CLUTTER_BACKEND, wayland
+env = MOZ_ENABLE_WAYLAND, 1
+
 #env = NIXOS_OZONE_WL,1
 
 $mainMod = SUPER
@@ -162,8 +184,6 @@ dwindle {
 
 master {
     new_is_master = true
-    new_on_top = true
-    no_gaps_when_only = true
 }
 
 general {
@@ -198,5 +218,6 @@ decoration {
 # Blur for waybar 
 blurls=waybar
 blurls=lockscreen
-'';
+'' ];
+  };
 }
