@@ -82,7 +82,7 @@ env = GBM_BACKEND,nvidia-drm
 env = QT_QPA_PLATFORM,wayland-egl
 env = GDK_BACKEND,wayland,x11
 env = __GLX_VENDOR_LIBRARY_NAME,nvidia
-env = NIXOS_OZONE_WL,1
+#env = NIXOS_OZONE_WL,1
 
 $mainMod = SUPER
 # System Application Keybinds
