@@ -84,7 +84,7 @@ exec-once = nm-applet --indicator
 exec-once = hyprctl setcursor Bibata-Modern-Ice 24
 exec-once = wl-paste --watch cliphist store
 exec-once = wlsunset -S 7:00 -s 18:00;notify-send "Brightness value changed: $(wlsunset -l)"
-exec-once = swayidle -w timeout 600 'swaylock -f timeout 900 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
+exec-once = swayidle -w timeout 600 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
 env = WLR_NO_HARDWARE_CURSORS,1
 env = LIBVA_DRIVER_NAME,nvidia
 env = XDG_SESSION_TYPE,wayland
@@ -199,19 +199,17 @@ decoration {
     rounding=18
     blur {
         enabled=1
-        size=6.8 # minimum 1
-        passes=2 # minimum 1, more passes = more resource intensive.
+        size=5 # minimum 1
+        passes=3 # minimum 1, more passes = more resource intensive.
         new_optimizations = true   
-
-        # Your blur "amount" is size * passes, but high size (over around 5-ish)
-        # will produce artifacts.
-        # if you want heavy blur, you need to up the passes.
-        # the more passes, the more you can up the size without noticing artifacts.
+        ignore_opacity = on
     }
-    drop_shadow=true
-    shadow_range=15
-    col.shadow=0xffa7caff
-    col.shadow_inactive=0x50000000
+    drop_shadow=false
+}
+plugin {
+    hyprtrails {
+        color = rgba(${theme.base0A}ff)
+    }
 }
 
 # Blur for waybar 

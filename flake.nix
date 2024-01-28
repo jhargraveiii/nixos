@@ -4,16 +4,16 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-23.11";
     home-manager.url = "github:nix-community/home-manager/release-23.11";
+    home-manager.inputs.nixpkgs.follows = "nixpkgs";
     hyprland = {
       url = "github:hyprwm/Hyprland";
     };
     nix-colors.url = "github:misterio77/nix-colors";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";  
     hyprland-plugins = {
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
     }; 
-    #ollama.url = "github:jhargraveiii/nixos?dir=flakes/ollama";
+    #ollama.url = "github:jhargraveiii/ollama-nix";
   };
 
   outputs = inputs@{ self, nixpkgs, home-manager, ... }:
@@ -34,7 +34,7 @@
     pkgs = import nixpkgs {
       inherit system;
       config = {
-	 allowUnfree = true;
+	     allowUnfree = true;
       };
     };
   in {
