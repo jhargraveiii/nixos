@@ -60,9 +60,9 @@
             },
             "buttons-grid": {
                 "actions": [
-                     {
+                    {
                         "label": "",
-                        "command": "sh -c '(sleep 0.5s; swaylock -c 000000)' & disown"
+                        "command": 'swaylock -f timeout 900 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
                     },
                     {
                         "label": "󰜉",
