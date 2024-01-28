@@ -7,7 +7,6 @@ home.file.".config/swaylock/config".text = ''
     indicator-thickness=15
     indicator-radius=150
     image=~/Pictures/Wallpapers/scifi_landscape.jpg
-    clock
     effect-blur=7x5
     effect-vignette=0.5:0.5
     ring-color=${config.colorScheme.colors.base0D}

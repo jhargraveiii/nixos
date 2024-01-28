@@ -62,15 +62,7 @@
                 "actions": [
                     {
                         "label": "",
-                        "command": "mdimension12
-                        
-                        
-                        
-                        
-                        
-                        
-                        
-                        "
+                        "command": "swaylock -f"
                     },
                     {
                         "label": "󰜉",
