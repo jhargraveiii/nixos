@@ -53,7 +53,7 @@
     transmission-gtk mpv sway
     gnumake ant maven jetbrains.idea-ultimate chromium 
     pavucontrol thunderbird zathura python3 appimage-run
-    pulseaudio wlogout networkmanager networkmanagerapplet
+    networkmanager networkmanagerapplet
     microsoft-edge appimage-run cliphist swaylock swayidle wlsunset
     meld openjdk11 openvpn libreoffice-qt hunspell hunspellDicts.en_US
     # Import Scripts

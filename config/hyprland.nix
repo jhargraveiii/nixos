@@ -105,76 +105,73 @@ env = CLUTTER_BACKEND, wayland
 env = MOZ_ENABLE_WAYLAND, 1
 env = NIXOS_OZONE_WL,1
 
-$mainMod = SUPER
 # System Application Keybinds
-bind = $mainMod,		Return,	exec, kitty
-bind = $mainMod,		G,	    exec, git-cola
-bind = $mainMod,	    A,	    exec, rofi -show drun
-bind = $mainMod,		W,		exec, chromium
-bind = $mainMod,		E,		exec, thunderbird
-bind = $mainMod,		J,		exec, idea-ultimate
-bind = $mainMod,		T,		exec, thunar
-bind = $mainMod,		C,		exec, WAYLAND_DISPLAY="" codium
-bind = $mainMod,		V,		exec, VirtualBox
-bind = $mainMod,		S,		exec, NIXOS_OZONE_WL="" slack 
-bind = $mainMod,		O,		exec, sh ~/oxygenDeveloper/oxygenDeveloper.sh
-bind = $mainMod SHIFT,	E,		exec, emopicker9000
-bind = $mainMod SHIFT,	S,		exec, grim -g "$(slurp)"
-bind = $mainMod SHIFT,	C,      exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy
+bind = ${modifier},		Return,	exec, kitty
+bind = ${modifier},		G,	    exec, git-cola
+bind = ${modifier},	    A,	    exec, rofi -show drun
+bind = ${modifier},		W,		exec, chromium
+bind = ${modifier},		E,		exec, thunderbird
+bind = ${modifier},		J,		exec, idea-ultimate
+bind = ${modifier},		T,		exec, thunar
+bind = ${modifier},		C,		exec, WAYLAND_DISPLAY="" codium
+bind = ${modifier},		V,		exec, VirtualBox
+bind = ${modifier},		S,		exec, NIXOS_OZONE_WL="" slack 
+bind = ${modifier},		O,		exec, sh ~/oxygenDeveloper/oxygenDeveloper.sh
+bind = ${modifier} SHIFT,	E,	exec, emopicker9000
+bind = ${modifier} SHIFT,	S,	exec, grim -g "$(slurp)"
+bind = ${modifier} SHIFT,	C,  exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy
 
 # Hyprland Keybinds
-bind = $mainMod,		Q,		killactive,
-bind = $mainMod,		P,		pseudo, # dwindle
-bind = $mainMod SHIFT,		I,		togglesplit, # dwindle
-bind = $mainMod,	    	F,		fullscreen,
-bind = $mainMod SHIFT,		F,		togglefloating,
-# Move window with mainMod + shift + arrow keys
-bind = $mainMod SHIFT,	left,			movewindow, l
-bind = $mainMod SHIFT,	right,			movewindow, r
-bind = $mainMod SHIFT,	up,			movewindow, u
-bind = $mainMod SHIFT,	down,			movewindow, d
-bind = $mainMod SHIFT,	h,			movewindow, l
-bind = $mainMod SHIFT,	l,			movewindow, r
-bind = $mainMod SHIFT,	k,			movewindow, u
-bind = $mainMod SHIFT,	j,			movewindow, d
-# Move focus with mainMod + arrow keys
-bind = $mainMod,		left,		movefocus, l
-bind = $mainMod,		right,		movefocus, r
-bind = $mainMod,		up,		movefocus, u
-bind = $mainMod,		down,		movefocus, d
-bind = $mainMod,		h,		movefocus, l
-bind = $mainMod,		l,		movefocus, r
-bind = $mainMod,		k,		movefocus, u
-bind = $mainMod,		j,		movefocus, d
-# Switch workspaces with mainMod + [0-6]
-bind = $mainMod,		1,		workspace, 1
-bind = $mainMod,		2,		workspace, 2
-bind = $mainMod,		3,		workspace, 3
-bind = $mainMod,		4,		workspace, 4
-bind = $mainMod,		5,		workspace, 5
-bind = $mainMod,		6,		workspace, 6
-bind = $mainMod,		7,		workspace, 7
-bind = $mainMod,		8,		workspace, 8
-bind = $mainMod,		9,		workspace, 9
-bind = $mainMod,		0,		workspace, 10
-# Move active window to a workspace with mainMod + SHIFT + [0-6]
-bind = $mainMod SHIFT,	1,		movetoworkspace, 1
-bind = $mainMod SHIFT,	2,		movetoworkspace, 2
-bind = $mainMod SHIFT,	3,		movetoworkspace, 3
-bind = $mainMod SHIFT,	4,		movetoworkspace, 4
-bind = $mainMod SHIFT,	5,		movetoworkspace, 5
-bind = $mainMod SHIFT,	6,		movetoworkspace, 6
-bind = $mainMod SHIFT,	7,		movetoworkspace, 7
-bind = $mainMod SHIFT,	8,		movetoworkspace, 8
-bind = $mainMod SHIFT,	9,		movetoworkspace, 9
-bind = $mainMod SHIFT,	0,		movetoworkspace, 0
-
-# Scroll through existing workspaces with mainMod + scroll
-bind = $mainMod,		mouse_down, workspace, e+1
-bind = $mainMod,		mouse_up,	workspace, e-1
-# Move/resize windows with mainMod + LMB/RMB and dragging
-bindm = $mainMod,		mouse:272,	movewindow
-bindm = $mainMod,		mouse:273,	resizewindow
+    bind = ${modifier},Q,exit,
+    bind = ${modifier}SHIFT,Q,killactive,
+    bind = ${modifier},P,pseudo,
+    bind = ${modifier}SHIFT,I,togglesplit,
+    bind = ${modifier},F,fullscreen,
+    bind = ${modifier}SHIFT,F,togglefloating,
+    bind = ${modifier}SHIFT,left,movewindow,l
+    bind = ${modifier}SHIFT,right,movewindow,r
+    bind = ${modifier}SHIFT,up,movewindow,u
+    bind = ${modifier}SHIFT,down,movewindow,d
+    bind = ${modifier}SHIFT,h,movewindow,l
+    bind = ${modifier}SHIFT,l,movewindow,r
+    bind = ${modifier}SHIFT,k,movewindow,u
+    bind = ${modifier}SHIFT,j,movewindow,d
+    bind = ${modifier},left,movefocus,l
+    bind = ${modifier},right,movefocus,r
+    bind = ${modifier},up,movefocus,u
+    bind = ${modifier},down,movefocus,d
+    bind = ${modifier},h,movefocus,l
+    bind = ${modifier},l,movefocus,r
+    bind = ${modifier},k,movefocus,u
+    bind = ${modifier},j,movefocus,d
+    bind = ${modifier},1,workspace,1
+    bind = ${modifier},2,workspace,2
+    bind = ${modifier},3,workspace,3
+    bind = ${modifier},4,workspace,4
+    bind = ${modifier},5,workspace,5
+    bind = ${modifier},6,workspace,6
+    bind = ${modifier},7,workspace,7
+    bind = ${modifier},8,workspace,8
+    bind = ${modifier},9,workspace,9
+    bind = ${modifier},0,workspace,10
+    bind = ${modifier}SHIFT,1,movetoworkspace,1
+    bind = ${modifier}SHIFT,2,movetoworkspace,2
+    bind = ${modifier}SHIFT,3,movetoworkspace,3
+    bind = ${modifier}SHIFT,4,movetoworkspace,4
+    bind = ${modifier}SHIFT,5,movetoworkspace,5
+    bind = ${modifier}SHIFT,6,movetoworkspace,6
+    bind = ${modifier}SHIFT,7,movetoworkspace,7
+    bind = ${modifier}SHIFT,8,movetoworkspace,8
+    bind = ${modifier}SHIFT,9,movetoworkspace,9
+    bind = ${modifier}SHIFT,0,movetoworkspace,10
+    bind = ${modifier},mouse_down,workspace, e+1
+    bind = ${modifier},mouse_up,workspace, e-1
+    bindm = ${modifier},mouse:272,movewindow
+    bindm = ${modifier},mouse:273,resizewindow
+    bind = ,XF86AudioRaiseVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
+    bind = ,XF86AudioLowerVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
+    bind = ,XF86MonBrightnessDown,exec,brightnessctl set 5%-
+    bind = ,XF86MonBrightnessUp,exec,brightnessctl set +5%
 
 dwindle {
     pseudotile = true # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
