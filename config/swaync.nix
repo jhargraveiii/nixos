@@ -62,7 +62,7 @@
                 "actions": [
                     {
                         "label": "",
-                        "command": 'swaylock -f timeout 900 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on'
+                        "command": "swaylock -f"
                     },
                     {
                         "label": "󰜉",

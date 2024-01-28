@@ -1,58 +1,27 @@
 { pkgs, home-manager, config, ... }:
 {
   
- home.file.".config/swaylock/config".text = ''
-ignore-empty-password
-font=Ubuntu
-
-clock
-timestr=%R
-datestr=%a, %e of %B
-
-screenshots
-
-fade-in=0.2
-
-effect-blur=20x2
-#effect-greyscale
-effect-scale=0.3
-
-indicator
-indicator-radius=240
-indicator-thickness=20
-indicator-caps-lock
-
-key-hl-color=880033
-
-separator-color=00000000
-
-inside-color=00000099
-inside-clear-color=ffd20400
-inside-caps-lock-color=009ddc00
-inside-ver-color=d9d8d800
-inside-wrong-color=ee2e2400
-
-ring-color=231f20D9
-ring-clear-color=231f20D9
-ring-caps-lock-color=231f20D9
-ring-ver-color=231f20D9
-ring-wrong-color=231f20D9
-
-line-color=00000000
-line-clear-color=ffd204FF
-line-caps-lock-color=009ddcFF
-line-ver-color=d9d8d8FF
-line-wrong-color=ee2e24FF
-
-text-clear-color=ffd20400
-text-ver-color=d9d8d800
-text-wrong-color=ee2e2400
-
-bs-hl-color=ee2e24FF
-caps-lock-key-hl-color=ffd204FF
-caps-lock-bs-hl-color=ee2e24FF
-disable-caps-lock-text
-text-caps-lock-color=009ddc
+home.file.".config/swaylock/config".text = ''
+    indicator-caps-lock
+    ignore-empty-password
+    indicator-thickness=15
+    indicator-radius=150
+    image=~/Pictures/Wallpapers/scifi_landscape.jpg
+    clock
+    effect-blur=7x5
+    effect-vignette=0.5:0.5
+    ring-color=${config.colorScheme.colors.base0D}
+    key-hl-color=${config.colorScheme.colors.base0F}
+    line-color=00000000
+    inside-color=00000088
+    inside-clear-color=00000088
+    text-color=${config.colorScheme.colors.base05}
+    text-clear-color=${config.colorScheme.colors.base05}
+    ring-clear-color=${config.colorScheme.colors.base0D}
+    separator-color=00000000
+    grace=5
+    fade-in=0.5
+    font=Ubuntu
   '';
 
 }
