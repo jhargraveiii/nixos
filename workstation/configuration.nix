@@ -52,20 +52,27 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
-  virtualisation.virtualbox.host.enable = true;
   users.extraGroups.vboxusers.members = [ "jimh" ];
-  virtualisation.virtualbox.host.enableExtensionPack = true;
-  virtualisation.virtualbox.guest.enable = true;
+  virtualisation = {
+      virtualbox = { 
+       host  = {
+          enable = true ;
+          enableExtensionPack = true ;
+       } ;
+       guest.enable = true ;
+       guest.x11 = true;
+     };
+  };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     sddm lolcat neofetch htop btop libvirt
-    polkit_gnome lm_sensors unzip unrar libnotify eza
+    polkit_gnome lm_sensors unzip unrar libnotify
     v4l-utils wl-clipboard lsd lshw
     pkg-config gnumake
     noto-fonts-color-emoji material-icons 
-    docker-compose nano wget curl git restic linuxKernel.packages.linux_latest_libre.virtualboxGuestAdditions
+    docker-compose nano wget curl git restic
   ];
 
   fonts.packages = with pkgs; [
