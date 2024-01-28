@@ -122,8 +122,8 @@ bind = ${modifier} SHIFT,	S,	exec, grim -g "$(slurp)"
 bind = ${modifier} SHIFT,	C,  exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy
 
 # Hyprland Keybinds
-    bind = ${modifier},Q,exit,
-    bind = ${modifier}SHIFT,Q,killactive,
+    bind = ${modifier},Q,killactive,
+    bind = ${modifier}SHIFT,Q,exit,
     bind = ${modifier},P,pseudo,
     bind = ${modifier}SHIFT,I,togglesplit,
     bind = ${modifier},F,fullscreen,
