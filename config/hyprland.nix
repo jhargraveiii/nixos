@@ -103,8 +103,7 @@ env = XCURSOR_THEME, Bibata-Modern-Ice
 env = NIXPKGS_ALLOW_UNFREE, 1
 env = CLUTTER_BACKEND, wayland
 env = MOZ_ENABLE_WAYLAND, 1
-
-#env = NIXOS_OZONE_WL,1
+env = NIXOS_OZONE_WL,1
 
 $mainMod = SUPER
 # System Application Keybinds
@@ -117,7 +116,7 @@ bind = $mainMod,		J,		exec, idea-ultimate
 bind = $mainMod,		T,		exec, thunar
 bind = $mainMod,		C,		exec, WAYLAND_DISPLAY="" codium
 bind = $mainMod,		V,		exec, VirtualBox
-bind = $mainMod,		S,		exec, slack
+bind = $mainMod,		S,		exec, NIXOS_OZONE_WL="" slack 
 bind = $mainMod,		O,		exec, sh ~/oxygenDeveloper/oxygenDeveloper.sh
 bind = $mainMod SHIFT,	E,		exec, emopicker9000
 bind = $mainMod SHIFT,	S,		exec, grim -g "$(slurp)"

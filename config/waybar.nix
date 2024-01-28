@@ -17,6 +17,7 @@
       	format-icons = {
           active = " 󱎴";
           default = "󰍹";
+					urgent = " ";
       	};
 				persistent-workspaces = {
               "1" = [];
