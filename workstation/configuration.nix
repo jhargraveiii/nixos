@@ -67,7 +67,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    sddm lolcat neofetch htop btop libvirt
+    sddm egl-wayland lolcat neofetch htop btop libvirt
     polkit_gnome lm_sensors unzip unrar libnotify
     v4l-utils wl-clipboard lsd lshw
     pkg-config gnumake

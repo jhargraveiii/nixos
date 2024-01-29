@@ -62,7 +62,7 @@
                 "actions": [
                     {
                         "label": "",
-                        "command": "swaylock -f"
+                        "command": "swaylock"
                     },
                     {
                         "label": "󰜉",
