@@ -27,7 +27,10 @@
           Identifier "nvidia"
           Driver "nvidia"
           BusID "PCI:10:0:0"
+          Option "RenderAccel" "true"
           Option "AllowEmptyInitialConfiguration"
+          Option "AllowGLXWithComposite" "true"
+          Option "XAANoOffscreenPixmaps" "true"
       EndSection
     '';
     screenSection = ''
