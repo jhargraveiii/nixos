@@ -67,7 +67,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    sddm egl-wayland lolcat neofetch htop btop libvirt
+    sddm lolcat neofetch htop btop libvirt
     polkit_gnome lm_sensors unzip unrar libnotify
     v4l-utils wl-clipboard lsd lshw
     pkg-config gnumake
@@ -261,7 +261,7 @@
    CLUTTER_BACKEND = "wayland";
    XCURSOR_SIZE = "24";
    XCURSOR_THEME = "Bibata-Modern-Ice";
-   QT_QPA_PLATFORM = "wayland-egl";
+   QT_QPA_PLATFORM = "wayland";
    QT_QPA_PLATFORMTHEME = "gtk2";
    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
    QT_AUTO_SCREEN_SCALE_FACTOR = "1";

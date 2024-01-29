@@ -1,6 +1,6 @@
 { config, pkgs, inputs, username,
   gitUsername, gitEmail, gtkThemeFromScheme,
-  theme, flakeDir, ... }:
+  theme, flakeDir, unstable-packages, ... }:
 
 {
   # Home Manager Settings
@@ -44,18 +44,24 @@
     package = pkgs.starship;
   };
 
+  # we want to use some packages from unstable so need this overlay
+  nixpkgs = {
+    overlays = [
+      unstable-packages
+    ];
+   };
   # Install Packages For The User
   home.packages = with pkgs; [
-    blueman slack
-    hyprpaper lolcat git-cola btop libvirt
+    blueman unstable.slack
+    lolcat git-cola btop libvirt
     grim slurp lm_sensors unzip unrar gnome.file-roller
     swaynotificationcenter rofi-wayland imv
-    transmission-gtk mpv sway
-    gnumake ant maven jetbrains.idea-ultimate chromium 
-    pavucontrol thunderbird zathura python3 appimage-run
+    transmission-gtk mpv
+    gnumake ant maven unstable.jetbrains.idea-ultimate unstable.chromium 
+    pavucontrol unstable.thunderbird zathura python3 appimage-run
     networkmanager networkmanagerapplet
-    microsoft-edge appimage-run cliphist swaylock swayidle wlsunset
-    meld openjdk11 openvpn libreoffice-qt hunspell hunspellDicts.en_US
+    unstable.microsoft-edge appimage-run cliphist swaylock swayidle wlsunset
+    meld openjdk11 openvpn unstable.libreoffice-qt hunspell hunspellDicts.en_US
     # Import Scripts
     (import ../config/scripts/emopicker9000.nix { inherit pkgs; })
     (import ../config/scripts/task-waybar.nix { inherit pkgs; })

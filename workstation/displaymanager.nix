@@ -7,15 +7,21 @@
     driSupport = true;
     driSupport32Bit = true;
     extraPackages = with pkgs; [
-    
+        # cudatoolkit
+        # cudatoolkit.lib
     ];
   };
 
+  nixpkgs.config.cudaSupport = true;
+  nixpkgs.config.cudnnSupport = true;
   services.xserver = {
     enable = true;
     layout = "${theKBDLayout}";
     xkbVariant = "";
     libinput.enable = true;
+    videoDrivers = [
+        "nvidia"
+      ];
     displayManager.sddm = {
       enable = true;
       autoNumlock = true;
