@@ -102,6 +102,11 @@
   };
 
   # Theme GTK
+  dconf.settings = {
+    "org/gnome/desktop/interface" = {
+      color-scheme = "prefer-dark";
+    };
+  };
   gtk = {
     enable = true;
     font = {
@@ -120,18 +125,6 @@
     cursorTheme = {
       name = "Bibata-Modern-Ice";
       package = pkgs.bibata-cursors;
-    };
-    gtk3.extraConfig = {
-      Settings = ''
-      gtk-application-prefer-dark-theme=1
-      gtk-cursor-theme-name=Bibata-Modern-Classic
-      '';
-    };
-    gtk4.extraConfig = {
-      Settings = ''
-      gtk-application-prefer-dark-theme=1
-      gtk-cursor-theme-name=Bibata-Modern-Classic
-      '';
     };
   };
 

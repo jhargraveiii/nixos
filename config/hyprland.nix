@@ -74,6 +74,83 @@ animations {
     animation = workspaces, 1, 5, wind
 }
 
+dwindle {
+    pseudotile = true # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
+    preserve_split = true # you probably want this
+}
+
+master {
+    new_is_master = true
+}
+
+general {
+    gaps_in = 2
+    gaps_out = 4
+    border_size = 1
+    dwindle {
+    pseudotile = true # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
+    preserve_split = true # you probably want this
+}
+
+master {
+    new_is_master = true
+}
+
+general {
+    gaps_in = 2
+    gaps_out = 4
+    border_size = 1
+    col.active_border = rgba(${config.colorScheme.colors.base0C}ff) rgba(${config.colorScheme.colors.base0D}ff) 45deg
+    col.inactive_border = rgba(${config.colorScheme.colors.base00}cc) rgba(${config.colorScheme.colors.base01}cc) 45deg
+    layout = dwindle
+    resize_on_border = true
+}
+
+decoration {
+    rounding=18
+    blur {
+        enabled=1
+        size=5 # minimum 1
+        passes=3 # minimum 1, more passes = more resource intensive.
+        new_optimizations = true   
+        ignore_opacity = on
+    }
+    drop_shadow=false
+}
+plugin {
+    hyprtrails {
+        color = rgba(${theme.base0A}ff)
+    }
+}
+
+# Blur for waybar 
+blurls=waybar
+blurls=lockscreen
+    layout = dwindle
+    resize_on_border = true
+}
+
+decoration {
+    rounding=18
+    blur {
+        enabled=1
+        size=5 # minimum 1
+        passes=3 # minimum 1, more passes = more resource intensive.
+        new_optimizations = true   
+        ignore_opacity = on
+    }
+    drop_shadow=false
+}
+plugin {
+    hyprtrails {
+        color = rgba(${theme.base0A}ff)
+    }
+}
+
+# Blur for waybar 
+blurls=waybar
+blurls=lockscreen
+
 exec-once = dbus-update-activation-environment --systemd --all
 exec-once = systemctl --user import-environment QT_QPA_PLATFORMTHEME WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 #exec-once= hyprpaper
@@ -171,46 +248,6 @@ bind = ${modifier} SHIFT,	C,  exec, cliphist list | rofi -dmenu | cliphist decod
     bind = ,XF86AudioLowerVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
     bind = ,XF86MonBrightnessDown,exec,brightnessctl set 5%-
     bind = ,XF86MonBrightnessUp,exec,brightnessctl set +5%
-
-dwindle {
-    pseudotile = true # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
-    preserve_split = true # you probably want this
-}
-
-master {
-    new_is_master = true
-}
-
-general {
-    gaps_in = 2
-    gaps_out = 4
-    border_size = 1
-    col.active_border = rgba(${config.colorScheme.colors.base0C}ff) rgba(${config.colorScheme.colors.base0D}ff) 45deg
-    col.inactive_border = rgba(${config.colorScheme.colors.base00}cc) rgba(${config.colorScheme.colors.base01}cc) 45deg
-    layout = dwindle
-    resize_on_border = true
-}
-
-decoration {
-    rounding=18
-    blur {
-        enabled=1
-        size=5 # minimum 1
-        passes=3 # minimum 1, more passes = more resource intensive.
-        new_optimizations = true   
-        ignore_opacity = on
-    }
-    drop_shadow=false
-}
-plugin {
-    hyprtrails {
-        color = rgba(${theme.base0A}ff)
-    }
-}
-
-# Blur for waybar 
-blurls=waybar
-blurls=lockscreen
 '' ];
   };
 }
