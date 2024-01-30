@@ -56,17 +56,14 @@ misc {
     disable_splash_rendering=true
     mouse_move_enables_dpms = true
     key_press_enables_dpms = true
-    vfr = true
 } 
 
 animations {
     enabled = yes
-    # Define Settings For Animation Bezier Curve
     bezier = wind, 0.05, 0.9, 0.1, 1.05
     bezier = winIn, 0.1, 1.1, 0.1, 1.1
     bezier = winOut, 0.3, -0.3, 0, 1
     bezier = liner, 1, 1, 1, 1
-
     animation = windows, 1, 6, wind, slide
     animation = windowsIn, 1, 6, winIn, slide
     animation = windowsOut, 1, 5, winOut, slide
@@ -76,6 +73,7 @@ animations {
     animation = fade, 1, 10, default
     animation = workspaces, 1, 5, wind
 }
+
 dwindle {
     pseudotile = true # master switch for pseudotiling. Enabling is bound to mainMod + P in the keybinds section below
     preserve_split = true # you probably want this
@@ -86,29 +84,30 @@ master {
 }
 
 general {
-    gaps_in = 2
-    gaps_out = 4
-    border_size = 1
-    col.active_border = rgba(${config.colorScheme.colors.base0C}ff) rgba(${config.colorScheme.colors.base0D}ff) 45deg
-    col.inactive_border = rgba(${config.colorScheme.colors.base00}cc) rgba(${config.colorScheme.colors.base01}cc) 45deg
+    gaps_in = 6
+    gaps_out = 8
+    border_size = 2
+    col.active_border = rgba(${theme.base0C}ff) rgba(${theme.base0D}ff) rgba(${theme.base0B}ff) rgba(${theme.base0E}ff) 45deg
+    col.inactive_border = rgba(${theme.base00}cc) rgba(${theme.base01}cc) 45deg
     layout = dwindle
     resize_on_border = true
 }
 
 decoration {
-    rounding=18
+    rounding = 10
+    drop_shadow = false
     blur {
-        enabled=1
-        size=5 # minimum 1
-        passes=3 # minimum 1, more passes = more resource intensive.
-        new_optimizations = true   
+        enabled = true
+        size = 5
+        passes = 3
+        new_optimizations = on
         ignore_opacity = on
     }
-    drop_shadow=false
 }
+
 plugin {
     hyprtrails {
-        color = rgba(${theme.base0A}ff)
+        color = rgba(${theme.base00}ff)
     }
 }
 
