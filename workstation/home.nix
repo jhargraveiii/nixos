@@ -1,6 +1,6 @@
 { config, pkgs, inputs, username,
   gitUsername, gitEmail, gtkThemeFromScheme,
-  theme, flakeDir, unstable-packages, ... }:
+  theme, flakeDir, unstable-packages, wallpaperDir, wallpaperGit, ... }:
 
 {
   # Home Manager Settings
@@ -56,16 +56,18 @@
     lolcat git-cola btop libvirt
     grim slurp lm_sensors unzip unrar gnome.file-roller
     swaynotificationcenter rofi-wayland imv
-    transmission-gtk mpv
+    transmission-gtk mpv swww
     gnumake ant maven unstable.jetbrains.idea-ultimate unstable.chromium 
     pavucontrol unstable.thunderbird zathura python3 appimage-run
     networkmanager networkmanagerapplet
-    unstable.microsoft-edge appimage-run cliphist swaylock swayidle wlsunset
+    appimage-run cliphist swaylock swayidle wlsunset
     meld openjdk11 openvpn unstable.libreoffice-qt hunspell hunspellDicts.en_US
     # Import Scripts
     (import ../config/scripts/emopicker9000.nix { inherit pkgs; })
     (import ../config/scripts/task-waybar.nix { inherit pkgs; })
     (import ../config/scripts/squirtle.nix { inherit pkgs; })
+    (import ../config/scripts/wallsetter.nix { inherit pkgs; inherit wallpaperDir;
+      inherit username; inherit wallpaperGit; })
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
@@ -125,6 +127,12 @@
     cursorTheme = {
       name = "Bibata-Modern-Ice";
       package = pkgs.bibata-cursors;
+    };
+    gtk3.extraConfig = {
+      gtk-application-prefer-dark-theme=1;
+    };
+    gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme=1;
     };
   };
 

@@ -28,9 +28,11 @@
     gitEmail = "jim.hargrave@strakergroup.com";
     theLocale = "en_US.UTF-8";
     theTimezone = "America/Denver";
-    theme = "tokyo-night-storm";
+    theme = "material-palenight";
     theKBDLayout = "us";
     flakeDir = "/home/${username}/nixos";
+    wallpaperDir = "/home/${username}/Pictures/Wallpapers";
+    wallpaperGit = "https://gitlab.com/Zaney/my-wallpapers.git";
 
     pkgs = import nixpkgs {
       inherit system;
@@ -57,6 +59,8 @@
           ./workstation/configuration.nix
           home-manager.nixosModules.home-manager {
 	        home-manager.extraSpecialArgs = { inherit username; 
+                inherit wallpaperDir;
+                inherit wallpaperGit;
                 inherit unstable-packages; inherit flakeDir; inherit gitUsername; inherit gitEmail; inherit inputs; inherit theme;
                 inherit (inputs.nix-colors.lib-contrib {inherit pkgs;}) gtkThemeFromScheme;
             };
