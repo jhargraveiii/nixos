@@ -1,6 +1,6 @@
 { config, pkgs, inputs, username,
   gitUsername, gitEmail, gtkThemeFromScheme,
-  theme, flakeDir, unstable-packages, wallpaperDir, wallpaperGit, ... }:
+  theme, flakeDir, unstable-packages, wallpaperDir, ... }:
 
 {
   # Home Manager Settings
@@ -66,8 +66,7 @@
     (import ../config/scripts/emopicker9000.nix { inherit pkgs; })
     (import ../config/scripts/task-waybar.nix { inherit pkgs; })
     (import ../config/scripts/squirtle.nix { inherit pkgs; })
-    (import ../config/scripts/wallsetter.nix { inherit pkgs; inherit wallpaperDir;
-      inherit username; inherit wallpaperGit; })
+    (import ../config/scripts/wallsetter.nix { inherit pkgs; inherit wallpaperDir; inherit username; })
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;

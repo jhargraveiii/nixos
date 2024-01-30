@@ -1,4 +1,4 @@
-{ pkgs, username, wallpaperDir, wallpaperGit }:
+{ pkgs, username, wallpaperDir }:
 
 pkgs.writeShellScriptBin "wallsetter" ''
   TIMEOUT=720
@@ -9,13 +9,6 @@ pkgs.writeShellScriptBin "wallsetter" ''
   TRANSITION5="--transition-type wipe --transition-angle 270 --transition-step 30"
   WALLPAPER=$(find ${wallpaperDir} -name '*' | awk '!/.git/' | tail -n +2 | shuf -n 1)
   PREVIOUS=$WALLPAPER
-  if [ -d ${wallpaperDir} ]; then
-    cd ${wallpaperDir}
-    git pull
-  else
-    ${pkgs.git}/bin/git clone ${wallpaperGit} ${wallpaperDir}
-    chown -R ${username}:users ${wallpaperDir}
-  fi
   while true;
   do
     if [ "$WALLPAPER" == "$PREVIOUS" ]
