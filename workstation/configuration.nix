@@ -221,18 +221,19 @@
       options = "--delete-older-than 7d";
     };
   };
-
-   xdg.portal = {
-    enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal
-    ];
-    configPackages = [ pkgs.xdg-desktop-portal-gtk
-      pkgs.xdg-desktop-portal-hyprland
-      pkgs.xdg-desktop-portal
-    ];
+  
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = [ pkgs.xdg-desktop-portal-gtk
+        pkgs.xdg-desktop-portal
+      ];
+      configPackages = [ pkgs.xdg-desktop-portal-gtk
+        pkgs.xdg-desktop-portal-hyprland
+        pkgs.xdg-desktop-portal
+      ];
+    };
   };
-
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 631 53 ];

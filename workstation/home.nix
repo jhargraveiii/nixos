@@ -30,6 +30,19 @@
     "Xcursor.size" = 24;
   };
 
+   # Create XDG Dirs
+  xdg = {
+    userDirs = {
+        enable = true;
+        createDirectories = true;
+    };
+  };
+
+  home.file.".config/xdg-desktop-portal/portals.conf".text = ''
+     [preferred]
+     default=gtk;wlr
+     '';   
+
   # Install & Configure Git
   programs.git = {
     enable = true;
@@ -132,14 +145,6 @@
     };
     gtk4.extraConfig = {
       gtk-application-prefer-dark-theme=1;
-    };
-  };
-
-  # Create XDG Dirs
-  xdg = {
-    userDirs = {
-        enable = true;
-        createDirectories = true;
     };
   };
 
