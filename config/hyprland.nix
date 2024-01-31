@@ -10,6 +10,7 @@ in with lib; {
     systemd.enable = true;
     plugins = [
       hyprplugins.hyprtrails
+      #hyprplugins.hyprbars
     ];
     extraConfig = let
       modifier = "SUPER";
@@ -42,7 +43,6 @@ input {
     touchpad {
         natural_scroll = false
     }
-
     sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
 }
 
@@ -56,10 +56,10 @@ misc {
     disable_splash_rendering=true
     mouse_move_enables_dpms = true
     key_press_enables_dpms = true
-flake-re    } 
+} 
 
 animations {
-    enabled = yes
+    enabled = no
     bezier = wind, 0.05, 0.9, 0.1, 1.05
     bezier = winIn, 0.1, 1.1, 0.1, 1.1
     bezier = winOut, 0.3, -0.3, 0, 1
@@ -69,7 +69,7 @@ animations {
     animation = windowsOut, 1, 5, winOut, slide
     animation = windowsMove, 1, 5, wind, slide
     animation = border, 1, 1, liner
-    animation = borderangle, 1, 30, liner, loop
+    #animation = borderangle, 1, 30, liner, loop
     animation = fade, 1, 10, default
     animation = workspaces, 1, 5, wind
 }
@@ -107,7 +107,7 @@ decoration {
 
 plugin {
     hyprtrails {
-        color = rgba(${theme.base00}ff)
+        color = rgba(${theme.base0D}ff)
     }
 }
 
@@ -117,8 +117,7 @@ blurls=lockscreen
 
 exec-once = dbus-update-activation-environment --systemd --all
 exec-once = systemctl --user import-environment QT_QPA_PLATFORMTHEME WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-#exec-once= hyprpaper
-exec-once=  blueman-applet # Make sure you have installed blueman + blueman-utils
+exec-once=  blueman-applet # Make sure you have installed blueman
 exec-once = waybar
 exec-once = swaync
 exec-once = swww init
@@ -141,6 +140,7 @@ bind = ${modifier},		C,		exec, WAYLAND_DISPLAY="" codium
 bind = ${modifier},		V,		exec, VirtualBox
 bind = ${modifier},		S,		exec, NIXOS_OZONE_WL="" slack 
 bind = ${modifier},		O,		exec, sh ~/oxygenDeveloper/oxygenDeveloper.sh
+bind = ${modifier},		M,		exec, flatpak run com.microsoft.Edge
 bind = ${modifier} SHIFT,	E,	exec, emopicker9000
 bind = ${modifier} SHIFT,	S,	exec, grim -g "$(slurp)"
 bind = ${modifier} SHIFT,	C,  exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy
