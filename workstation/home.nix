@@ -52,7 +52,7 @@
    };
   # Install Packages For The User
   home.packages = with pkgs; [
-    blueman unstable.slack unstable.gnome-text-editor
+    qt5ct libva blueman unstable.slack unstable.gnome-text-editor
     lolcat git-cola btop libvirt
     grim slurp lm_sensors unzip unrar gnome.file-roller
     swaynotificationcenter rofi-wayland imv

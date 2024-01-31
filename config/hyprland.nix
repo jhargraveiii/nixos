@@ -16,7 +16,7 @@ in with lib; {
       modifier = "SUPER";
     in concatStrings [ ''
 
-monitor=,preferred,auto,1
+monitor=eDP-1,3440x1440@99,0x0,1
 
 env = WLR_NO_HARDWARE_CURSORS,1
 env = LIBVA_DRIVER_NAME,nvidia
@@ -36,6 +36,7 @@ env = XCURSOR_THEME, Bibata-Modern-Ice
 env = NIXPKGS_ALLOW_UNFREE, 1
 env = MOZ_ENABLE_WAYLAND, 1
 env = NIXOS_OZONE_WL,1
+env = _JAVA_AWT_WM_NONREPARENTING,1
 
 input {
     kb_layout = us
@@ -43,7 +44,9 @@ input {
     touchpad {
         natural_scroll = false
     }
-    sensitivity = 0 # -1.0 - 1.0, 0 means no modification.
+    sensitivity = 5
+    repeat_rate = 25
+    repeat_delay = 600
 }
 
 gestures {
@@ -56,10 +59,12 @@ misc {
     disable_splash_rendering=true
     mouse_move_enables_dpms = true
     key_press_enables_dpms = true
+    vfr = true
+    vrr = 0
 } 
 
 animations {
-    enabled = no
+    enabled = yes
     bezier = wind, 0.05, 0.9, 0.1, 1.05
     bezier = winIn, 0.1, 1.1, 0.1, 1.1
     bezier = winOut, 0.3, -0.3, 0, 1
@@ -69,7 +74,7 @@ animations {
     animation = windowsOut, 1, 5, winOut, slide
     animation = windowsMove, 1, 5, wind, slide
     animation = border, 1, 1, liner
-    #animation = borderangle, 1, 30, liner, loop
+    animation = borderangle, 1, 30, liner, loop
     animation = fade, 1, 10, default
     animation = workspaces, 1, 5, wind
 }
@@ -84,8 +89,8 @@ master {
 }
 
 general {
-    gaps_in = 6
-    gaps_out = 8
+    gaps_in = 2
+    gaps_out = 4
     border_size = 2
     col.active_border = rgba(${theme.base0C}ff) rgba(${theme.base0D}ff) rgba(${theme.base0B}ff) rgba(${theme.base0E}ff) 45deg
     col.inactive_border = rgba(${theme.base00}cc) rgba(${theme.base01}cc) 45deg
@@ -99,7 +104,7 @@ decoration {
     blur {
         enabled = true
         size = 5
-        passes = 3
+        passes = 3  
         new_optimizations = on
         ignore_opacity = on
     }
