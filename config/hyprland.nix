@@ -16,7 +16,7 @@ in with lib; {
       modifier = "SUPER";
     in concatStrings [ ''
 
-monitor=eDP-1,3440x1440@99,0x0,1
+monitor=DP-1,3440x1440@99,0x0,1
 
 env = WLR_NO_HARDWARE_CURSORS,1
 env = LIBVA_DRIVER_NAME,nvidia
