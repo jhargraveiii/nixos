@@ -40,7 +40,7 @@
 
   home.file.".config/xdg-desktop-portal/portals.conf".text = ''
      [preferred]
-     default=gtk;wlr
+     default=wlr;gtk
      '';   
 
   # Install & Configure Git
@@ -144,7 +144,6 @@
       gtk-application-prefer-dark-theme=1;
     };
     gtk4.extraConfig = {
-      gtk-application-prefer-dark-theme=1;
     };
   };
 
