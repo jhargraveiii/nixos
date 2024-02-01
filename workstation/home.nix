@@ -61,6 +61,7 @@
   nixpkgs = {
     overlays = [
       unstable-packages
+      inputs.jetbrains-updater.overlay
     ];
    };
   # Install Packages For The User
@@ -70,7 +71,9 @@
     grim slurp lm_sensors unzip unrar gnome.file-roller
     swaynotificationcenter rofi-wayland imv
     transmission-gtk mpv swww
-    gnumake ant maven unstable.jetbrains.idea-ultimate unstable.chromium 
+    jetbrains.idea-ultimate
+    (jetbrains.plugins.addPlugins jetbrains.idea-ultimate ["csv-editor" "nixidea" "github-copilot"])
+    gnumake ant maven unstable.chromium 
     pavucontrol unstable.thunderbird zathura python3 appimage-run
     networkmanager networkmanagerapplet
     appimage-run cliphist swaylock swayidle wlsunset

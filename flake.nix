@@ -14,6 +14,7 @@
       url = "github:hyprwm/hyprland-plugins";
       inputs.hyprland.follows = "hyprland";
     }; 
+    jetbrains-updater.url = "gitlab:genericnerdyusername/jetbrains-updater";
     #ollama.url = "github:jhargraveiii/ollama-nix";
   };
 
