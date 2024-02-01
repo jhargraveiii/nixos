@@ -1,4 +1,4 @@
-# Based on the Wonderful ZaneyOS 🟰 Best ❄️ NixOS Configs
+# Based on the Wonderful ZaneyOS 🟰 Best ❄️ NixOS Configs (https://gitlab.com/Zaney/zaneyos)
 
 ## What Is NixOS
 
