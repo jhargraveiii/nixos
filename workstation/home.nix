@@ -57,11 +57,10 @@
     package = pkgs.starship;
   };
 
-  # we want to use some packages from unstable so need this overlay
   nixpkgs = {
     overlays = [
+      # we want to use some packages from unstable so need this overlay
       unstable-packages
-      inputs.jetbrains-updater.overlay
     ];
    };
   # Install Packages For The User
@@ -71,8 +70,7 @@
     grim slurp lm_sensors unzip unrar gnome.file-roller
     swaynotificationcenter rofi-wayland imv
     transmission-gtk mpv swww
-    jetbrains.idea-ultimate
-    (jetbrains.plugins.addPlugins jetbrains.idea-ultimate ["csv-editor" "nixidea" "github-copilot"])
+    (jetbrains.plugins.addPlugins jetbrains.idea-ultimate ["github-copilot"])
     gnumake ant maven unstable.chromium 
     pavucontrol unstable.thunderbird zathura python3 appimage-run
     networkmanager networkmanagerapplet
