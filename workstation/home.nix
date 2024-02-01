@@ -154,13 +154,14 @@
     enable = true;
     enableCompletion = true;
     profileExtra = ''
-      # fix for electron apps?
-      #export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(nix build --print-out-paths --no-link nixpkgs#libGL)/lib
     '';
     initExtra = ''
       neofetch
-       if [ -f $HOME/.bashrc-personal ]; then
-        source $HOME/.bashrc-personal
+      if [ -f $HOME/.bashrc-personal ]; then
+      source $HOME/.bashrc-personal
+      fi
+      if [ -f $HOME/.oxygen-xml-developer-profile ]; then
+      source $HOME/.oxygen-xml-developer-profile
       fi
     '';
 

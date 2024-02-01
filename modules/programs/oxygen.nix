@@ -18,7 +18,7 @@ let
 in
 {
  home.packages = [ oxygen-xml-developer ];
- home.file."oxygen-xml-developer-profile".text = ''
+ home.file.".oxygen-xml-developer-profile".text = ''
     export PATH=$PATH:${oxygen-xml-developer.out}/opt/oxygen-xml-developer
   '';
 }
