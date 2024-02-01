@@ -154,14 +154,14 @@
     enable = true;
     enableCompletion = true;
     profileExtra = ''
+     if [ -f $HOME/.oxygen-xml-developer-profile ]; then
+        source $HOME/.oxygen-xml-developer-profile
+     fi
     '';
     initExtra = ''
       neofetch
       if [ -f $HOME/.bashrc-personal ]; then
-      source $HOME/.bashrc-personal
-      fi
-      if [ -f $HOME/.oxygen-xml-developer-profile ]; then
-      source $HOME/.oxygen-xml-developer-profile
+        source $HOME/.bashrc-personal
       fi
     '';
 
