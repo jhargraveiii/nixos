@@ -89,7 +89,7 @@
 
   programs.vscode = {
     enable = true;
-    package = pkgs.vscodium;
+    package = pkgs.unstable.vscodium;
     enableUpdateCheck = true;
     enableExtensionUpdateCheck = true;
     extensions = with pkgs.vscode-extensions; [

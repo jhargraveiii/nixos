@@ -173,6 +173,8 @@
   services.blueman.enable = true;
 
   security.rtkit.enable = true;
+  security.polkit.enable = true;
+
   programs.thunar = {
     enable = true;
     plugins = with pkgs.xfce; [
@@ -222,8 +224,16 @@
     };
   };
   
+   # xdg-desktop-portal works by exposing a series of D-Bus interfaces
+  # known as portals under a well-known name
+  # (org.freedesktop.portal.Desktop) and object path
+  # (/org/freedesktop/portal/desktop).
+  # The portal interfaces include APIs for file access, opening URIs,
+  # printing and others.
+  services.dbus.enable = true;
   xdg = {
     portal = {
+      wlr.enable = true;
       enable = true;
       extraPortals = [ pkgs.xdg-desktop-portal-gtk
         pkgs.xdg-desktop-portal
