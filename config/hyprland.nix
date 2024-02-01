@@ -144,7 +144,7 @@ bind = ${modifier},		T,		exec, thunar
 bind = ${modifier},		C,		exec, WAYLAND_DISPLAY="" codium
 bind = ${modifier},		V,		exec, VirtualBox
 bind = ${modifier},		S,		exec, NIXOS_OZONE_WL="" slack 
-bind = ${modifier},		O,		exec, sh ~/oxygenDeveloper/oxygenDeveloper.sh
+bind = ${modifier},		O,		exec, source oxygen-xml-developer-profile && oxygenDeveloper.sh
 bind = ${modifier},		M,		exec, flatpak run com.microsoft.Edge
 bind = ${modifier} SHIFT,	E,	exec, emopicker9000
 bind = ${modifier} SHIFT,	S,	exec, grim -g "$(slurp)"

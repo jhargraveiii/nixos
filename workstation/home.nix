@@ -23,6 +23,7 @@
     ../modules/programs/kitty.nix
     ../modules/programs/rofi.nix
     ../modules/programs/neofetch.nix
+    ../modules/programs/oxygen.nix
   ];
 
   # Define Settings For Xresources
@@ -66,11 +67,11 @@
   # Install Packages For The User
   home.packages = with pkgs; [
     qt5ct libva blueman unstable.slack unstable.gnome-text-editor
-    lolcat git-cola btop libvirt
+    lolcat unstable.git-cola btop libvirt
     grim slurp lm_sensors unzip unrar gnome.file-roller
     swaynotificationcenter rofi-wayland imv
     transmission-gtk mpv swww
-    (jetbrains.plugins.addPlugins jetbrains.idea-ultimate ["github-copilot"])
+    (unstable.jetbrains.plugins.addPlugins unstable.jetbrains.idea-ultimate ["github-copilot"])
     gnumake ant maven unstable.chromium 
     pavucontrol unstable.thunderbird zathura python3 appimage-run
     networkmanager networkmanagerapplet

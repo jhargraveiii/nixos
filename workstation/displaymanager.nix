@@ -50,8 +50,8 @@
 
   environment.systemPackages =
 let
-    sugar = pkgs.callPackage ./sddm-sugar-dark.nix {};
-    tokyo-night = pkgs.libsForQt5.callPackage ./sddm-tokyo-night.nix {};
+    sugar = pkgs.callPackage ../config/sddm-sugar-dark.nix {};
+    tokyo-night = pkgs.libsForQt5.callPackage ../config/sddm-tokyo-night.nix {};
 in [ 
     sugar.sddm-sugar-dark # Name: sugar-dark
     tokyo-night # Name: tokyo-night-sddm
