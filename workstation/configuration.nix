@@ -12,6 +12,7 @@
       ./hardware-configuration.nix
       ./nvidia.nix
       ./displaymanager.nix
+      ../modules/programs/1password.nix
     ];
   
   networking.hostName = "${hostname}"; # Define your hostname.
@@ -72,7 +73,7 @@
     v4l-utils wl-clipboard lsd lshw
     pkg-config gnumake
     noto-fonts-color-emoji material-icons 
-    docker-compose nano wget curl git restic
+    docker-compose nano wget curl git
   ];
 
   fonts.packages = with pkgs; [
@@ -125,17 +126,6 @@
     enable = true;
     enableSSHSupport = true;
   };
-
-  programs._1password.enable = true;
-  programs._1password-gui = {
-    enable = true;
-    # Certain features, including CLI integration and system authentication support,
-    # require enabling PolKit integration on some desktop environments (e.g. Plasma).
-    polkitPolicyOwners = [ "${username}" ];
-  };
-
-  # Enable 1password to open with gnomekeyring
-  security.pam.services."1password".enableGnomeKeyring = true;
   
   services.printing.enable = true;
   services.printing.stateless = true;
@@ -173,7 +163,7 @@
   services.blueman.enable = true;
 
   security.rtkit.enable = true;
-  security.polkit.enable = true;
+  #security.polkit.enable = true;
 
   programs.thunar = {
     enable = true;
@@ -185,29 +175,9 @@
   };
   services.gvfs.enable = true;
   services.tumbler.enable = true;
-  
-  services.restic.backups = {
-    localbackup = {
-      exclude = [".Trash" ".log" ".tmp" "/home/*/.cache" "/home/jimh/BACKUP/*"];
-      initialize = true;
-      passwordFile = "/etc/nixos/restic-password";
-      paths = ["/home"];
-      repository = "/home/jimh/BACKUP/backup-restic";
-
-      timerConfig =  {
-        OnBootSec = "900";
-      };
-      pruneOpts = [
-      "--keep-daily 7"
-      "--keep-weekly 5"
-      "--keep-monthly 12"
-      "--keep-yearly 75"
-      ];
-    };
-  };
-
   system.stateVersion = "23.11";
-   # Optimization settings and garbage collection automation
+
+  # Optimization settings and garbage collection automation
   nix = {
     settings = {
       auto-optimise-store = true;
@@ -224,7 +194,7 @@
     };
   };
   
-   # xdg-desktop-portal works by exposing a series of D-Bus interfaces
+  # xdg-desktop-portal works by exposing a series of D-Bus interfaces
   # known as portals under a well-known name
   # (org.freedesktop.portal.Desktop) and object path
   # (/org/freedesktop/portal/desktop).

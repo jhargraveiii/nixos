@@ -7,8 +7,6 @@
     driSupport = true;
     driSupport32Bit = true;
     extraPackages = with pkgs; [
-        # cudatoolkit
-        # cudatoolkit.lib
     ];
   };
 
@@ -48,10 +46,10 @@
     '';
   };
 
-  environment.systemPackages =
+environment.systemPackages =
 let
-    sugar = pkgs.callPackage ../config/sddm-sugar-dark.nix {};
-    tokyo-night = pkgs.libsForQt5.callPackage ../config/sddm-tokyo-night.nix {};
+    sugar = pkgs.callPackage ../modules/desktop/sddm-sugar-dark.nix {};
+    tokyo-night = pkgs.libsForQt5.callPackage ../modules/desktop/sddm-tokyo-night.nix {};
 in [ 
     sugar.sddm-sugar-dark # Name: sugar-dark
     tokyo-night # Name: tokyo-night-sddm

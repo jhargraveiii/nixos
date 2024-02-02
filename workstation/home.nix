@@ -15,15 +15,17 @@
   imports = [
     inputs.nix-colors.homeManagerModules.default
     inputs.hyprland.homeManagerModules.default
-    ../config/waybar.nix
-    ../config/swaync.nix
-    ../config/swaylock.nix
-    ../config/hyprland.nix
     ../config/files.nix
+    ../modules/desktop/waybar.nix
+    ../modules/desktop/swaync.nix
+    ../modules/desktop/swaylock.nix
+    ../modules/desktop/hyprland.nix
     ../modules/programs/kitty.nix
     ../modules/programs/rofi.nix
     ../modules/programs/neofetch.nix
     ../modules/programs/oxygen.nix
+    ../modules/services/restic.nix
+    #../modules/secrets
   ];
 
   # Define Settings For Xresources
@@ -66,22 +68,26 @@
    };
   # Install Packages For The User
   home.packages = with pkgs; [
-    qt5ct libva blueman unstable.slack unstable.gnome-text-editor
-    lolcat unstable.git-cola btop libvirt
-    grim slurp lm_sensors unzip unrar gnome.file-roller
-    swaynotificationcenter rofi-wayland imv
-    transmission-gtk mpv swww
+    unstable.slack unstable.gnome-text-editor
     (unstable.jetbrains.plugins.addPlugins unstable.jetbrains.idea-ultimate ["github-copilot"])
-    gnumake ant maven unstable.chromium 
-    pavucontrol unstable.thunderbird zathura python3 appimage-run
+    unstable.git-cola unstable._1password unstable.chromium 
+    unstable.thunderbird unstable.libreoffice-qt
+
+    qt5ct libva blueman 
+    lolcat btop libvirt
+    grim slurp lm_sensors unzip unrar gnome.file-roller
+    swaynotificationcenter rofi-wayland imv qimgv
+    transmission-gtk mpv swww restic
+    gnumake ant maven  
+    pavucontrol zathura python3 appimage-run
     networkmanager networkmanagerapplet
     appimage-run cliphist swaylock swayidle wlsunset
-    meld openjdk11 openvpn unstable.libreoffice-qt hunspell hunspellDicts.en_US
+    meld openjdk11 openvpn hunspell hunspellDicts.en_US
     # Import Scripts
-    (import ../config/scripts/emopicker9000.nix { inherit pkgs; })
-    (import ../config/scripts/task-waybar.nix { inherit pkgs; })
-    (import ../config/scripts/squirtle.nix { inherit pkgs; })
-    (import ../config/scripts/wallsetter.nix { inherit pkgs; inherit wallpaperDir; inherit username; })
+    (import ../modules/scripts/emopicker9000.nix { inherit pkgs; })
+    (import ../modules/scripts/task-waybar.nix { inherit pkgs; })
+    (import ../modules/scripts/squirtle.nix { inherit pkgs; })
+    (import ../modules/scripts/wallsetter.nix { inherit pkgs; inherit wallpaperDir; inherit username; })
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
