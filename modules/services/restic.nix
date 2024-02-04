@@ -1,44 +1,23 @@
-{ config, lib, pkgs, ... }:
-
-let
-  # Restic configuration
-  repository = "${config.home.homeDirectory}/restic-repo";    
-  excludes = [ 
-    ".cache"
-    ".tmp"
-    ".Trash"
-    "${config.home.homeDirectory}/restic-repo"
-    repository
-  ];
-in
+{ config, pkgs, username, ... }:
 {
-  # Backup timer
-  systemd.user.timers.restic-backup-timer = {
-    Unit = {  
-      Description = "Run restic backups hourly";
-    };
-    
-    Timer = {
-      OnBootSec = "20min";
-      OnUnitActiveSec = "1h";    
-    };
-    
-    Install = {
-      WantedBy = [ "timers.target" ];  
+  services.restic = {
+    backups = {
+      localbackup = {
+        exclude = [".Trash" ".log" ".tmp" "/home/*/.cache" "/home/${username}/BACKUP/*"];
+        initialize = true;
+        passwordFile = "/etc/nixos/restic-password";
+        paths = ["/home/${username}"];
+        repository = "/home/${username}/BACKUP/restic-repo";
+        timerConfig =  {
+          OnBootSec = "60";
+        };
+        pruneOpts = [
+          "--keep-daily=7"
+          "--keep-weekly=5"
+          "--keep-monthly=12"
+          "--keep-yearly=75"
+        ];
+      };
     };
   };
-
- # Backup service
-systemd.user.services.restic-backup = {
-  Service = {
-    Type = "oneshot";
-    Environment = [ "RESTIC_REPOSITORY=${repository}" "RESTIC_PASSWORD=/etc/nixos/restic-password" ];
-    ExecStart = ''
-        ${pkgs.restic}/bin/restic backup ${lib.concatMapStrings (s: " " + s) excludes}
-    '';
-    ExecStartPost = ''
-        ${pkgs.restic}/bin/restic forget --prune --keep-daily 7 --keep-weekly 5 --keep-monthly 12 --keep-yearly 75
-    '';
-  };
- };
-} 
+}

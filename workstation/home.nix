@@ -1,13 +1,12 @@
 { config, pkgs, inputs, username,
   gitUsername, gitEmail, gtkThemeFromScheme,
-  theme, flakeDir, unstable-packages, wallpaperDir, ... }:
+  theme, flakeDir, outputs, wallpaperDir, ... }:
 
 {
   # Home Manager Settings
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
   home.stateVersion = "23.11";
-  nixpkgs.config.allowUnfree = true;
 
   # Set The Colorscheme
   colorScheme = inputs.nix-colors.colorSchemes."${theme}";
@@ -24,7 +23,6 @@
     ../modules/programs/rofi.nix
     ../modules/programs/neofetch.nix
     ../modules/programs/oxygen.nix
-    ../modules/services/restic.nix
     #../modules/secrets
   ];
 
@@ -63,8 +61,15 @@
   nixpkgs = {
     overlays = [
       # we want to use some packages from unstable so need this overlay
-      unstable-packages
+      outputs.overlays.unstable-packages
     ];
+     # Configure your nixpkgs instance
+    config = {
+      # Disable if you don't want unfree packages
+      allowUnfree = true;
+      # Workaround for https://github.com/nix-community/home-manager/issues/2942
+      allowUnfreePredicate = _: true;
+    };
    };
   # Install Packages For The User
   home.packages = with pkgs; [
@@ -186,6 +191,10 @@
       ".."="cd ..";
     };
   };
+
+  # Nicely reload system units when changing configs
+  systemd.user.startServices = "sd-switch";
+
   home.sessionVariables = {
   };
   programs.home-manager.enable = true;

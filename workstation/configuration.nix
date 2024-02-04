@@ -2,9 +2,9 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ inputs, config, pkgs, username,
+{ inputs, config, pkgs, lib, username,
   hostname, gitUsername, theLocale,
-  theTimezone, ... }:
+  theTimezone, outputs, ... }:
 
 {
   imports =
@@ -13,6 +13,7 @@
       ./nvidia.nix
       ./displaymanager.nix
       ../modules/programs/1password.nix
+      ../modules/services/restic.nix
     ];
   
   networking.hostName = "${hostname}"; # Define your hostname.
@@ -65,11 +66,32 @@
      };
   };
 
+  nixpkgs = {
+    overlays = [
+      # we want to use some packages from unstable so need this overlay
+      outputs.overlays.unstable-packages
+    ];
+  };
+
+  # This will add each flake input as a registry
+  # To make nix3 commands consistent with your flake
+  nix.registry = (lib.mapAttrs (_: flake: {inherit flake;})) ((lib.filterAttrs (_: lib.isType "flake")) inputs);
+  # This will additionally add your inputs to the system's legacy channels
+  # Making legacy nix commands consistent as well, awesome!
+  nix.nixPath = ["/etc/nix/path"];
+  environment.etc =
+    lib.mapAttrs'
+    (name: value: {
+      name = "nix/path/${name}";
+      value.source = value.flake;
+    })
+    config.nix.registry;
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     sddm lolcat neofetch htop btop libvirt
-    polkit_gnome lm_sensors unzip unrar libnotify
+    lm_sensors unzip unrar libnotify
     v4l-utils wl-clipboard lsd lshw
     pkg-config gnumake
     noto-fonts-color-emoji material-icons 
@@ -122,10 +144,6 @@
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   programs.mtr.enable = true;
-  programs.gnupg.agent = {
-    enable = true;
-    enableSSHSupport = true;
-  };
   
   services.printing.enable = true;
   services.printing.stateless = true;
@@ -162,7 +180,7 @@
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
   services.blueman.enable = true;
 
-  security.rtkit.enable = true;
+  #security.rtkit.enable = true;
   #security.polkit.enable = true;
 
   programs.thunar = {

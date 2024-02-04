@@ -18,8 +18,9 @@
     #ollama.url = "github:jhargraveiii/ollama-nix";
   };
 
-  outputs = inputs@{ self, nixpkgs, home-manager, ... }:
+  outputs = { self, nixpkgs, home-manager, ... } @inputs:
   let
+    inherit (self) outputs;
     system = "x86_64-linux";
 
     # User Variables
@@ -40,18 +41,12 @@
 	     allowUnfree = true;
       };
     };
-    # When applied, the unstable nixpkgs set (declared in the flake inputs) will
-    # be accessible through 'pkgs.unstable'
-    unstable-packages = final: _prev: {
-      unstable = import inputs.nixpkgs-unstable {
-        system = final.system;
-        config.allowUnfree = true;
-      };
-    };
-  in {
+   in {
+     # Your custom packages and modifications, exported as overlays
+    overlays = import ./modules/overlays {inherit inputs;};
     nixosConfigurations = {
       "${hostname}" = nixpkgs.lib.nixosSystem {
-	    specialArgs = { inherit system; inherit inputs; 
+	    specialArgs = { inherit system; inherit inputs; inherit outputs;
             inherit theKBDLayout; inherit username; inherit hostname; inherit gitUsername;
             inherit gitEmail; inherit theLocale; inherit theTimezone;
         };
@@ -59,8 +54,8 @@
           ./workstation/configuration.nix
           home-manager.nixosModules.home-manager {
 	        home-manager.extraSpecialArgs = { inherit username; 
-                inherit wallpaperDir;
-                inherit unstable-packages; inherit flakeDir; inherit gitUsername; inherit gitEmail; inherit inputs; inherit theme;
+                inherit wallpaperDir; inherit outputs;
+                inherit flakeDir; inherit gitUsername; inherit gitEmail; inherit inputs; inherit theme;
                 inherit (inputs.nix-colors.lib-contrib {inherit pkgs;}) gtkThemeFromScheme;
             };
 	        #home-manager.useGlobalPkgs = true;
