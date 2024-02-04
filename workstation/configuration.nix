@@ -90,6 +90,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    linuxKernel.packages.linux_latest_libre.virtualboxGuestAdditions
     sddm lolcat neofetch htop btop libvirt
     lm_sensors unzip unrar libnotify
     v4l-utils wl-clipboard lsd lshw
