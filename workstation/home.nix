@@ -79,7 +79,7 @@
     unstable.thunderbird unstable.libreoffice-qt
 
     qt5ct libva blueman 
-    lolcat btop libvirt
+    lolcat btop libvirt swappy
     grim slurp lm_sensors unzip unrar gnome.file-roller
     swaynotificationcenter rofi-wayland imv qimgv
     transmission-gtk mpv swww restic
@@ -148,10 +148,6 @@
     iconTheme = {
       name = "Papirus-Dark";
       package = pkgs.papirus-icon-theme;
-    };
-    cursorTheme = {
-      name = "Bibata-Modern-Ice";
-      package = pkgs.bibata-cursors;
     };
     gtk3.extraConfig = {
       gtk-application-prefer-dark-theme=1;

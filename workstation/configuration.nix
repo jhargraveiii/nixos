@@ -4,7 +4,7 @@
 
 { inputs, config, pkgs, lib, username,
   hostname, gitUsername, theLocale,
-  theTimezone, outputs, ... }:
+  theTimezone, outputs, theKBDLayout, ... }:
 
 {
   imports =
@@ -38,6 +38,8 @@
     LC_TELEPHONE = "${theLocale}";
     LC_TIME = "${theLocale}";
   };
+
+  console.keyMap = "${theKBDLayout}";
 
   # User account
   users.users.${username} = {
@@ -249,7 +251,7 @@
         "\$/usr/local/bin"
       ];
    M2_COLORS = "true";     
-   _JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
+   #_JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
    JAVA_HOME = "\${HOME}/.jdks/openjdk11/lib/openjdk";
    NIXOS_OZONE_WL = "1";
    NIXPKGS_ALLOW_UNFREE = "1";

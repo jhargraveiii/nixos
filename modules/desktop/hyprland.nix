@@ -1,4 +1,4 @@
-{ pkgs, config, lib, inputs, ... }:
+{ pkgs, config, lib, inputs, theKBDLayout, ... }:
 
 let
   theme = config.colorScheme.palette;
@@ -36,10 +36,10 @@ env = XCURSOR_THEME, Bibata-Modern-Ice
 env = NIXPKGS_ALLOW_UNFREE, 1
 env = MOZ_ENABLE_WAYLAND, 1
 env = NIXOS_OZONE_WL,1
-env = _JAVA_AWT_WM_NONREPARENTING,1
+#env = _JAVA_AWT_WM_NONREPARENTING,1
 
 input {
-    kb_layout = us
+    kb_layout = ${theKBDLayout}
     follow_mouse = 1
     touchpad {
         natural_scroll = false
@@ -147,7 +147,7 @@ bind = ${modifier},		S,		exec, NIXOS_OZONE_WL="" slack
 bind = ${modifier},		O,		exec, oxygenDeveloper.sh
 bind = ${modifier},		M,		exec, flatpak run com.microsoft.Edge
 bind = ${modifier} SHIFT,	E,	exec, emopicker9000
-bind = ${modifier} SHIFT,	S,	exec, grim -g "$(slurp)"
+bind = ${modifier} SHIFT,	S,	exec, grim -g "$(slurp)" - | swappy -f -
 bind = ${modifier} SHIFT,	C,  exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy
 
 # Hyprland Keybinds
