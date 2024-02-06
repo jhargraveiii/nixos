@@ -16,7 +16,7 @@ in with lib; {
       modifier = "SUPER";
     in concatStrings [ ''
 
-monitor=DP-1,3440x1440@99,0x0,1
+monitor=DP-1,3440x1440@60,0x0,1
 
 env = WLR_NO_HARDWARE_CURSORS,1
 env = LIBVA_DRIVER_NAME,nvidia
@@ -36,7 +36,7 @@ env = XCURSOR_THEME, Bibata-Modern-Ice
 env = NIXPKGS_ALLOW_UNFREE, 1
 env = MOZ_ENABLE_WAYLAND, 1
 env = NIXOS_OZONE_WL,1
-#env = _JAVA_AWT_WM_NONREPARENTING,1
+env = _JAVA_AWT_WM_NONREPARENTING,1
 
 input {
     kb_layout = ${theKBDLayout}
@@ -141,9 +141,9 @@ bind = ${modifier},		W,		exec, chromium
 bind = ${modifier},		E,		exec, thunderbird
 bind = ${modifier},		J,		exec, idea-ultimate
 bind = ${modifier},		T,		exec, thunar
-bind = ${modifier},		C,		exec, WAYLAND_DISPLAY="" codium
+bind = ${modifier},		C,		exec, codium
 bind = ${modifier},		V,		exec, VirtualBoxVM --comment "Windows" --startvm "{9b1ee206-252e-44c1-b8e9-098039c50d35}"
-bind = ${modifier},		S,		exec, NIXOS_OZONE_WL="" slack 
+bind = ${modifier},		S,		exec, slack 
 bind = ${modifier},		O,		exec, oxygenDeveloper.sh
 bind = ${modifier},		M,		exec, flatpak run com.microsoft.Edge
 bind = ${modifier} SHIFT,	E,	exec, emopicker9000
