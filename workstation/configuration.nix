@@ -21,6 +21,8 @@
   # Enable networking
   networking.networkmanager.enable = true;
 
+  networking.timeServers = [ "pool.ntp.org" ];
+
   # Set your time zone.
   time.timeZone = "${theTimezone}";
 
@@ -131,7 +133,7 @@
       };
     };
   };
-
+  
   programs.dconf.enable = true;
   programs.hyprland = {
     enable = true;
@@ -183,8 +185,8 @@
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
   services.blueman.enable = true;
 
-  #security.rtkit.enable = true;
-  #security.polkit.enable = true;
+  security.rtkit.enable = true;
+  security.polkit.enable = true;
 
   programs.thunar = {
     enable = true;
