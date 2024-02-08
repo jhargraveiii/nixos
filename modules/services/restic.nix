@@ -3,7 +3,7 @@
   services.restic = {
     backups = {
       localbackup = {
-        exclude = [".Trash" ".log" ".tmp" "/home/*/.cache" "/home/${username}/BACKUP/*"];
+        exclude = [".Trash" ".log" ".tmp" "/home/.ollama" "/home/*/.cache" "/home/${username}/BACKUP/*"];
         initialize = true;
         passwordFile = "/etc/nixos/restic-password";
         paths = ["/home/${username}"];

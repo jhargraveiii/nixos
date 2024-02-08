@@ -19,6 +19,7 @@
     ../modules/desktop/swaync.nix
     ../modules/desktop/swaylock.nix
     ../modules/desktop/hyprland.nix
+    ../modules/desktop/swappy.nix
     ../modules/programs/kitty.nix
     ../modules/programs/rofi.nix
     ../modules/programs/neofetch.nix
@@ -86,7 +87,7 @@
     gnumake ant maven  
     pavucontrol zathura python3 appimage-run
     networkmanager networkmanagerapplet
-    appimage-run cliphist swaylock swayidle wlsunset
+    appimage-run cliphist unstable.swaylock unstable.swayidle wlsunset
     meld openjdk11 openvpn hunspell hunspellDicts.en_US
     # Import Scripts
     (import ../modules/scripts/emopicker9000.nix { inherit pkgs; })
