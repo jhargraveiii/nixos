@@ -78,6 +78,7 @@
     (unstable.jetbrains.plugins.addPlugins unstable.jetbrains.idea-ultimate ["github-copilot"])
     unstable.git-cola unstable._1password unstable.chromium 
     unstable.thunderbird unstable.libreoffice-qt
+    unstable.swaylock unstable.swayidle
 
     qt5ct libva blueman 
     lolcat btop libvirt swappy
@@ -87,13 +88,14 @@
     gnumake ant maven  
     pavucontrol zathura python3 appimage-run
     networkmanager networkmanagerapplet
-    appimage-run cliphist unstable.swaylock unstable.swayidle wlsunset
+    appimage-run cliphist wlsunset
     meld openjdk11 openvpn hunspell hunspellDicts.en_US
     # Import Scripts
     (import ../modules/scripts/emopicker9000.nix { inherit pkgs; })
     (import ../modules/scripts/task-waybar.nix { inherit pkgs; })
     (import ../modules/scripts/squirtle.nix { inherit pkgs; })
     (import ../modules/scripts/wallsetter.nix { inherit pkgs; inherit wallpaperDir; inherit username; })
+    (import ../modules/scripts/web-search.nix { inherit pkgs; })
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
@@ -154,6 +156,7 @@
       gtk-application-prefer-dark-theme=1;
     };
     gtk4.extraConfig = {
+      gtk-application-prefer-dark-theme=1;
     };
   };
 

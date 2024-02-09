@@ -25,6 +25,8 @@
 
   # Set your time zone.
   time.timeZone = "${theTimezone}";
+  time.hardwareClockInLocalTime = true;
+
 
   # Select internationalisation properties.
   i18n.defaultLocale = "${theLocale}";
@@ -47,7 +49,7 @@
   users.users.${username} = {
     isNormalUser = true;
     description = "${gitUsername}";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "scanner" "lp"];
     packages = with pkgs; [];
     uid = 1000;
       openssh.authorizedKeys.keys = [
@@ -166,6 +168,11 @@
       }
     ];
     ensureDefaultPrinter = "Canon_MF450_Series";
+  };
+  hardware.sane = {
+    enable = true;
+    extraBackends = [pkgs.sane-airscan];
+    disabledDefaultBackends = ["escl"];
   };
 
   services.flatpak.enable = true;

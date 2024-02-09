@@ -37,6 +37,9 @@ env = NIXPKGS_ALLOW_UNFREE, 1
 env = MOZ_ENABLE_WAYLAND, 1
 env = NIXOS_OZONE_WL,1
 env = _JAVA_AWT_WM_NONREPARENTING,1
+env = NIXPKGS_ALLOW_UNFREE, 1
+
+
 
 input {
     kb_layout = ${theKBDLayout}
@@ -73,8 +76,8 @@ animations {
     animation = windowsIn, 1, 6, winIn, slide
     animation = windowsOut, 1, 5, winOut, slide
     animation = windowsMove, 1, 5, wind, slide
-    animation = border, 1, 1, liner
-    animation = borderangle, 1, 30, liner, loop
+    #animation = border, 1, 1, liner
+    #animation = borderangle, 1, 30, liner, loop
     animation = fade, 1, 10, default
     animation = workspaces, 1, 5, wind
 }
@@ -90,8 +93,8 @@ master {
 
 general {
     gaps_in = 2
-    gaps_out = 4
-    border_size = 2
+    gaps_out = 1
+    border_size = 1
     col.active_border = rgba(${theme.base0C}ff) rgba(${theme.base0D}ff) rgba(${theme.base0B}ff) rgba(${theme.base0E}ff) 45deg
     col.inactive_border = rgba(${theme.base00}cc) rgba(${theme.base01}cc) 45deg
     layout = dwindle
