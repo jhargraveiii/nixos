@@ -154,21 +154,21 @@
   
   services.printing.enable = true;
   services.printing.stateless = true;
+  services.printing.drivers = [ pkgs.canon-cups-ufr2 ];
+  services.printing.browsing = true;
+  services.printing.browsedConf = ''
+  BrowseDNSSDSubTypes _cups,_print
+  BrowseLocalProtocols all
+  BrowseRemoteProtocols all
+  CreateIPPPrinterQueues All
 
-  hardware.printers = {
-    ensurePrinters = [
-      {
-        name = "Canon_MF450_Series";
-        location = "Home";
-        deviceUri = "ipp://Canon224062/ipp";
-        model = "drv:///sample.drv/generic.ppd";
-        ppdOptions = {
-          PageSize = "Letter";
-        };
-      }
-    ];
-    ensureDefaultPrinter = "Canon_MF450_Series";
+  BrowseProtocols all
+      '';
+  services.avahi = {
+    enable = true;
+    nssmdns = true;
   };
+  programs.system-config-printer.enable = true;
   hardware.sane = {
     enable = true;
     extraBackends = [pkgs.sane-airscan];
