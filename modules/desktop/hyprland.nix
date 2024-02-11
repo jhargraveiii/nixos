@@ -2,15 +2,12 @@
 
 let
   theme = config.colorScheme.palette;
-  hyprplugins = inputs.hyprland-plugins.packages.${pkgs.system};
 in with lib; {
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
     systemd.enable = true;
     plugins = [
-      hyprplugins.hyprtrails
-      #hyprplugins.hyprbars
     ];
     extraConfig = let
       modifier = "SUPER";
@@ -110,12 +107,6 @@ decoration {
         passes = 3  
         new_optimizations = on
         ignore_opacity = on
-    }
-}
-
-plugin {
-    hyprtrails {
-        color = rgba(${theme.base0D}ff)
     }
 }
 

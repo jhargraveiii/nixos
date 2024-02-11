@@ -10,11 +10,6 @@
       url = "github:hyprwm/Hyprland";
     };
     nix-colors.url = "github:misterio77/nix-colors";
-    hyprland-plugins = {
-      url = "github:hyprwm/hyprland-plugins";
-      inputs.hyprland.follows = "hyprland";
-    }; 
-
     #ollama.url = "github:jhargraveiii/ollama-nix";
   };
 

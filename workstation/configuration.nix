@@ -151,7 +151,8 @@
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
   programs.mtr.enable = true;
-  
+  programs.system-config-printer.enable = true;
+
   services.printing.enable = true;
   services.printing.stateless = true;
   services.printing.drivers = [ pkgs.canon-cups-ufr2 ];
@@ -164,15 +165,24 @@
 
   BrowseProtocols all
       '';
-  services.avahi = {
-    enable = true;
-    nssmdns = true;
-  };
-  programs.system-config-printer.enable = true;
   hardware.sane = {
     enable = true;
     extraBackends = [pkgs.sane-airscan];
     disabledDefaultBackends = ["escl"];
+  };
+  hardware.printers = {
+    ensurePrinters = [
+      {
+        name = "Canon_MF450_Series";
+        location = "Home";
+        deviceUri = "ipp://Canon224062/ipp";
+        model = "CNRCUPSMF450ZS.ppd";
+        ppdOptions = {
+          PageSize = "Letter";
+        };
+      }
+    ];
+    ensureDefaultPrinter = "Canon_MF450_Series";
   };
 
   services.flatpak.enable = true;

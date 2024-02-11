@@ -17,19 +17,9 @@
       	format-icons = {
           active = " 󱎴";
           default = "󰍹";
-					urgent = " ";
+					urgent = "";
       	};
-				persistent-workspaces = {
-              "1" = [];
-              "2" = [];
-              "3" = [];
-              "4" = [];
-              "5" = [];
-              "6" = [];
-              "7" = [];
-              "8" = [];
-              "9" = [];
-        };
+				
 				on-click = "activate";
       	on-scroll-up = "hyprctl dispatch workspace e+1";
       	on-scroll-down = "hyprctl dispatch workspace e-1";
@@ -134,7 +124,7 @@
 
 			"custom/weather" = {
 					exec = "nix-shell ~/.config/waybar/scripts/weather.py";
-					restart-interval = 300;
+					restart-interval = 200;
 					return-type = "json";
 				};
 
