@@ -61,6 +61,7 @@
             autoconf
             binutils
             cudaPackages_12_3.cudatoolkit
+            cudaPackages_12_3.libcublas
             curl
             freeglut
             gcc11
