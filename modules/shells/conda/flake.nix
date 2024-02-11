@@ -51,7 +51,8 @@
             --add-flags "-b"
         '';
 
-    in {
+    in
+    {
       devShells.x86_64-linux.default = (pkgs.buildFHSUserEnv {
         name = "conda";
         targetPkgs = pkgs: (
@@ -68,7 +69,8 @@
             gnumake
             gnupg
             gperf
-            libGLU libGL
+            libGLU
+            libGL
             libselinux
             linuxKernel.packages.linux_6_6.nvidia_x11_stable_open
             m4

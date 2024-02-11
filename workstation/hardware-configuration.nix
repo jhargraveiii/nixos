@@ -5,7 +5,8 @@
 
 {
   imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
+    [
+      (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
   # Bootloader.
@@ -19,29 +20,34 @@
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/7a47889a-8c5f-4a66-ae13-a20bb8c0c45a";
+    {
+      device = "/dev/disk/by-uuid/7a47889a-8c5f-4a66-ae13-a20bb8c0c45a";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/42F3-9D2E";
+    {
+      device = "/dev/disk/by-uuid/42F3-9D2E";
       fsType = "vfat";
     };
 
-  swapDevices = [ ];  
-    
+  swapDevices = [ ];
+
   fileSystems."/home/jimh/BACKUP" =
-    { device = "/dev/disk/by-uuid/76ce4fc4-ccdf-4ca6-8f2c-f10f4aeb5877";
+    {
+      device = "/dev/disk/by-uuid/76ce4fc4-ccdf-4ca6-8f2c-f10f4aeb5877";
       fsType = "ext4";
-    };  
+    };
   fileSystems."/home/jimh/DATA" =
-    { device = "/dev/disk/by-uuid/8dd490ff-497c-4243-921a-cabfe0e20995";
+    {
+      device = "/dev/disk/by-uuid/8dd490ff-497c-4243-921a-cabfe0e20995";
       fsType = "ext4";
-    };  
+    };
   fileSystems."/home/jimh/DATA2" =
-    { device = "/dev/disk/by-uuid/edaf32c9-07c4-4c25-86e5-9f095dc6fcef";
+    {
+      device = "/dev/disk/by-uuid/edaf32c9-07c4-4c25-86e5-9f095dc6fcef";
       fsType = "ext4";
-    };    
+    };
 
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking

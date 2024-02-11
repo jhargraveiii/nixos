@@ -2,20 +2,31 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ inputs, config, pkgs, lib, username,
-  hostname, gitUsername, theLocale,
-  theTimezone, outputs, theKBDLayout, ... }:
+{ inputs
+, config
+, pkgs
+, lib
+, username
+, hostname
+, gitUsername
+, theLocale
+, theTimezone
+, outputs
+, theKBDLayout
+, ...
+}:
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
+      # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./nvidia.nix
       ./displaymanager.nix
       ../modules/programs/1password.nix
       ../modules/services/restic.nix
     ];
-  
+
   networking.hostName = "${hostname}"; # Define your hostname.
 
   # Enable networking
@@ -49,12 +60,12 @@
   users.users.${username} = {
     isNormalUser = true;
     description = "${gitUsername}";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "scanner" "lp"];
-    packages = with pkgs; [];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "scanner" "lp" ];
+    packages = with pkgs; [ ];
     uid = 1000;
-      openssh.authorizedKeys.keys = [
-        # Replace with your own public key
-        "sssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPwpk2rfNtxHjaGTucwvBPxcr9D8ly6MXh68/9+VacZy jim.hargrave@strakertranslations.com"
+    openssh.authorizedKeys.keys = [
+      # Replace with your own public key
+      "sssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPwpk2rfNtxHjaGTucwvBPxcr9D8ly6MXh68/9+VacZy jim.hargrave@strakertranslations.com"
     ];
   };
 
@@ -62,14 +73,14 @@
   nixpkgs.config.allowUnfree = true;
   users.extraGroups.vboxusers.members = [ "jimh" ];
   virtualisation = {
-      virtualbox = { 
-       host  = {
-          enable = true ;
-          enableExtensionPack = true ;
-       } ;
-       guest.enable = true ;
-       guest.x11 = true;
-     };
+    virtualbox = {
+      host = {
+        enable = true;
+        enableExtensionPack = true;
+      };
+      guest.enable = true;
+      guest.x11 = true;
+    };
   };
 
   nixpkgs = {
@@ -83,12 +94,29 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     linuxKernel.packages.linux_latest_libre.virtualboxGuestAdditions
-    sddm lolcat neofetch htop btop libvirt
-    lm_sensors unzip unrar libnotify
-    v4l-utils wl-clipboard lsd lshw
-    pkg-config gnumake
-    noto-fonts-color-emoji material-icons 
-    docker-compose nano wget curl git
+    sddm
+    lolcat
+    neofetch
+    htop
+    btop
+    libvirt
+    lm_sensors
+    unzip
+    unrar
+    libnotify
+    v4l-utils
+    wl-clipboard
+    lsd
+    lshw
+    pkg-config
+    gnumake
+    noto-fonts-color-emoji
+    material-icons
+    docker-compose
+    nano
+    wget
+    curl
+    git
   ];
 
   fonts.packages = with pkgs; [
@@ -102,8 +130,8 @@
     fira-code-symbols
     powerline-fonts
     nerdfonts
-    font-awesome 
-    symbola 
+    font-awesome
+    symbola
     noto-fonts-color-emoji
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
   ];
@@ -121,14 +149,14 @@
       };
     };
   };
-  
+
   programs.dconf.enable = true;
   programs.hyprland = {
     enable = true;
     package = inputs.hyprland.packages.${pkgs.system}.hyprland;
     xwayland.enable = true;
   };
-  
+
   # Docker can also be run rootless
   virtualisation.docker = {
     enable = true;
@@ -144,17 +172,17 @@
   services.printing.drivers = [ pkgs.canon-cups-ufr2 ];
   services.printing.browsing = true;
   services.printing.browsedConf = ''
-  BrowseDNSSDSubTypes _cups,_print
-  BrowseLocalProtocols all
-  BrowseRemoteProtocols all
-  CreateIPPPrinterQueues All
+    BrowseDNSSDSubTypes _cups,_print
+    BrowseLocalProtocols all
+    BrowseRemoteProtocols all
+    CreateIPPPrinterQueues All
 
-  BrowseProtocols all
-      '';
+    BrowseProtocols all
+  '';
   hardware.sane = {
     enable = true;
-    extraBackends = [pkgs.sane-airscan];
-    disabledDefaultBackends = ["escl"];
+    extraBackends = [ pkgs.sane-airscan ];
+    disabledDefaultBackends = [ "escl" ];
   };
   hardware.printers = {
     ensurePrinters = [
@@ -208,7 +236,7 @@
     settings = {
       auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];
-      substituters = ["https://hyprland.cachix.org"];
+      substituters = [ "https://hyprland.cachix.org" ];
       trusted-public-keys = [
         "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
       ];
@@ -219,7 +247,7 @@
       options = "--delete-older-than 7d";
     };
   };
-  
+
   # xdg-desktop-portal works by exposing a series of D-Bus interfaces
   # known as portals under a well-known name
   # (org.freedesktop.portal.Desktop) and object path
@@ -231,10 +259,12 @@
     portal = {
       wlr.enable = true;
       enable = true;
-      extraPortals = [ pkgs.xdg-desktop-portal-gtk
+      extraPortals = [
+        pkgs.xdg-desktop-portal-gtk
         pkgs.xdg-desktop-portal
       ];
-      configPackages = [ pkgs.xdg-desktop-portal-gtk
+      configPackages = [
+        pkgs.xdg-desktop-portal-gtk
         pkgs.xdg-desktop-portal-hyprland
         pkgs.xdg-desktop-portal
       ];
@@ -248,28 +278,28 @@
 
   # Set Environment Variables
   #environment.localBinInPath = true;
-  environment.variables={
+  environment.variables = {
     PATH = [
-        "\${HOME}/oxygenDeveloper"
-      ];
-   M2_COLORS = "true";     
-   #_JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
-   JAVA_HOME = "\${HOME}/.jdks/openjdk11/lib/openjdk";
-   NIXOS_OZONE_WL = "1";
-   NIXPKGS_ALLOW_UNFREE = "1";
-   SCRIPTDIR = "\${HOME}/.local/share/scriptdeps";
-   XDG_CURRENT_DESKTOP = "Hyprland";
-   XDG_SESSION_TYPE = "wayland";
-   XDG_SESSION_DESKTOP = "Hyprland";
-   GDK_BACKEND = "wayland,x11";
-   CLUTTER_BACKEND = "wayland";
-   XCURSOR_SIZE = "24";
-   XCURSOR_THEME = "Bibata-Modern-Ice";
-   QT_QPA_PLATFORM = "wayland";
-   QT_QPA_PLATFORMTHEME = "gtk2";
-   QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-   QT_AUTO_SCREEN_SCALE_FACTOR = "1";
-   MOZ_ENABLE_WAYLAND = "1";
-  __GLX_VENDOR_LIBRARY_NAME="nvidia";
+      "\${HOME}/oxygenDeveloper"
+    ];
+    M2_COLORS = "true";
+    #_JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
+    JAVA_HOME = "\${HOME}/.jdks/openjdk11/lib/openjdk";
+    NIXOS_OZONE_WL = "1";
+    NIXPKGS_ALLOW_UNFREE = "1";
+    SCRIPTDIR = "\${HOME}/.local/share/scriptdeps";
+    XDG_CURRENT_DESKTOP = "Hyprland";
+    XDG_SESSION_TYPE = "wayland";
+    XDG_SESSION_DESKTOP = "Hyprland";
+    GDK_BACKEND = "wayland,x11";
+    CLUTTER_BACKEND = "wayland";
+    XCURSOR_SIZE = "24";
+    XCURSOR_THEME = "Bibata-Modern-Ice";
+    QT_QPA_PLATFORM = "wayland";
+    QT_QPA_PLATFORMTHEME = "gtk2";
+    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
+    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    MOZ_ENABLE_WAYLAND = "1";
+    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
   };
 }

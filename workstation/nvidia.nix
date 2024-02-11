@@ -7,7 +7,7 @@
 
   # Load nvidia driver for Xorg and Wayland
   nixpkgs.config.nvidia.acceptLicense = true;
-  services.xserver.videoDrivers = ["nvidia"];
+  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
 
     # Modesetting is required.
@@ -35,19 +35,19 @@
     #nvidiaPersistenced = true;
 
     forceFullCompositionPipeline = true;
-    
+
     # Cuda?
     #services.xmr-stak.cudaSupport = true; 
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
- };
+  };
 
   # Nvidia in Docker
   virtualisation.docker = {
     enable = true;
-    enableOnBoot= true;
+    enableOnBoot = true;
     enableNvidia = true;
-  }; 
+  };
   systemd.enableUnifiedCgroupHierarchy = false;
 }

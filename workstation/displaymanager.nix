@@ -1,7 +1,7 @@
 { pkgs, config, theKBDLayout, ... }:
 
 {
-   # Enable OpenGL
+  # Enable OpenGL
   hardware.opengl = {
     enable = true;
     driSupport = true;
@@ -18,8 +18,8 @@
     xkbVariant = "";
     libinput.enable = true;
     videoDrivers = [
-        "nvidia"
-      ];
+      "nvidia"
+    ];
     displayManager.sddm = {
       enable = true;
       autoNumlock = true;
@@ -46,14 +46,15 @@
     '';
   };
 
-environment.systemPackages =
-let
-    sugar = pkgs.callPackage ../modules/desktop/sddm-sugar-dark.nix {};
-    tokyo-night = pkgs.libsForQt5.callPackage ../modules/desktop/sddm-tokyo-night.nix {};
-in [ 
-    sugar.sddm-sugar-dark # Name: sugar-dark
-    tokyo-night # Name: tokyo-night-sddm
-    pkgs.libsForQt5.qt5.qtgraphicaleffects
-  ];
+  environment.systemPackages =
+    let
+      sugar = pkgs.callPackage ../modules/desktop/sddm-sugar-dark.nix { };
+      tokyo-night = pkgs.libsForQt5.callPackage ../modules/desktop/sddm-tokyo-night.nix { };
+    in
+    [
+      sugar.sddm-sugar-dark # Name: sugar-dark
+      tokyo-night # Name: tokyo-night-sddm
+      pkgs.libsForQt5.qt5.qtgraphicaleffects
+    ];
 }
 

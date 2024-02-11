@@ -2,16 +2,20 @@
 
 let
   theme = config.colorScheme.palette;
-in with lib; {
+in
+with lib; {
   wayland.windowManager.hyprland = {
     enable = true;
     xwayland.enable = true;
     systemd.enable = true;
     plugins = [
     ];
-    extraConfig = let
-      modifier = "SUPER";
-    in concatStrings [ ''
+    extraConfig =
+      let
+        modifier = "SUPER";
+      in
+      concatStrings [
+        ''
 
 monitor=DP-1,3440x1440@60,0x0,1
 
@@ -195,6 +199,7 @@ bind = ,XF86AudioRaiseVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
 bind = ,XF86AudioLowerVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
 bind = ,XF86MonBrightnessDown,exec,brightnessctl set 5%-
 bind = ,XF86MonBrightnessUp,exec,brightnessctl set +5%
-'' ];
+''
+      ];
   };
 }

@@ -17,8 +17,8 @@
       wheel_scroll_min_lines = 1;
       window_padding_width = 6;
       confirm_os_window_close = 0;
-      background_opacity = "0.70";  # Set opacity to 1.0 to disable transparency
-      show_error_hints = true;     # Make errors more readable
+      background_opacity = "0.70"; # Set opacity to 1.0 to disable transparency
+      show_error_hints = true; # Make errors more readable
     };
     extraConfig = ''
       foreground #${config.colorScheme.palette.base05}

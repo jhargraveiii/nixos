@@ -1,7 +1,7 @@
 { pkgs, home-manager, config, ... }:
 {
-  
-home.file.".config/swaylock/config".text = ''
+
+  home.file.".config/swaylock/config".text = ''
     indicator-caps-lock
     show-failed-attempts
     ignore-empty-password
