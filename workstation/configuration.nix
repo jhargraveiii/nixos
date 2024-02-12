@@ -301,5 +301,6 @@
     QT_AUTO_SCREEN_SCALE_FACTOR = "1";
     MOZ_ENABLE_WAYLAND = "1";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
+    GTK_THEME = "Adwaita:dark";
   };
 }
