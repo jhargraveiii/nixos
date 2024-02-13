@@ -283,7 +283,8 @@
       "\${HOME}/oxygenDeveloper"
     ];
     M2_COLORS = "true";
-    #_JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
+    _JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
+    _JAVA_AWT_WM_NONREPARENTING = "1";
     JAVA_HOME = "\${HOME}/.jdks/openjdk11/lib/openjdk";
     NIXOS_OZONE_WL = "1";
     NIXPKGS_ALLOW_UNFREE = "1";
