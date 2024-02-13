@@ -96,6 +96,7 @@
     unstable.swayidle
 
     qt5ct
+    pulseaudio
     libva
     blueman
     lolcat
