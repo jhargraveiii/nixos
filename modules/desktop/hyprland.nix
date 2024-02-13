@@ -94,7 +94,7 @@ master {
 }
 
 general {
-    gaps_in = 2
+    gaps_in = 1
     gaps_out = 1
     border_size = 1
     col.active_border = rgba(${theme.base0C}ff) rgba(${theme.base0D}ff) rgba(${theme.base0B}ff) rgba(${theme.base0E}ff) 45deg

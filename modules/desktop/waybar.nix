@@ -157,11 +157,11 @@
       	}
       	window#waybar {
       		    background-color: rgba(26,27,38,0);
-          		border-bottom: 1px solid rgba(26,27,38,0);
+          		border-bottom: 0px solid rgba(26,27,38,0);
           		border-radius: 0px;
       				border: 0px;
       		    color: #${config.colorScheme.palette.base0F};
-          		padding: 0px 1px;
+          		padding: 0px 0px;
       	}
       	#workspaces {
       		    background: linear-gradient(180deg, #${config.colorScheme.palette.base00}, #${config.colorScheme.palette.base01});
