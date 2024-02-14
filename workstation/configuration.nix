@@ -33,6 +33,7 @@
   networking.networkmanager.enable = true;
 
   networking.timeServers = [ "pool.ntp.org" ];
+  services.timesyncd.enable = true;
 
   # Set your time zone.
   time.timeZone = "${theTimezone}";

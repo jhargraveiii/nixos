@@ -93,6 +93,10 @@ master {
     new_is_master = true
 }
 
+xwayland {
+    force_zero_scaling = true
+}
+
 general {
     gaps_in = 1
     gaps_out = 1

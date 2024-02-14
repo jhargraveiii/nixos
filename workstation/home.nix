@@ -49,6 +49,9 @@
       createDirectories = true;
     };
   };
+  xdg.mime.enable = true;
+  xdg.mimeApps.enable = true;
+
 
   home.file.".config/xdg-desktop-portal/portals.conf".text = ''
     [preferred]
