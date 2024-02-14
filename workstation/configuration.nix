@@ -61,7 +61,7 @@
   users.users.${username} = {
     isNormalUser = true;
     description = "${gitUsername}";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "scanner" "lp" ];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "scanner" "lp" "video"];
     packages = with pkgs; [ ];
     uid = 1000;
     openssh.authorizedKeys.keys = [
@@ -304,5 +304,6 @@
     MOZ_ENABLE_WAYLAND = "1";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     GTK_THEME = "Adwaita:dark";
+    __EGL_STREAMS_ENABLE="1";
   };
 }
