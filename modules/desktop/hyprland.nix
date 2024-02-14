@@ -62,7 +62,7 @@ misc {
     disable_splash_rendering=true
     mouse_move_enables_dpms = true
     key_press_enables_dpms = true
-    vfr = true
+    vfr = false
     vrr = 120
 } 
 
@@ -92,7 +92,7 @@ master {
 }
 
 xwayland {
-    force_zero_scaling = true
+    force_zero_scaling = false
 }
 
 general {
@@ -140,9 +140,9 @@ bind = ${modifier},		G,	    exec, git-cola
 bind = ${modifier},	    A,	    exec, rofi -show drun
 bind = ${modifier},		W,		exec, chromium
 bind = ${modifier},		E,		exec, thunderbird
-bind = ${modifier},		J,		exec, WAYLAND_DISPLAY="x11" idea-ultimate
+bind = ${modifier},		J,		exec, WAYLAND_DISPLAY="" idea-ultimate
 bind = ${modifier},		T,		exec, thunar
-bind = ${modifier},		C,		exec, WAYLAND_DISPLAY="x11" codium
+bind = ${modifier},		C,		exec, WAYLAND_DISPLAY="" codium
 bind = ${modifier},		V,		exec, VirtualBoxVM --comment "Windows" --startvm "{9b1ee206-252e-44c1-b8e9-098039c50d35}"
 bind = ${modifier},		S,		exec, slack 
 bind = ${modifier},		O,		exec, oxygenDeveloper.sh
