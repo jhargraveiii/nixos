@@ -17,7 +17,7 @@ with lib; {
       concatStrings [
         ''
 
-monitor=DP-1,3440x1440@60,0x0,1
+monitor=DP-1,3440x1440@99.99,0x0,1
 
 env = WLR_NO_HARDWARE_CURSORS,1
 env = LIBVA_DRIVER_NAME,nvidia
@@ -63,7 +63,7 @@ misc {
     mouse_move_enables_dpms = true
     key_press_enables_dpms = true
     vfr = false
-    vrr = 120
+    vrr = 100
 } 
 
 animations {
