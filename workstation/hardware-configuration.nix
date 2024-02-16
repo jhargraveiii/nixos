@@ -15,6 +15,7 @@
   boot.kernelPackages = pkgs.linuxPackages_6_6;
   boot.initrd.availableKernelModules = [ "thunderbolt" "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
   boot.initrd.kernelModules = [ ];
+  boot.kernel.sysctl = { "vm.max_map_count" = 2147483642; };
   boot.kernelModules = [ "kvm-amd" ];
   boot.kernelParams = [ ];
   boot.extraModulePackages = [ ];

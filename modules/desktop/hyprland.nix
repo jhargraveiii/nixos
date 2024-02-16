@@ -19,6 +19,21 @@ with lib; {
 
 monitor=DP-1,3440x1440@100,0x0,1
 
+# -- Fix odd behaviors in IntelliJ IDEs --
+#! Fix focus issues when dialogs are opened or closed
+windowrulev2 = windowdance,class:^(idea-ultimate)$,floating:1
+#! Fix splash screen showing in weird places and prevent annoying focus takeovers
+windowrulev2 = center,class:^(idea-ultimate)$,title:^(splash)$,floating:1
+windowrulev2 = nofocus,class:^(idea-ultimate)$,title:^(splash)$,floating:1
+windowrulev2 = noborder,class:^(idea-ultimate)$,title:^(splash)$,floating:1
+
+#! Center popups/find windows
+windowrulev2 = center,class:^(idea-ultimate)$,title:^( )$,floating:1
+windowrulev2 = stayfocused,class:^(idea-ultimate)$,title:^( )$,floating:1
+windowrulev2 = noborder,class:^(idea-ultimate)$,title:^( )$,floating:1
+#! Disable window flicker when autocomplete or tooltips appear
+windowrulev2 = nofocus,class:^(idea-ultimate)$,title:^(win.*)$,floating:1
+
 env = WLR_NO_HARDWARE_CURSORS,1
 env = LIBVA_DRIVER_NAME,nvidia
 env = XDG_SESSION_TYPE,wayland
