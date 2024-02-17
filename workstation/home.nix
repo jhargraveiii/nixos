@@ -55,6 +55,22 @@
     default=wlr;gtk
   '';
 
+  programs.zoxide = {
+    enable = true;
+    enableBashIntegration = true;
+    options = [
+      "--cmd cd"
+    ];
+  };
+
+  programs.emacs = {
+    enable = true;
+    package = pkgs.emacs29-pgtk; 
+    extraConfig = ''
+      (setq standard-indent 2)
+    '';
+  };
+
   # Install & Configure Git
   programs.git = {
     enable = true;
@@ -226,7 +242,6 @@
       flake-rebuild = "sudo nixos-rebuild switch --flake ${flakeDir}";
       flake-update = "sudo nix flake update ${flakeDir}";
       gcCleanup = "nix-collect-garbage --delete-old && sudo nix-collect-garbage -d";
-      n = "nano";
       ls = "lsd";
       ll = "lsd -l";
       la = "lsd -a";

@@ -17,7 +17,7 @@ with lib; {
       concatStrings [
         ''
 
-monitor=DP-1,3440x1440@100,0x0,1
+monitor=DP-1,3440x1440@60,0x0,1
 
 # -- Fix odd behaviors in IntelliJ IDEs --
 #! Fix focus issues when dialogs are opened or closed
@@ -156,13 +156,14 @@ bind = ${modifier},		G,	    exec, git-cola
 bind = ${modifier},	    A,	    exec, rofi -show drun
 bind = ${modifier},		W,		exec, chromium
 bind = ${modifier},		E,		exec, thunderbird
-bind = ${modifier},		J,		exec, WAYLAND_DISPLAY="" idea-ultimate
+bind = ${modifier},		J,		exec, idea-ultimate
 bind = ${modifier},		T,		exec, thunar
 bind = ${modifier},		C,		exec, WAYLAND_DISPLAY="" codium --disable-gpu
 bind = ${modifier},		V,		exec, VirtualBoxVM --comment "Windows" --startvm "{9b1ee206-252e-44c1-b8e9-098039c50d35}"
 bind = ${modifier},		S,		exec, slack 
 bind = ${modifier},		O,		exec, oxygenDeveloper.sh
 bind = ${modifier},		M,		exec, flatpak run com.microsoft.Edge
+bind = ${modifier},		Z,		exec, emacs
 bind = ${modifier} SHIFT,	E,	exec, emopicker9000
 bind = ${modifier} SHIFT,	S,	exec, grim -g "$(slurp)" - | swappy -f -
 bind = ${modifier} SHIFT,	C,  exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy

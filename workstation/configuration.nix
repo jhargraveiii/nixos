@@ -96,6 +96,11 @@
   environment.systemPackages = with pkgs; [
     linuxKernel.packages.linux_latest_libre.virtualboxGuestAdditions
     sddm
+    fzf
+    ripgrep
+    silver-searcher
+    platinum-searcher
+    ack
     lolcat
     neofetch
     htop
@@ -114,7 +119,7 @@
     noto-fonts-color-emoji
     material-icons
     docker-compose
-    nano
+    micro
     wget
     curl
     git
@@ -125,6 +130,8 @@
     fira
     cooper-hewitt
     ibm-plex
+    source-code-pro
+    nanum-gothic-coding
     jetbrains-mono
     iosevka
     spleen
@@ -133,6 +140,8 @@
     nerdfonts
     font-awesome
     symbola
+    xorg.fontadobe100dpi
+    xorg.fontadobeutopia100dpi
     noto-fonts-color-emoji
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
   ];
@@ -167,6 +176,11 @@
   # started in user sessions.
   programs.mtr.enable = true;
   programs.system-config-printer.enable = true;
+
+  services.emacs = {
+    enable = true;
+    package = pkgs.emacs29-pgtk;
+  };
 
   services.printing.enable = true;
   services.printing.stateless = true;
@@ -283,6 +297,7 @@
     PATH = [
       "\${HOME}/oxygenDeveloper"
     ];
+    _ZO_ECHO = "1";
     M2_COLORS = "true";
     _JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
     _JAVA_AWT_WM_NONREPARENTING = "1";
