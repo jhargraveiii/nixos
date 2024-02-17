@@ -97,6 +97,7 @@
     linuxKernel.packages.linux_latest_libre.virtualboxGuestAdditions
     sddm
     fzf
+    fd
     ripgrep
     silver-searcher
     platinum-searcher

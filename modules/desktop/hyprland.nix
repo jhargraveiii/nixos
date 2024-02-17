@@ -179,7 +179,6 @@ bind = ${modifier},		V,		exec, VirtualBoxVM --comment "Windows" --startvm "{9b1e
 bind = ${modifier},		S,		exec, slack 
 bind = ${modifier},		O,		exec, oxygenDeveloper.sh
 bind = ${modifier},		M,		exec, flatpak run com.microsoft.Edge
-bind = ${modifier},		Z,		exec, neovim
 bind = ${modifier} SHIFT,	E,	exec, emopicker9000
 bind = ${modifier} SHIFT,	S,	exec, grim -g "$(slurp)" - | swappy -f -
 bind = ${modifier} SHIFT,	C,  exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy
