@@ -10,6 +10,11 @@
       url = "github:hyprwm/Hyprland";
     };
     nix-colors.url = "github:misterio77/nix-colors";
+    nixvim = {
+      url = "github:nix-community/nixvim/nixos-23.11";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     #ollama.url = "github:jhargraveiii/ollama-nix";
   };
 
@@ -58,7 +63,6 @@
                 inherit flakeDir; inherit gitUsername; inherit gitEmail; inherit inputs; inherit theme;
                 inherit (inputs.nix-colors.lib-contrib { inherit pkgs; }) gtkThemeFromScheme;
               };
-              #home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
               home-manager.users.${username} = import ./workstation/home.nix;

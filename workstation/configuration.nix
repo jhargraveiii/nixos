@@ -61,7 +61,7 @@
   users.users.${username} = {
     isNormalUser = true;
     description = "${gitUsername}";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "scanner" "lp" "video"];
+    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "scanner" "lp" "video" ];
     packages = with pkgs; [ ];
     uid = 1000;
     openssh.authorizedKeys.keys = [
@@ -176,11 +176,6 @@
   # started in user sessions.
   programs.mtr.enable = true;
   programs.system-config-printer.enable = true;
-
-  services.emacs = {
-    enable = true;
-    package = pkgs.emacs29-pgtk;
-  };
 
   services.printing.enable = true;
   services.printing.stateless = true;
@@ -319,6 +314,6 @@
     MOZ_ENABLE_WAYLAND = "1";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     GTK_THEME = "Adwaita:dark";
-    __EGL_STREAMS_ENABLE="1";
+    __EGL_STREAMS_ENABLE = "1";
   };
 }

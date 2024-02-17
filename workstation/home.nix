@@ -24,6 +24,7 @@
   imports = [
     inputs.nix-colors.homeManagerModules.default
     inputs.hyprland.homeManagerModules.default
+    inputs.nixvim.homeManagerModules.nixvim
     ../config/files.nix
     ../modules/desktop/waybar.nix
     ../modules/desktop/swaync.nix
@@ -34,6 +35,7 @@
     ../modules/programs/rofi.nix
     ../modules/programs/neofetch.nix
     ../modules/programs/oxygen.nix
+    ../modules/programs/neovim.nix
     #../modules/secrets
   ];
 
@@ -61,14 +63,6 @@
     options = [
       "--cmd cd"
     ];
-  };
-
-  programs.emacs = {
-    enable = true;
-    package = pkgs.emacs29-pgtk; 
-    extraConfig = ''
-      (setq standard-indent 2)
-    '';
   };
 
   # Install & Configure Git
@@ -215,8 +209,7 @@
     gtk3.extraConfig = {
       gtk-application-prefer-dark-theme = 1;
     };
-    gtk4.extraConfig = {
-    };
+    gtk4.extraConfig = { };
   };
 
   # Configure Bash

@@ -19,6 +19,22 @@ with lib; {
 
 monitor=DP-1,3440x1440@60,0x0,1
 
+# Example windowrule v1
+# windowrule = float, ^(kitty)$
+# Example windowrule v2
+# windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
+# See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
+windowrule = float, file_progress
+windowrule = float, confirm
+windowrule = float, dialog
+windowrule = float, download
+windowrule = float, notification
+windowrule = float, error
+windowrule = float, splash
+windowrule = float, confirmreset
+windowrule = float, title:Open File
+windowrule = float, title:branchdialog
+
 # -- Fix odd behaviors in IntelliJ IDEs --
 #! Fix focus issues when dialogs are opened or closed
 windowrulev2 = windowdance,class:^(idea-ultimate)$,floating:1
@@ -158,12 +174,12 @@ bind = ${modifier},		W,		exec, chromium
 bind = ${modifier},		E,		exec, thunderbird
 bind = ${modifier},		J,		exec, idea-ultimate
 bind = ${modifier},		T,		exec, thunar
-bind = ${modifier},		C,		exec, WAYLAND_DISPLAY="" codium --disable-gpu
+bind = ${modifier},		C,		exec, WAYLAND_DISPLAY="" codium
 bind = ${modifier},		V,		exec, VirtualBoxVM --comment "Windows" --startvm "{9b1ee206-252e-44c1-b8e9-098039c50d35}"
 bind = ${modifier},		S,		exec, slack 
 bind = ${modifier},		O,		exec, oxygenDeveloper.sh
 bind = ${modifier},		M,		exec, flatpak run com.microsoft.Edge
-bind = ${modifier},		Z,		exec, emacs
+bind = ${modifier},		Z,		exec, neovim
 bind = ${modifier} SHIFT,	E,	exec, emopicker9000
 bind = ${modifier} SHIFT,	S,	exec, grim -g "$(slurp)" - | swappy -f -
 bind = ${modifier} SHIFT,	C,  exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy
