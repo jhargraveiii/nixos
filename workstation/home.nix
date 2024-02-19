@@ -104,6 +104,11 @@
     unstable.libreoffice-qt
     unstable.swaylock
     unstable.swayidle
+    unstable.swww
+    unstable.wlsunset
+    unstable.rofi-wayland
+    unstable.swaynotificationcenter
+    unstable.wl-clipboard
 
     qt5ct
     pulseaudio
@@ -119,13 +124,9 @@
     unzip
     unrar
     gnome.file-roller
-    swaynotificationcenter
-    rofi-wayland
     imv
     qimgv
-    transmission-gtk
     mpv
-    swww
     restic
     gnumake
     ant
@@ -138,7 +139,6 @@
     networkmanagerapplet
     appimage-run
     cliphist
-    wlsunset
     meld
     openjdk11
     openvpn

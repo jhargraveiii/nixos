@@ -19,6 +19,8 @@
   boot.kernelModules = [ "kvm-amd" ];
   boot.kernelParams = [ ];
   boot.extraModulePackages = [ ];
+  boot.tmp.useTmpfs = true;
+  boot.tmp.tmpfsSize = "25%";
 
   fileSystems."/" =
     {

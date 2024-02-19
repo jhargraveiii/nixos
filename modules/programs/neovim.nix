@@ -13,7 +13,7 @@ in
       airline = {
         enable = true;
         #powerlineFonts = true;
-        theme = "tomorrow";
+        theme = "auto";
       };
       
       comment-nvim.enable = true;

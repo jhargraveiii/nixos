@@ -25,6 +25,8 @@
       ./displaymanager.nix
       ../modules/programs/1password.nix
       ../modules/services/restic.nix
+      ../modules/programs/appimages.nix
+      ../modules/programs/flatpak.nix
     ];
 
   networking.hostName = "${hostname}"; # Define your hostname.
@@ -94,8 +96,9 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    linuxKernel.packages.linux_latest_libre.virtualboxGuestAdditions
-    sddm
+    unstable.linuxKernel.packages.linux_latest_libre.virtualboxGuestAdditions
+
+    symbola
     fzf
     fd
     ripgrep
@@ -112,14 +115,12 @@
     unrar
     libnotify
     v4l-utils
-    wl-clipboard
     lsd
     lshw
     pkg-config
     gnumake
     noto-fonts-color-emoji
     material-icons
-    docker-compose
     micro
     wget
     curl
@@ -210,7 +211,6 @@
     ensureDefaultPrinter = "Canon_MF450_Series";
   };
 
-  services.flatpak.enable = true;
   services.openssh.enable = true;
   services.fstrim.enable = true;
   services.pipewire = {
