@@ -19,37 +19,6 @@ with lib; {
 
 monitor=DP-1,3440x1440@60,0x0,1
 
-# Example windowrule v1
-# windowrule = float, ^(kitty)$
-# Example windowrule v2
-# windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
-# See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
-windowrule = float, file_progress
-windowrule = float, confirm
-windowrule = float, dialog
-windowrule = float, download
-windowrule = float, notification
-windowrule = float, error
-windowrule = float, splash
-windowrule = float, confirmreset
-windowrule = float, title:Open File
-windowrule = float, title:branchdialog
-
-# -- Fix odd behaviors in IntelliJ IDEs --
-#! Fix focus issues when dialogs are opened or closed
-windowrulev2 = windowdance,class:^(idea-ultimate)$,floating:1
-#! Fix splash screen showing in weird places and prevent annoying focus takeovers
-windowrulev2 = center,class:^(idea-ultimate)$,title:^(splash)$,floating:1
-windowrulev2 = nofocus,class:^(idea-ultimate)$,title:^(splash)$,floating:1
-windowrulev2 = noborder,class:^(idea-ultimate)$,title:^(splash)$,floating:1
-
-#! Center popups/find windows
-windowrulev2 = center,class:^(idea-ultimate)$,title:^( )$,floating:1
-windowrulev2 = stayfocused,class:^(idea-ultimate)$,title:^( )$,floating:1
-windowrulev2 = noborder,class:^(idea-ultimate)$,title:^( )$,floating:1
-#! Disable window flicker when autocomplete or tooltips appear
-windowrulev2 = nofocus,class:^(idea-ultimate)$,title:^(win.*)$,floating:1
-
 env = WLR_NO_HARDWARE_CURSORS,1
 env = WLR_DRM_NO_ATOMIC,1
 env = LIBVA_DRIVER_NAME,nvidia
@@ -177,7 +146,7 @@ bind = ${modifier},		W,		exec, chromium
 bind = ${modifier},		E,		exec, thunderbird
 bind = ${modifier},		J,		exec, idea-ultimate
 bind = ${modifier},		T,		exec, thunar
-bind = ${modifier},		C,		exec, WAYLAND_DISPLAY="" codium --disable-gpu
+bind = ${modifier},		C,		exec, WAYLAND_DISPLAY="" codium
 bind = ${modifier},		V,		exec, VirtualBoxVM --comment "Windows" --startvm "{9b1ee206-252e-44c1-b8e9-098039c50d35}"
 bind = ${modifier},		S,		exec, slack 
 bind = ${modifier},		O,		exec, oxygenDeveloper.sh
