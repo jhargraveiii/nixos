@@ -96,8 +96,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    unstable.linuxKernel.packages.linux_latest_libre.virtualboxGuestAdditions
-
+    linuxKernel.packages.linux_latest_libre.virtualboxGuestAdditions
     symbola
     fzf
     fd
