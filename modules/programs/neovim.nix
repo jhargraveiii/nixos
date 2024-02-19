@@ -1,21 +1,20 @@
 { config, inputs, theme, pkgs, ... }:
 
 let
-  plugins = pkgs.vimPlugins;
+  plugins = pkgs.unstable.vimPlugins;
 in
 {
   programs.nixvim = {
     enable = true;
-
     plugins = {
       telescope.enable = true;
       neo-tree.enable = true;
-      airline = {
+      indent-blankline.enable = true;
+      lualine = {
         enable = true;
-        #powerlineFonts = true;
-        theme = "tomorrow";
+        theme = "auto";
       };
-      
+
       comment-nvim.enable = true;
       lsp = {
         enable = true;
@@ -58,7 +57,7 @@ in
 
     extraPlugins = [
       plugins.vim-airline-themes
-      plugins.nvim-base16
+      plugins.base16-nvim
     ];
 
     globals.mapleader = " "; # Sets the leader key to space
@@ -73,8 +72,10 @@ in
 
     extraConfigVim = ''
       set noshowmode
-      set showtabline=2
       colorscheme base16-${theme}
+      inoremap jj <ESC>
+      let s:guifontsize = 16
+      let s:guifont = "JetBrainsMono\\ Nerd\\ Font"
     '';
 
     keymaps = [
@@ -86,7 +87,7 @@ in
       }
       {
         mode = "n";
-        key = "<leader>f";
+        key = "<leader>fb";
         options.silent = false;
         action = "<cmd>Neotree reveal right<CR>";
       }

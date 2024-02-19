@@ -109,8 +109,9 @@
     unstable.rofi-wayland
     unstable.swaynotificationcenter
     unstable.wl-clipboard
+    unstable.qt6.qtwayland
 
-    qt5ct
+    qt6ct
     pulseaudio
     libva
     blueman

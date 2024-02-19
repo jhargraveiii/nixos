@@ -17,7 +17,7 @@
   boot.initrd.kernelModules = [ ];
   boot.kernel.sysctl = { "vm.max_map_count" = 2147483642; };
   boot.kernelModules = [ "kvm-amd" ];
-  boot.kernelParams = [ ];
+  boot.kernelParams = [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
   boot.extraModulePackages = [ ];
   boot.tmp.useTmpfs = true;
   boot.tmp.tmpfsSize = "25%";

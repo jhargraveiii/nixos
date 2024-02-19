@@ -51,14 +51,17 @@ windowrulev2 = noborder,class:^(idea-ultimate)$,title:^( )$,floating:1
 windowrulev2 = nofocus,class:^(idea-ultimate)$,title:^(win.*)$,floating:1
 
 env = WLR_NO_HARDWARE_CURSORS,1
+env = WLR_DRM_NO_ATOMIC,1
 env = LIBVA_DRIVER_NAME,nvidia
 env = XDG_SESSION_TYPE,wayland
 env = XDG_CURRENT_DESKTOP,Hyprland
 env = XDG_SESSION_DESKTO,Hyprland
 env = GBM_BACKEND,nvidia-drm
 env = QT_QPA_PLATFORM,wayland
+env = QT_QPA_PLATFORMTHEME,qt6ct
 env = GDK_BACKEND,wayland,x11
 env = __GLX_VENDOR_LIBRARY_NAME,nvidia
+env = __GL_VRR_ALLOWED,1
 env = QT_WAYLAND_DISABLE_WINDOWDECORATION, 1
 env = QT_AUTO_SCREEN_SCALE_FACTOR, 1
 env = CLUTTER_BACKEND, wayland
@@ -94,7 +97,7 @@ misc {
     mouse_move_enables_dpms = true
     key_press_enables_dpms = true
     vfr = true
-    vrr = 0
+    vrr = 60
 } 
 
 animations {
@@ -107,8 +110,8 @@ animations {
     animation = windowsIn, 1, 6, winIn, slide
     animation = windowsOut, 1, 5, winOut, slide
     animation = windowsMove, 1, 5, wind, slide
-    #animation = border, 1, 1, liner
-    #animation = borderangle, 1, 30, liner, loop
+    animation = border, 1, 1, liner
+    animation = borderangle, 1, 30, liner, loop
     animation = fade, 1, 10, default
     animation = workspaces, 1, 5, wind
 }
