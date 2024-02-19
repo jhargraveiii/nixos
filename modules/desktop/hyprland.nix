@@ -174,7 +174,7 @@ bind = ${modifier},		W,		exec, chromium
 bind = ${modifier},		E,		exec, thunderbird
 bind = ${modifier},		J,		exec, idea-ultimate
 bind = ${modifier},		T,		exec, thunar
-bind = ${modifier},		C,		exec, WAYLAND_DISPLAY="" codium
+bind = ${modifier},		C,		exec, WAYLAND_DISPLAY="" codium --disable-gpu
 bind = ${modifier},		V,		exec, VirtualBoxVM --comment "Windows" --startvm "{9b1ee206-252e-44c1-b8e9-098039c50d35}"
 bind = ${modifier},		S,		exec, slack 
 bind = ${modifier},		O,		exec, oxygenDeveloper.sh

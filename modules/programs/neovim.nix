@@ -13,7 +13,7 @@ in
       airline = {
         enable = true;
         #powerlineFonts = true;
-        theme = "auto";
+        theme = "tomorrow";
       };
       
       comment-nvim.enable = true;
@@ -26,9 +26,7 @@ in
           html.enable = true;
           ccls.enable = true;
           cmake.enable = true;
-          csharp-ls.enable = true;
           cssls.enable = true;
-          gopls.enable = true;
           jsonls.enable = true;
           pyright.enable = true;
           tailwindcss.enable = true;
