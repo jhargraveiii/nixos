@@ -14,6 +14,9 @@
       url = "github:nix-community/nixvim/nixos-23.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nil = {
+      url = "github:oxalica/nil";
+    };
 
     #ollama.url = "github:jhargraveiii/ollama-nix";
   };
@@ -59,7 +62,7 @@
             {
               home-manager.extraSpecialArgs = {
                 inherit username;
-                inherit theKBDLayout; inherit wallpaperDir; inherit outputs;
+                inherit theKBDLayout; inherit wallpaperDir; inherit outputs; inherit system;
                 inherit flakeDir; inherit gitUsername; inherit gitEmail; inherit inputs; inherit theme;
                 inherit (inputs.nix-colors.lib-contrib { inherit pkgs; }) gtkThemeFromScheme;
               };

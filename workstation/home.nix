@@ -151,6 +151,7 @@
     openvpn
     hunspell
     hunspellDicts.en_US
+    nil
     # Import Scripts
     (import ../modules/scripts/emopicker9000.nix { inherit pkgs; })
     (import ../modules/scripts/task-waybar.nix { inherit pkgs; })
