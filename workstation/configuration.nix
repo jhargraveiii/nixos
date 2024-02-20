@@ -308,6 +308,6 @@
     MOZ_ENABLE_WAYLAND = "1";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     GTK_THEME = "Adwaita:dark";
-    #__EGL_STREAMS_ENABLE = "1";
+    __EGL_STREAMS_ENABLE = "1";
   };
 }

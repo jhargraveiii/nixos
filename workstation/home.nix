@@ -36,6 +36,7 @@
     ../modules/programs/neofetch.nix
     ../modules/programs/oxygen.nix
     ../modules/programs/neovim.nix
+    ../modules/programs/vscode.nix
     #../modules/secrets
   ];
 
@@ -65,7 +66,7 @@
     ];
   };
 
- programs.fzf = {
+  programs.fzf = {
     enable = true;
     enableBashIntegration = true;
   };
@@ -107,16 +108,16 @@
     unstable.chromium
     unstable.thunderbird
     unstable.libreoffice-qt
-    unstable.swaylock
-    unstable.swayidle
-    unstable.swww
-    unstable.wlsunset
-    unstable.rofi-wayland
-    unstable.swaynotificationcenter
-    unstable.wl-clipboard
-    unstable.qt6.qtwayland
-
-    qt6ct
+    swaylock
+    swayidle
+    swww
+    wlsunset
+    rofi-wayland
+    swaynotificationcenter
+    wl-clipboard
+    qt5.qtwayland
+    qt5ct
+    sddm
     pulseaudio
     libva
     blueman
@@ -160,17 +161,6 @@
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
   home.file.".jdks/openjdk17".source = pkgs.openjdk17;
-
-  programs.vscode = {
-    enable = true;
-    package = pkgs.unstable.vscodium;
-    enableUpdateCheck = true;
-    enableExtensionUpdateCheck = true;
-    extensions = with pkgs.vscode-extensions; [
-      dracula-theme.theme-dracula
-      jnoortheen.nix-ide
-    ];
-  };
 
   # Configure Cursor Theme
   home.pointerCursor = {

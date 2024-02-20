@@ -31,9 +31,6 @@
     # Enable the Nvidia settings menu,
     # accessible via `nvidia-settings`.
     nvidiaSettings = true;
-
-    #nvidiaPersistenced = true;
-
     forceFullCompositionPipeline = true;
 
     # Cuda?
@@ -42,12 +39,4 @@
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
-
-  # Nvidia in Docker
-  virtualisation.docker = {
-    enable = true;
-    enableOnBoot = true;
-    enableNvidia = true;
-  };
-  systemd.enableUnifiedCgroupHierarchy = false;
 }

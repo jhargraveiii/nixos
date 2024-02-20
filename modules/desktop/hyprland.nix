@@ -29,12 +29,12 @@ with lib; {
           env = QT_WAYLAND_DISABLE_WINDOWDECORATION, 1
           env = QT_AUTO_SCREEN_SCALE_FACTOR, 1
           env = CLUTTER_BACKEND, wayland
-          env = SDL_VIDEODRIVER, wayland
+          env = SDL_VIDEODRIVER, x11
           env = NIXPKGS_ALLOW_UNFREE, 1
           env = MOZ_ENABLE_WAYLAND, 1
           env = NIXOS_OZONE_WL,1
           env = _JAVA_AWT_WM_NONREPARENTING,1
-          env = NIXPKGS_ALLOW_UNFREE, 1
+          env = WLR_RENDERER_ALLOW_SOFTWARE,1
 
           input {
               kb_layout = ${theKBDLayout}
@@ -136,7 +136,7 @@ with lib; {
           bind = ${modifier},		E,		exec, thunderbird
           bind = ${modifier},		J,		exec, idea-ultimate
           bind = ${modifier},		T,		exec, thunar
-          bind = ${modifier},		C,		exec, WAYLAND_DISPLAY="" codium --disable-gpu
+          bind = ${modifier},		C,		exec, codium
           bind = ${modifier},		V,		exec, VirtualBoxVM --comment "Windows" --startvm "{9b1ee206-252e-44c1-b8e9-098039c50d35}"
           bind = ${modifier},		S,		exec, slack 
           bind = ${modifier},		O,		exec, oxygenDeveloper.sh
