@@ -2,7 +2,7 @@
 {
   programs.vscode = {
     enable = true;
-    package = pkgs.unstable.vscodium;
+    package = pkgs.unstable.vscode;
     enableUpdateCheck = true;
     enableExtensionUpdateCheck = true;
     extensions =
@@ -14,7 +14,7 @@
           name = "copilot";
           publisher = "GitHub";
           version = "1.162.714";
-          sha256 = "a8f74ace6997dd375babe430dae35f3c37331e0c1beac2f67854424f3ca83777";
+          sha256 = "sha256-qPdKzmmX3Tdbq+Qw2uNfPDczHgwb6sL2eFRCTzyoN3c=";
         }
         {
           name = "jnoortheen.nix-ide";

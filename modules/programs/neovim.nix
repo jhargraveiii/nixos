@@ -48,7 +48,6 @@ in
     };
 
     plugins = {
-      barbecue.enable = true;
       gitsigns.enable = true;
       toggleterm.enable = true;
       telescope = {
@@ -73,14 +72,7 @@ in
           text = [ "vale" ];
           json = [ "jsonlint" ];
           markdown = [ "vale" ];
-          rst = [ "vale" ];
-          ruby = [ "ruby" ];
-          janet = [ "janet" ];
-          inko = [ "inko" ];
-          clojure = [ "clj-kondo" ];
           dockerfile = [ "hadolint" ];
-          terraform = [ "tflint" ];
-          typscriptreact = [ "prettier_eslint" ];
         };
       };
       lsp = {
@@ -100,7 +92,6 @@ in
           cmake.enable = true;
           csharp-ls.enable = true;
           cssls.enable = true;
-          gopls.enable = true;
           jsonls.enable = true;
           pyright.enable = true;
           tailwindcss.enable = true;

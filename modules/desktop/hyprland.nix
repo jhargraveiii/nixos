@@ -130,13 +130,13 @@ with lib; {
 
           # System Application Keybinds
           bind = ${modifier},		Return,	exec, kitty
-          bind = ${modifier},		G,	    exec, git-cola
-          bind = ${modifier},	    A,	    exec, rofi -show drun
+          bind = ${modifier},		G,	        exec, git-cola
+          bind = ${modifier},	        A,	        exec, rofi -show drun
           bind = ${modifier},		W,		exec, chromium
           bind = ${modifier},		E,		exec, thunderbird
           bind = ${modifier},		J,		exec, idea-ultimate
           bind = ${modifier},		T,		exec, thunar
-          bind = ${modifier},		C,		exec, codium
+          bind = ${modifier},		C,		exec, code
           bind = ${modifier},		V,		exec, VirtualBoxVM --comment "Windows" --startvm "{9b1ee206-252e-44c1-b8e9-098039c50d35}"
           bind = ${modifier},		S,		exec, slack 
           bind = ${modifier},		O,		exec, oxygenDeveloper.sh
