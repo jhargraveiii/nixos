@@ -65,6 +65,11 @@
     ];
   };
 
+ programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
+  };
+
   # Install & Configure Git
   programs.git = {
     enable = true;

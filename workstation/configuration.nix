@@ -98,7 +98,6 @@
   environment.systemPackages = with pkgs; [
     linuxKernel.packages.linux_latest_libre.virtualboxGuestAdditions
     symbola
-    fzf
     fd
     ripgrep
     silver-searcher
@@ -246,10 +245,6 @@
     settings = {
       auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];
-      substituters = [ "https://hyprland.cachix.org" ];
-      trusted-public-keys = [
-        "hyprland.cachix.org-1:a7pgxzMz7+chwVL3/pzj6jIBMioiJM7ypFP8PwtkuGc="
-      ];
     };
     gc = {
       automatic = true;
@@ -287,11 +282,11 @@
   networking.firewall.enable = true;
 
   # Set Environment Variables
-  #environment.localBinInPath = true;
   environment.variables = {
     PATH = [
       "\${HOME}/oxygenDeveloper"
     ];
+    EDITOR = "nvim";
     _ZO_ECHO = "1";
     M2_COLORS = "true";
     _JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
@@ -308,12 +303,11 @@
     XCURSOR_SIZE = "24";
     XCURSOR_THEME = "Bibata-Modern-Ice";
     QT_QPA_PLATFORM = "wayland";
-    QT_QPA_PLATFORMTHEME = "gtk2";
     QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
     QT_AUTO_SCREEN_SCALE_FACTOR = "1";
     MOZ_ENABLE_WAYLAND = "1";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     GTK_THEME = "Adwaita:dark";
-    __EGL_STREAMS_ENABLE = "1";
+    #__EGL_STREAMS_ENABLE = "1";
   };
 }
