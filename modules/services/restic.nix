@@ -1,4 +1,4 @@
-{ config, pkgs, username, ... }:
+{ username, ... }:
 {
   services.restic = {
     backups = {

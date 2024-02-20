@@ -1,4 +1,4 @@
-{ pkgs, config, lib, inputs, theKBDLayout, ... }:
+{ config, lib, theKBDLayout, ... }:
 
 let
   theme = config.colorScheme.palette;

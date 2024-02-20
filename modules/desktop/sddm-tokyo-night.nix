@@ -1,5 +1,4 @@
-{ lib
-, qtbase
+{ qtbase
 , qtsvg
 , qtgraphicaleffects
 , qtquickcontrols2
@@ -7,7 +6,7 @@
 , stdenvNoCC
 , fetchFromGitHub
 }:
-stdenvNoCC.mkDerivation rec {
+stdenvNoCC.mkDerivation {
   pname = "tokyo-night-sddm";
   version = "1..0";
   dontBuild = true;

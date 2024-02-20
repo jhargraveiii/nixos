@@ -3,9 +3,7 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { inputs
-, config
 , pkgs
-, lib
 , username
 , hostname
 , gitUsername
@@ -64,7 +62,6 @@
     isNormalUser = true;
     description = "${gitUsername}";
     extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "scanner" "lp" "video" ];
-    packages = with pkgs; [ ];
     uid = 1000;
     openssh.authorizedKeys.keys = [
       # Replace with your own public key

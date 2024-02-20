@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }:
+{ pkgs, ... }:
 
 let
   oxygen-xml-developer = pkgs.stdenv.mkDerivation {

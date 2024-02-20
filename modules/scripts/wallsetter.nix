@@ -1,4 +1,4 @@
-{ pkgs, username, wallpaperDir }:
+{ pkgs, wallpaperDir }:
 
 pkgs.writeShellScriptBin "wallsetter" ''
   TIMEOUT=720

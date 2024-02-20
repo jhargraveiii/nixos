@@ -1,4 +1,4 @@
-{ pkgs, config, theKBDLayout, ... }:
+{ pkgs, theKBDLayout, ... }:
 
 {
   # Enable OpenGL
@@ -6,8 +6,6 @@
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
-    extraPackages = with pkgs; [
-    ];
   };
 
   nixpkgs.config.cudaSupport = true;

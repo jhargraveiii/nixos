@@ -1,7 +1,6 @@
-{ config, pkgs, ... }:
+{ config, ... }:
 
 let
-  plugins = pkgs.unstable.vimPlugins;
   theme = config.colorScheme.palette;
 in
 {

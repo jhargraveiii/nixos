@@ -1,4 +1,4 @@
-{ pkgs, home-manager, config, ... }:
+{ config, ... }:
 {
 
   home.file.".config/swaylock/config".text = ''
