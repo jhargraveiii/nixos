@@ -31,13 +31,22 @@
           BusID "PCI:10:0:0"
           Option "RenderAccel" "true"
           Option "EnablePageFlip" "True"
-          Option "AllowEmptyInitialConfiguration"
           Option "XAANoOffscreenPixmaps" "true"
+          Option "AddARGBGLXVisuals" "true"
+          Option "DisableGLXRootClipping" "true"
+          Option "DamageEvents" "true"
+          Option "AllowGLXWithComposite" "true"
+          # Caution
+          Option "TripleBuffer" "true"
+          Option "AccelMethod" "EXA"
+          Option "MigrationHeuristic" "greedy"
+          Option "AccelDFS" "true"
+          Option "EnablePageFlip" "true"
       EndSection
     '';
     screenSection = ''
+      Option "AllowEmptyInitialConfiguration" "true"
       Option         "metamodes" "nvidia-auto-select +0+0 {ForceFullCompositionPipeline=On}"
-      Option         "TripleBuffer" "on"
     '';
     deviceSection = '' 
     '';
