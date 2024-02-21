@@ -36,6 +36,37 @@ with lib; {
           env = _JAVA_AWT_WM_NONREPARENTING,1
           env = WLR_RENDERER_ALLOW_SOFTWARE,1
 
+          # Example windowrule v1
+          # windowrule = float, ^(kitty)$
+          # Example windowrule v2
+          # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
+          # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
+          windowrule = float, file_progress
+          windowrule = float, confirm
+          windowrule = float, dialog
+          windowrule = float, download
+          windowrule = float, notification
+          windowrule = float, error
+          windowrule = float, splash
+          windowrule = float, confirmreset
+          windowrule = float, title:Open File
+          windowrule = float, title:branchdialog
+
+          # -- Fix odd behaviors in IntelliJ IDEs --
+          #! Fix focus issues when dialogs are opened or closed
+          windowrulev2 = windowdance,class:^(idea-ultimate)$,floating:1
+          #! Fix splash screen showing in weird places and prevent annoying focus takeovers
+          windowrulev2 = center,class:^(idea-ultimate)$,title:^(splash)$,floating:1
+          windowrulev2 = nofocus,class:^(idea-ultimate)$,title:^(splash)$,floating:1
+          windowrulev2 = noborder,class:^(idea-ultimate)$,title:^(splash)$,floating:1
+
+          #! Center popups/find windows
+          windowrulev2 = center,class:^(idea-ultimate)$,title:^( )$,floating:1
+          windowrulev2 = stayfocused,class:^(idea-ultimate)$,title:^( )$,floating:1
+          windowrulev2 = noborder,class:^(idea-ultimate)$,title:^( )$,floating:1
+          #! Disable window flicker when autocomplete or tooltips appear
+          windowrulev2 = nofocus,class:^(idea-ultimate)$,title:^(win.*)$,floating:1
+
           input {
               kb_layout = ${theKBDLayout}
               follow_mouse = 1

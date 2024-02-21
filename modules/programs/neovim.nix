@@ -77,7 +77,6 @@ in
       lsp = {
         enable = true;
         servers = {
-          tsserver.enable = true;
           lua-ls.enable = true;
           bashls.enable = true;
           #dockerls.enable = true;
@@ -89,7 +88,6 @@ in
           html.enable = true;
           ccls.enable = true;
           cmake.enable = true;
-          csharp-ls.enable = true;
           cssls.enable = true;
           jsonls.enable = true;
           pyright.enable = true;
@@ -186,8 +184,6 @@ in
     extraConfigVim = ''
       set noshowmode
       inoremap jj <ESC>
-      nnoremap <silent><c-t> <Cmd>exe v:count1 . "ToggleTerm"<CR>
-      inoremap <silent><c-t> <Esc><Cmd>exe v:count1 . "ToggleTerm"<CR>
     '';
 
     keymaps = [
