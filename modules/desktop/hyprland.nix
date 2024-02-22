@@ -18,23 +18,27 @@ with lib; {
         ''
           monitor=,preferred,auto,1
           env = WLR_NO_HARDWARE_CURSORS,1
+          env = WLR_DRM_NO_ATOMIC,1 
           env = LIBVA_DRIVER_NAME,nvidia
           env = XDG_SESSION_TYPE,wayland
           env = XDG_CURRENT_DESKTOP,Hyprland
           env = XDG_SESSION_DESKTOP,Hyprland
           env = GBM_BACKEND,nvidia-drm
-          env = QT_QPA_PLATFORM,wayland
+          env = QT_QPA_PLATFORM,wayland;xcb
           env = GDK_BACKEND,wayland,x11
           env = __GLX_VENDOR_LIBRARY_NAME,nvidia
           env = QT_WAYLAND_DISABLE_WINDOWDECORATION, 1
+          env = QT_QPA_PLATFORMTHEME,qt5ct
           env = QT_AUTO_SCREEN_SCALE_FACTOR, 1
           env = CLUTTER_BACKEND, wayland
-          env = SDL_VIDEODRIVER, x11
+          env = SDL_VIDEODRIVER, wayland
           env = NIXPKGS_ALLOW_UNFREE, 1
           env = MOZ_ENABLE_WAYLAND, 1
           env = NIXOS_OZONE_WL,1
           env = _JAVA_AWT_WM_NONREPARENTING,1
           env = WLR_RENDERER_ALLOW_SOFTWARE,1
+          env = __GL_VRR_ALLOWED,0
+          env = __GL_GSYNC_ALLOWED,0
 
           # Example windowrule v1
           # windowrule = float, ^(kitty)$
@@ -100,8 +104,6 @@ with lib; {
               animation = windowsIn, 1, 6, winIn, slide
               animation = windowsOut, 1, 5, winOut, slide
               animation = windowsMove, 1, 5, wind, slide
-              animation = border, 1, 1, liner
-              animation = borderangle, 1, 30, liner, loop
               animation = fade, 1, 10, default
               animation = workspaces, 1, 5, wind
           }
@@ -132,13 +134,12 @@ with lib; {
           decoration {
               rounding = 10
               drop_shadow = false
-              inactive_opacity = 0.95
               blur {
                   enabled = true
                   size = 5
                   passes = 3  
-                  new_optimizations = on
-                  ignore_opacity = on
+                  new_optimizations = true
+                  ignore_opacity = true
               }
           }
 
@@ -163,13 +164,13 @@ with lib; {
           bind = ${modifier},		Return,	exec, kitty
           bind = ${modifier},		G,	        exec, git-cola
           bind = ${modifier},	        A,	        exec, rofi -show drun
-          bind = ${modifier},		W,		exec, chromium
+          bind = ${modifier},		W,		exec, chromium --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           bind = ${modifier},		E,		exec, thunderbird
           bind = ${modifier},		J,		exec, idea-ultimate
           bind = ${modifier},		T,		exec, thunar
-          bind = ${modifier},		C,		exec, code
+          bind = ${modifier},		C,		exec, code --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           bind = ${modifier},		V,		exec, VirtualBoxVM --comment "Windows" --startvm "{9b1ee206-252e-44c1-b8e9-098039c50d35}"
-          bind = ${modifier},		S,		exec, slack 
+          bind = ${modifier},		S,		exec, slack --ozone-platform-hint=wayland
           bind = ${modifier},		O,		exec, oxygenDeveloper.sh
           bind = ${modifier},		M,		exec, flatpak run com.microsoft.Edge
           bind = ${modifier} SHIFT,	E,	exec, emopicker9000

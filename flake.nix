@@ -62,7 +62,7 @@
             {
               home-manager.extraSpecialArgs = {
                 inherit username;
-                inherit theKBDLayout; inherit wallpaperDir; inherit outputs; 
+                inherit theKBDLayout; inherit wallpaperDir; inherit outputs;
                 inherit flakeDir; inherit gitUsername; inherit gitEmail; inherit inputs; inherit theme;
                 inherit (inputs.nix-colors.lib-contrib { inherit pkgs; }) gtkThemeFromScheme;
               };

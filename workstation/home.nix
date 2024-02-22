@@ -101,7 +101,6 @@
   # Install Packages For The User
   home.packages = with pkgs; [
     unstable.slack
-    unstable.gnome-text-editor
     (unstable.jetbrains.plugins.addPlugins unstable.jetbrains.idea-ultimate [ "github-copilot" ])
     unstable.git-cola
     unstable._1password
