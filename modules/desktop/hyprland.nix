@@ -6,7 +6,7 @@ in
 with lib; {
   wayland.windowManager.hyprland = {
     enable = true;
-    xwayland.enable = true;
+    #xwayland.enable = true;
     systemd.enable = true;
     plugins = [
     ];
@@ -39,22 +39,6 @@ with lib; {
           env = WLR_RENDERER_ALLOW_SOFTWARE,1
           env = __GL_VRR_ALLOWED,0
           env = __GL_GSYNC_ALLOWED,0
-
-          # Example windowrule v1
-          # windowrule = float, ^(kitty)$
-          # Example windowrule v2
-          # windowrulev2 = float,class:^(kitty)$,title:^(kitty)$
-          # See https://wiki.hyprland.org/Configuring/Window-Rules/ for more
-          windowrule = float, file_progress
-          windowrule = float, confirm
-          windowrule = float, dialog
-          windowrule = float, download
-          windowrule = float, notification
-          windowrule = float, error
-          windowrule = float, splash
-          windowrule = float, confirmreset
-          windowrule = float, title:Open File
-          windowrule = float, title:branchdialog
 
           # -- Fix odd behaviors in IntelliJ IDEs --
           #! Fix focus issues when dialogs are opened or closed
@@ -92,6 +76,8 @@ with lib; {
               disable_splash_rendering=true
               mouse_move_enables_dpms = true
               key_press_enables_dpms = true
+              vrr = 0
+              vfr = true
           } 
 
           animations {
@@ -160,17 +146,21 @@ with lib; {
           exec-once = wlsunset -S 7:00 -s 18:00;notify-send "Brightness value changed: $(wlsunset -l)"
           exec-once = swayidle -w timeout 600 'swaylock -f' timeout 900 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' before-sleep 'swaylock -f -c 000000'
 
+          exec-once=[workspace 1 silent] slack --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
+          exec-once=[workspace 1 silent] thunderbird
+          exec-once=[workspace 2 silent] chromium --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
+
           # System Application Keybinds
           bind = ${modifier},		Return,	exec, kitty
-          bind = ${modifier},		G,	        exec, git-cola
-          bind = ${modifier},	        A,	        exec, rofi -show drun
+          bind = ${modifier},		G,	  exec, git-cola
+          bind = ${modifier},	  A,	  exec, rofi -show drun
           bind = ${modifier},		W,		exec, chromium --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           bind = ${modifier},		E,		exec, thunderbird
           bind = ${modifier},		J,		exec, idea-ultimate
           bind = ${modifier},		T,		exec, thunar
           bind = ${modifier},		C,		exec, code --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           bind = ${modifier},		V,		exec, VirtualBoxVM --comment "Windows" --startvm "{9b1ee206-252e-44c1-b8e9-098039c50d35}"
-          bind = ${modifier},		S,		exec, slack --ozone-platform-hint=wayland
+          bind = ${modifier},		S,		exec, slack --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           bind = ${modifier},		O,		exec, oxygenDeveloper.sh
           bind = ${modifier},		M,		exec, flatpak run com.microsoft.Edge
           bind = ${modifier} SHIFT,	E,	exec, emopicker9000
