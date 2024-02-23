@@ -33,7 +33,9 @@
       gitEmail = "jim.hargrave@strakergroup.com";
       theLocale = "en_US.UTF-8";
       theTimezone = "America/Denver";
-      theme = "material-palenight";
+      #theme = "material-palenight";
+      #theme = "primer-dark";
+      theme = "onedark";
       theKBDLayout = "us";
       flakeDir = "/home/${username}/nixos";
       wallpaperDir = "/home/${username}/Pictures/Wallpapers";

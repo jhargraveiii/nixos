@@ -30,10 +30,10 @@
           Driver "nvidia"
           BusID "PCI:10:0:0"
           #Option "RenderAccel" "true"
-          #Option "EnablePageFlip" "True"
+          Option "EnablePageFlip" "True"
           Option "XAANoOffscreenPixmaps" "true"
           #Option "AddARGBGLXVisuals" "true"
-          #Option "DisableGLXRootClipping" "true"
+          Option "DisableGLXRootClipping" "true"
           #Option "DamageEvents" "true"
           Option "AllowGLXWithComposite" "true"
           # Caution

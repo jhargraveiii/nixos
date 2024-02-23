@@ -148,19 +148,19 @@ with lib; {
 
           exec-once=[workspace 1 silent] slack --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           exec-once=[workspace 1 silent] thunderbird
-          exec-once=[workspace 2 silent] chromium --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
+          exec-once=[workspace 2 silent] chromium --disable-gpu
 
           # System Application Keybinds
           bind = ${modifier},		Return,	exec, kitty
           bind = ${modifier},		G,	  exec, git-cola
           bind = ${modifier},	  A,	  exec, rofi -show drun
-          bind = ${modifier},		W,		exec, chromium --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
+          bind = ${modifier},		W,		exec, chromium --disable-gpu
           bind = ${modifier},		E,		exec, thunderbird
           bind = ${modifier},		J,		exec, idea-ultimate
           bind = ${modifier},		T,		exec, thunar
           bind = ${modifier},		C,		exec, code --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           bind = ${modifier},		V,		exec, VirtualBoxVM --comment "Windows" --startvm "{9b1ee206-252e-44c1-b8e9-098039c50d35}"
-          bind = ${modifier},		S,		exec, slack --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
+          bind = ${modifier},		S,		exec, slack --disable-gpu
           bind = ${modifier},		O,		exec, oxygenDeveloper.sh
           bind = ${modifier},		M,		exec, flatpak run com.microsoft.Edge
           bind = ${modifier} SHIFT,	E,	exec, emopicker9000
