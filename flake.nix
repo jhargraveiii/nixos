@@ -48,8 +48,8 @@
       };
     in
     {
+    formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
       # Your custom packages and modifications, exported as overlays
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
       overlays = import ./modules/overlays { inherit inputs; };
       nixosConfigurations = {
         "${hostname}" = nixpkgs.lib.nixosSystem {
