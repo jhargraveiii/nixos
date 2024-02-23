@@ -58,6 +58,10 @@ with lib; {
           input {
               kb_layout = ${theKBDLayout}
               follow_mouse = 1
+              #kb_options = grp:alt_shift_toggle
+              #kb_options=caps:super
+              follow_mouse = 1
+
               touchpad {
                   natural_scroll = false
               }
@@ -86,6 +90,7 @@ with lib; {
               bezier = winIn, 0.1, 1.1, 0.1, 1.1
               bezier = winOut, 0.3, -0.3, 0, 1
               bezier = liner, 1, 1, 1, 1
+              animation = border, 1, 1, liner
               animation = windows, 1, 6, wind, slide
               animation = windowsIn, 1, 6, winIn, slide
               animation = windowsOut, 1, 5, winOut, slide
@@ -148,19 +153,19 @@ with lib; {
 
           exec-once=[workspace 1 silent] slack --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           exec-once=[workspace 1 silent] thunderbird
-          exec-once=[workspace 2 silent] chromium --disable-gpu
+          exec-once=[workspace 2 silent] chromium --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
 
           # System Application Keybinds
           bind = ${modifier},		Return,	exec, kitty
           bind = ${modifier},		G,	  exec, git-cola
           bind = ${modifier},	  A,	  exec, rofi -show drun
-          bind = ${modifier},		W,		exec, chromium --disable-gpu
+          bind = ${modifier},		W,		exec, chromium --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           bind = ${modifier},		E,		exec, thunderbird
           bind = ${modifier},		J,		exec, idea-ultimate
           bind = ${modifier},		T,		exec, thunar
           bind = ${modifier},		C,		exec, code --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           bind = ${modifier},		V,		exec, VirtualBoxVM --comment "Windows" --startvm "{9b1ee206-252e-44c1-b8e9-098039c50d35}"
-          bind = ${modifier},		S,		exec, slack --disable-gpu
+          bind = ${modifier},		S,		exec, slack --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           bind = ${modifier},		O,		exec, oxygenDeveloper.sh
           bind = ${modifier},		M,		exec, flatpak run com.microsoft.Edge
           bind = ${modifier} SHIFT,	E,	exec, emopicker9000
@@ -169,11 +174,11 @@ with lib; {
 
           # Hyprland Keybinds
           bind = ${modifier},Q,killactive,
-          bind = ${modifier}SHIFT,Q,exit,
           bind = ${modifier},P,pseudo,
           bind = ${modifier}SHIFT,I,togglesplit,
           bind = ${modifier},F,fullscreen,
           bind = ${modifier}SHIFT,F,togglefloating,
+          bind = ${modifier}SHIFT,C,exit,
           bind = ${modifier}SHIFT,left,movewindow,l
           bind = ${modifier}SHIFT,right,movewindow,r
           bind = ${modifier}SHIFT,up,movewindow,u
@@ -200,6 +205,8 @@ with lib; {
           bind = ${modifier},8,workspace,8
           bind = ${modifier},9,workspace,9
           bind = ${modifier},0,workspace,10
+          bind = ${modifier}SHIFT,SPACE,movetoworkspace,special
+          bind = ${modifier},SPACE,togglespecialworkspace
           bind = ${modifier}SHIFT,1,movetoworkspace,1
           bind = ${modifier}SHIFT,2,movetoworkspace,2
           bind = ${modifier}SHIFT,3,movetoworkspace,3
@@ -210,14 +217,14 @@ with lib; {
           bind = ${modifier}SHIFT,8,movetoworkspace,8
           bind = ${modifier}SHIFT,9,movetoworkspace,9
           bind = ${modifier}SHIFT,0,movetoworkspace,10
+          bind = ${modifier}CONTROL,right,workspace,e+1
+          bind = ${modifier}CONTROL,left,workspace,e-1
           bind = ${modifier},mouse_down,workspace, e+1
           bind = ${modifier},mouse_up,workspace, e-1
           bindm = ${modifier},mouse:272,movewindow
           bindm = ${modifier},mouse:273,resizewindow
-          bind = ,XF86AudioRaiseVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%+
-          bind = ,XF86AudioLowerVolume,exec,wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-
-          bind = ,XF86MonBrightnessDown,exec,brightnessctl set 5%-
-          bind = ,XF86MonBrightnessUp,exec,brightnessctl set +5%
+          bind = ALT,Tab,cyclenext
+          bind = ALT,Tab,bringactivetotop
         ''
       ];
   };

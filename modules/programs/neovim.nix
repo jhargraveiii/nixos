@@ -47,8 +47,8 @@ in
     };
 
     plugins = {
+      barbecue.enable = true;
       gitsigns.enable = true;
-      toggleterm.enable = true;
       telescope = {
         enable = true;
         keymaps = {
@@ -64,14 +64,24 @@ in
       lualine = {
         enable = true;
       };
-
+      startup = {
+        enable = true;
+        theme = "dashboard";
+      };
       lint = {
         enable = true;
         lintersByFt = {
           text = [ "vale" ];
           json = [ "jsonlint" ];
           markdown = [ "vale" ];
+          rst = [ "vale" ];
+          ruby = [ "ruby" ];
+          janet = [ "janet" ];
+          inko = [ "inko" ];
+          clojure = [ "clj-kondo" ];
           dockerfile = [ "hadolint" ];
+          terraform = [ "tflint" ];
+          typscriptreact = [ "prettier_eslint" ];
         };
       };
       lsp = {
@@ -79,9 +89,9 @@ in
         servers = {
           lua-ls.enable = true;
           bashls.enable = true;
-          #dockerls.enable = true;
+          dockerls.enable = true;
           java-language-server.enable = true;
-          #lemminx.enable = true;
+          lemminx.enable = true;
           taplo.enable = true;
           yamlls.enable = true;
           nixd.enable = true;
@@ -94,6 +104,7 @@ in
           tailwindcss.enable = true;
         };
       };
+
       lsp-lines.enable = true;
       treesitter = {
         enable = true;
