@@ -151,21 +151,21 @@ with lib; {
           exec-once = wlsunset -S 7:00 -s 18:00;notify-send "Brightness value changed: $(wlsunset -l)"
           exec-once = swayidle -w timeout 600 'swaylock -f' timeout 900 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' before-sleep 'swaylock -f -c 000000'
 
-          exec-once=[workspace 1 silent] slack --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
+          exec-once=[workspace 1 silent] slack --disable-gpu --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           exec-once=[workspace 1 silent] thunderbird
-          exec-once=[workspace 2 silent] chromium --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
+          exec-once=[workspace 2 silent] chromium --disable-gpu --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
 
           # System Application Keybinds
           bind = ${modifier},		Return,	exec, kitty
           bind = ${modifier},		G,	  exec, git-cola
           bind = ${modifier},	  A,	  exec, rofi -show drun
-          bind = ${modifier},		W,		exec, chromium --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
+          bind = ${modifier},		W,		exec, chromium --disable-gpu --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           bind = ${modifier},		E,		exec, thunderbird
           bind = ${modifier},		J,		exec, idea-ultimate
           bind = ${modifier},		T,		exec, thunar
           bind = ${modifier},		C,		exec, code --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           bind = ${modifier},		V,		exec, VirtualBoxVM --comment "Windows" --startvm "{9b1ee206-252e-44c1-b8e9-098039c50d35}"
-          bind = ${modifier},		S,		exec, slack --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
+          bind = ${modifier},		S,		exec, slack --disable-gpu --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           bind = ${modifier},		O,		exec, oxygenDeveloper.sh
           bind = ${modifier},		M,		exec, flatpak run com.microsoft.Edge
           bind = ${modifier} SHIFT,	E,	exec, emopicker9000
@@ -178,7 +178,6 @@ with lib; {
           bind = ${modifier}SHIFT,I,togglesplit,
           bind = ${modifier},F,fullscreen,
           bind = ${modifier}SHIFT,F,togglefloating,
-          bind = ${modifier}SHIFT,C,exit,
           bind = ${modifier}SHIFT,left,movewindow,l
           bind = ${modifier}SHIFT,right,movewindow,r
           bind = ${modifier}SHIFT,up,movewindow,u
