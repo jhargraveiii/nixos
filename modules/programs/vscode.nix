@@ -2,14 +2,14 @@
 {
   programs.vscode = {
     enable = true;
-    package = pkgs.unstable.vscode;
+    package = pkgs.vscode;
     enableUpdateCheck = true;
     enableExtensionUpdateCheck = true;
     extensions =
-      with pkgs.unstable.vscode-extensions;
+      with pkgs.vscode-extensions;
       [
         yzhang.markdown-all-in-one
-      ] ++ pkgs.unstable.vscode-utils.extensionsFromVscodeMarketplace [
+      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
           name = "copilot";
           publisher = "GitHub";

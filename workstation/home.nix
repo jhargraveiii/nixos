@@ -16,7 +16,7 @@
   # Home Manager Settings
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
-  home.stateVersion = "23.11";
+  home.stateVersion = "24.05";
 
   # Set The Colorscheme
   colorScheme = inputs.nix-colors.colorSchemes."${theme}";
@@ -87,8 +87,8 @@
 
   nixpkgs = {
     overlays = [
-      # we want to use some packages from unstable so need this overlay
-      outputs.overlays.unstable-packages
+      # we want to use some packages from stable so need this overlay
+      outputs.overlays.stable-packages
     ];
     # Configure your nixpkgs instance
     config = {
@@ -100,13 +100,13 @@
   };
   # Install Packages For The User
   home.packages = with pkgs; [
-    unstable.slack
-    (unstable.jetbrains.plugins.addPlugins unstable.jetbrains.idea-ultimate [ "github-copilot" ])
-    unstable.git-cola
-    unstable._1password
-    unstable.chromium
-    unstable.thunderbird
-    unstable.libreoffice-qt
+    slack
+    (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
+    git-cola
+    _1password
+    chromium
+    thunderbird
+    libreoffice-qt
     swaylock
     swayidle
     swww
@@ -130,7 +130,6 @@
     unzip
     unrar
     gnome.file-roller
-    imv
     qimgv
     mpv
     restic

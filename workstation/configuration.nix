@@ -86,7 +86,7 @@
   nixpkgs = {
     overlays = [
       # we want to use some packages from unstable so need this overlay
-      outputs.overlays.unstable-packages
+      outputs.overlays.stable-packages
     ];
   };
 

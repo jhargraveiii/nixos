@@ -12,8 +12,8 @@
   nixpkgs.config.cudnnSupport = true;
   services.xserver = {
     enable = true;
-    layout = "${theKBDLayout}";
-    xkbVariant = "";
+    xkb.layout = "${theKBDLayout}";
+    xkb.variant = "";
     libinput.enable = true;
     videoDrivers = [
       "nvidia"
