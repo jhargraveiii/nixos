@@ -41,7 +41,7 @@
 
           # By default, llama-cpp package does not have a lib/ output. Ollama
           # requires libllama and others, so the install phase was modified to
-          # copy all of built shared librhttps://github.com/jhargraveiii/ollama-nix.gitaries to the $out/lib/.
+          # copy all of built shared libraries to the $out/lib/.
           installPhase = ''
             runHook preInstall
 
