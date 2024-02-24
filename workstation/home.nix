@@ -100,7 +100,7 @@
   };
   # Install Packages For The User
   home.packages = with pkgs; [
-    gsettings-desktop-schemas 
+    gsettings-desktop-schemas
     slack
     (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
     git-cola

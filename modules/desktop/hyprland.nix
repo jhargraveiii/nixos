@@ -6,7 +6,7 @@ in
 with lib; {
   wayland.windowManager.hyprland = {
     enable = true;
-    #xwayland.enable = true;
+    xwayland.enable = true;
     systemd.enable = true;
     plugins = [
     ];
@@ -109,7 +109,7 @@ with lib; {
           }
 
           xwayland {
-              force_zero_scaling = false
+              force_zero_scaling = true
           }
 
           general {
