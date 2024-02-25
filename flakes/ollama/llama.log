@@ -1,0 +1,99 @@
+[1708804954] warming up the model with an empty run
+[1708804955] Available slots:
+[1708804955]  -> Slot 0 - max context: 2048
+[1708804955] 
+llama server listening at http://127.0.0.1:59578
+
+[1708804955] all slots are idle and system prompt is empty, clear the KV cache
+[1708804955] slot 0 is processing [task id: 0]
+[1708804955] slot 0 : kv cache rm - [0, end)
+[1708804955] sampled token: 29903: 'S'
+[1708804955] sampled token:   545: 'ure'
+[1708804955] sampled token: 29892: ','
+[1708804955] sampled token:   825: ' what'
+[1708804955] sampled token:   437: ' do'
+[1708804955] sampled token:   366: ' you'
+[1708804955] sampled token:   817: ' need'
+[1708804955] sampled token: 29973: '?'
+[1708804955] sampled token:     2: ''
+[1708804955] 
+[1708804955] print_timings: prompt eval time =      61.41 ms /    28 tokens (    2.19 ms per token,   455.92 tokens per second)
+[1708804955] print_timings:        eval time =      78.25 ms /     8 runs   (    9.78 ms per token,   102.23 tokens per second)
+[1708804955] print_timings:       total time =     139.67 ms
+[1708804955] slot 0 released (37 tokens in cache)
+[1708804955] slot 0 released (37 tokens in cache)
+[1708804963] slot 0 is processing [task id: 2]
+[1708804963] slot 0 : kv cache rm - [0, end)
+[1708804963] sampled token: 20434: 'Ok'
+[1708804963] sampled token:   388: 'ay'
+[1708804963] sampled token: 29892: ','
+[1708804963] sampled token:   825: ' what'
+[1708804963] sampled token:   437: ' do'
+[1708804963] sampled token:   366: ' you'
+[1708804963] sampled token:   864: ' want'
+[1708804963] sampled token:   304: ' to'
+[1708804963] sampled token:  1073: ' know'
+[1708804963] sampled token: 29973: '?'
+[1708804963] sampled token:     2: ''
+[1708804963] 
+[1708804963] print_timings: prompt eval time =     123.90 ms /    59 tokens (    2.10 ms per token,   476.20 tokens per second)
+[1708804963] print_timings:        eval time =      97.00 ms /    10 runs   (    9.70 ms per token,   103.09 tokens per second)
+[1708804963] print_timings:       total time =     220.90 ms
+[1708804963] slot 0 released (70 tokens in cache)
+[1708804963] slot 0 released (70 tokens in cache)
+[1708804969] slot 0 is processing [task id: 4]
+[1708804969] slot 0 : kv cache rm - [0, end)
+[1708804969] sampled token:  2499: 'Al'
+[1708804969] sampled token:  1266: 'right'
+[1708804969] sampled token: 29892: ','
+[1708804969] sampled token:   306: ' I'
+[1708804969] sampled token:   508: ' can'
+[1708804969] sampled token:  1371: ' help'
+[1708804969] sampled token:   366: ' you'
+[1708804969] sampled token:   411: ' with'
+[1708804969] sampled token:  3099: ' anything'
+[1708804969] sampled token: 29889: '.'
+[1708804969] sampled token:  1724: ' What'
+[1708804969] sampled token:   723: ' would'
+[1708804969] sampled token:   366: ' you'
+[1708804969] sampled token:   763: ' like'
+[1708804969] sampled token:   304: ' to'
+[1708804969] sampled token:  1073: ' know'
+[1708804969] sampled token:  1048: ' about'
+[1708804969] sampled token: 29973: '?'
+[1708804969] sampled token:     2: ''
+[1708804969] 
+[1708804969] print_timings: prompt eval time =     119.49 ms /    91 tokens (    1.31 ms per token,   761.55 tokens per second)
+[1708804969] print_timings:        eval time =     186.16 ms /    18 runs   (   10.34 ms per token,    96.69 tokens per second)
+[1708804969] print_timings:       total time =     305.65 ms
+[1708804969] slot 0 released (110 tokens in cache)
+[1708804969] slot 0 released (110 tokens in cache)
+[1708804976] slot 0 is processing [task id: 6]
+[1708804976] slot 0 : kv cache rm - [0, end)
+[1708804976] sampled token: 20434: 'Ok'
+[1708804976] sampled token:   388: 'ay'
+[1708804976] sampled token: 29892: ','
+[1708804976] sampled token:   306: ' I'
+[1708804976] sampled token: 29915: '''
+[1708804976] sampled token: 29885: 'm'
+[1708804976] sampled token:  1722: ' open'
+[1708804977] sampled token:   304: ' to'
+[1708804977] sampled token: 10529: ' suggestions'
+[1708804977] sampled token: 29889: '.'
+[1708804977] sampled token:  1724: ' What'
+[1708804977] sampled token:   723: ' would'
+[1708804977] sampled token:   366: ' you'
+[1708804977] sampled token:   763: ' like'
+[1708804977] sampled token:   592: ' me'
+[1708804977] sampled token:   304: ' to'
+[1708804977] sampled token:  2649: ' tell'
+[1708804977] sampled token:   366: ' you'
+[1708804977] sampled token:  1048: ' about'
+[1708804977] sampled token: 29973: '?'
+[1708804977] sampled token:     2: ''
+[1708804977] 
+[1708804977] print_timings: prompt eval time =     131.50 ms /   132 tokens (    1.00 ms per token,  1003.82 tokens per second)
+[1708804977] print_timings:        eval time =     210.16 ms /    20 runs   (   10.51 ms per token,    95.17 tokens per second)
+[1708804977] print_timings:       total time =     341.65 ms
+[1708804977] slot 0 released (153 tokens in cache)
+[1708804977] slot 0 released (153 tokens in cache)
