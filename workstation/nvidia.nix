@@ -1,4 +1,4 @@
-{ config, ... }:
+{ config, pkgs, ... }:
 {
 
   #Nvidia
@@ -8,6 +8,10 @@
   # Load nvidia driver for Xorg and Wayland
   nixpkgs.config.nvidia.acceptLicense = true;
   services.xserver.videoDrivers = [ "nvidia" ];
+  environment.systemPackages = with pkgs; [
+        egl-wayland
+        nvtop
+    ];
   hardware.nvidia = {
 
     # Modesetting is required.
@@ -25,9 +29,6 @@
     # accessible via `nvidia-settings`.
     nvidiaSettings = true;
     forceFullCompositionPipeline = true;
-
-    # Cuda?
-    #services.xmr-stak.cudaSupport = true; 
 
     # Optionally, you may need to select the appropriate driver version for your specific GPU.
     package = config.boot.kernelPackages.nvidiaPackages.stable;

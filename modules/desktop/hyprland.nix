@@ -39,6 +39,8 @@ with lib; {
           env = WLR_RENDERER_ALLOW_SOFTWARE,1
           env = __GL_VRR_ALLOWED,0
           env = __GL_GSYNC_ALLOWED,0
+          env = __EGL_STREAMS_ENABLE,1
+
 
           # -- Fix odd behaviors in IntelliJ IDEs --
           #! Fix focus issues when dialogs are opened or closed

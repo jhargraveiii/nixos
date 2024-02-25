@@ -26,13 +26,14 @@
 
       packages.${system} = rec {
         llama-cpp = (
-          # cudatoolkit does not like gcc12.
-          pkgs.llama-cpp.override { stdenv = pkgs.gcc11Stdenv; }
+          # cudatoolkit does not like > gcc12.
+          pkgs.llama-cpp.override { stdenv = pkgs.gcc12Stdenv; }
         ).overrideAttrs (old: {
           buildInputs = old.buildInputs ++ (
             with pkgs.cudaPackages_12_3; [ libcublas cudatoolkit ]
           );
           cmakeFlags = [
+            "-DOLLAMA_CUSTOM_CPU_DEFS=-\"DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_F16C=on -DLLAMA_FMA=on\""
             "-DLLAMA_BUILD_SERVER=ON"
             "-DBUILD_SHARED_LIBS=ON"
             "-DLLAMA_CUBLAS=ON"

@@ -8,8 +8,6 @@
     driSupport32Bit = true;
   };
 
-  nixpkgs.config.cudaSupport = true;
-  nixpkgs.config.cudnnSupport = true;
   services.xserver = {
     enable = true;
     xkb.layout = "${theKBDLayout}";
