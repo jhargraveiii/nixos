@@ -2,8 +2,7 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ inputs
-, pkgs
+{ pkgs
 , username
 , hostname
 , gitUsername
@@ -94,7 +93,6 @@
   # $ nix search wget
   environment.systemPackages = with pkgs; [
     linuxKernel.packages.linux_latest_libre.virtualboxGuestAdditions
-    symbola
     fd
     ripgrep
     silver-searcher
@@ -102,21 +100,17 @@
     ack
     lolcat
     neofetch
-    htop
     btop
-    libvirt
     lm_sensors
     unzip
     unrar
     libnotify
-    v4l-utils
     lsd
     lshw
     pkg-config
     gnumake
-    noto-fonts-color-emoji
     material-icons
-    micro
+    nano
     wget
     curl
     git
@@ -158,15 +152,14 @@
   };
 
   programs.dconf.enable = true;
-  programs.hyprland = {
-    enable = true;
-    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
-    xwayland.enable = true;
-  };
 
-  # Docker can also be run rootless
-  virtualisation.docker = {
+  programs.thunar = {
     enable = true;
+    plugins = with pkgs.xfce; [
+      thunar-archive-plugin
+      thunar-volman
+      xfconf
+    ];
   };
 
   # Some programs need SUID wrappers, can be configured further or are
@@ -225,30 +218,9 @@
   security.rtkit.enable = true;
   security.polkit.enable = true;
 
-  programs.thunar = {
-    enable = true;
-    plugins = with pkgs.xfce; [
-      thunar-archive-plugin
-      thunar-volman
-      xfconf
-    ];
-  };
   services.gvfs.enable = true;
   services.tumbler.enable = true;
-  system.stateVersion = "23.11";
-
-  # Optimization settings and garbage collection automation
-  nix = {
-    settings = {
-      auto-optimise-store = true;
-      experimental-features = [ "nix-command" "flakes" ];
-    };
-    gc = {
-      automatic = true;
-      dates = "weekly";
-      options = "--delete-older-than 7d";
-    };
-  };
+  system.stateVersion = "24.05";
 
   # xdg-desktop-portal works by exposing a series of D-Bus interfaces
   # known as portals under a well-known name
@@ -277,6 +249,19 @@
   networking.firewall.allowedTCPPorts = [ 631 53 ];
   networking.firewall.allowedUDPPorts = [ 5353 ];
   networking.firewall.enable = true;
+
+  # Optimization settings and garbage collection automation
+  nix = {
+    settings = {
+      auto-optimise-store = true;
+      experimental-features = [ "nix-command" "flakes" ];
+    };
+    gc = {
+      automatic = true;
+      dates = "weekly";
+      options = "--delete-older-than 7d";
+    };
+  };
 
   # Set Environment Variables
   environment.variables = {

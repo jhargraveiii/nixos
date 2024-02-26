@@ -9,7 +9,7 @@
         paths = [ "/home/${username}" ];
         repository = "/home/${username}/BACKUP/restic-repo";
         timerConfig = {
-          OnBootSec = "60";
+          OnBootSec = "200";
         };
         pruneOpts = [
           "--keep-daily=7"

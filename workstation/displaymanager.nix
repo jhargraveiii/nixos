@@ -1,4 +1,4 @@
-{ pkgs, theKBDLayout, ... }:
+{ pkgs, inputs, theKBDLayout, ... }:
 
 {
   # Enable OpenGL
@@ -6,6 +6,12 @@
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
+  };
+
+  programs.hyprland = {
+    enable = true;
+    package = inputs.hyprland.packages.${pkgs.system}.hyprland;
+    xwayland.enable = true;
   };
 
   services.xserver = {

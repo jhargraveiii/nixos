@@ -10,17 +10,22 @@
     ];
 
   # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_6_6;
-  boot.initrd.availableKernelModules = [ "thunderbolt" "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernel.sysctl = { "vm.max_map_count" = 2147483642; };
-  boot.kernelModules = [ "kvm-amd" ];
-  boot.kernelParams = [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
-  boot.extraModulePackages = [ ];
-  boot.tmp.useTmpfs = true;
-  boot.tmp.tmpfsSize = "25%";
+  boot = {
+    loader = {
+      efi.canTouchEfiVariables = true;
+      systemd-boot.enable = true;
+    };
+    kernelPackages = pkgs.linuxPackages_6_6;
+    initrd.availableKernelModules = [ "thunderbolt" "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+    initrd.kernelModules = [ ];
+    kernel.sysctl = { "vm.max_map_count" = 2147483642; };
+    kernelModules = [ "kvm-amd" ];
+    kernelParams = [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
+    extraModulePackages = [ ];
+    tmp.useTmpfs = true;
+    tmp.tmpfsSize = "25%";
+    tmp.cleanOnBoot = true;
+  };
 
   fileSystems."/" =
     {
@@ -63,5 +68,6 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault true;
+  hardware.enableAllFirmware = lib.mkDefault true;
 }

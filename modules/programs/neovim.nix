@@ -53,6 +53,8 @@ in
         enable = true;
         keymaps = {
           "<leader>ff" = "find_files";
+          "<leader>lg" = "live_grep";
+          "<leader>fb" = "buffers";
         };
       };
       neo-tree.enable = true;

@@ -16,7 +16,7 @@
   # Home Manager Settings
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
-  home.stateVersion = "23.11";
+  home.stateVersion = "24.05";
 
   # Set The Colorscheme
   colorScheme = inputs.nix-colors.colorSchemes."${theme}";
@@ -105,7 +105,7 @@
     (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
     git-cola
     _1password
-    chromium
+    brave
     thunderbird
     libreoffice-qt
     swaylock
@@ -121,29 +121,20 @@
     pulseaudio
     libva
     blueman
-    lolcat
-    btop
-    libvirt
     swappy
     grim
     slurp
-    lm_sensors
-    unzip
-    unrar
     gnome.file-roller
     qimgv
     mpv
     restic
-    gnumake
     ant
     maven
     pavucontrol
     zathura
     python3
-    appimage-run
     networkmanager
     networkmanagerapplet
-    appimage-run
     cliphist
     meld
     openjdk11
@@ -151,6 +142,7 @@
     hunspell
     hunspellDicts.en_US
     nil
+    gnome-text-editor
     # Import Scripts
     (import ../modules/scripts/emopicker9000.nix { inherit pkgs; })
     (import ../modules/scripts/task-waybar.nix { inherit pkgs; })
@@ -191,7 +183,7 @@
     enable = true;
     font = {
       name = "Ubuntu";
-      size = 12;
+      size = 14;
       package = pkgs.ubuntu_font_family;
     };
     theme = {

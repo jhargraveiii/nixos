@@ -4,7 +4,7 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
-    home-manager.url = "github:nix-community/home-manager/master";
+    home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     hyprland = {
       url = "github:hyprwm/Hyprland";
@@ -17,8 +17,6 @@
     nil = {
       url = "github:oxalica/nil";
     };
-
-    #ollama.url = "github:jhargraveiii/ollama-nix";
   };
 
   outputs = { self, nixpkgs, home-manager, ... } @inputs:
@@ -33,9 +31,8 @@
       gitEmail = "jim.hargrave@strakergroup.com";
       theLocale = "en_US.UTF-8";
       theTimezone = "America/Denver";
-      #theme = "material-palenight";
+      theme = "material-palenight";
       #theme = "primer-dark";
-      theme = "onedark";
       theKBDLayout = "us";
       flakeDir = "/home/${username}/nixos";
       wallpaperDir = "/home/${username}/Pictures/Wallpapers";

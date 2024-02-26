@@ -155,13 +155,13 @@ with lib; {
 
           exec-once=[workspace 1 silent] slack --disable-gpu --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           exec-once=[workspace 1 silent] thunderbird
-          exec-once=[workspace 2 silent] chromium --disable-gpu --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
+          exec-once=[workspace 2 silent] brave --disable-gpu --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
 
           # System Application Keybinds
           bind = ${modifier},		Return,	exec, kitty
           bind = ${modifier},		G,	  exec, git-cola
           bind = ${modifier},	  A,	  exec, rofi -show drun
-          bind = ${modifier},		W,		exec, chromium --disable-gpu --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
+          bind = ${modifier},		W,		exec, brave --disable-gpu --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           bind = ${modifier},		E,		exec, thunderbird
           bind = ${modifier},		J,		exec, idea-ultimate
           bind = ${modifier},		T,		exec, thunar

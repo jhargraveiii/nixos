@@ -9,9 +9,9 @@
   nixpkgs.config.nvidia.acceptLicense = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   environment.systemPackages = with pkgs; [
-        egl-wayland
-        nvtop
-    ];
+    egl-wayland
+    nvtop
+  ];
   hardware.nvidia = {
 
     # Modesetting is required.
