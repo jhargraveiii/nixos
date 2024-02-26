@@ -169,7 +169,7 @@ with lib; {
           bind = ${modifier},		V,		exec, VirtualBoxVM --comment "Windows" --startvm "{9b1ee206-252e-44c1-b8e9-098039c50d35}"
           bind = ${modifier},		S,		exec, slack --disable-gpu --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           bind = ${modifier},		O,		exec, oxygenDeveloper.sh
-          bind = ${modifier},		M,		exec, flatpak run com.microsoft.Edge
+          bind = ${modifier},		M,		exec, flatpak run com.microsoft.Edge --disable-gpu --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
           bind = ${modifier} SHIFT,	E,	exec, emopicker9000
           bind = ${modifier} SHIFT,	S,	exec, grim -g "$(slurp)" - | swappy -f -
           bind = ${modifier} SHIFT,	C,  exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy
