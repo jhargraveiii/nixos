@@ -1,4 +1,3 @@
 flakes/jupyter/.jupyter
-flakes/ollama/result
-flakes/ollama/llama.log
-/result
+flakes/*/result
+flakes/*/*.log
