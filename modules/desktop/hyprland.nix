@@ -16,7 +16,7 @@ with lib; {
       in
       concatStrings [
         ''
-          monitor=,preferred,auto,1
+          monitor=,3440x1440@100,auto,1
           env = WLR_NO_HARDWARE_CURSORS,1
           env = WLR_DRM_NO_ATOMIC,1 
           env = LIBVA_DRIVER_NAME,nvidia
