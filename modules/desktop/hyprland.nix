@@ -16,7 +16,7 @@ with lib; {
       in
       concatStrings [
         ''
-          monitor=,3440x1440@100,auto,1
+          monitor=DP-1,3440x1440@100,auto,1
           env = WLR_NO_HARDWARE_CURSORS,1
           env = WLR_DRM_NO_ATOMIC,1 
           env = LIBVA_DRIVER_NAME,nvidia
@@ -159,6 +159,7 @@ with lib; {
 
           # System Application Keybinds
           bind = ${modifier},		Return,	exec, kitty
+          bind = ${modifier},		K,	  exec, klavaro
           bind = ${modifier},		G,	  exec, git-cola
           bind = ${modifier},	  A,	  exec, rofi -show drun
           bind = ${modifier},		W,		exec, brave --disable-gpu --enable-features=UseOzonePlatform --ozone-platform-hint=wayland

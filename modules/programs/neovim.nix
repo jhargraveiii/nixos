@@ -54,10 +54,8 @@ in
         keymaps = {
           "<leader>ff" = "find_files";
           "<leader>lg" = "live_grep";
-          "<leader>fb" = "buffers";
         };
       };
-      neo-tree.enable = true;
       indent-blankline.enable = true;
       nvim-colorizer.enable = true;
       nvim-autopairs.enable = true;
@@ -69,22 +67,6 @@ in
       startup = {
         enable = true;
         theme = "dashboard";
-      };
-      lint = {
-        enable = true;
-        lintersByFt = {
-          text = [ "vale" ];
-          json = [ "jsonlint" ];
-          markdown = [ "vale" ];
-          rst = [ "vale" ];
-          ruby = [ "ruby" ];
-          janet = [ "janet" ];
-          inko = [ "inko" ];
-          clojure = [ "clj-kondo" ];
-          dockerfile = [ "hadolint" ];
-          terraform = [ "tflint" ];
-          typscriptreact = [ "prettier_eslint" ];
-        };
       };
       lsp = {
         enable = true;
@@ -203,8 +185,8 @@ in
       {
         mode = "n";
         key = "<leader>fb";
-        action = "<cmd>Neotree reveal right<CR>";
-        options.silent = false;
+        action = ":Telescope file_browser<CR>";
+        options.noremap = true;
       }
       {
         key = "<Tab>";
