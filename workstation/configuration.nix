@@ -213,12 +213,14 @@
   sound.enable = true;
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  hardware.bluetooth.package = pkgs.bluez;
   services.blueman.enable = true;
 
   security.rtkit.enable = true;
   security.polkit.enable = true;
 
   services.gvfs.enable = true;
+  services.udisks2.enable = true;
   services.tumbler.enable = true;
   system.stateVersion = "24.05";
 
