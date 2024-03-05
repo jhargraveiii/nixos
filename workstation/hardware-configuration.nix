@@ -20,7 +20,7 @@
     initrd.kernelModules = [ ];
     kernel.sysctl = { "vm.max_map_count" = 2147483642; };
     kernelModules = [ "kvm-amd" ];
-    kernelParams = [ "nvidia.NVreg_PreserveVideoMemoryAllocations=1" ];
+    kernelParams = [ ];
     extraModulePackages = [ ];
     tmp.useTmpfs = true;
     tmp.tmpfsSize = "25%";

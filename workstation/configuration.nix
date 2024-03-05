@@ -114,6 +114,8 @@
     wget
     curl
     git
+    libinput
+    libinput-gestures
   ];
 
   fonts.packages = with pkgs; [
@@ -273,7 +275,7 @@
     EDITOR = "nvim";
     _ZO_ECHO = "1";
     M2_COLORS = "true";
-    _JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
+    #_JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
     _JAVA_AWT_WM_NONREPARENTING = "1";
     JAVA_HOME = "\${HOME}/.jdks/openjdk11/lib/openjdk";
     NIXOS_OZONE_WL = "1";
@@ -292,6 +294,5 @@
     MOZ_ENABLE_WAYLAND = "1";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     GTK_THEME = "Adwaita:dark";
-    __EGL_STREAMS_ENABLE = "1";
   };
 }

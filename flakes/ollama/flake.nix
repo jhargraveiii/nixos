@@ -68,7 +68,7 @@
           pkgs.buildGoModule rec {
             inherit (pkgs.ollama) pname meta patches;
 
-            version = "0.1.27";
+            version = "0.1.28";
 
             src = pkgs.fetchFromGitHub {
               owner = "jmorganca";

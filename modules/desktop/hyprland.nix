@@ -39,24 +39,7 @@ with lib; {
           env = WLR_RENDERER_ALLOW_SOFTWARE,1
           env = __GL_VRR_ALLOWED,0
           env = __GL_GSYNC_ALLOWED,0
-          env = __EGL_STREAMS_ENABLE,1
-
-
-          # -- Fix odd behaviors in IntelliJ IDEs --
-          #! Fix focus issues when dialogs are opened or closed
-          windowrulev2 = windowdance,class:^(idea-ultimate)$,floating:1
-          #! Fix splash screen showing in weird places and prevent annoying focus takeovers
-          windowrulev2 = center,class:^(idea-ultimate)$,title:^(splash)$,floating:1
-          windowrulev2 = nofocus,class:^(idea-ultimate)$,title:^(splash)$,floating:1
-          windowrulev2 = noborder,class:^(idea-ultimate)$,title:^(splash)$,floating:1
-
-          #! Center popups/find windows
-          windowrulev2 = center,class:^(idea-ultimate)$,title:^( )$,floating:1
-          windowrulev2 = stayfocused,class:^(idea-ultimate)$,title:^( )$,floating:1
-          windowrulev2 = noborder,class:^(idea-ultimate)$,title:^( )$,floating:1
-          #! Disable window flicker when autocomplete or tooltips appear
-          windowrulev2 = nofocus,class:^(idea-ultimate)$,title:^(win.*)$,floating:1
-
+          
           input {
               kb_layout = ${theKBDLayout}
               follow_mouse = 1
