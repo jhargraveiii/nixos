@@ -17,6 +17,10 @@
     nil = {
       url = "github:oxalica/nil";
     };
+    ollama = {
+      url = "github:abysssol/ollama-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = { self, nixpkgs, home-manager, ... } @inputs:

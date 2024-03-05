@@ -142,6 +142,7 @@
     hunspell
     hunspellDicts.en_US
     nil
+    ollama
     gnome-text-editor
     klavaro
     # Import Scripts

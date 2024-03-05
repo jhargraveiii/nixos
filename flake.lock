@@ -386,6 +386,27 @@
         "type": "github"
       }
     },
+    "nixpkgs-unfree": {
+      "inputs": {
+        "nixpkgs": [
+          "ollama",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1701957584,
+        "narHash": "sha256-xEpFaRdrneHl3Xdyzp3emd4QVxML7AR3GC91wuWi0Ok=",
+        "owner": "numtide",
+        "repo": "nixpkgs-unfree",
+        "rev": "127b9b18583de04c6207c2a0e674abf64fc4a3b1",
+        "type": "github"
+      },
+      "original": {
+        "owner": "numtide",
+        "repo": "nixpkgs-unfree",
+        "type": "github"
+      }
+    },
     "nixpkgs_2": {
       "locked": {
         "lastModified": 1704161960,
@@ -444,6 +465,27 @@
         "type": "github"
       }
     },
+    "ollama": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ],
+        "nixpkgs-unfree": "nixpkgs-unfree"
+      },
+      "locked": {
+        "lastModified": 1708987974,
+        "narHash": "sha256-fqbPFHbJOGh6FMSfFqwbymp4vBlNdlXCwVi5LowfPPk=",
+        "owner": "abysssol",
+        "repo": "ollama-flake",
+        "rev": "61370727284edf843d98821e26f7b9bcd6040137",
+        "type": "github"
+      },
+      "original": {
+        "owner": "abysssol",
+        "repo": "ollama-flake",
+        "type": "github"
+      }
+    },
     "pre-commit-hooks": {
       "inputs": {
         "flake-compat": "flake-compat_2",
@@ -480,7 +522,8 @@
         "nix-colors": "nix-colors",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-stable": "nixpkgs-stable",
-        "nixvim": "nixvim"
+        "nixvim": "nixvim",
+        "ollama": "ollama"
       }
     },
     "rust-overlay": {
