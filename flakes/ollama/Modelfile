@@ -1,2 +1,0 @@
-FROM mixtral:instruct
-PARAMETER num_gpu 11
