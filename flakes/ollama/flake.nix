@@ -74,7 +74,7 @@
               owner = "jmorganca";
               repo = "ollama";
               rev = "v${version}";
-              hash = "sha256-eXukNn9Lu1hF19GEi7S7a96qktsjnmXCUp38gw+3MzY=";
+              hash = "sha256-KcAqprnvYZoC0xtkoqFUgNOovQHHIcbz7acJhs/fyig=";
             };
 
             postPatch = ''
