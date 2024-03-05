@@ -39,6 +39,7 @@ with lib; {
           env = WLR_RENDERER_ALLOW_SOFTWARE,1
           env = __GL_VRR_ALLOWED,0
           env = __GL_GSYNC_ALLOWED,0
+          env = ELECTRON_OZONE_PLATFORM_HINT,wayland
           
           input {
               kb_layout = ${theKBDLayout}
@@ -94,7 +95,7 @@ with lib; {
           }
 
           xwayland {
-              force_zero_scaling = true
+              force_zero_scaling = false
           }
 
           general {

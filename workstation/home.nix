@@ -155,6 +155,7 @@
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
   home.file.".jdks/openjdk17".source = pkgs.openjdk17;
+  home.file.".jdks/openjdk21".source = pkgs.openjdk21;
 
   # Configure Cursor Theme
   home.pointerCursor = {
