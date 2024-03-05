@@ -19,7 +19,7 @@ in
 {
   home.packages = [ oxygen-xml-developer ];
   home.file.".oxygen-xml-developer-profile".text = ''
-    export JAVA_HOME=/home/jimh/.jdks/openjdk21
+    export JAVA_HOME=/home/jimh/.jdks/openjdk21/bin
     export OXYGEN_JAVA=/home/jimh/.jdks/openjdk21/bin/java
     export PATH=$PATH:${oxygen-xml-developer.out}/opt/oxygen-xml-developer
   '';

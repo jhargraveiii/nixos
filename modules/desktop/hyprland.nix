@@ -95,7 +95,7 @@ with lib; {
           }
 
           xwayland {
-              force_zero_scaling = false
+              #force_zero_scaling = true
           }
 
           general {
@@ -137,24 +137,24 @@ with lib; {
           exec-once = wlsunset -S 7:00 -s 18:00;notify-send "Brightness value changed: $(wlsunset -l)"
           exec-once = swayidle -w timeout 600 'swaylock -f' timeout 900 'hyprctl dispatch dpms off' resume 'hyprctl dispatch dpms on' before-sleep 'swaylock -f -c 000000'
 
-          exec-once=[workspace 1 silent] slack --disable-gpu --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
+          exec-once=[workspace 1 silent] slack
           exec-once=[workspace 1 silent] thunderbird
-          exec-once=[workspace 2 silent] brave --disable-gpu --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
+          exec-once=[workspace 2 silent] brave
 
           # System Application Keybinds
           bind = ${modifier},		Return,	exec, kitty
           bind = ${modifier},		K,	  exec, klavaro
           bind = ${modifier},		G,	  exec, git-cola
           bind = ${modifier},	  A,	  exec, rofi -show drun
-          bind = ${modifier},		W,		exec, brave --disable-gpu --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
+          bind = ${modifier},		W,		exec, brave
           bind = ${modifier},		E,		exec, thunderbird
           bind = ${modifier},		J,		exec, idea-ultimate
           bind = ${modifier},		T,		exec, thunar
-          bind = ${modifier},		C,		exec, code --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
+          bind = ${modifier},		C,		exec, code
           bind = ${modifier},		V,		exec, VirtualBoxVM --comment "Windows" --startvm "{9b1ee206-252e-44c1-b8e9-098039c50d35}"
-          bind = ${modifier},		S,		exec, slack --disable-gpu --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
-          bind = ${modifier},		O,		exec, oxygenDeveloper.sh
-          bind = ${modifier},		M,		exec, flatpak run com.microsoft.Edge --disable-gpu --enable-features=UseOzonePlatform --ozone-platform-hint=wayland
+          bind = ${modifier},		S,		exec, slack
+          bind = ${modifier},		O,		exec, JAVA_HOME=/home/jimh/.jdks/openjdk21/bin oxygenDeveloper.sh
+          bind = ${modifier},		M,		exec, flatpak run com.microsoft.Edge
           bind = ${modifier} SHIFT,	E,	exec, emopicker9000
           bind = ${modifier} SHIFT,	S,	exec, grim -g "$(slurp)" - | swappy -f -
           bind = ${modifier} SHIFT,	C,  exec, cliphist list | rofi -dmenu | cliphist decode | wl-copy
