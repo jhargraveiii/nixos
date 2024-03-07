@@ -94,19 +94,18 @@ in
         enable = true;
         nixGrammars = true;
       };
-      nvim-cmp = {
+      cmp = {
         enable = true;
-        autoEnableSources = true;
-        sources = [
-          { name = "nvim_lsp"; }
-          { name = "path"; }
-          { name = "buffer"; }
-        ];
-        mapping = {
-          "<CR>" = "cmp.mapping.confirm({ select = true })";
-          "<Tab>" = {
-            action = ''cmp.mapping.select_next_item()'';
-            modes = [ "i" "s" ];
+        settings = {
+          sources = [
+            { name = "nvim_lsp"; }
+            { name = "path"; }
+            { name = "buffer"; }
+          ];
+
+          mapping = {
+            "<CR>" = "cmp.mapping.confirm({ select = true })";
+            "<Tab>" = "cmp.mapping.select_next_item()";
           };
         };
       };

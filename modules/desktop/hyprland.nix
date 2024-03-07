@@ -56,7 +56,7 @@ with lib; {
           }
 
           gestures {
-              workspace_swipe = false
+              workspace_swipe = true
           }
 
           # Ensure Mouse or Keyboard Inputs Turn On Displays
