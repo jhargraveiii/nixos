@@ -9,6 +9,7 @@
 , flakeDir
 , outputs
 , wallpaperDir
+, ollama-cuda
 , ...
 }:
 
@@ -142,9 +143,11 @@
     hunspell
     hunspellDicts.en_US
     nil
-    ollama
+    ollama-cuda
     gnome-text-editor
     klavaro
+    gh
+
     # Import Scripts
     (import ../modules/scripts/emopicker9000.nix { inherit pkgs; })
     (import ../modules/scripts/task-waybar.nix { inherit pkgs; })

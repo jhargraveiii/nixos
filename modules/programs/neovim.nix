@@ -102,7 +102,6 @@ in
             { name = "path"; }
             { name = "buffer"; }
           ];
-
           mapping = {
             "<CR>" = "cmp.mapping.confirm({ select = true })";
             "<Tab>" = "cmp.mapping.select_next_item()";

@@ -41,6 +41,21 @@ with lib; {
           env = __GL_GSYNC_ALLOWED,0
           env = ELECTRON_OZONE_PLATFORM_HINT,wayland
 
+          # -- Fix odd behaviors in IntelliJ IDEs --
+          #! Fix focus issues when dialogs are opened or closed
+          windowrulev2 = windowdance,class:^(idea-ultimate.*)$,floating:1
+          #! Fix splash screen showing in weird places and prevent annoying focus takeovers
+          windowrulev2 = center,class:^(idea-ultimate.*)$,title:^(splash)$,floating:1
+          windowrulev2 = nofocus,class:^(idea-ultimate.*)$,title:^(splash)$,floating:1
+          windowrulev2 = noborder,class:^(idea-ultimate.*)$,title:^(splash)$,floating:1
+
+          #! Center popups/find windows
+          windowrulev2 = center,class:^(idea-ultimate.*)$,title:^( )$,floating:1
+          windowrulev2 = stayfocused,class:^(idea-ultimate.*)$,title:^( )$,floating:1
+          windowrulev2 = noborder,class:^(idea-ultimate.*)$,title:^( )$,floating:1
+          #! Disable window flicker when autocomplete or tooltips appear
+          windowrulev2 = nofocus,class:^(idea-ultimate.*)$,title:^(win.*)$,floating:1
+
           input {
               kb_layout = ${theKBDLayout}
               follow_mouse = 1
@@ -49,8 +64,12 @@ with lib; {
 
               touchpad {
                   natural_scroll = false
+                  clickfinger_behavior = true
+                  scroll_factor = 1.5
+                  tap_button_map	= lmr
               }
               sensitivity = 5
+              accel_profile	= adaptive
               repeat_rate = 25
               repeat_delay = 600
           }
@@ -95,6 +114,10 @@ with lib; {
 
           xwayland {
               force_zero_scaling = true
+          }
+
+          opengl {
+            nvidia_anti_flicker = true
           }
 
           general {
