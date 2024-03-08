@@ -23,11 +23,11 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ollama, ... } @inputs:
+  outputs = { self, nixpkgs, home-manager, ... } @inputs:
     let
       inherit (self) outputs;
       system = "x86_64-linux";
-      ollama-cuda = ollama.packages.${system}.cuda;
+      #ollama-cuda = ollama.packages.${system}.cuda;
 
       # User Variables
       hostname = "datalore";
@@ -65,7 +65,7 @@
             home-manager.nixosModules.home-manager
             {
               home-manager.extraSpecialArgs = {
-                inherit username; inherit ollama-cuda;
+                inherit username;
                 inherit theKBDLayout; inherit wallpaperDir; inherit outputs;
                 inherit flakeDir; inherit gitUsername; inherit gitEmail; inherit inputs; inherit theme;
                 inherit (inputs.nix-colors.lib-contrib { inherit pkgs; }) gtkThemeFromScheme;

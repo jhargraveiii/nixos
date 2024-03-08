@@ -9,7 +9,6 @@
 , flakeDir
 , outputs
 , wallpaperDir
-, ollama-cuda
 , ...
 }:
 
@@ -143,7 +142,7 @@
     hunspell
     hunspellDicts.en_US
     nil
-    ollama-cuda
+    ollama
     gnome-text-editor
     klavaro
     gh
