@@ -17,7 +17,6 @@
 
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
-    inputs.plasma-manager.homeManagerModules.plasma-manager
     ./plasma.nix
     ../config/files.nix
     ../modules/programs/kitty.nix
@@ -28,12 +27,12 @@
   ];
 
   # Create XDG Dirs
-  #xdg = {
-  #  userDirs = {
-  #    enable = true;
-  #    createDirectories = true;
-  #  };
-  #};
+  xdg = {
+    userDirs = {
+      enable = true;
+      createDirectories = true;
+    };
+  };
 
   programs.zoxide = {
     enable = true;
