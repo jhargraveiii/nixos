@@ -5,7 +5,7 @@
     shortcuts = { };
     configFile = {
       "kdeglobals"."General"."AllowKDEAppsToRememberWindowPositions" = true;
-      "kdeglobals"."KDE"."SingleClick" = true;
+      "kdeglobals"."KDE"."SingleClick" = false;
       "kdeglobals"."WM"."activeBackground" = "227,229,231";
       "kdeglobals"."WM"."activeBlend" = "227,229,231";
       "kdeglobals"."WM"."activeForeground" = "35,38,41";
