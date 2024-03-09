@@ -17,7 +17,6 @@
 
   imports = [
     inputs.nixvim.homeManagerModules.nixvim
-    ./plasma.nix
     ../config/files.nix
     ../modules/programs/kitty.nix
     ../modules/programs/neofetch.nix
@@ -83,7 +82,6 @@
     brave
     thunderbird
     libreoffice
-    swww
     sddm
     pulseaudio
     libva
