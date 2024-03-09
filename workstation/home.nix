@@ -1,11 +1,8 @@
-{ config
-, pkgs
+{ pkgs
 , inputs
 , username
 , gitUsername
 , gitEmail
-, gtkThemeFromScheme
-, theme
 , flakeDir
 , outputs
 , wallpaperDir
@@ -16,47 +13,27 @@
   # Home Manager Settings
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
-  home.stateVersion = "24.05";
-
-  # Set The Colorscheme
-  colorScheme = inputs.nix-colors.colorSchemes."${theme}";
+  home.stateVersion = "23.11";
 
   imports = [
-    inputs.nix-colors.homeManagerModules.default
-    inputs.hyprland.homeManagerModules.default
     inputs.nixvim.homeManagerModules.nixvim
+    inputs.plasma-manager.homeManagerModules.plasma-manager
+    ./plasma.nix
     ../config/files.nix
-    ../modules/desktop/waybar.nix
-    ../modules/desktop/swaync.nix
-    ../modules/desktop/swaylock.nix
-    ../modules/desktop/hyprland.nix
-    ../modules/desktop/swappy.nix
     ../modules/programs/kitty.nix
-    ../modules/programs/rofi.nix
     ../modules/programs/neofetch.nix
     ../modules/programs/oxygen.nix
     ../modules/programs/neovim.nix
     ../modules/programs/vscode.nix
-    #../modules/secrets
   ];
 
-  # Define Settings For Xresources
-  xresources.properties = {
-    "Xcursor.size" = 24;
-  };
-
   # Create XDG Dirs
-  xdg = {
-    userDirs = {
-      enable = true;
-      createDirectories = true;
-    };
-  };
-
-  home.file.".config/xdg-desktop-portal/portals.conf".text = ''
-    [preferred]
-    default=wlr;gtk
-  '';
+  #xdg = {
+  #  userDirs = {
+  #    enable = true;
+  #    createDirectories = true;
+  #  };
+  #};
 
   programs.zoxide = {
     enable = true;
@@ -100,42 +77,25 @@
   };
   # Install Packages For The User
   home.packages = with pkgs; [
-    gsettings-desktop-schemas
     slack
     (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
     git-cola
     _1password
     brave
     thunderbird
-    libreoffice-qt
-    swaylock
-    swayidle
+    libreoffice
     swww
-    wlsunset
-    rofi-wayland
-    swaynotificationcenter
-    wl-clipboard
-    qt5.qtwayland
-    qt5ct
     sddm
     pulseaudio
     libva
     blueman
-    swappy
-    grim
-    slurp
-    gnome.file-roller
-    qimgv
-    mpv
     restic
     ant
     maven
     pavucontrol
-    zathura
     python3
     networkmanager
     networkmanagerapplet
-    cliphist
     meld
     openjdk11
     openvpn
@@ -143,40 +103,23 @@
     hunspellDicts.en_US
     nil
     ollama
-    gnome-text-editor
     klavaro
     gh
-
-    # Import Scripts
-    (import ../modules/scripts/emopicker9000.nix { inherit pkgs; })
-    (import ../modules/scripts/task-waybar.nix { inherit pkgs; })
-    (import ../modules/scripts/squirtle.nix { inherit pkgs; })
-    (import ../modules/scripts/wallsetter.nix { inherit pkgs; inherit wallpaperDir; inherit username; })
-    (import ../modules/scripts/web-search.nix { inherit pkgs; })
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
   home.file.".jdks/openjdk17".source = pkgs.openjdk17;
   home.file.".jdks/openjdk21".source = pkgs.openjdk21;
 
-  # Configure Cursor Theme
-  home.pointerCursor = {
-    gtk.enable = true;
-    x11.enable = true;
-    package = pkgs.bibata-cursors;
-    name = "Bibata-Modern-Ice";
-    size = 24;
-  };
-
   # Theme QT -> GTK
-  qt = {
-    enable = true;
-    platformTheme = "gtk";
-    style = {
-      name = "adwaita-dark";
-      package = pkgs.adwaita-qt;
-    };
-  };
+  #qt = {
+  #  enable = true;
+  #  platformTheme = "gnome";
+  #  style = {
+  #    name = "adwaita-dark";
+  #    package = pkgs.adwaita-qt;
+  #  };
+  #};
 
   # Theme GTK
   dconf = {
@@ -184,25 +127,11 @@
     settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   };
 
-  gtk = {
-    enable = true;
-    font = {
-      name = "Ubuntu";
-      size = 14;
-      package = pkgs.ubuntu_font_family;
-    };
-    theme = {
-      name = "${config.colorScheme.slug}";
-      package = gtkThemeFromScheme { scheme = config.colorScheme; };
-    };
-    iconTheme = {
-      name = "Papirus-Dark";
-      package = pkgs.papirus-icon-theme;
-    };
-    gtk3.extraConfig = {
-      gtk-application-prefer-dark-theme = 1;
-    };
-    gtk4.extraConfig = { };
+  home.pointerCursor = {
+    gtk.enable = true;
+    package = pkgs.bibata-cursors;
+    name = "Bibata-Modern-Ice";
+    size = 24;
   };
 
   # Configure Bash
@@ -229,10 +158,6 @@
       flake-update = "sudo nix flake update ${flakeDir}";
       gcCleanup = "nix-collect-garbage --delete-old && sudo nix-collect-garbage -d";
       ls = "lsd";
-      ll = "lsd -l";
-      la = "lsd -a";
-      lal = "lsd -al";
-      ".." = "cd ..";
     };
   };
 

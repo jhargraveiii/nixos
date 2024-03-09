@@ -6,10 +6,11 @@
     nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-23.11";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    hyprland = {
-      url = "github:hyprwm/Hyprland";
+    plasma-manager = {
+      url = "github:pjones/plasma-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
-    nix-colors.url = "github:misterio77/nix-colors";
     nixvim = {
       url = "github:nix-community/nixvim";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,18 +37,9 @@
       gitEmail = "jim.hargrave@strakergroup.com";
       theLocale = "en_US.UTF-8";
       theTimezone = "America/Denver";
-      theme = "material-palenight";
-      #theme = "primer-dark";
       theKBDLayout = "us";
       flakeDir = "/home/${username}/nixos";
       wallpaperDir = "/home/${username}/Pictures/Wallpapers";
-
-      pkgs = import nixpkgs {
-        inherit system;
-        config = {
-          allowUnfree = true;
-        };
-      };
     in
     {
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
@@ -67,8 +59,7 @@
               home-manager.extraSpecialArgs = {
                 inherit username;
                 inherit theKBDLayout; inherit wallpaperDir; inherit outputs;
-                inherit flakeDir; inherit gitUsername; inherit gitEmail; inherit inputs; inherit theme;
-                inherit (inputs.nix-colors.lib-contrib { inherit pkgs; }) gtkThemeFromScheme;
+                inherit flakeDir; inherit gitUsername; inherit gitEmail; inherit inputs;
               };
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";

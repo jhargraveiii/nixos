@@ -26,6 +26,8 @@
       ../modules/programs/flatpak.nix
     ];
 
+  systemd.enableEmergencyMode = false;
+
   networking.hostName = "${hostname}"; # Define your hostname.
 
   # Enable networking
@@ -89,6 +91,12 @@
     ];
   };
 
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [
+    plasma-browser-integration
+    konsole
+    oxygen
+  ];
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
@@ -109,7 +117,6 @@
     lshw
     pkg-config
     gnumake
-    material-icons
     nano
     wget
     curl
@@ -153,19 +160,9 @@
     };
   };
 
-  programs.dconf.enable = true;
-
-  programs.thunar = {
-    enable = true;
-    plugins = with pkgs.xfce; [
-      thunar-archive-plugin
-      thunar-volman
-      xfconf
-    ];
-  };
-
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.
+  programs.dconf.enable = true;
   programs.mtr.enable = true;
   programs.system-config-printer.enable = true;
 
@@ -218,13 +215,13 @@
   hardware.bluetooth.package = pkgs.bluez;
   services.blueman.enable = true;
 
-  security.rtkit.enable = true;
-  security.polkit.enable = true;
+  #security.rtkit.enable = true;
+  #security.polkit.enable = true;
 
-  services.gvfs.enable = true;
+  #services.gvfs.enable = true;
   services.udisks2.enable = true;
-  services.tumbler.enable = true;
-  system.stateVersion = "24.05";
+  #services.tumbler.enable = true;
+  system.stateVersion = "23.11";
 
   # xdg-desktop-portal works by exposing a series of D-Bus interfaces
   # known as portals under a well-known name
@@ -233,21 +230,6 @@
   # The portal interfaces include APIs for file access, opening URIs,
   # printing and others.
   services.dbus.enable = true;
-  xdg = {
-    portal = {
-      wlr.enable = true;
-      enable = true;
-      extraPortals = [
-        pkgs.xdg-desktop-portal-gtk
-        pkgs.xdg-desktop-portal
-      ];
-      configPackages = [
-        pkgs.xdg-desktop-portal-gtk
-        pkgs.xdg-desktop-portal-hyprland
-        pkgs.xdg-desktop-portal
-      ];
-    };
-  };
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 631 53 ];
@@ -281,19 +263,14 @@
     NIXOS_OZONE_WL = "1";
     NIXPKGS_ALLOW_UNFREE = "1";
     SCRIPTDIR = "\${HOME}/.local/share/scriptdeps";
-    XDG_CURRENT_DESKTOP = "Hyprland";
-    XDG_SESSION_TYPE = "wayland";
-    XDG_SESSION_DESKTOP = "Hyprland";
-    GDK_BACKEND = "wayland,x11";
-    CLUTTER_BACKEND = "wayland";
     XCURSOR_SIZE = "24";
     XCURSOR_THEME = "Bibata-Modern-Ice";
-    QT_QPA_PLATFORM = "wayland";
-    QT_WAYLAND_DISABLE_WINDOWDECORATION = "1";
-    QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+    LIBVA_DRIVER_NAME = "nvidia";
+    XDG_SESSION_TYPE = "wayland";
+    GBM_BACKEND = "nvidia-drm";
     MOZ_ENABLE_WAYLAND = "1";
     __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-    GTK_THEME = "Adwaita:dark";
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
+    WLR_NO_HARDWARE_CURSORS = "1";
   };
 }

@@ -1,8 +1,5 @@
-{ config, ... }:
+{ ... }:
 
-let
-  theme = config.colorScheme.palette;
-in
 {
   programs.nixvim = {
     enable = true;
@@ -24,26 +21,6 @@ in
       termguicolors = true;
       scrolloff = 8;
       updatetime = 50;
-    };
-
-    colorschemes.base16.enable = true;
-    colorschemes.base16.customColorScheme = {
-      base00 = "#${theme.base00}";
-      base01 = "#${theme.base01}";
-      base02 = "#${theme.base02}";
-      base03 = "#${theme.base03}";
-      base04 = "#${theme.base04}";
-      base05 = "#${theme.base05}";
-      base06 = "#${theme.base06}";
-      base07 = "#${theme.base07}";
-      base08 = "#${theme.base08}";
-      base09 = "#${theme.base09}";
-      base0A = "#${theme.base0A}";
-      base0B = "#${theme.base0B}";
-      base0C = "#${theme.base0C}";
-      base0D = "#${theme.base0D}";
-      base0E = "#${theme.base0E}";
-      base0F = "#${theme.base0F}";
     };
 
     plugins = {
@@ -114,16 +91,6 @@ in
     extraConfigLua = '' 
       vim.opt.guifont = "JetBrainsMono\\ NFM,Noto_Color_Emoji:h14"
       vim.g.neovide_cursor_animation_length = 0.05
-
-      local colors = {
-        blue   = '#${theme.base0D}',
-        cyan   = '#${theme.base0C}',
-        black  = '#${theme.base00}',
-        white  = '#${theme.base05}',
-        red    = '#${theme.base08}',
-        violet = '#${theme.base0E}',
-        grey   = '#${theme.base02}',
-      }
 
       local bubbles_theme = {
         normal = {
