@@ -74,6 +74,7 @@
 
   # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
+
   users.extraGroups.vboxusers.members = [ "jimh" ];
   virtualisation = {
     virtualbox = {
@@ -127,6 +128,7 @@
     vulkan-tools
     wayland-utils
     fwupd
+    lazygit
   ];
 
   fonts.packages = with pkgs; [
@@ -219,13 +221,14 @@
   hardware.bluetooth.package = pkgs.bluez;
   services.blueman.enable = true;
 
-  #security.rtkit.enable = true;
-  #security.polkit.enable = true;
+  security.rtkit.enable = true;
+  security.polkit.enable = true;
 
-  #services.gvfs.enable = true;
   services.udisks2.enable = true;
-  #services.tumbler.enable = true;
+  services.tumbler.enable = true;
   system.stateVersion = "23.11";
+
+  services.dbus.enable = true;
 
   # xdg-desktop-portal works by exposing a series of D-Bus interfaces
   # known as portals under a well-known name
@@ -233,7 +236,17 @@
   # (/org/freedesktop/portal/desktop).
   # The portal interfaces include APIs for file access, opening URIs,
   # printing and others.
-  services.dbus.enable = true;
+  xdg.portal = {
+    enable = true;
+    extraPortals = [
+      pkgs.xdg-desktop-portal-kde
+      pkgs.xdg-desktop-portal
+    ];
+    configPackages = [
+      pkgs.xdg-desktop-portal-kde
+      pkgs.xdg-desktop-portal
+    ];
+  };
 
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 631 53 ];

@@ -77,14 +77,12 @@
   home.packages = with pkgs; [
     slack
     (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
-    git-cola
     _1password
     brave
     thunderbird
     libreoffice
     sddm
     pulseaudio
-    libva
     blueman
     restic
     ant
@@ -108,16 +106,6 @@
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
   home.file.".jdks/openjdk17".source = pkgs.openjdk17;
   home.file.".jdks/openjdk21".source = pkgs.openjdk21;
-
-  # Theme QT -> GTK
-  #qt = {
-  #  enable = true;
-  #  platformTheme = "gnome";
-  #  style = {
-  #    name = "adwaita-dark";
-  #    package = pkgs.adwaita-qt;
-  #  };
-  #};
 
   # Theme GTK
   dconf = {
