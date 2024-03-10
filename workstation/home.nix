@@ -102,6 +102,7 @@
     ollama
     klavaro
     gh
+    khelpcenter
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;

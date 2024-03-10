@@ -13,8 +13,8 @@
         {
           name = "copilot";
           publisher = "GitHub";
-          version = "1.162.714";
-          sha256 = "sha256-qPdKzmmX3Tdbq+Qw2uNfPDczHgwb6sL2eFRCTzyoN3c=";
+          version = "1.172.758";
+          sha256 = "b0adc8880e2643a1ec7be52967cd596f98814911334ebb3bca9b1f19b2625e6e";
         }
         {
           name = "jnoortheen.nix-ide";

@@ -36,6 +36,8 @@
   networking.timeServers = [ "pool.ntp.org" ];
   services.timesyncd.enable = true;
 
+  services.fwupd.enable = true;
+
   # Set your time zone.
   time.timeZone = "${theTimezone}";
   time.hardwareClockInLocalTime = true;
@@ -117,6 +119,14 @@
     git
     libinput
     libinput-gestures
+    aha
+    pciutils
+    lshw
+    clinfo
+    driversi686Linux.glxinfo
+    vulkan-tools
+    wayland-utils
+    fwupd
   ];
 
   fonts.packages = with pkgs; [
