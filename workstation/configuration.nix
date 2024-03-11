@@ -230,24 +230,6 @@
 
   services.dbus.enable = true;
 
-  # xdg-desktop-portal works by exposing a series of D-Bus interfaces
-  # known as portals under a well-known name
-  # (org.freedesktop.portal.Desktop) and object path
-  # (/org/freedesktop/portal/desktop).
-  # The portal interfaces include APIs for file access, opening URIs,
-  # printing and others.
-  xdg.portal = {
-    enable = true;
-    extraPortals = [
-      pkgs.xdg-desktop-portal-kde
-      pkgs.xdg-desktop-portal
-    ];
-    configPackages = [
-      pkgs.xdg-desktop-portal-kde
-      pkgs.xdg-desktop-portal
-    ];
-  };
-
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 631 53 ];
   networking.firewall.allowedUDPPorts = [ 5353 ];
