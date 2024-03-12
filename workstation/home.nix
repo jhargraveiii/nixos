@@ -97,7 +97,6 @@
     hunspell
     hunspellDicts.en_US
     nil
-    ollama
     klavaro
     gh
     khelpcenter

@@ -15,7 +15,7 @@
         redhat.vscode-xml
         redhat.vscode-yaml
         ms-python.python
-        bungcip.better-toml
+        tamasfe.even-better-toml
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
       ];
   };

@@ -10,6 +10,7 @@
 , theTimezone
 , outputs
 , theKBDLayout
+, ollama-cuda
 , ...
 }:
 
@@ -18,7 +19,7 @@
     [
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
-      ./nvidia.nix
+      ./amd.nix
       ./displaymanager.nix
       ../modules/programs/1password.nix
       ../modules/services/restic.nix
@@ -129,6 +130,7 @@
     wayland-utils
     fwupd
     lazygit
+    ollama-cuda
   ];
 
   fonts.packages = with pkgs; [

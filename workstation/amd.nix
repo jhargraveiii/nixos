@@ -3,7 +3,6 @@
   systemd.tmpfiles.rules = [
     "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
   ];
-  services.xserver.enable = true;
   services.xserver.videoDrivers = [ "amdgpu" ];
   # OpenGL
   hardware.opengl = {

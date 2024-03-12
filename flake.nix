@@ -27,7 +27,7 @@
     let
       inherit (self) outputs;
       system = "x86_64-linux";
-      #ollama-cuda = ollama.packages.${system}.cuda;
+      ollama-cuda = inputs.ollama.packages.${system}.cuda;
 
       # User Variables
       hostname = "datalore";
@@ -47,7 +47,7 @@
       nixosConfigurations = {
         "${hostname}" = nixpkgs.lib.nixosSystem {
           specialArgs = {
-            inherit system; inherit inputs; inherit outputs;
+            inherit system; inherit inputs; inherit outputs; inherit ollama-cuda;
             inherit theKBDLayout; inherit username; inherit hostname; inherit gitUsername;
             inherit gitEmail; inherit theLocale; inherit theTimezone;
           };
@@ -56,7 +56,7 @@
             home-manager.nixosModules.home-manager
             {
               home-manager.extraSpecialArgs = {
-                inherit username;
+                inherit username; 
                 inherit theKBDLayout; inherit wallpaperDir; inherit outputs;
                 inherit flakeDir; inherit gitUsername; inherit gitEmail; inherit inputs;
               };
