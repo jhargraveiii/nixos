@@ -28,7 +28,7 @@
       inherit (self) outputs;
       system = "x86_64-linux";
       ollama-cuda = inputs.ollama.packages.${system}.cuda;
-  
+
       # User Variables
       hostname = "datalore";
       username = "jimh";
