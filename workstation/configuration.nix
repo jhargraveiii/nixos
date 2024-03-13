@@ -10,6 +10,8 @@
 , theTimezone
 , outputs
 , theKBDLayout
+, inputs
+, system
 , ollama-cuda
 , ...
 }:
@@ -20,6 +22,7 @@
       # Include the results of the hardware scan.
       ./hardware-configuration.nix
       ./amd.nix
+      ./nvidia.nix
       ./displaymanager.nix
       ../modules/programs/1password.nix
       ../modules/services/restic.nix
@@ -92,6 +95,11 @@
     overlays = [
       # we want to use some packages from unstable so need this overlay
       outputs.overlays.stable-packages
+    ] ++ [
+      (self: super: {
+        cudatoolkit = super.cudaPackages_12_3.cudatoolkit;
+        cuda_cudart = super.cudaPackages_12_3.cuda_cudart;
+      })
     ];
   };
 
@@ -130,6 +138,8 @@
     wayland-utils
     fwupd
     lazygit
+    cudatoolkit
+    cuda_cudart
     ollama-cuda
   ];
 

@@ -28,7 +28,7 @@
       inherit (self) outputs;
       system = "x86_64-linux";
       ollama-cuda = inputs.ollama.packages.${system}.cuda;
-
+  
       # User Variables
       hostname = "datalore";
       username = "jimh";
@@ -56,7 +56,7 @@
             home-manager.nixosModules.home-manager
             {
               home-manager.extraSpecialArgs = {
-                inherit username; 
+                inherit username; inherit system;
                 inherit theKBDLayout; inherit wallpaperDir; inherit outputs;
                 inherit flakeDir; inherit gitUsername; inherit gitEmail; inherit inputs;
               };

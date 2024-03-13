@@ -1,8 +1,7 @@
 { config, pkgs, ... }:
 {
 
-  #Nvidia
-  #Allow unfree packages
+  #Nvidia is used only for compute!!
   nixpkgs.config.allowUnfree = true;
 
   # Load nvidia driver for Xorg and Wayland
@@ -11,24 +10,11 @@
   environment.systemPackages = with pkgs; [
   ];
   hardware.nvidia = {
-
-    # Modesetting is required.
-    modesetting.enable = true;
-
-    # Nvidia power management. Experimental, and can cause sleep/suspend to fail.
+    modesetting.enable = false;
     powerManagement.enable = false;
-    # Fine-grained power management. Turns off GPU when not in use.
-    # Experimental and only works on modern Nvidia GPUs (Turing or newer).
     powerManagement.finegrained = false;
-
     open = false;
-
-    # Enable the Nvidia settings menu,
-    # accessible via `nvidia-settings`.
-    nvidiaSettings = true;
-    forceFullCompositionPipeline = true;
-
-    # Optionally, you may need to select the appropriate driver version for your specific GPU.
+    nvidiaSettings = false;
     package = config.boot.kernelPackages.nvidiaPackages.stable;
   };
 }
