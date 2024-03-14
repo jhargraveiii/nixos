@@ -83,6 +83,7 @@
   virtualisation = {
     virtualbox = {
       host = {
+        package = pkgs.virtualbox;
         enable = true;
         enableExtensionPack = true;
       };
@@ -95,18 +96,13 @@
     overlays = [
       # we want to use some packages from unstable so need this overlay
       outputs.overlays.stable-packages
-    ] ++ [
-      (self: super: {
-        cudatoolkit = super.cudaPackages_12_3.cudatoolkit;
-        cuda_cudart = super.cudaPackages_12_3.cuda_cudart;
-      })
+      outputs.overlays.cuda
     ];
   };
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    linuxKernel.packages.linux_latest_libre.virtualboxGuestAdditions
     fd
     ripgrep
     silver-searcher
@@ -138,8 +134,6 @@
     wayland-utils
     fwupd
     lazygit
-    cudatoolkit
-    cuda_cudart
     ollama-cuda
   ];
 

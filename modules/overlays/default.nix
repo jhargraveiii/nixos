@@ -20,4 +20,8 @@
       config.allowUnfree = true;
     };
   };
+
+  cuda = final: _prev: {
+    cudaPackages = _prev.cudaPackages_12_3;
+  };
 }

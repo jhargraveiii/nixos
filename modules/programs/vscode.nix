@@ -11,12 +11,18 @@
         yzhang.markdown-all-in-one
         jnoortheen.nix-ide
         github.copilot
-        github.copilot-chat
+        #github.copilot-chat
         redhat.vscode-xml
         redhat.vscode-yaml
         ms-python.python
         tamasfe.even-better-toml
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+        {
+          publisher = "GitHub";
+          name = "copilot-chat";
+          version = "0.14.2024031301";
+          sha256 = "sha256-tkeh3q8GP5ZYIOOwwotkRW7nNjFaucmxHI8IgoRPnMY=";
+        }
       ];
   };
 }
