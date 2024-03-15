@@ -55,7 +55,7 @@
           lemminx.enable = true;
           taplo.enable = true;
           yamlls.enable = true;
-          # insecure error beduase of old package nixd.enable = true;
+          #nixd.enable = true;
           html.enable = true;
           ccls.enable = true;
           cmake.enable = true;

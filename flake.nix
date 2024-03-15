@@ -17,17 +17,12 @@
       url = "github:oxalica/nil";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    ollama = {
-      url = "github:abysssol/ollama-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs = { self, nixpkgs, home-manager, ... } @inputs:
     let
       inherit (self) outputs;
       system = "x86_64-linux";
-      ollama-cuda = inputs.ollama.packages.${system}.cuda;
 
       # User Variables
       hostname = "datalore";
@@ -47,7 +42,7 @@
       nixosConfigurations = {
         "${hostname}" = nixpkgs.lib.nixosSystem {
           specialArgs = {
-            inherit system; inherit inputs; inherit outputs; inherit ollama-cuda;
+            inherit system; inherit inputs; inherit outputs;
             inherit theKBDLayout; inherit username; inherit hostname; inherit gitUsername;
             inherit gitEmail; inherit theLocale; inherit theTimezone;
           };

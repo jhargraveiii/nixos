@@ -12,7 +12,6 @@
 , theKBDLayout
 , inputs
 , system
-, ollama-cuda
 , ...
 }:
 
@@ -26,6 +25,8 @@
       ./displaymanager.nix
       ../modules/programs/1password.nix
       ../modules/services/restic.nix
+      ../modules/services/ollama.nix
+      ../modules/programs/open-webui.nix
       ../modules/programs/appimages.nix
       ../modules/programs/flatpak.nix
     ];
@@ -134,7 +135,6 @@
     wayland-utils
     fwupd
     lazygit
-    ollama-cuda
   ];
 
   fonts.packages = with pkgs; [

@@ -1,6 +1,7 @@
 { pkgs, ... }:
 
 {
+  environment.systemPackages = with pkgs; [ appimage-run ];
   boot.binfmt.registrations.appimage = {
     wrapInterpreterInShell = false;
     interpreter = "${pkgs.appimage-run}/bin/appimage-run";
