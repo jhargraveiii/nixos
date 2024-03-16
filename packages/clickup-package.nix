@@ -1,5 +1,4 @@
 { lib, stdenv, appimageTools, fetchurl, pkgs }:
-
 let
   pname = "clickup-desktop";
   version = "3.3.79";
@@ -26,22 +25,13 @@ let
   };
 in
 appimageTools.wrapType2 rec {
-  inherit pname version src meta;
-  extraPkgs = pkgs: with pkgs; [
-    xorg.libxkbfile
-    alsa-lib
-    dbus-glib
-    gtk3
-    nss
-    gnused
-    libdbusmenu-gtk3
-    # Add any additional dependencies here
-  ];
+  inherit pname version src meta; # no 32bit needed
+  extraPkgs = pkgs: with pkgs; [ xorg.libXtst libpng xorg.libxkbfile alsa-lib dbus-glib gtk3 nss gnused libdbusmenu-gtk3 ];
   extraInstallCommands = ''
     mv $out/bin/{${pname}-${version},${pname}}
     install -Dm444 ${appimageContents}/desktop.desktop -t $out/share/applications
     install -Dm444 ${appimageContents}/desktop.png -t $out/share/pixmaps
     substituteInPlace $out/share/applications/desktop.desktop \
-      --replace 'Exec=AppRun --no-sandbox %U' 'Exec=${pname}'
+    --replace 'Exec=AppRun --no-sandbox %U' 'Exec=${pname}'
   '';
 }

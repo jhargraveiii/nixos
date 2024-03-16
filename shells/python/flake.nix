@@ -13,9 +13,9 @@
     {
       devShells.${system}.default = pkgs.mkShell {
         buildInputs = with pkgs; [
-          cudatoolkit
+          cudaPackages_12_3.cudatoolkit
           linuxPackages.nvidia_x11
-          cudaPackages.cudnn
+          cudaPackages_12_3.cudnn
           libGLU
           libGL
           xorg.libXi

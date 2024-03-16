@@ -26,9 +26,9 @@
       ../modules/programs/1password.nix
       ../modules/services/restic.nix
       ../modules/services/ollama.nix
-      ../modules/programs/open-webui.nix
       ../modules/programs/appimages.nix
       ../modules/programs/flatpak.nix
+      ../modules/programs/open-webui.nix
     ];
 
   systemd.enableEmergencyMode = false;

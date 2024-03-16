@@ -82,6 +82,7 @@ in
     (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
     _1password
     brave
+    firefox
     thunderbird
     libreoffice
     sddm

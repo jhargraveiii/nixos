@@ -1,10 +1,11 @@
 # Download LLMs per api
 # curl http://localhost:11434/api/pull -d '{ "name": "llama2" }'
-{ config, ... }: {
+{ config, pkgs, ... }: {
   virtualisation = {
     podman = {
       enable = true;
       dockerCompat = true;
+      extraPackages = [ pkgs.zfs ];
       defaultNetwork.settings.dns_enabled = true;
     };
   };
