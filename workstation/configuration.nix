@@ -29,6 +29,7 @@
       ../modules/programs/appimages.nix
       ../modules/programs/flatpak.nix
       ../modules/programs/open-webui.nix
+      ../modules/programs/anythingllm.nix
     ];
 
   systemd.enableEmergencyMode = false;
