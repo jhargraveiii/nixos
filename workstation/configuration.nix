@@ -28,8 +28,7 @@
       ../modules/services/ollama.nix
       ../modules/programs/appimages.nix
       ../modules/programs/flatpak.nix
-      ../modules/programs/open-webui.nix
-      ../modules/programs/anythingllm.nix
+      ../modules/services/open-webui.nix
     ];
 
   systemd.enableEmergencyMode = false;
