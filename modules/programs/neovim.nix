@@ -92,6 +92,16 @@
       vim.opt.guifont = "JetBrainsMono\\ NFM,Noto_Color_Emoji:h14"
       vim.g.neovide_cursor_animation_length = 0.05
 
+      local colors = {
+        blue = '#6cb6eb',
+        cyan = '#5fbfbc',
+        black = '#1b1c1d',
+        white = '#d7d7d7',
+        red = '#d54e53',
+        violet = '#b870f3',
+        grey = '#3e4042',
+      }
+
       local bubbles_theme = {
         normal = {
           a = { fg = colors.black, bg = colors.violet },
