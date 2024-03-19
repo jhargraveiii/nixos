@@ -8,10 +8,6 @@
 , wallpaperDir
 , ...
 }:
-
-let
-  clickupPackage = pkgs.callPackage ../packages/clickup-package.nix { };
-in
 {
   # Home Manager Settings
   home.username = "${username}";
@@ -103,8 +99,6 @@ in
     nil
     klavaro
     gh
-    khelpcenter
-    clickupPackage
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
