@@ -98,6 +98,7 @@
     hunspellDicts.en_US
     nil
     klavaro
+    kdePackages.qt6ct
     gh
   ];
 

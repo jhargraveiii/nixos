@@ -262,20 +262,16 @@
     EDITOR = "nvim";
     _ZO_ECHO = "1";
     M2_COLORS = "true";
-    #_JAVA_OPTIONS = "-Dawt.useSystemAAFontSettings=lcd";
     _JAVA_AWT_WM_NONREPARENTING = "1";
     JAVA_HOME = "\${HOME}/.jdks/openjdk11/lib/openjdk";
     NIXOS_OZONE_WL = "1";
     NIXPKGS_ALLOW_UNFREE = "1";
     SCRIPTDIR = "\${HOME}/.local/share/scriptdeps";
-    XCURSOR_SIZE = "24";
-    XCURSOR_THEME = "Bibata-Modern-Ice";
-    LIBVA_DRIVER_NAME = "nvidia";
     XDG_SESSION_TYPE = "wayland";
-    GBM_BACKEND = "nvidia-drm";
     MOZ_ENABLE_WAYLAND = "1";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
     WLR_NO_HARDWARE_CURSORS = "1";
+    QT_QPA_PLATFORM = "wayland";
+    QT_QPA_PLATFORMTHEME = "qt5ct";
   };
 }
