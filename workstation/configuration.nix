@@ -47,7 +47,6 @@
   time.timeZone = "${theTimezone}";
   time.hardwareClockInLocalTime = true;
 
-
   # Select internationalisation properties.
   i18n.defaultLocale = "${theLocale}";
 
@@ -101,9 +100,17 @@
     ];
   };
 
+ environment.plasma6.excludePackages = with pkgs.kdePackages; [
+    plasma-browser-integration
+    konsole
+    oxygen
+  ];
+
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    ant
+    maven
     fd
     ripgrep
     silver-searcher
@@ -157,20 +164,6 @@
     noto-fonts-color-emoji
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
   ];
-
-  # Unlock with Swaylock
-  security = {
-    pam = {
-      services = {
-        swaylock = {
-          fprintAuth = false;
-          text = ''
-            auth include login
-          '';
-        };
-      };
-    };
-  };
 
   # Some programs need SUID wrappers, can be configured further or are
   # started in user sessions.

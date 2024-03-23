@@ -71,6 +71,7 @@
       allowUnfreePredicate = _: true;
     };
   };
+
   # Install Packages For The User
   home.packages = with pkgs; [
     slack
@@ -81,15 +82,8 @@
     thunderbird
     libreoffice
     sddm
-    pulseaudio
-    blueman
     restic
-    ant
-    maven
-    pavucontrol
     python3
-    networkmanager
-    networkmanagerapplet
     meld
     openjdk11
     openvpn
@@ -110,13 +104,7 @@
     settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   };
 
-  home.pointerCursor = {
-    gtk.enable = true;
-    package = pkgs.bibata-cursors;
-    name = "Bibata-Modern-Ice";
-    size = 24;
-  };
-
+  
   # Configure Bash
   programs.bash = {
     enable = true;
