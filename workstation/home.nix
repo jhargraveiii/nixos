@@ -61,7 +61,6 @@
 
   nixpkgs = {
     overlays = [
-      # we want to use some packages from stable so need this overlay
       outputs.overlays.stable-packages
     ];
     # Configure your nixpkgs instance
@@ -98,7 +97,6 @@
     hunspellDicts.en_US
     nil
     klavaro
-    kdePackages.qt6ct
     gh
   ];
 

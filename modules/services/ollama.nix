@@ -3,5 +3,4 @@
     enable = true;
     acceleration = "cuda";
   };
-  environment.systemPackages = [ pkgs.oterm ];
 }

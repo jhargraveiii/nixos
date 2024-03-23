@@ -272,6 +272,6 @@
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
     WLR_NO_HARDWARE_CURSORS = "1";
     QT_QPA_PLATFORM = "wayland";
-    QT_QPA_PLATFORMTHEME = "qt5ct";
+    QT_QPA_PLATFORMTHEME = "qt6ct";
   };
 }
