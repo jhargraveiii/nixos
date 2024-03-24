@@ -127,6 +127,14 @@
     };
   };
 
+  programs.atuin = {
+    enable = true;
+    enableBashIntegration = true;
+    flags = [ "--disable-up-arrow" ];
+    settings =  {
+        };
+  };
+
   # Configure Bash
   programs.bash = {
     enable = true;
@@ -139,6 +147,7 @@
       export NNN_TRASH="1"
       export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
     '';
+    bashrcExtra = '''';
     initExtra = ''
       neofetch
       if [ -f $HOME/.bashrc-personal ]; then
