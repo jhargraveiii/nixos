@@ -104,6 +104,28 @@
     settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   };
 
+  programs.nnn = {
+    enable = true;
+    package = pkgs.nnn.override {
+      withNerdIcons = true;
+    };
+    extraPackages = with pkgs; [ ffmpegthumbnailer mediainfo sxiv ];
+    bookmarks = {
+      H = "/home/${username}";
+    };
+    plugins = {
+      mappings = {
+        c = "fzcd";
+        f = "finder";
+        v = "imgview";
+        o = "xdg-open";
+        t = "trash";
+        d = "diffs";
+        x = "!chmod +x $nnn";
+        q = "preview";
+      };
+    };
+  };
 
   # Configure Bash
   programs.bash = {
@@ -113,6 +135,9 @@
       if [ -f $HOME/.oxygen-xml-developer-profile ]; then
          source $HOME/.oxygen-xml-developer-profile
       fi
+      export NNN_OPTS="QH"
+      export NNN_TRASH="1"
+      export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
     '';
     initExtra = ''
       neofetch
