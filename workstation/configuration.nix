@@ -254,10 +254,6 @@
     };
   };
 
-  programs.bash = {
-    blesh.enable = true;
-  };
-
   # Set Environment Variables
   environment.variables = {
     PATH = [
