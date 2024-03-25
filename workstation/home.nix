@@ -83,7 +83,6 @@
     libreoffice
     sddm
     restic
-    python3
     meld
     openjdk11
     openvpn
