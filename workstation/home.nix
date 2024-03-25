@@ -83,7 +83,6 @@
     libreoffice
     sddm
     restic
-    meld
     openjdk11
     openvpn
     hunspell
@@ -91,7 +90,11 @@
     nil
     klavaro
     gh
-    gittyup
+    okteta
+    kdePackages.kompare
+    kdePackages.kcharselect
+    kdePackages.khelpcenter
+    kdePackages.kjournald
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
@@ -131,8 +134,7 @@
     enable = true;
     enableBashIntegration = true;
     flags = [ "--disable-up-arrow" ];
-    settings =  {
-        };
+    settings = { };
   };
 
   # Configure Bash
