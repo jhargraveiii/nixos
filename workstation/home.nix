@@ -87,14 +87,8 @@
     openvpn
     hunspell
     hunspellDicts.en_US
-    nil
     klavaro
-    gh
-    okteta
-    kdePackages.kompare
-    kdePackages.kcharselect
-    kdePackages.khelpcenter
-    kdePackages.kjournald
+    git-cola
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
@@ -134,7 +128,8 @@
     enable = true;
     enableBashIntegration = true;
     flags = [ "--disable-up-arrow" ];
-    settings = { };
+    settings =  {
+        };
   };
 
   # Configure Bash

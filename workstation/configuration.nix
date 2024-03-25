@@ -112,9 +112,9 @@
   environment.systemPackages = with pkgs; [
     kdePackages.kompare
     kdePackages.kcharselect
-    kdePackages.khelpcenter
     kdePackages.kjournald
-
+    
+    nil
     gh
     okteta
     python311Full
