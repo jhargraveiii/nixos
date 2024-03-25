@@ -92,6 +92,7 @@
     nil
     klavaro
     gh
+    gittyup
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
@@ -143,11 +144,12 @@
       if [ -f $HOME/.oxygen-xml-developer-profile ]; then
          source $HOME/.oxygen-xml-developer-profile
       fi
+    '';
+    bashrcExtra = ''
       export NNN_OPTS="QH"
       export NNN_TRASH="1"
       export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
     '';
-    bashrcExtra = '''';
     initExtra = ''
       neofetch
       if [ -f $HOME/.bashrc-personal ]; then

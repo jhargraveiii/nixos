@@ -137,7 +137,7 @@
     nano
     wget
     curl
-    git
+    gitFull
     libinput
     libinput-gestures
     aha
@@ -149,6 +149,7 @@
     wayland-utils
     fwupd
     lazygit
+    lazydocker
   ];
 
   fonts.packages = with pkgs; [
