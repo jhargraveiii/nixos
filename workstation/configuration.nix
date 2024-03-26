@@ -110,10 +110,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    kdePackages.kompare
-    kdePackages.kcharselect
-    kdePackages.kjournald
-    
+    sddm
     nil
     gh
     okteta

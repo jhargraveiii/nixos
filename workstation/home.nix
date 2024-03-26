@@ -8,6 +8,10 @@
 , wallpaperDir
 , ...
 }:
+# call packages
+let 
+   kommit = pkgs.callPackage ../packages/kommit.nix { };
+in
 {
   # Home Manager Settings
   home.username = "${username}";
@@ -48,6 +52,7 @@
   # Install & Configure Git
   programs.git = {
     enable = true;
+    lfs.enable = true;
     userName = "${gitUsername}";
     userEmail = "${gitEmail}";
     package = pkgs.gitFull;
@@ -81,14 +86,14 @@
     firefox
     thunderbird
     libreoffice
-    sddm
-    restic
-    openjdk11
-    openvpn
     hunspell
     hunspellDicts.en_US
     klavaro
-    git-cola
+    kdePackages.kompare
+    kdePackages.kcharselect
+    kdePackages.kjournald
+    okteta
+    kommit
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
@@ -128,8 +133,7 @@
     enable = true;
     enableBashIntegration = true;
     flags = [ "--disable-up-arrow" ];
-    settings =  {
-        };
+    settings = { };
   };
 
   # Configure Bash
@@ -161,6 +165,7 @@
       flake-update = "sudo nix flake update ${flakeDir}";
       gcCleanup = "nix-collect-garbage --delete-old && sudo nix-collect-garbage -d";
       ls = "lsd";
+      lg = "lazygit";
     };
   };
 
