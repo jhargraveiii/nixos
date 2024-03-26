@@ -10,7 +10,7 @@
 }:
 # call packages
 let 
-   kommit = pkgs.callPackage ../packages/kommit.nix { };
+   
 in
 {
   # Home Manager Settings
@@ -79,6 +79,7 @@ in
 
   # Install Packages For The User
   home.packages = with pkgs; [
+    sddm
     slack
     (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
     _1password
@@ -93,7 +94,8 @@ in
     kdePackages.kcharselect
     kdePackages.kjournald
     okteta
-    kommit
+    gittyup
+    gitg
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;

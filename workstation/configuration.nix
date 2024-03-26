@@ -110,10 +110,10 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    sddm
+    openjdk11
+    openvpn
     nil
     gh
-    okteta
     python311Full
     gparted
     most
