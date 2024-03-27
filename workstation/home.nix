@@ -96,6 +96,7 @@ in
     okteta
     gittyup
     gitg
+    vlc
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
