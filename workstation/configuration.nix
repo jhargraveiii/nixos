@@ -23,11 +23,11 @@
       ./amd.nix
       ./nvidia.nix
       ./displaymanager.nix
+      ../modules/programs/appimages.nix
       ../modules/programs/1password.nix
       ../modules/services/restic.nix
       ../modules/services/ollama.nix
-      ../modules/programs/appimages.nix
-      ../modules/programs/flatpak.nix
+      ../modules/services/flatpak.nix
       ../modules/services/open-webui.nix
     ];
 
@@ -156,6 +156,8 @@
     fwupd
     lazygit
     lazydocker
+    eza
+    wl-clipboard
   ];
 
   fonts.packages = with pkgs; [
@@ -260,6 +262,8 @@
       options = "--delete-older-than 7d";
     };
   };
+
+  environment.sessionVariables.TERMINAL = [ "kitty" ];
 
   # Set Environment Variables
   environment.variables = {

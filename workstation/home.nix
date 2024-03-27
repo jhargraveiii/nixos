@@ -9,8 +9,8 @@
 , ...
 }:
 # call packages
-let 
-   
+let
+
 in
 {
   # Home Manager Settings
@@ -162,11 +162,12 @@ in
     sessionVariables = { };
 
     shellAliases = {
-      conda-shell = "NIXPKGS_ALLOW_UNFREE=1 nix develop ${flakeDir}/modules/shells/conda --impure";
+      conda-shell = "NIXPKGS_ALLOW_UNFREE=1 nix develop ${flakeDir}/flakes/conda --impure";
       flake-rebuild = "sudo nixos-rebuild switch --flake ${flakeDir}";
       flake-update = "sudo nix flake update ${flakeDir}";
       gcCleanup = "nix-collect-garbage --delete-old && sudo nix-collect-garbage -d";
-      ls = "lsd";
+      ls = "eza --icons -F -H --group-directories-first --git -1";
+      ll = "ls -alF";
       lg = "lazygit";
     };
   };
@@ -174,6 +175,10 @@ in
   # Nicely reload system units when changing configs
   systemd.user.startServices = "sd-switch";
 
-  home.sessionVariables = { };
+  home.sessionVariables = {
+    EDITOR = "nvim";
+    BROWSER = "firefox";
+    TERMINAL = "kitty";
+  };
   programs.home-manager.enable = true;
 }

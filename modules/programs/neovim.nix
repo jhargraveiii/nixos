@@ -6,7 +6,10 @@
     globals.mapleader = " "; # Sets the leader key to space
 
     options = {
-      clipboard = "unnamedplus";
+      clipboard = {
+        providers.wl-copy.enable = true;
+        register = "unnamedplus";
+      };
       number = true; # Show line numbers
       relativenumber = true; # Show relative line numbers
       shiftwidth = 2; # Tab width should be 2
