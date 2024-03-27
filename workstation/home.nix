@@ -40,7 +40,7 @@ in
     enable = true;
     enableBashIntegration = true;
     options = [
-      "--cmd cd"
+      "--cmd z"
     ];
   };
 
@@ -113,7 +113,7 @@ in
     package = pkgs.nnn.override {
       withNerdIcons = true;
     };
-    extraPackages = with pkgs; [ ffmpegthumbnailer mediainfo sxiv ];
+    extraPackages = with pkgs; [ ffmpegthumbnailer mediainfo sxiv kdeplasma-addons okular ];
     bookmarks = {
       H = "/home/${username}";
     };
@@ -148,9 +148,11 @@ in
       fi
     '';
     bashrcExtra = ''
-      export NNN_OPTS="QH"
-      export NNN_TRASH="1"
-      export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
+      # Configure nnn
+       export NNN_PLUG='p:preview-tui;l:lastdir'
+       export NNN_OPENER="${pkgs.xdg-utils}/bin/xdg-open"
+       export NNN_TRASH="1"
+       export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
     '';
     initExtra = ''
       neofetch

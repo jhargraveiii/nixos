@@ -158,6 +158,7 @@
     lazydocker
     eza
     wl-clipboard
+    blesh
   ];
 
   fonts.packages = with pkgs; [
@@ -262,6 +263,13 @@
       options = "--delete-older-than 7d";
     };
   };
+
+  environment.etc."bashrc".text = ''
+    # Load Blesh for Bash
+    if [ -f /run/current-system/sw/bin/blesh-init ]; then
+      . /run/current-system/sw/bin/blesh-init
+    fi
+  '';
 
   environment.sessionVariables.TERMINAL = [ "kitty" ];
 
