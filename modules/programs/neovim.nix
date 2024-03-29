@@ -29,6 +29,8 @@
       barbecue.enable = true;
       copilot-vim.enable = true;
       gitsigns.enable = true;
+      toggleterm.enable = true;
+      neo-tree.enable = true;
       telescope = {
         enable = true;
         keymaps = {
@@ -48,6 +50,23 @@
         enable = true;
         theme = "dashboard";
       };
+       lint = {
+        enable = true;
+        lintersByFt = {
+          text = ["vale"];
+          json = ["jsonlint"];
+          markdown = ["vale"];
+          rst = ["vale"];
+          ruby = ["ruby"];
+          janet = ["janet"];
+          inko = ["inko"];
+          clojure = ["clj-kondo"];
+          dockerfile = ["hadolint"];
+          terraform = ["tflint"];
+          typscriptreact = ["prettier_eslint"];
+        };
+      };
+
       lsp = {
         enable = true;
         servers = {
@@ -63,6 +82,7 @@
           ccls.enable = true;
           cmake.enable = true;
           cssls.enable = true;
+          gopls.enable = true;
           jsonls.enable = true;
           pyright.enable = true;
           tailwindcss.enable = true;
