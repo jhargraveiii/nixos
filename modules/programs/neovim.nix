@@ -118,7 +118,6 @@
       nim-vim
     ];
 
-    # FOR NEOVIDE
     extraConfigLua = '' 
       vim.opt.guifont = "JetBrainsMono\\ NFM,Noto_Color_Emoji:h14"
       vim.g.neovide_cursor_animation_length = 0.05
@@ -128,19 +127,6 @@
       vim.g.neovide_cursor_vfx_particle_speed = 10
       vim.g.neovide_cursor_vfx_particle_phase = 0.04
       vim.g.neovide_cursor_vfx_line_enable = 1
-      
-      " For nim-vim
-      fun! JumpToDef()
-        if exists("*GotoDefinition_" . &filetype)
-          call GotoDefinition_{&filetype}()
-        else
-          exe "norm! \<C-]>"
-        endif
-      endf
-
-      " Jump to tag
-      nn <M-g> :call JumpToDef()<cr>
-      ino <M-g> <esc>:call JumpToDef()<cr>i
     '';
 
     extraConfigVim = ''

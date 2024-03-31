@@ -158,7 +158,6 @@
     blesh
     nim
     nimble
-    nimlsp
   ];
 
   fonts.packages = with pkgs; [
