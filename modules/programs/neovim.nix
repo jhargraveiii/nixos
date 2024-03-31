@@ -5,7 +5,7 @@
     enable = true;
     globals.mapleader = " "; # Sets the leader key to space
 
-    options = {
+    opts = {
       clipboard = {
         providers.wl-copy.enable = true;
         register = "unnamedplus";
@@ -26,6 +26,7 @@
     };
 
     plugins = {
+      lsp-format.enable = true;
       barbecue.enable = true;
       copilot-vim.enable = true;
       gitsigns.enable = true;
@@ -50,26 +51,27 @@
         enable = true;
         theme = "dashboard";
       };
-       lint = {
+      lint = {
         enable = true;
         lintersByFt = {
-          text = ["vale"];
-          json = ["jsonlint"];
-          markdown = ["vale"];
-          rst = ["vale"];
-          ruby = ["ruby"];
-          janet = ["janet"];
-          inko = ["inko"];
-          clojure = ["clj-kondo"];
-          dockerfile = ["hadolint"];
-          terraform = ["tflint"];
-          typscriptreact = ["prettier_eslint"];
+          text = [ "vale" ];
+          json = [ "jsonlint" ];
+          markdown = [ "vale" ];
+          rst = [ "vale" ];
+          ruby = [ "ruby" ];
+          janet = [ "janet" ];
+          inko = [ "inko" ];
+          clojure = [ "clj-kondo" ];
+          dockerfile = [ "hadolint" ];
+          terraform = [ "tflint" ];
+          typscriptreact = [ "prettier_eslint" ];
         };
       };
 
       lsp = {
         enable = true;
         servers = {
+          nil_ls.enable = true;
           lua-ls.enable = true;
           bashls.enable = true;
           dockerls.enable = true;
@@ -77,7 +79,6 @@
           lemminx.enable = true;
           taplo.enable = true;
           yamlls.enable = true;
-          nixd.enable = true;
           html.enable = true;
           ccls.enable = true;
           cmake.enable = true;
@@ -113,6 +114,8 @@
     extraPlugins = with pkgs.vimPlugins; [
       vim-toml
       vim-markdown
+      nvim-treesitter-parsers.nim
+      nim-vim
     ];
 
     # FOR NEOVIDE
@@ -125,6 +128,19 @@
       vim.g.neovide_cursor_vfx_particle_speed = 10
       vim.g.neovide_cursor_vfx_particle_phase = 0.04
       vim.g.neovide_cursor_vfx_line_enable = 1
+      
+      " For nim-vim
+      fun! JumpToDef()
+        if exists("*GotoDefinition_" . &filetype)
+          call GotoDefinition_{&filetype}()
+        else
+          exe "norm! \<C-]>"
+        endif
+      endf
+
+      " Jump to tag
+      nn <M-g> :call JumpToDef()<cr>
+      ino <M-g> <esc>:call JumpToDef()<cr>i
     '';
 
     extraConfigVim = ''

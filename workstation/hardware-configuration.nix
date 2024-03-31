@@ -27,7 +27,7 @@
     kernelModules = [ "kvm-amd" ];
     kernelParams = [ ];
     extraModulePackages = [ ];
-    tmp.useTmpfs = true;
+    tmp.useTmpfs = false;
     tmp.tmpfsSize = "25%";
     tmp.cleanOnBoot = true;
   };
@@ -83,7 +83,7 @@
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   powerManagement.cpuFreqGovernor = lib.mkDefault "ondemand";
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault true;
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
   hardware.enableRedistributableFirmware = lib.mkDefault true;
   hardware.enableAllFirmware = lib.mkDefault true;
 }

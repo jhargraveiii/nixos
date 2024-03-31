@@ -95,7 +95,7 @@ in
     kdePackages.kjournald
     okteta
     gittyup
-    gitg
+    git-cola
     vlc
   ];
 

@@ -23,11 +23,9 @@
       ./amd.nix
       ./nvidia.nix
       ./displaymanager.nix
-      ../modules/programs/appimages.nix
       ../modules/programs/1password.nix
       ../modules/services/restic.nix
       ../modules/services/ollama.nix
-      ../modules/services/flatpak.nix
       ../modules/services/open-webui.nix
     ];
 
@@ -88,7 +86,6 @@
         enableExtensionPack = true;
       };
       guest.enable = true;
-      guest.x11 = true;
     };
   };
 
@@ -114,7 +111,7 @@
     openvpn
     nil
     gh
-    python311Full
+    python312Full
     gparted
     most
     bat
@@ -159,6 +156,9 @@
     eza
     wl-clipboard
     blesh
+    nim
+    nimble
+    nimlsp
   ];
 
   fonts.packages = with pkgs; [
@@ -230,6 +230,8 @@
     jack.enable = true;
   };
 
+  services.flatpak.enable = true;
+
   hardware.pulseaudio.enable = false;
   sound.enable = true;
   hardware.bluetooth.enable = true; # enables support for Bluetooth
@@ -292,5 +294,6 @@
     WLR_NO_HARDWARE_CURSORS = "1";
     QT_QPA_PLATFORM = "wayland";
     QT_QPA_PLATFORMTHEME = "qt6ct";
+    GIT_COLA_NO_VENDOR_LIBS = "1";
   };
 }
