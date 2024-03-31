@@ -27,7 +27,7 @@
     kernelModules = [ "kvm-amd" ];
     kernelParams = [ ];
     extraModulePackages = [ ];
-    tmp.useTmpfs = false;
+    tmp.useTmpfs = true;
     tmp.tmpfsSize = "25%";
     tmp.cleanOnBoot = true;
   };
