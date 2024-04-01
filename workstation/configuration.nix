@@ -137,6 +137,7 @@
     lshw
     pkg-config
     gnumake
+    cmake
     nano
     wget
     curl
@@ -152,12 +153,13 @@
     wayland-utils
     fwupd
     lazygit
-    lazydocker
     eza
     wl-clipboard
     blesh
     nim
     nimble
+    nimlsp
+    clang
   ];
 
   fonts.packages = with pkgs; [
@@ -278,6 +280,7 @@
   environment.variables = {
     PATH = [
       "\${HOME}/oxygenDeveloper"
+      "\${HOME}/.nimble/bin"
     ];
     EDITOR = "nvim";
     _ZO_ECHO = "1";
