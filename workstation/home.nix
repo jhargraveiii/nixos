@@ -169,7 +169,6 @@ in
       flake-rebuild = "sudo nixos-rebuild switch --flake ${flakeDir}";
       flake-update = "sudo nix flake update ${flakeDir}";
       gcCleanup = "nix-collect-garbage --delete-old && sudo nix-collect-garbage -d";
-      ls = "eza --icons -F -H --group-directories-first --git -1";
       ll = "ls -alF";
       lg = "lazygit";
     };

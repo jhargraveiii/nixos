@@ -94,6 +94,7 @@
       # we want to use some packages from unstable so need this overlay
       outputs.overlays.stable-packages
       outputs.overlays.cuda
+      outputs.overlays.nimble2
     ];
   };
 
@@ -153,12 +154,9 @@
     wayland-utils
     fwupd
     lazygit
-    eza
     wl-clipboard
-    blesh
     nim
     nimble
-    nimlsp
     clang
   ];
 
@@ -267,13 +265,6 @@
     };
   };
 
-  environment.etc."bashrc".text = ''
-    # Load Blesh for Bash
-    if [ -f /run/current-system/sw/bin/blesh-init ]; then
-      . /run/current-system/sw/bin/blesh-init
-    fi
-  '';
-
   environment.sessionVariables.TERMINAL = [ "kitty" ];
 
   # Set Environment Variables
@@ -296,6 +287,5 @@
     WLR_NO_HARDWARE_CURSORS = "1";
     QT_QPA_PLATFORM = "wayland";
     QT_QPA_PLATFORMTHEME = "qt6ct";
-    GIT_COLA_NO_VENDOR_LIBS = "1";
   };
 }

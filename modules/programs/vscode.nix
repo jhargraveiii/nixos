@@ -21,7 +21,7 @@
           version = "0.14.2024031301";
           sha256 = "sha256-tkeh3q8GP5ZYIOOwwotkRW7nNjFaucmxHI8IgoRPnMY=";
         }
-         {
+        {
           publisher = "nimlang";
           name = "nimlang";
           version = "0.9.0";

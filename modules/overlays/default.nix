@@ -3,25 +3,22 @@
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: _prev: import ../pkgs { pkgs = final; };
 
-  # This one contains whatever you want to overlay
-  # You can change versions, add patches, set compilation flags, anything really.
-  # https://nixos.wiki/wiki/Overlays
-  modifications = final: prev: {
-    # example = prev.example.overrideAttrs (oldAttrs: rec {
-    # ...
-    # });
-  };
-
   # When applied, the stable nixpkgs set (declared in the flake inputs) will
   # be accessible through 'pkgs.stable'
-  stable-packages = final: _prev: {
+  stable-packages = final: prev: {
     stable = import inputs.nixpkgs-stable {
       system = final.system;
       config.allowUnfree = true;
     };
   };
 
-  cuda = final: _prev: {
-    cudaPackages = _prev.cudaPackages_12_3;
+  nimble2 = final: prev: {
+    nimble = prev.nimble.overrideAttrs (oldAttrs: rec {
+      requiredNimVersion = 2;
+    });
+  };
+
+  cuda = final: prev: {
+    cudaPackages = prev.cudaPackages_12_3;
   };
 }
