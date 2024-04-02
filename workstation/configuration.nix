@@ -156,6 +156,7 @@
     lazygit
     wl-clipboard
     nim
+    nim-unwrapped-2
     nimble
     clang
   ];
