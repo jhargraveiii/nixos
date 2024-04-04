@@ -138,7 +138,6 @@
     lshw
     pkg-config
     gnumake
-    cmake
     nano
     wget
     curl
@@ -155,7 +154,6 @@
     fwupd
     lazygit
     wl-clipboard
-    nim
     nim-unwrapped-2
     nimble
     clang
