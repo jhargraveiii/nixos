@@ -112,6 +112,7 @@
     openvpn
     nil
     gh
+    go
     python312Full
     gparted
     most
@@ -138,6 +139,9 @@
     lshw
     pkg-config
     gnumake
+    cmake
+    clang
+    gcc
     nano
     wget
     curl
@@ -156,7 +160,6 @@
     wl-clipboard
     nim-unwrapped-2
     nimble
-    clang
   ];
 
   fonts.packages = with pkgs; [

@@ -36,14 +36,6 @@ in
     };
   };
 
-  programs.zoxide = {
-    enable = true;
-    enableBashIntegration = true;
-    options = [
-      "--cmd z"
-    ];
-  };
-
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;

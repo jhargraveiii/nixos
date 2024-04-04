@@ -71,6 +71,7 @@
       lsp = {
         enable = true;
         servers = {
+          nimls.enable = true;
           nil_ls.enable = true;
           lua-ls.enable = true;
           bashls.enable = true;
