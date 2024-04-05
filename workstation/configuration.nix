@@ -157,9 +157,9 @@
     fwupd
     lazygit
     wl-clipboard
+    nim
     nim-unwrapped-2
     nimble
-    nimlangserver
   ];
 
   fonts.packages = with pkgs; [
