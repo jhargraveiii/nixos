@@ -8,10 +8,6 @@
 , wallpaperDir
 , ...
 }:
-# call packages
-let
-
-in
 {
   # Home Manager Settings
   home.username = "${username}";
@@ -39,6 +35,7 @@ in
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
+    # Enable fzf key bindings
   };
 
   # Install & Configure Git

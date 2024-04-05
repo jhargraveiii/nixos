@@ -14,7 +14,6 @@
 , system
 , ...
 }:
-
 {
   imports =
     [
@@ -160,6 +159,7 @@
     wl-clipboard
     nim-unwrapped-2
     nimble
+    nimlangserver
   ];
 
   fonts.packages = with pkgs; [
