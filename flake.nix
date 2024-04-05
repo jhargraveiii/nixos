@@ -19,7 +19,13 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... } @inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      ...
+    }@inputs:
     let
       inherit (self) outputs;
       system = "x86_64-linux";
@@ -36,24 +42,37 @@
       wallpaperDir = "/home/${username}/Pictures/Wallpapers";
     in
     {
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixpkgs-fmt;
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
       # Your custom packages and modifications, exported as overlays
       overlays = import ./modules/overlays { inherit inputs; };
       nixosConfigurations = {
         "${hostname}" = nixpkgs.lib.nixosSystem {
           specialArgs = {
-            inherit system; inherit inputs; inherit outputs;
-            inherit theKBDLayout; inherit username; inherit hostname; inherit gitUsername;
-            inherit gitEmail; inherit theLocale; inherit theTimezone;
+            inherit system;
+            inherit inputs;
+            inherit outputs;
+            inherit theKBDLayout;
+            inherit username;
+            inherit hostname;
+            inherit gitUsername;
+            inherit gitEmail;
+            inherit theLocale;
+            inherit theTimezone;
           };
           modules = [
             ./workstation/configuration.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.extraSpecialArgs = {
-                inherit username; inherit system;
-                inherit theKBDLayout; inherit wallpaperDir; inherit outputs;
-                inherit flakeDir; inherit gitUsername; inherit gitEmail; inherit inputs;
+                inherit username;
+                inherit system;
+                inherit theKBDLayout;
+                inherit wallpaperDir;
+                inherit outputs;
+                inherit flakeDir;
+                inherit gitUsername;
+                inherit gitEmail;
+                inherit inputs;
               };
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";

@@ -14,7 +14,8 @@
         redhat.vscode-xml
         redhat.vscode-yaml
         tamasfe.even-better-toml
-      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+      ]
+      ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
           publisher = "GitHub";
           name = "copilot-chat";
@@ -25,7 +26,7 @@
           publisher = "julialang";
           name = "language-julia";
           version = "1.75.2";
-          sha256 = "sha256-tkeh3q8GP5ZYIOOwwotkRW7nNjFaucmxHI8IgoRPnMY=";
+          sha256 = "sha256-wGguwyTy3jj89ud/nQw2vbtNxYuWkfi0qG6QGUyvuz4=";
         }
       ];
   };

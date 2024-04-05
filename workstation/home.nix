@@ -1,12 +1,13 @@
-{ pkgs
-, inputs
-, username
-, gitUsername
-, gitEmail
-, flakeDir
-, outputs
-, wallpaperDir
-, ...
+{
+  pkgs,
+  inputs,
+  username,
+  gitUsername,
+  gitEmail,
+  flakeDir,
+  outputs,
+  wallpaperDir,
+  ...
 }:
 {
   # Home Manager Settings
@@ -54,9 +55,7 @@
   };
 
   nixpkgs = {
-    overlays = [
-      outputs.overlays.stable-packages
-    ];
+    overlays = [ outputs.overlays.stable-packages ];
     # Configure your nixpkgs instance
     config = {
       # Disable if you don't want unfree packages
@@ -100,10 +99,14 @@
 
   programs.nnn = {
     enable = true;
-    package = pkgs.nnn.override {
-      withNerdIcons = true;
-    };
-    extraPackages = with pkgs; [ ffmpegthumbnailer mediainfo sxiv kdeplasma-addons okular ];
+    package = pkgs.nnn.override { withNerdIcons = true; };
+    extraPackages = with pkgs; [
+      ffmpegthumbnailer
+      mediainfo
+      sxiv
+      kdeplasma-addons
+      okular
+    ];
     bookmarks = {
       H = "/home/${username}";
     };

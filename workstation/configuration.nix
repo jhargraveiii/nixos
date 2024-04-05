@@ -2,31 +2,31 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs
-, username
-, hostname
-, gitUsername
-, theLocale
-, theTimezone
-, outputs
-, theKBDLayout
-, inputs
-, system
-, ...
+{
+  pkgs,
+  username,
+  hostname,
+  gitUsername,
+  theLocale,
+  theTimezone,
+  outputs,
+  theKBDLayout,
+  inputs,
+  system,
+  ...
 }:
 {
-  imports =
-    [
-      # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./amd.nix
-      ./nvidia.nix
-      ./displaymanager.nix
-      ../modules/programs/1password.nix
-      ../modules/services/restic.nix
-      ../modules/services/ollama.nix
-      ../modules/services/open-webui.nix
-    ];
+  imports = [
+    # Include the results of the hardware scan.
+    ./hardware-configuration.nix
+    ./amd.nix
+    ./nvidia.nix
+    ./displaymanager.nix
+    ../modules/programs/1password.nix
+    ../modules/services/restic.nix
+    ../modules/services/ollama.nix
+    ../modules/services/open-webui.nix
+  ];
 
   systemd.enableEmergencyMode = false;
 
@@ -65,7 +65,15 @@
   users.users.${username} = {
     isNormalUser = true;
     description = "${gitUsername}";
-    extraGroups = [ "networkmanager" "wheel" "docker" "libvirtd" "scanner" "lp" "video" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "libvirtd"
+      "scanner"
+      "lp"
+      "video"
+    ];
     uid = 1000;
     openssh.authorizedKeys.keys = [
       # Replace with your own public key
@@ -93,7 +101,6 @@
       # we want to use some packages from unstable so need this overlay
       outputs.overlays.stable-packages
       outputs.overlays.cuda
-      outputs.overlays.nimble2
     ];
   };
 
@@ -264,7 +271,10 @@
   services.dbus.enable = true;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 631 53 ];
+  networking.firewall.allowedTCPPorts = [
+    631
+    53
+  ];
   networking.firewall.allowedUDPPorts = [ 5353 ];
   networking.firewall.enable = true;
 
@@ -272,7 +282,10 @@
   nix = {
     settings = {
       auto-optimise-store = true;
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
     };
     gc = {
       automatic = true;

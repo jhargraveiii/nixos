@@ -7,8 +7,7 @@
   # Load nvidia driver for Xorg and Wayland
   nixpkgs.config.nvidia.acceptLicense = true;
   services.xserver.videoDrivers = [ "nvidia" ];
-  environment.systemPackages = with pkgs; [
-  ];
+  environment.systemPackages = with pkgs; [ ];
   hardware.nvidia = {
     modesetting.enable = false;
     powerManagement.enable = false;

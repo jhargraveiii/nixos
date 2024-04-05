@@ -1,6 +1,7 @@
 {
   description = "Python 3.10 development environment";
-  outputs = { self, nixpkgs }:
+  outputs =
+    { self, nixpkgs }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -29,15 +30,17 @@
           ncurses5
           stdenv.cc
           binutils
-          (pkgs.python310.withPackages (ps: with ps; [
-            pip
-            pandas
-            requests
-            numpy
-            pytorch
-            jaxlibWithCuda
-            jax
-          ]))
+          (pkgs.python310.withPackages (
+            ps: with ps; [
+              pip
+              pandas
+              requests
+              numpy
+              pytorch
+              jaxlibWithCuda
+              jax
+            ]
+          ))
         ];
 
         shellHook = ''

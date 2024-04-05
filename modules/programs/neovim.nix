@@ -129,7 +129,7 @@
       julia-vim
     ];
 
-    extraConfigLua = '' 
+    extraConfigLua = ''
       vim.opt.guifont = "JetBrainsMono\\ NFM,Noto_Color_Emoji:h14"
       vim.g.neovide_cursor_animation_length = 0.05
       vim.g.neovide_cursor_vfx_mode = "railgun"
@@ -164,4 +164,4 @@
       }
     ];
   };
-} 
+}

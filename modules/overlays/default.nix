@@ -1,5 +1,6 @@
 # This file defines overlays
-{ inputs, ... }: {
+{ inputs, ... }:
+{
   # This one brings our custom packages from the 'pkgs' directory
   additions = final: _prev: import ../pkgs { pkgs = final; };
 
@@ -12,13 +13,5 @@
     };
   };
 
-  nimble2 = final: prev: {
-    nimble = prev.nimble.overrideAttrs (oldAttrs: rec {
-      requiredNimVersion = 2;
-    });
-  };
-
-  cuda = final: prev: {
-    cudaPackages = prev.cudaPackages_12_3;
-  };
+  cuda = final: prev: { cudaPackages = prev.cudaPackages_12_3; };
 }

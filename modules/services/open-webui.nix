@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
   virtualisation = {
     podman = {
       enable = true;
@@ -13,8 +14,9 @@
     ports = [ "8080:8080" ];
     # TODO figure out how to create the data directory declaratively
     volumes = [ "${config.users.users.jimh.home}/DATA2/open-webui:/app/backend/data" ];
-    extraOptions =
-      [ "--network=host" ];
-    environment = { OLLAMA_BASE_URL = "http://127.0.0.1:11434"; };
+    extraOptions = [ "--network=host" ];
+    environment = {
+      OLLAMA_BASE_URL = "http://127.0.0.1:11434";
+    };
   };
 }
