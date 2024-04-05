@@ -32,6 +32,7 @@
       gitsigns.enable = true;
       toggleterm.enable = true;
       neo-tree.enable = true;
+      julia-cell.enable = true;
       telescope = {
         enable = true;
         keymaps = {
@@ -49,29 +50,36 @@
       };
       startup = {
         enable = true;
-        theme = "dashboard";
+        theme = "auto";
       };
       lint = {
         enable = true;
         lintersByFt = {
+          nix = [ "nixfmt" ];
+          bash = [ "shellcheck" ];
           text = [ "vale" ];
           json = [ "jsonlint" ];
-          markdown = [ "vale" ];
-          rst = [ "vale" ];
-          ruby = [ "ruby" ];
-          janet = [ "janet" ];
-          inko = [ "inko" ];
-          clojure = [ "clj-kondo" ];
+          markdown = [ "mdformat" ];
+          lua = [ "luacheck" ];
           dockerfile = [ "hadolint" ];
-          terraform = [ "tflint" ];
-          typscriptreact = [ "prettier_eslint" ];
+          yaml = [ "yamllint" ];
+          html = [ "tidy" ];
+          cpp = [ "cppcheck" ];
+          proto = [ "protolint" ];
+          python = [ "pylint" ];
+          java = [ "checkstyle" ];
+          git = [ "gitlint" ];
+          make = [ "checkmake" ];
+          c = [ "cppcheck" ];
+          css = [ "stylelint" ];
+          toml = [ "tomlcheck" ];
         };
       };
 
       lsp = {
         enable = true;
         servers = {
-          #nimls.enable = true;
+          julials.enable = true;
           nil_ls.enable = true;
           lua-ls.enable = true;
           bashls.enable = true;
@@ -115,8 +123,10 @@
     extraPlugins = with pkgs.vimPlugins; [
       vim-toml
       vim-markdown
-      nvim-treesitter-parsers.nim
-      nim-vim
+      nvim-treesitter-parsers.julia
+      nvim-treesitter-parsers.toml
+      deoplete-julia
+      julia-vim
     ];
 
     extraConfigLua = '' 

@@ -110,6 +110,22 @@
     openjdk11
     openvpn
     nil
+    nixfmt
+    shellcheck
+    vale
+    hadolint
+    yamllint
+    cppcheck
+    protolint
+    pylint
+    checkstyle
+    gitlint
+    checkmake
+    mdformat
+    cppcheck
+    stylelint
+    #haskellPackages.tomlcheck
+    protobuf
     gh
     go
     python312Full
@@ -157,12 +173,10 @@
     fwupd
     lazygit
     wl-clipboard
-    nim
-    nim-unwrapped-2
-    nimble
   ];
 
   fonts.packages = with pkgs; [
+    julia-mono
     fira-code
     fira
     cooper-hewitt
