@@ -120,6 +120,7 @@
     nixpkgs-fmt
     jsonfmt
     protobuf
+    deno
     gh
     go
     gparted

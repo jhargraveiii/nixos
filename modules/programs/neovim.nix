@@ -121,7 +121,9 @@
       nvim-treesitter-parsers.toml
       deoplete-julia
       julia-vim
+      denops-vim
       statix
+      vim-pluto
     ];
 
     extraConfigLua = ''

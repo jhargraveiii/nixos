@@ -9,6 +9,7 @@
         "DataFrames"
         "CSV"
         "Plots"
+        "Pluto"
       ])
     ];
 }
