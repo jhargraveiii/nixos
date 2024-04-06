@@ -76,6 +76,7 @@
     vlc
   ];
 
+  home.file.".jupyterlab".source = pkgs.python312Packages.jupyterlab;
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
   home.file.".jdks/openjdk17".source = pkgs.openjdk17;
   home.file.".jdks/openjdk21".source = pkgs.openjdk21;
@@ -141,7 +142,7 @@
       fi
     '';
 
-    sessionVariables = { };
+    sessionVariables = { PATH = [ "$HOME/.jupyterlab/bin" ]; };
 
     shellAliases = {
       conda-shell =

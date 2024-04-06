@@ -17,6 +17,7 @@
     ../modules/services/flatpak.nix
     ../modules/programs/distrobox.nix
     ../modules/programs/julia.nix
+    ../modules/programs/python.nix
   ];
 
   systemd.enableEmergencyMode = false;
@@ -116,12 +117,11 @@
     cppcheck
     stylelint
     nixpkgs-lint
+    nixpkgs-fmt
     jsonfmt
     protobuf
     gh
     go
-    python312Full
-    python312Packages.jupytext
     gparted
     most
     bat
@@ -274,7 +274,7 @@
 
   # Set Environment Variables
   environment.variables = {
-    PATH = [ "\${HOME}/oxygenDeveloper" "\${HOME}/.nimble/bin" ];
+    PATH = [ "\${HOME}/oxygenDeveloper" ];
     EDITOR = "nvim";
     _ZO_ECHO = "1";
     M2_COLORS = "true";
