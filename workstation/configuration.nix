@@ -16,6 +16,7 @@
     ../modules/services/open-webui.nix
     ../modules/services/flatpak.nix
     ../modules/programs/distrobox.nix
+    ../modules/programs/julia.nix
   ];
 
   systemd.enableEmergencyMode = false;
@@ -116,12 +117,11 @@
     stylelint
     nixpkgs-lint
     jsonfmt
-    julia
-    #haskellPackages.tomlcheck
     protobuf
     gh
     go
     python312Full
+    python312Packages.jupytext
     gparted
     most
     bat
@@ -195,6 +195,7 @@
   programs.dconf.enable = true;
   programs.mtr.enable = true;
   programs.system-config-printer.enable = true;
+  programs.nix-ld.enable = true;
 
   services.printing.enable = true;
   services.printing.stateless = true;
