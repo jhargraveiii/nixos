@@ -6,7 +6,6 @@
   gitEmail,
   flakeDir,
   outputs,
-  wallpaperDir,
   ...
 }:
 {

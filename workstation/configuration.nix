@@ -26,6 +26,8 @@
     ../modules/services/restic.nix
     ../modules/services/ollama.nix
     ../modules/services/open-webui.nix
+    ../modules/services/flatpak.nix
+    ../modules/programs/distrobox.nix
   ];
 
   systemd.enableEmergencyMode = false;
@@ -131,6 +133,7 @@
     mdformat
     cppcheck
     stylelint
+    julia
     #haskellPackages.tomlcheck
     protobuf
     gh
@@ -251,8 +254,6 @@
     pulse.enable = true;
     jack.enable = true;
   };
-
-  services.flatpak.enable = true;
 
   hardware.pulseaudio.enable = false;
   sound.enable = true;

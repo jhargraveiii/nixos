@@ -63,7 +63,6 @@
           lua = [ "luacheck" ];
           dockerfile = [ "hadolint" ];
           yaml = [ "yamllint" ];
-          html = [ "tidy" ];
           cpp = [ "cppcheck" ];
           proto = [ "protolint" ];
           python = [ "pylint" ];
@@ -72,7 +71,6 @@
           make = [ "checkmake" ];
           c = [ "cppcheck" ];
           css = [ "stylelint" ];
-          toml = [ "tomlcheck" ];
         };
       };
 
