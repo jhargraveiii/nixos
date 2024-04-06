@@ -1,12 +1,10 @@
-{ pkgs, ... }:
-{
+{ pkgs, ... }: {
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;
     enableUpdateCheck = true;
     enableExtensionUpdateCheck = true;
-    extensions =
-      with pkgs.vscode-extensions;
+    extensions = with pkgs.vscode-extensions;
       [
         yzhang.markdown-all-in-one
         jnoortheen.nix-ide
@@ -14,8 +12,7 @@
         redhat.vscode-xml
         redhat.vscode-yaml
         tamasfe.even-better-toml
-      ]
-      ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
         {
           publisher = "GitHub";
           name = "copilot-chat";

@@ -45,9 +45,7 @@
       nvim-autopairs.enable = true;
       nix.enable = true;
       comment.enable = true;
-      lualine = {
-        enable = true;
-      };
+      lualine = { enable = true; };
       startup = {
         enable = true;
         theme = "auto";
@@ -55,11 +53,12 @@
       lint = {
         enable = true;
         lintersByFt = {
-          nix = [ "nixfmt" ];
+          nix = [ "nixpkgs-lint" ];
+          html = [ "vale" ];
           bash = [ "shellcheck" ];
           text = [ "vale" ];
-          json = [ "jsonlint" ];
-          markdown = [ "mdformat" ];
+          json = [ "jsonfmt" ];
+          markdown = [ "vale" ];
           lua = [ "luacheck" ];
           dockerfile = [ "hadolint" ];
           yaml = [ "yamllint" ];
@@ -105,11 +104,8 @@
       cmp = {
         enable = true;
         settings = {
-          sources = [
-            { name = "nvim_lsp"; }
-            { name = "path"; }
-            { name = "buffer"; }
-          ];
+          sources =
+            [ { name = "nvim_lsp"; } { name = "path"; } { name = "buffer"; } ];
           mapping = {
             "<CR>" = "cmp.mapping.confirm({ select = true })";
             "<Tab>" = "cmp.mapping.select_next_item()";
@@ -125,6 +121,7 @@
       nvim-treesitter-parsers.toml
       deoplete-julia
       julia-vim
+      statix
     ];
 
     extraConfigLua = ''

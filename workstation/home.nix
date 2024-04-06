@@ -1,14 +1,4 @@
-{
-  pkgs,
-  inputs,
-  username,
-  gitUsername,
-  gitEmail,
-  flakeDir,
-  outputs,
-  ...
-}:
-{
+{ pkgs, inputs, username, gitUsername, gitEmail, flakeDir, outputs, ... }: {
   # Home Manager Settings
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
@@ -106,9 +96,7 @@
       kdeplasma-addons
       okular
     ];
-    bookmarks = {
-      H = "/home/${username}";
-    };
+    bookmarks = { H = "/home/${username}"; };
     plugins = {
       mappings = {
         c = "fzcd";
@@ -156,10 +144,12 @@
     sessionVariables = { };
 
     shellAliases = {
-      conda-shell = "NIXPKGS_ALLOW_UNFREE=1 nix develop ${flakeDir}/flakes/conda --impure";
+      conda-shell =
+        "NIXPKGS_ALLOW_UNFREE=1 nix develop ${flakeDir}/flakes/conda --impure";
       flake-rebuild = "sudo nixos-rebuild switch --flake ${flakeDir}";
       flake-update = "sudo nix flake update ${flakeDir}";
-      gcCleanup = "nix-collect-garbage --delete-old && sudo nix-collect-garbage -d";
+      gcCleanup =
+        "nix-collect-garbage --delete-old && sudo nix-collect-garbage -d";
       less = "most";
       cat = "bat";
       ll = "ls -alF";

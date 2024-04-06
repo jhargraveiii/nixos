@@ -1,5 +1,4 @@
-{ username, ... }:
-{
+{ username, ... }: {
   services.restic = {
     backups = {
       localbackup = {
@@ -16,9 +15,7 @@
         passwordFile = "/etc/nixos/restic-password";
         paths = [ "/home/${username}" ];
         repository = "/home/${username}/BACKUP/restic-repo";
-        timerConfig = {
-          OnBootSec = "200";
-        };
+        timerConfig = { OnBootSec = "200"; };
         pruneOpts = [
           "--keep-daily=7"
           "--keep-weekly=5"

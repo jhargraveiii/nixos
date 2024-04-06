@@ -1,7 +1,6 @@
 {
   description = "Python 3.10 development environment";
-  outputs =
-    { self, nixpkgs }:
+  outputs = { self, nixpkgs }:
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
@@ -10,8 +9,7 @@
         config.cudaSupport = true;
         config.cudaVersion = "12";
       };
-    in
-    {
+    in {
       devShells.${system}.default = pkgs.mkShell {
         buildInputs = with pkgs; [
           cudaPackages_12_3.cudatoolkit
@@ -30,8 +28,8 @@
           ncurses5
           stdenv.cc
           binutils
-          (pkgs.python310.withPackages (
-            ps: with ps; [
+          (pkgs.python310.withPackages (ps:
+            with ps; [
               pip
               pandas
               requests
@@ -39,8 +37,7 @@
               pytorch
               jaxlibWithCuda
               jax
-            ]
-          ))
+            ]))
         ];
 
         shellHook = ''

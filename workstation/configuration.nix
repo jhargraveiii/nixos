@@ -2,20 +2,8 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{
-  pkgs,
-  username,
-  hostname,
-  gitUsername,
-  theLocale,
-  theTimezone,
-  outputs,
-  theKBDLayout,
-  inputs,
-  system,
-  ...
-}:
-{
+{ pkgs, username, hostname, gitUsername, theLocale, theTimezone, outputs
+, theKBDLayout, inputs, system, ... }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -67,15 +55,8 @@
   users.users.${username} = {
     isNormalUser = true;
     description = "${gitUsername}";
-    extraGroups = [
-      "networkmanager"
-      "wheel"
-      "docker"
-      "libvirtd"
-      "scanner"
-      "lp"
-      "video"
-    ];
+    extraGroups =
+      [ "networkmanager" "wheel" "docker" "libvirtd" "scanner" "lp" "video" ];
     uid = 1000;
     openssh.authorizedKeys.keys = [
       # Replace with your own public key
@@ -133,6 +114,8 @@
     mdformat
     cppcheck
     stylelint
+    nixpkgs-lint
+    jsonfmt
     julia
     #haskellPackages.tomlcheck
     protobuf
@@ -231,17 +214,13 @@
     disabledDefaultBackends = [ "escl" ];
   };
   hardware.printers = {
-    ensurePrinters = [
-      {
-        name = "Canon_MF450_Series";
-        location = "Home";
-        deviceUri = "ipp://Canon224062/ipp";
-        model = "CNRCUPSMF450ZS.ppd";
-        ppdOptions = {
-          PageSize = "Letter";
-        };
-      }
-    ];
+    ensurePrinters = [{
+      name = "Canon_MF450_Series";
+      location = "Home";
+      deviceUri = "ipp://Canon224062/ipp";
+      model = "CNRCUPSMF450ZS.ppd";
+      ppdOptions = { PageSize = "Letter"; };
+    }];
     ensureDefaultPrinter = "Canon_MF450_Series";
   };
 
@@ -258,7 +237,8 @@
   hardware.pulseaudio.enable = false;
   sound.enable = true;
   hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  hardware.bluetooth.powerOnBoot =
+    true; # powers up the default Bluetooth controller on boot
   hardware.bluetooth.package = pkgs.bluez;
   services.blueman.enable = true;
 
@@ -272,10 +252,7 @@
   services.dbus.enable = true;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [
-    631
-    53
-  ];
+  networking.firewall.allowedTCPPorts = [ 631 53 ];
   networking.firewall.allowedUDPPorts = [ 5353 ];
   networking.firewall.enable = true;
 
@@ -283,10 +260,7 @@
   nix = {
     settings = {
       auto-optimise-store = true;
-      experimental-features = [
-        "nix-command"
-        "flakes"
-      ];
+      experimental-features = [ "nix-command" "flakes" ];
     };
     gc = {
       automatic = true;
@@ -299,10 +273,7 @@
 
   # Set Environment Variables
   environment.variables = {
-    PATH = [
-      "\${HOME}/oxygenDeveloper"
-      "\${HOME}/.nimble/bin"
-    ];
+    PATH = [ "\${HOME}/oxygenDeveloper" "\${HOME}/.nimble/bin" ];
     EDITOR = "nvim";
     _ZO_ECHO = "1";
     M2_COLORS = "true";
