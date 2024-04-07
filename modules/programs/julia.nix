@@ -5,11 +5,11 @@
         "Lux"
         "SciMLBase"
         "SciMLNLSolve"
-        "IJulia"
         "DataFrames"
         "CSV"
         "Plots"
         "Pluto"
+        "LanguageServer"
       ])
     ];
 }

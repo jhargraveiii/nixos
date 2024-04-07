@@ -51,7 +51,7 @@
         enable = true;
         lintersByFt = {
           nix = [ "statix" ];
-          html = [ "vale" ];
+          html = [ "tidy" ];
           bash = [ "shellcheck" ];
           text = [ "vale" ];
           json = [ "jsonfmt" ];
@@ -68,6 +68,7 @@
           make = [ "checkmake" ];
           c = [ "cppcheck" ];
           css = [ "stylelint" ];
+          xml = [ "xmlstarlet" ];
         };
       };
 

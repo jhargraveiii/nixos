@@ -123,6 +123,8 @@
     statix
     taplo
     deno
+    html-tidy
+    xmlstarlet
     gh
     go
     gparted
