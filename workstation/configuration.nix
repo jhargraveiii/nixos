@@ -120,6 +120,8 @@
     nixpkgs-fmt
     jsonfmt
     protobuf
+    statix
+    taplo
     deno
     gh
     go

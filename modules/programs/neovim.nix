@@ -26,13 +26,10 @@
     };
 
     plugins = {
-      lsp-format.enable = true;
-      barbecue.enable = true;
       copilot-vim.enable = true;
       gitsigns.enable = true;
       toggleterm.enable = true;
       neo-tree.enable = true;
-      julia-cell.enable = true;
       telescope = {
         enable = true;
         keymaps = {
@@ -53,11 +50,12 @@
       lint = {
         enable = true;
         lintersByFt = {
-          nix = [ "nixpkgs-lint" ];
+          nix = [ "statix" ];
           html = [ "vale" ];
           bash = [ "shellcheck" ];
           text = [ "vale" ];
           json = [ "jsonfmt" ];
+          toml = [ "taplo" ];
           markdown = [ "vale" ];
           lua = [ "luacheck" ];
           dockerfile = [ "hadolint" ];
@@ -76,23 +74,18 @@
       lsp = {
         enable = true;
         servers = {
-          julials.enable = true;
           nil_ls.enable = true;
+          julials.enable = true;
           lua-ls.enable = true;
           bashls.enable = true;
-          dockerls.enable = true;
           java-language-server.enable = true;
           lemminx.enable = true;
           taplo.enable = true;
           yamlls.enable = true;
           html.enable = true;
           ccls.enable = true;
-          cmake.enable = true;
-          cssls.enable = true;
-          gopls.enable = true;
           jsonls.enable = true;
           pyright.enable = true;
-          tailwindcss.enable = true;
         };
       };
 
@@ -117,24 +110,13 @@
     extraPlugins = with pkgs.vimPlugins; [
       vim-toml
       vim-markdown
-      nvim-treesitter-parsers.julia
-      nvim-treesitter-parsers.toml
-      deoplete-julia
       julia-vim
       denops-vim
-      statix
       vim-pluto
     ];
 
     extraConfigLua = ''
       vim.opt.guifont = "JetBrainsMono\\ NFM,Noto_Color_Emoji:h14"
-      vim.g.neovide_cursor_animation_length = 0.05
-      vim.g.neovide_cursor_vfx_mode = "railgun"
-      vim.g.neovide_cursor_vfx_particle_lifetime = 0.15
-      vim.g.neovide_cursor_vfx_particle_density = 15
-      vim.g.neovide_cursor_vfx_particle_speed = 10
-      vim.g.neovide_cursor_vfx_particle_phase = 0.04
-      vim.g.neovide_cursor_vfx_line_enable = 1
     '';
 
     extraConfigVim = ''
