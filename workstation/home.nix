@@ -142,8 +142,6 @@
     '';
 
     shellAliases = {
-      conda-shell =
-        "NIXPKGS_ALLOW_UNFREE=1 nix develop ${flakeDir}/flakes/conda --impure";
       flake-rebuild = "sudo nixos-rebuild switch --flake ${flakeDir}";
       flake-update = "sudo nix flake update ${flakeDir}";
       gcCleanup =

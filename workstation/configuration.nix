@@ -102,7 +102,6 @@
     openjdk11
     openvpn
     nil
-    nixfmt
     shellcheck
     vale
     hadolint
@@ -113,21 +112,15 @@
     checkstyle
     gitlint
     checkmake
-    mdformat
     cppcheck
     stylelint
     nixpkgs-lint
-    nixpkgs-fmt
-    jsonfmt
     protobuf
     statix
     taplo
     deno
     html-tidy
-    xmlstarlet
-    gh
     go
-    gparted
     most
     bat
     tldr
@@ -171,6 +164,7 @@
     fwupd
     lazygit
     wl-clipboard
+    poetry
   ];
 
   fonts.packages = with pkgs; [

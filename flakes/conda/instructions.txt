@@ -1,3 +1,0 @@
-NIXPKGS_ALLOW_UNFREE=1 nix develop --impure 
-conda-install
-conda update conda

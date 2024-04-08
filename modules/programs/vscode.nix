@@ -8,23 +8,15 @@
       [
         yzhang.markdown-all-in-one
         jnoortheen.nix-ide
+        ms-pyright.pyright
+        ms-python.python
         github.copilot
+        github.copilot-chat
         redhat.vscode-xml
         redhat.vscode-yaml
+        julialang.language-julia
         tamasfe.even-better-toml
-      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-        {
-          publisher = "GitHub";
-          name = "copilot-chat";
-          version = "0.14.2024032901";
-          sha256 = "sha256-tkeh3q8GP5ZYIOOwwotkRW7nNjFaucmxHI8IgoRPnMY=";
-        }
-        {
-          publisher = "julialang";
-          name = "language-julia";
-          version = "1.75.2";
-          sha256 = "sha256-wGguwyTy3jj89ud/nQw2vbtNxYuWkfi0qG6QGUyvuz4=";
-        }
-      ];
+        zxh404.vscode-proto3
+      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [ ];
   };
 }
