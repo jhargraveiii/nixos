@@ -10,6 +10,12 @@
         "Plots"
         "Pluto"
         "LanguageServer"
+        "Zygote"
+        "Distributions"
+        "PythonCall"
+        "Transformers"
+        "Gadfly"
+        "Chain"
       ])
     ];
 }
