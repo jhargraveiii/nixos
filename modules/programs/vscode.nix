@@ -17,6 +17,8 @@
         julialang.language-julia
         tamasfe.even-better-toml
         zxh404.vscode-proto3
+        eamodio.gitlens
+        arrterian.nix-env-selector
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [ ];
   };
 }

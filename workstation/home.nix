@@ -58,7 +58,7 @@
   home.packages = with pkgs; [
     sddm
     slack
-    (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
+    (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot"])
     _1password
     brave
     firefox

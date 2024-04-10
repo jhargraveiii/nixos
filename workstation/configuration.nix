@@ -121,10 +121,10 @@
     deno
     html-tidy
     go
+    gh
     most
     bat
     tldr
-    ncdu
     ant
     maven
     gradle
