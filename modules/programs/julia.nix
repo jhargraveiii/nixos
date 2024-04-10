@@ -3,12 +3,8 @@
     [
       (julia.withPackages [
         "DataFrames"
-        "CSV"
         "Plots"
-        "Pluto"
-        "LanguageServer"
-        "Gadfly"
-        "Chain"
+        "LanguageServer"  
       ])
     ];
 }

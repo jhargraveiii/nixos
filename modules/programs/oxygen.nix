@@ -17,7 +17,8 @@ let
       tar xzvf $src -C $out/opt/oxygen-xml-developer --strip-components=1
     '';
   };
-in {
+in
+{
   home.packages = [ oxygen-xml-developer ];
   home.file.".oxygen-xml-developer-profile".text = ''
     #export JAVA_HOME=/home/jimh/.jdks/openjdk21/bin

@@ -2,8 +2,18 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs, username, hostname, gitUsername, theLocale, theTimezone, outputs
-, theKBDLayout, inputs, system, ... }: {
+{ pkgs
+, username
+, hostname
+, gitUsername
+, theLocale
+, theTimezone
+, outputs
+, theKBDLayout
+, inputs
+, system
+, ...
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -115,11 +125,11 @@
     cppcheck
     stylelint
     nixpkgs-lint
+    nixpkgs-fmt
     protobuf
     statix
     taplo
     deno
-    html-tidy
     go
     gh
     most
@@ -164,7 +174,7 @@
     fwupd
     lazygit
     wl-clipboard
-    poetry
+    pixi
   ];
 
   fonts.packages = with pkgs; [

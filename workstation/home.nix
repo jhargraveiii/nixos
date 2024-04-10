@@ -58,7 +58,8 @@
   home.packages = with pkgs; [
     sddm
     slack
-    (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot"])
+    (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
+    jetbrains.dataspell
     _1password
     brave
     firefox
@@ -69,7 +70,6 @@
     klavaro
     kdePackages.kompare
     kdePackages.kcharselect
-    kdePackages.kjournald
     okteta
     gittyup
     git-cola

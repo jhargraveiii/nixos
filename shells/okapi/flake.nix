@@ -11,7 +11,8 @@
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
-    in {
+    in
+    {
       formatter.${system} = pkgs.nixpkgs-fmt;
 
       devShells.${system}.default = pkgs.mkShell {
