@@ -174,7 +174,6 @@
     fwupd
     lazygit
     wl-clipboard
-    pixi
   ];
 
   fonts.packages = with pkgs; [
