@@ -68,7 +68,8 @@
     hunspell
     hunspellDicts.en_US
     klavaro
-    kdePackages.kompare
+    meld
+    #kdePackages.kompare
     kdePackages.kcharselect
     okteta
     gittyup

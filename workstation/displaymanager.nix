@@ -9,13 +9,13 @@
   };
 
   services.desktopManager.plasma6.enable = true;
+  services.xserver.libinput.enable = true;
+  services.xserver.xkb.layout = theKBDLayout;
 
-  services.xserver = {
+  services.displayManager = {
     enable = true;
-    xkb.layout = "${theKBDLayout}";
-    libinput.enable = true;
-    displayManager.defaultSession = "plasma";
-    displayManager.sddm = {
+    defaultSession = "plasma";
+    sddm = {
       enable = true;
       autoNumlock = true;
       wayland.enable = true;
