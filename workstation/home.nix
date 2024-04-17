@@ -137,7 +137,6 @@
     '';
     initExtra = ''
       neofetch
-      echo 'eval "$(pixi completion --shell bash)"' >> $HOME/.bashrc
       if [ -f $HOME/.bashrc-personal ]; then
         source $HOME/.bashrc-personal
       fi

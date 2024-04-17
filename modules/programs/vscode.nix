@@ -10,15 +10,14 @@
         jnoortheen.nix-ide
         ms-pyright.pyright
         ms-python.python
+        ms-toolsai.jupyter
         github.copilot
         github.copilot-chat
         redhat.vscode-xml
         redhat.vscode-yaml
-        julialang.language-julia
         tamasfe.even-better-toml
         zxh404.vscode-proto3
         eamodio.gitlens
-        arrterian.nix-env-selector
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [ ];
   };
 }

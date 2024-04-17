@@ -171,7 +171,6 @@
     fwupd
     lazygit
     wl-clipboard
-    (pkgs.callPackage ../packages/pixi/pixi.nix {})
   ];
 
   fonts.packages = with pkgs; [
