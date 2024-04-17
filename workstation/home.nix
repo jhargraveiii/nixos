@@ -137,12 +137,14 @@
     '';
     initExtra = ''
       neofetch
+      echo 'eval "$(pixi completion --shell bash)"' >> $HOME/.bashrc
       if [ -f $HOME/.bashrc-personal ]; then
         source $HOME/.bashrc-personal
       fi
     '';
 
     shellAliases = {
+      ml-dev = "cd ~/DATA2/python_dev/ && pixi shell";
       flake-rebuild = "sudo nixos-rebuild switch --flake ${flakeDir}";
       flake-update = "sudo nix flake update ${flakeDir}";
       gcCleanup =

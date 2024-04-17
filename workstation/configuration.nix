@@ -26,8 +26,8 @@
     ../modules/services/open-webui.nix
     ../modules/services/flatpak.nix
     ../modules/programs/distrobox.nix
-    ../modules/programs/julia.nix
-    ../modules/programs/python.nix
+    #../modules/programs/julia.nix
+    #../modules/programs/python.nix
   ];
 
   systemd.enableEmergencyMode = false;
@@ -75,10 +75,7 @@
       "sssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPwpk2rfNtxHjaGTucwvBPxcr9D8ly6MXh68/9+VacZy jim.hargrave@strakertranslations.com"
     ];
   };
-
-  # Allow unfree packages
-  nixpkgs.config.allowUnfree = true;
-
+  
   users.extraGroups.vboxusers.members = [ "jimh" ];
   virtualisation = {
     virtualbox = {
@@ -174,6 +171,7 @@
     fwupd
     lazygit
     wl-clipboard
+    (pkgs.callPackage ../packages/pixi/pixi.nix {})
   ];
 
   fonts.packages = with pkgs; [
@@ -205,23 +203,27 @@
   programs.system-config-printer.enable = true;
   programs.nix-ld.enable = true;
 
-  services.printing.enable = true;
-  services.printing.stateless = true;
-  services.printing.drivers = [ pkgs.canon-cups-ufr2 ];
-  services.printing.browsing = true;
-  services.printing.browsedConf = ''
-    BrowseDNSSDSubTypes _cups,_print
-    BrowseLocalProtocols all
-    BrowseRemoteProtocols all
-    CreateIPPPrinterQueues All
+  services.printing = {
+    enable = true;
+    browsing = true;
+    stateless = true;
+    drivers = [ pkgs.canon-cups-ufr2 ];
+    browsedConf = ''
+      BrowseDNSSDSubTypes _cups,_print
+      BrowseLocalProtocols all
+      BrowseRemoteProtocols all
+      CreateIPPPrinterQueues All
 
-    BrowseProtocols all
-  '';
+      BrowseProtocols all
+    '';
+  };
+  
   hardware.sane = {
     enable = true;
     extraBackends = [ pkgs.sane-airscan ];
     disabledDefaultBackends = [ "escl" ];
   };
+
   hardware.printers = {
     ensurePrinters = [{
       name = "Canon_MF450_Series";
