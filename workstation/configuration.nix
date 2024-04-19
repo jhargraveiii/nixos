@@ -2,18 +2,8 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs
-, username
-, hostname
-, gitUsername
-, theLocale
-, theTimezone
-, outputs
-, theKBDLayout
-, inputs
-, system
-, ...
-}: {
+{ pkgs, username, hostname, gitUsername, theLocale, theTimezone, outputs
+, theKBDLayout, inputs, system, ... }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -75,7 +65,7 @@
       "sssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPwpk2rfNtxHjaGTucwvBPxcr9D8ly6MXh68/9+VacZy jim.hargrave@strakertranslations.com"
     ];
   };
-  
+
   users.extraGroups.vboxusers.members = [ "jimh" ];
   virtualisation = {
     virtualbox = {
@@ -126,6 +116,8 @@
     protobuf
     statix
     taplo
+    jq
+    jsonfmt
     deno
     go
     gh
@@ -216,7 +208,7 @@
       BrowseProtocols all
     '';
   };
-  
+
   hardware.sane = {
     enable = true;
     extraBackends = [ pkgs.sane-airscan ];

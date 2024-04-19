@@ -54,7 +54,7 @@
           bash = [ "shellcheck" ];
           text = [ "vale" ];
           json = [ "jsonfmt" ];
-          toml = [ "taplo" ];
+          toml = [ "taplo lint" ];
           markdown = [ "vale" ];
           lua = [ "luacheck" ];
           dockerfile = [ "hadolint" ];
@@ -97,7 +97,7 @@
         enable = true;
         settings = {
           sources =
-            [{ name = "nvim_lsp"; } { name = "path"; } { name = "buffer"; }];
+            [ { name = "nvim_lsp"; } { name = "path"; } { name = "buffer"; } ];
           mapping = {
             "<CR>" = "cmp.mapping.confirm({ select = true })";
             "<Tab>" = "cmp.mapping.select_next_item()";

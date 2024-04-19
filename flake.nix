@@ -33,8 +33,7 @@
       theKBDLayout = "us";
       flakeDir = "/home/${username}/nixos";
       wallpaperDir = "/home/${username}/Pictures/Wallpapers";
-    in
-    {
+    in {
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
       # Your custom packages and modifications, exported as overlays
       overlays = import ./modules/overlays { inherit inputs; };
