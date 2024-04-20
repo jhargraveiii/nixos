@@ -79,11 +79,23 @@
   };
 
   nixpkgs = {
+    hostPlatform = {
+      gcc.arch = "znver3";
+      gcc.tune = "znver3";
+      system = "x86_64-linux";
+    };
     overlays = [
       # we want to use some packages from unstable so need this overlay
       outputs.overlays.stable-packages
       outputs.overlays.cuda
     ];
+    # Configure your nixpkgs instance
+    config = {
+      # Disable if you don't want unfree packages
+      allowUnfree = true;
+      # Workaround for https://github.com/nix-community/home-manager/issues/2942
+      allowUnfreePredicate = _: true;
+    };
   };
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
@@ -163,6 +175,8 @@
     fwupd
     lazygit
     wl-clipboard
+    swiPrologWithGui
+    scryer-prolog
   ];
 
   fonts.packages = with pkgs; [
@@ -263,6 +277,7 @@
     settings = {
       auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];
+      system-features = [ "benchmark" "big-parallel" "kvm" "nixos-test" "gccarch-znver3" ];
     };
     gc = {
       automatic = true;
@@ -290,5 +305,6 @@
     WLR_NO_HARDWARE_CURSORS = "1";
     QT_QPA_PLATFORM = "wayland";
     QT_QPA_PLATFORMTHEME = "qt6ct";
+    NIX_CONF_DIR = "\${HOME}/nixos";
   };
 }

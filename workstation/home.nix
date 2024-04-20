@@ -69,12 +69,12 @@
     hunspellDicts.en_US
     klavaro
     meld
-    #kdePackages.kompare
     kdePackages.kcharselect
     okteta
     gittyup
     git-cola
     vlc
+    zettlr
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
