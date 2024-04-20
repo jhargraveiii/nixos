@@ -84,10 +84,16 @@
       gcc.tune = "znver3";
       system = "x86_64-linux";
     };
+    buildPlatform = {
+      gcc.arch = "znver3";
+      gcc.tune = "znver3";
+      system = "x86_64-linux";
+    };
     overlays = [
       # we want to use some packages from unstable so need this overlay
       outputs.overlays.stable-packages
       outputs.overlays.cuda
+      
     ];
     # Configure your nixpkgs instance
     config = {
@@ -277,7 +283,8 @@
     settings = {
       auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];
-      system-features = [ "benchmark" "big-parallel" "kvm" "nixos-test" "gccarch-znver3" ];
+      system-features =
+        [ "benchmark" "big-parallel" "kvm" "nixos-test" "gccarch-znver3" ];
     };
     gc = {
       automatic = true;

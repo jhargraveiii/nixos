@@ -143,7 +143,6 @@
     '';
 
     shellAliases = {
-      ml-dev = "cd ~/DATA2/python_dev/ && pixi shell";
       flake-rebuild = "sudo nixos-rebuild switch --flake ${flakeDir}";
       flake-update = "sudo nix flake update ${flakeDir}";
       gcCleanup =
