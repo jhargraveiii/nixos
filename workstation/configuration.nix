@@ -66,29 +66,19 @@
     ];
   };
 
-  users.extraGroups.vboxusers.members = [ "jimh" ];
-  virtualisation = {
-    virtualbox = {
-      host = {
-        package = pkgs.virtualbox;
-        enable = true;
-        enableExtensionPack = true;
-      };
-      guest.enable = true;
-    };
-  };
+ # users.extraGroups.vboxusers.members = [ "jimh" ];
+ # virtualisation = {
+ #   virtualbox = {
+ #     host = {
+ #      package = pkgs.virtualbox;
+ #       enable = true;
+ #       enableExtensionPack = true;
+ #     };
+ #     guest.enable = true;
+ #   };
+ # };
 
   nixpkgs = {
-    hostPlatform = {
-      gcc.arch = "znver3";
-      gcc.tune = "znver3";
-      system = "x86_64-linux";
-    };
-    buildPlatform = {
-      gcc.arch = "znver3";
-      gcc.tune = "znver3";
-      system = "x86_64-linux";
-    };
     overlays = [
       # we want to use some packages from unstable so need this overlay
       outputs.overlays.stable-packages
@@ -181,8 +171,6 @@
     fwupd
     lazygit
     wl-clipboard
-    swiPrologWithGui
-    scryer-prolog
   ];
 
   fonts.packages = with pkgs; [
@@ -283,8 +271,6 @@
     settings = {
       auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];
-      system-features =
-        [ "benchmark" "big-parallel" "kvm" "nixos-test" "gccarch-znver3" ];
     };
     gc = {
       automatic = true;
@@ -312,6 +298,5 @@
     WLR_NO_HARDWARE_CURSORS = "1";
     QT_QPA_PLATFORM = "wayland";
     QT_QPA_PLATFORMTHEME = "qt6ct";
-    NIX_CONF_DIR = "\${HOME}/nixos";
   };
 }
