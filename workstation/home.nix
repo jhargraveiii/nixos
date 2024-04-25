@@ -74,7 +74,6 @@
     gittyup
     git-cola
     vlc
-    zettlr
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;

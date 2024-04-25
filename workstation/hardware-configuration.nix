@@ -6,28 +6,61 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  # Bootloader.
   boot = {
-    initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" "usb_storage" "sd_mod" ];
+    extraModprobeConfig = ''
+      blacklist nouveau
+      options nouveau modeset=0
+    '';
+    blacklistedKernelModules = [ "nouveau" "nvidia-drm" "nvidia-modeset" ];
+    loader = {
+      efi.canTouchEfiVariables = true;
+      systemd-boot.enable = true;
+    };
+    kernelPackages = pkgs.linuxPackages_6_8;
+    initrd.availableKernelModules = [
+      "thunderbolt"
+      "nvme"
+      "xhci_pci"
+      "ahci"
+      "usbhid"
+      "usb_storage"
+      "sd_mod"
+    ];
+    initrd.kernelModules = [ ];
+    kernel.sysctl = { "vm.max_map_count" = 2147483642; };
     kernelModules = [ "kvm-amd" ];
-    loader.systemd-boot.enable = true;
-    loader.efi.canTouchEfiVariables = true;
+    kernelParams = [ ];
+    extraModulePackages = [ ];
+    tmp.useTmpfs = true;
+    tmp.tmpfsSize = "25%";
+    tmp.cleanOnBoot = true;
   };
 
+  services.udev.extraRules = ''
+    # Remove NVIDIA USB xHCI Host Controller devices, if present
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c0330", ATTR{power/control}="auto", ATTR{remove}="1"
+    # Remove NVIDIA USB Type-C UCSI devices, if present
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x0c8000", ATTR{power/control}="auto", ATTR{remove}="1"
+    # Remove NVIDIA Audio devices, if present
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x040300", ATTR{power/control}="auto", ATTR{remove}="1"
+  '';
+
+
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/48799b1c-64e9-4d05-abf7-bd0cfc5951c0";
+    {
+      device = "/dev/disk/by-uuid/48799b1c-64e9-4d05-abf7-bd0cfc5951c0";
       fsType = "ext4";
     };
 
   fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/11D8-3071";
+    {
+      device = "/dev/disk/by-uuid/11D8-3071";
       fsType = "vfat";
     };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/20e10911-18b1-47b0-974b-94acfc7fcff5"; }
-    ];
-    
+    [{ device = "/dev/disk/by-uuid/20e10911-18b1-47b0-974b-94acfc7fcff5"; }];
+
   fileSystems."/home/jimh/BACKUP" = {
     device = "/dev/disk/by-uuid/76ce4fc4-ccdf-4ca6-8f2c-f10f4aeb5877";
     fsType = "ext4";

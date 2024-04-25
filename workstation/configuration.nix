@@ -66,17 +66,17 @@
     ];
   };
 
- # users.extraGroups.vboxusers.members = [ "jimh" ];
- # virtualisation = {
- #   virtualbox = {
- #     host = {
- #      package = pkgs.virtualbox;
- #       enable = true;
- #       enableExtensionPack = true;
- #     };
- #     guest.enable = true;
- #   };
- # };
+  users.extraGroups.vboxusers.members = [ "jimh" ];
+  virtualisation = {
+    virtualbox = {
+      host = {
+       package = pkgs.virtualbox;
+        enable = true;
+        enableExtensionPack = true;
+      };
+      guest.enable = true;
+    };
+  };
 
   nixpkgs = {
     overlays = [
@@ -171,6 +171,10 @@
     fwupd
     lazygit
     wl-clipboard
+    kdePackages.partitionmanager
+    libsForQt5.partitionmanager
+    kdePackages.isoimagewriter
+    kdePackages.filelight
   ];
 
   fonts.packages = with pkgs; [
