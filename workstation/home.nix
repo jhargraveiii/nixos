@@ -61,7 +61,7 @@
     (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
     jetbrains.dataspell
     _1password
-    brave
+    stable.brave
     firefox
     thunderbird
     libreoffice

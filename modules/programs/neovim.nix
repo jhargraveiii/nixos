@@ -112,6 +112,7 @@
       julia-vim
       denops-vim
       vim-pluto
+      ollama-nvim
     ];
 
     extraConfigLua = ''

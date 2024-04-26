@@ -2,8 +2,18 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs, username, hostname, gitUsername, theLocale, theTimezone, outputs
-, theKBDLayout, inputs, system, ... }: {
+{ pkgs
+, username
+, hostname
+, gitUsername
+, theLocale
+, theTimezone
+, outputs
+, theKBDLayout
+, inputs
+, system
+, ...
+}: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -70,7 +80,7 @@
   virtualisation = {
     virtualbox = {
       host = {
-       package = pkgs.virtualbox;
+        package = pkgs.virtualbox;
         enable = true;
         enableExtensionPack = true;
       };
@@ -78,12 +88,20 @@
     };
   };
 
+  security.pam.loginLimits = [
+    {
+      domain = "*";
+      type = "-";
+      item = "nofile";
+      value = "65536";
+    }
+  ];
+
   nixpkgs = {
     overlays = [
       # we want to use some packages from unstable so need this overlay
       outputs.overlays.stable-packages
       outputs.overlays.cuda
-      
     ];
     # Configure your nixpkgs instance
     config = {
@@ -271,11 +289,24 @@
   networking.firewall.enable = true;
 
   # Optimization settings and garbage collection automation
+  programs.ccache.enable = true;
+  programs.ccache.cacheDir = "/nix/var/cache/ccache";
   nix = {
     settings = {
       auto-optimise-store = true;
       experimental-features = [ "nix-command" "flakes" ];
+      max-jobs = "auto";
+      cores = 12;
+      system-features = [ "nixos-test" "benchmark" "big-parallel" "kvm" "gccarch-znver3" ];
+      allowed-users = [ "*" ];
+      require-sigs = true;
+      sandbox = true;
+      sandbox-fallback = false;
+      substituters = [ "https://cache.nixos.org/" ];
+      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+      trusted-users = [ "root" ];
     };
+
     gc = {
       automatic = true;
       dates = "weekly";
