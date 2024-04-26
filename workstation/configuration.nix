@@ -193,7 +193,17 @@
     libsForQt5.partitionmanager
     kdePackages.isoimagewriter
     kdePackages.filelight
+    dotenv-linter
+    shellharden
   ];
+
+  programs.direnv = {
+    enable = true;
+    direnvrcExtra = ''
+      export EDITOR=nvim
+      export VISUAL=nvim
+      '';
+  };
 
   fonts.packages = with pkgs; [
     julia-mono

@@ -67,6 +67,7 @@
           make = [ "checkmake" ];
           c = [ "cppcheck" ];
           css = [ "stylelint" ];
+          env = [ "dotenv-linter" ];
         };
       };
 
@@ -112,7 +113,8 @@
       julia-vim
       denops-vim
       vim-pluto
-      ollama-nvim
+      #ollama-nvim
+      vim-dotenv
     ];
 
     extraConfigLua = ''

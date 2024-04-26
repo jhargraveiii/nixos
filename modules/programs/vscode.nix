@@ -18,6 +18,7 @@
         tamasfe.even-better-toml
         zxh404.vscode-proto3
         eamodio.gitlens
+        dotenv.dotenv-vscode
       ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [ ];
   };
 }
