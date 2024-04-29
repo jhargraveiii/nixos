@@ -2,18 +2,8 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs
-, username
-, hostname
-, gitUsername
-, theLocale
-, theTimezone
-, outputs
-, theKBDLayout
-, inputs
-, system
-, ...
-}: {
+{ pkgs, username, hostname, gitUsername, theLocale, theTimezone, outputs
+, theKBDLayout, inputs, system, ... }: {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -88,14 +78,12 @@
     };
   };
 
-  security.pam.loginLimits = [
-    {
-      domain = "*";
-      type = "-";
-      item = "nofile";
-      value = "65536";
-    }
-  ];
+  security.pam.loginLimits = [{
+    domain = "*";
+    type = "-";
+    item = "nofile";
+    value = "65536";
+  }];
 
   nixpkgs = {
     overlays = [
@@ -193,16 +181,19 @@
     libsForQt5.partitionmanager
     kdePackages.isoimagewriter
     kdePackages.filelight
+    kdePackages.kcharselect
     dotenv-linter
     shellharden
+    nix-direnv
   ];
 
   programs.direnv = {
     enable = true;
+    nix-direnv.enable = true;
     direnvrcExtra = ''
       export EDITOR=nvim
       export VISUAL=nvim
-      '';
+    '';
   };
 
   fonts.packages = with pkgs; [
@@ -307,13 +298,15 @@
       experimental-features = [ "nix-command" "flakes" ];
       max-jobs = "auto";
       cores = 12;
-      system-features = [ "nixos-test" "benchmark" "big-parallel" "kvm" "gccarch-znver3" ];
+      system-features =
+        [ "nixos-test" "benchmark" "big-parallel" "kvm" "gccarch-znver3" ];
       allowed-users = [ "*" ];
       require-sigs = true;
       sandbox = true;
       sandbox-fallback = false;
       substituters = [ "https://cache.nixos.org/" ];
-      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+      trusted-public-keys =
+        [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
       trusted-users = [ "root" ];
     };
 

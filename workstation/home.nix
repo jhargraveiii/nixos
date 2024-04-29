@@ -56,12 +56,10 @@
 
   # Install Packages For The User
   home.packages = with pkgs; [
-    sddm
     slack
     (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
-    jetbrains.dataspell
     _1password
-    stable.brave
+    brave
     firefox
     thunderbird
     libreoffice
@@ -69,11 +67,12 @@
     hunspellDicts.en_US
     klavaro
     meld
-    kdePackages.kcharselect
     okteta
     gittyup
     git-cola
     vlc
+    sddm
+    sddm-kcm
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
