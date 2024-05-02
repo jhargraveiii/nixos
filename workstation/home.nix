@@ -72,7 +72,6 @@
     git-cola
     vlc
     sddm
-    sddm-kcm
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;

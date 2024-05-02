@@ -8,7 +8,7 @@ let
 in {
   systemd.services.ollama.serviceConfig.DynamicUser = lib.mkForce false;
 
-  environment.systemPackages = with pkgs; [ ollamaOverride ];
+  environment.systemPackages = with pkgs; [ ollamaOverride oterm ];
 
   services.ollama = {
     enable = true;
