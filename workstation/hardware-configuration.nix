@@ -2,8 +2,12 @@
 # and may be overwritten by future invocations.  Please make changes
 # to /etc/nixos/configuration.nix instead.
 { config, lib, pkgs, modulesPath, ... }:
-
-{
+let
+  zenKernel = pkgs.linuxPackages_zen.kernel.override {
+    extraMakeFlags = [ "CC=gcc" "HOSTCC=gcc" ];
+    NIX_CFLAGS_COMPILE = "-O3 -march=znver3 -mtune=znver3";
+  };
+in {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
   boot = {
@@ -16,7 +20,12 @@
       efi.canTouchEfiVariables = true;
       systemd-boot.enable = true;
     };
-    kernelPackages = pkgs.linuxPackages_6_8;
+    kernelPatches = [{
+      name = "Rust Support";
+      patch = null;
+      features = { rust = true; };
+    }];
+    kernelPackages = pkgs.linuxPackagesFor zenKernel;
     initrd.availableKernelModules = [
       "thunderbolt"
       "nvme"
