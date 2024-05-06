@@ -1,10 +1,12 @@
 { pkgs, ... }:
-
-{
+let
+  kittyOverride = pkgs.kitty.overrideAttrs
+    (oldAttrs: rec { NIX_CFLAGS_COMPILE = "-O3 -march=native -mtune=native"; });
+in {
   # Configure Kitty
   programs.kitty = {
     enable = true;
-    package = pkgs.kitty;
+    package = kittyOverride;
     font.name = "JetBrainsMono Nerd Font";
     font.size = 16;
     settings = {
