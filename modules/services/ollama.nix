@@ -22,7 +22,7 @@ let
 in {
   systemd.services.ollama.serviceConfig.DynamicUser = lib.mkForce false;
 
-  environment.systemPackages = with pkgs; [ ollamaOverride cudatoolkit ];
+  environment.systemPackages = with pkgs; [ ollamaOverride ];
 
   services.ollama = {
     enable = true;

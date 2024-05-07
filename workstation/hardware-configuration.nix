@@ -26,7 +26,7 @@
     ];
     initrd.kernelModules = [ ];
     kernel.sysctl = { "vm.max_map_count" = 2147483642; };
-    kernelModules = [ "kvm-amd" ];
+    kernelModules = [ "kvm-amd" "amdgpu" ];
     kernelParams = [ ];
     extraModulePackages = [ ];
     tmp.cleanOnBoot = true;
@@ -73,6 +73,7 @@
   # networking.interfaces.wlp6s0.useDHCP = lib.mkDefault true;
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.amd.updateMicrocode =
-    lib.mkDefault config.hardware.enableRedistributableFirmware;
+  hardware.enableAllFirmware = lib.mkDefault true;
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault true;
+  hardware.enableRedistributableFirmware = lib.mkDefault true;
 }
