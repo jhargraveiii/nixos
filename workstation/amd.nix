@@ -13,6 +13,5 @@ in {
   hardware.opengl = {
     ## amdvlk: an open-source Vulkan driver from AMD
     extraPackages = [ amdOverride rocmOverride ];
-    extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
   };
 }

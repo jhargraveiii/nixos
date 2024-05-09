@@ -1,32 +1,32 @@
 { pkgs, lib, buildEnv, ... }:
 let
-  cudatoolkit = pkgs.callPackage ../../packages/cuda-toolkit.nix {
-    inherit (pkgs) cudatoolkit;
-  };
-  ollamaOverride = pkgs.ollama.overrideAttrs (oldAttrs: rec {
-    cudaToolkit = pkgs.buildEnv {
-      name = "cuda-toolkit";
-      ignoreCollisions =
-        true; # FIXME: find a cleaner way to do this without ignoring collisions
-      paths = [
-        cudatoolkit
-        pkgs.cudaPackages.cuda_cudart
-        pkgs.cudaPackages.cuda_cudart.static
-      ];
-    };
-    preConfigure = ''
-      export CUDA_NVCC_FLAGS="-O3 --generate-code arch=compute_86,code=sm_86"
+  ollamaOptimized = pkgs.ollama.overrideAttrs (oldAttrs: rec {
+    preBuild = ''
+      # disable uses of `git`, since nix removes the git directory
+      export OLLAMA_SKIP_PATCHING=true
+      export CUDA_NVCC_FLAGS="-O3 --gpu-architecture=sm_89 --gpu-code=sm_89 --use_fast_math --ftz=true --prec-div=false --prec-sqrt=false"
+      export CXXFLAGS="-march=native -mtune=native -O3 -ffast-math -flto -funroll-loops"
+      export COMMON_CMAKE_DEFS='-DCMAKE_CXX_FLAGS="-march=native -mtune=native -O3 -ffast-math -flto -funroll-loops" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CUDA_FLAGS="--expt-relaxed-constexpr -use_fast_math" -DCMAKE_CUDA_ARCHITECTURES=89 -DCMAKE_POSITION_INDEPENDENT_CODE=on -DLLAMA_NATIVE=on -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_FMA=on -DLLAMA_F16C=on'
+      # build llama.cpp libraries for ollama
+      go generate ./...
     '';
-    NIX_CFLAGS_COMPILE = "-O3 -march=native -mtune=native";
+    NIX_LDFLAGS = "-flto";
+    NIX_CFLAGS_COMPILE = toString [
+      "-O3"
+      "-march=native"
+      "-mtune=native"
+      "-ffast-math"
+      "-funroll-loops"
+    ];
   });
 in {
   systemd.services.ollama.serviceConfig.DynamicUser = lib.mkForce false;
 
-  environment.systemPackages = with pkgs; [ ollamaOverride ];
+  environment.systemPackages = with pkgs; [ ollamaOptimized ];
 
   services.ollama = {
     enable = true;
-    package = ollamaOverride;
+    package = ollamaOptimized;
     acceleration = "cuda";
     home = "/home/jimh/DATA2/ollama";
     models = "/home/jimh/DATA2/ollama/models";

@@ -5,7 +5,6 @@
   hardware.opengl = {
     enable = true;
     driSupport = true;
-    driSupport32Bit = true;
   };
 
   services.desktopManager.plasma6.enable = true;

@@ -7,6 +7,9 @@ in {
 
   #Nvidia is used only for compute!!
   nixpkgs.config.allowUnfree = true;
+  nixpkgs.config.cudaSupport = true;
+  nixpkgs.config.cuda = true;
+  nixpkgs.config.cudaCapabilities = [ "8.9" ];
 
   # Load nvidia driver for Xorg and Wayland
   nixpkgs.config.nvidia.acceptLicense = true;
