@@ -1,7 +1,7 @@
 { lib, buildGo122Module, fetchFromGitHub, fetchpatch, buildEnv, linkFarm
 , overrideCC, makeWrapper, stdenv
 
-, cmake, gcc11, clblast, libdrm, rocmPackages, cudaPackages, linuxPackages
+, cmake, gcc12, clblast, libdrm, rocmPackages, cudaPackages, linuxPackages
 , darwin
 
 , config
@@ -11,13 +11,13 @@
 let
   pname = "ollama";
   # don't forget to invalidate all hashes each update
-  version = "0.1.33";
+  version = "0.1.34";
 
   src = fetchFromGitHub {
     owner = "jmorganca";
     repo = "ollama";
     rev = "v${version}";
-    hash = "sha256-+iZIuHr90d5OijrXl6kzPycsHmx5XnKAKKOtppycjsk=";
+    hash = "sha256-zymwMhk/GBDt6IOQB5KS9Q8kgBU7JdWipHIruvPCFbQ=";
     fetchSubmodules = true;
   };
   vendorHash = "sha256-7x/n60WiKmwHFFuN0GfzkibUREvxAXNHcD3fHmihZvs=";
@@ -97,7 +97,7 @@ let
   ];
 
   goBuild = if enableCuda then
-    buildGo122Module.override { stdenv = overrideCC stdenv gcc11; }
+    buildGo122Module.override { stdenv = overrideCC stdenv gcc12; }
   else
     buildGo122Module;
   inherit (lib) licenses platforms maintainers;
@@ -140,9 +140,11 @@ in goBuild ((lib.optionalAttrs enableRocm {
   preBuild = ''
     # disable uses of `git`, since nix removes the git directory
     export OLLAMA_SKIP_PATCHING=true
+    export GIN_MODE=release
     export CFLAGS="-O3 -march=native -mtune=native -ffast-math -funroll-loops"
     export CXXFLAGS="-O3 -march=native -mtune=native -ffast-math -funroll-loops"
-    export COMMON_CMAKE_DEFS="-DCMAKE_BUILD_TYPE=Release -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_FMA=on -DLLAMA_F16C=on"
+    export NVCCFLAGS="-Xptxas -O3 -arch=sm_89 -code=sm_89 -O3 --use_fast_math";
+    OLLAMA_CUSTOM_CPU_DEFS="-DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_F16C=on -DLLAMA_FMA=on"
     # build llama.cpp libraries for ollama
     go generate ./...
   '';

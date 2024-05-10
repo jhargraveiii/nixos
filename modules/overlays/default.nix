@@ -8,8 +8,8 @@ let
       preConfigure = ''
         export CFLAGS="-O3 -march=native -mtune=native -ffast-math -funroll-loops"
         export CXXFLAGS="-O3 -march=native -mtune=native -ffast-math -funroll-loops"
-        export COMMON_CMAKE_DEFS='-DCMAKE_BUILD_TYPE=Release'
-      '';
+        export NVCCFLAGS="-Xptxas -O3 -arch=sm_89 -code=sm_89 -O3 --use_fast_math"
+      '' + oldAttrs.preConfigure or "";
       cudaCompatibilities = [ "12.4" ];
       NIX_CFLAGS_COMPILE = toString [
         "-O3"
@@ -17,8 +17,7 @@ let
         "-mtune=native"
         "-ffast-math"
         "-funroll-loops"
-      ];
-      nvccFlags = "-Xptxas -O3 -arch=sm_89 -code=sm_89 -O3 --use_fast_math";
+      ] + oldAttrs.NIX_CFLAGS_COMPILE or "";
     });
 in {
   # This one brings our custom packages from the 'pkgs' directory
