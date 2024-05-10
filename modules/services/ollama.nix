@@ -2,6 +2,7 @@
 let ollamaOptimized = pkgs.callPackage ../../packages/ollama/ollama.nix { };
 in {
   environment.systemPackages = with pkgs; [ ollamaOptimized ];
+  systemd.services.ollama.serviceConfig.DynamicUser = lib.mkForce false;
 
   services.ollama = {
     enable = true;
