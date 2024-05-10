@@ -149,7 +149,7 @@
     platinum-searcher
     ack
     lolcat
-    neofetch
+    fastfetch
     btop
     lm_sensors
     unzip

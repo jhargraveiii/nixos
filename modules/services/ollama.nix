@@ -8,8 +8,8 @@ in {
     enable = true;
     package = ollamaOptimized;
     environmentVariables = {
-      OLLAMA_LLM_LIBRARY = "cpu_avx2";
-      OLLAMA_NUM_THREADS = "18";
+      OLLAMA_LLM_LIBRARY = "cuda_v12";
+      OLLAMA_NUM_THREADS = "24";
     };
     acceleration = "cuda";
     home = "/home/jimh/DATA2/ollama";
