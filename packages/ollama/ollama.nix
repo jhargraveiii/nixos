@@ -140,7 +140,9 @@ in goBuild ((lib.optionalAttrs enableRocm {
   preBuild = ''
     # disable uses of `git`, since nix removes the git directory
     export OLLAMA_SKIP_PATCHING=true
-    export COMMON_CMAKE_DEFS='-DCMAKE_CXX_FLAGS="-march=native -mtune=native -O3 -ffast-math -flto -funroll-loops" -DCMAKE_BUILD_TYPE=Release -DCMAKE_CUDA_FLAGS="--expt-relaxed-constexpr -use_fast_math" -DCMAKE_CUDA_ARCHITECTURES=89 -DCMAKE_POSITION_INDEPENDENT_CODE=on -DLLAMA_NATIVE=on -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_FMA=on -DLLAMA_F16C=on'
+    export CFLAGS="-O3 -march=native -mtune=native -ffast-math -funroll-loops"
+    export CXXFLAGS="-O3 -march=native -mtune=native -ffast-math -funroll-loops"
+    export COMMON_CMAKE_DEFS="-DCMAKE_BUILD_TYPE=Release -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_FMA=on -DLLAMA_F16C=on"
     # build llama.cpp libraries for ollama
     go generate ./...
   '';
@@ -151,6 +153,7 @@ in goBuild ((lib.optionalAttrs enableRocm {
     "-ffast-math"
     "-funroll-loops"
   ];
+  nvccFlags = "-Xptxas -O3 -arch=sm_89 -code=sm_89 -O3 --use_fast_math";
   postFixup = ''
     # the app doesn't appear functional at the moment, so hide it
     mv "$out/bin/app" "$out/bin/.ollama-app"

@@ -8,7 +8,7 @@ let
       preConfigure = ''
         export CFLAGS="-O3 -march=native -mtune=native -ffast-math -funroll-loops"
         export CXXFLAGS="-O3 -march=native -mtune=native -ffast-math -funroll-loops"
-        export COMMON_CMAKE_DEFS='-DCMAKE_BUILD_TYPE=Release -DCMAKE_CUDA_ARCHITECTURES=86 -DCMAKE_POSITION_INDEPENDENT_CODE=on -DLLAMA_NATIVE=on -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_FMA=on -DLLAMA_F16C=on'
+        export COMMON_CMAKE_DEFS='-DCMAKE_BUILD_TYPE=Release'
       '';
       cudaCompatibilities = [ "12.4" ];
       NIX_CFLAGS_COMPILE = toString [
@@ -18,7 +18,7 @@ let
         "-ffast-math"
         "-funroll-loops"
       ];
-      nvccFlags = "-arch=sm_86 -code=sm_86 -O3 --use_fast_math";
+      nvccFlags = "-Xptxas -O3 -arch=sm_89 -code=sm_89 -O3 --use_fast_math";
     });
 in {
   # This one brings our custom packages from the 'pkgs' directory
