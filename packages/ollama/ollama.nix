@@ -20,7 +20,7 @@ let
     hash = "sha256-oa14QdJufOsW4zt56hyNO23GqWdLT6EzIGDJU/Fsdts=";
     fetchSubmodules = true;
   };
-  vendorHash = "sha256-7x/n60WiKmwHFFuN0GfzkibUREvxAXNHcD3fHmihZvs=";
+  vendorHash = "sha256-zOQGhNcGNlQppTqZdPfx+y4fUrxH0NOUl38FN8J6ffE=";
   # ollama's patches of llama.cpp's example server
   # `ollama/llm/generate/gen_common.sh` -> "apply temporary patches until fix is upstream"
   # each update, these patches should be synchronized with the contents of `ollama/llm/patches/`
