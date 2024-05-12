@@ -7,9 +7,7 @@ in {
   services.ollama = {
     enable = true;
     package = ollamaOptimized;
-    environmentVariables = {
-      OLLAMA_LLM_LIBRARY = "cuda_v12";
-    };
+    environmentVariables = { OLLAMA_LLM_LIBRARY = "cuda_v12"; };
     acceleration = "cuda";
     home = "/home/jimh/DATA2/ollama";
     models = "/home/jimh/DATA2/ollama/models";

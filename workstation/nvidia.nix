@@ -9,12 +9,12 @@ in {
   nixpkgs.config.allowUnfree = true;
   nixpkgs.config.cudaSupport = true;
   nixpkgs.config.cuda = true;
-  nixpkgs.config.cudaCapabilities = [ "12.4" ];
+  nixpkgs.config.cudaCapabilities = [ "8.9" ];
 
   # Load nvidia driver for Xorg and Wayland
   nixpkgs.config.nvidia.acceptLicense = true;
   services.xserver.videoDrivers = [ "nvidia" ];
-  environment.systemPackages = with pkgs; [ ];
+  environment.systemPackages = with pkgs; [ nvtopPackages.full ];
   hardware.nvidia = {
     modesetting.enable = false;
     powerManagement.enable = false;

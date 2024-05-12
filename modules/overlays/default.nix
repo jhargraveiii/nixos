@@ -10,7 +10,7 @@ let
         export CXXFLAGS="-O3 -march=native -mtune=native -ffast-math -funroll-loops"
         export NVCCFLAGS="-Xptxas -O3 -arch=sm_89 -code=sm_89 -O3 --use_fast_math"
       '' + oldAttrs.preConfigure or "";
-      cudaCompatibilities = [ "12.4" ];
+      cudaCompatibilities = [ "8.9" ];
       NIX_CFLAGS_COMPILE = toString [
         "-O3"
         "-march=native"

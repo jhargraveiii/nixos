@@ -11,13 +11,13 @@
 let
   pname = "ollama";
   # don't forget to invalidate all hashes each update
-  version = "0.1.36";
+  version = "0.1.37";
 
   src = fetchFromGitHub {
     owner = "jmorganca";
     repo = "ollama";
     rev = "v${version}";
-    hash = "sha256-oa14QdJufOsW4zt56hyNO23GqWdLT6EzIGDJU/Fsdts=";
+    hash = "sha256-ZorOrIOWjXltxqOXNkFJ9190EXTAn+YcjZZhDBJsLqc=";
     fetchSubmodules = true;
   };
   vendorHash = "sha256-zOQGhNcGNlQppTqZdPfx+y4fUrxH0NOUl38FN8J6ffE=";
@@ -82,6 +82,9 @@ let
       cudaPackages.cudatoolkit
       cudaPackages.cuda_cudart
       cudaPackages.cuda_cudart.static
+      cudaPackages.cudnn
+      cudaPackages.tensorrt
+      cudaPackages.cuda_nvcc
     ];
   };
 
