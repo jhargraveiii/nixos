@@ -14,7 +14,7 @@
     # TODO figure out how to create the data directory declaratively
     volumes =
       [ "${config.users.users.jimh.home}/DATA2/open-webui:/app/backend/data" ];
-    extraOptions = [ "--gpus=all --network=host" ];
+    extraOptions = [ "--gpus '\"device=0\"' --network=host" ];
     environment = { OLLAMA_BASE_URL = "http://127.0.0.1:11434"; };
   };
 }
