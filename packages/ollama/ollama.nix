@@ -1,4 +1,4 @@
-{ lib, buildGo122Module, fetchFromGitHub, fetchpatch, buildEnv, linkFarm
+{ pkgs, lib, buildGo122Module, fetchFromGitHub, fetchpatch, buildEnv, linkFarm
 , overrideCC, makeWrapper, stdenv
 
 , cmake, gcc12, clblast, libdrm, rocmPackages, cudaPackages, linuxPackages
@@ -126,8 +126,11 @@ in goBuild ((lib.optionalAttrs enableRocm {
     rocmPackages.rocsolver
     rocmPackages.rocsparse
     libdrm
-  ] ++ lib.optionals enableCuda [ cudaPackages.cuda_cudart ]
-    ++ lib.optionals stdenv.isDarwin metalFrameworks;
+  ] ++ lib.optionals enableCuda [
+    cudaPackages.cuda_cudart
+    cudaPackages.cudnn
+    cudaPackages.tensorrt
+  ] ++ lib.optionals stdenv.isDarwin metalFrameworks;
 
   patches = [
     # disable uses of `git` in the `go generate` script
@@ -143,6 +146,9 @@ in goBuild ((lib.optionalAttrs enableRocm {
   preBuild = ''
     # disable uses of `git`, since nix removes the git directory
     export OLLAMA_SKIP_PATCHING=true
+
+    export OPENBLAS=${pkgs.amd-blis}/lib/libopenblas.so
+    export LD_LIBRARY_PATH=${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LD_LIBRARY_PATH
     export GIN_MODE=release
     export CFLAGS="-O3 -march=native -mtune=native -ffast-math -funroll-loops"
     export CXXFLAGS="-O3 -march=native -mtune=native -ffast-math -funroll-loops"

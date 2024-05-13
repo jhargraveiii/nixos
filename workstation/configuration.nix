@@ -90,6 +90,7 @@
       # we want to use some packages from unstable so need this overlay
       outputs.overlays.stable-packages
       outputs.overlays.cuda
+      outputs.overlays.numerical_amd
     ];
 
     # Configure your nixpkgs instance
