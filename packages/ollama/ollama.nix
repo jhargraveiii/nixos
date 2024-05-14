@@ -148,12 +148,6 @@ in goBuild ((lib.optionalAttrs enableRocm {
     substituteInPlace version/version.go --replace 0.0.0 '${version}'
   '';
 
-  preConfigure = ''
-    export LD_LIBRARY_PATH=${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${cudaPackages.tensorrt}/lib:${cudaPackages.cudnn}/lib:$LD_LIBRARY_PATH
-    export CUDA_NVCC_FLAGS="-Xptxas -O3 -arch=sm_89 -code=sm_89 -O3 --use_fast_math -maxrregcount=32 -ftz=true -prec-div=false -prec-sqrt=false"
-    export OLLAMA_CUSTOM_CPU_DEFS=" -DBLAS_LIBRARIES=${pkgs.amd-blis}/lib/libblis-mt.so -DBLAS_INCLUDE_DIRS=${pkgs.amd-blis}/include/blis -DLLAMA_BLAS=on -DLLAMA_BLAS_VENDOR=FLAME -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_F16C=on -DLLAMA_FMA=on"   
-  '';
-
   preBuild = ''
     # disable uses of `git`, since nix removes the git directory
     export OLLAMA_SKIP_PATCHING=true
