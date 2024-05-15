@@ -14,7 +14,7 @@
       efi.canTouchEfiVariables = true;
       systemd-boot.enable = true;
     };
-    kernelPackages = pkgs.linuxPackages_xanmod_latest;
+    kernelPackages = pkgs.linuxPackages_6_8;
     initrd.availableKernelModules = [
       "thunderbolt"
       "nvme"

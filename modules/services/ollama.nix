@@ -8,12 +8,12 @@ in {
     enable = true;
     package = ollamaOptimized;
     environmentVariables = {
+      LD_LIBRARY_PATH =
+        "${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${pkgs.cudaPackages.tensorrt}/lib:${pkgs.cudaPackages.cudnn}/lib:$LD_LIBRARY_PATH";
       OLLAMA_LLM_LIBRARY = "cuda_v12";
       GIN_MODE = "release";
       CUDA_USE_TENSOR_CORES = "yes";
       GGML_CUDA_FORCE_MMQ = "yes";
-      OLLAMA_CUDA_FORCE_MMQ = "yes";
-      OLLAMA_CUDA_USE_TENSOR_CORES = "yes";
     };
     acceleration = "cuda";
     home = "/home/jimh/DATA2/ollama";

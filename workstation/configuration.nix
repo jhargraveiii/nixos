@@ -13,6 +13,7 @@
     ../modules/programs/1password.nix
     ../modules/services/restic.nix
     ../modules/services/ollama.nix
+    ../modules/services/llama-cpp.nix
     ../modules/services/open-webui.nix
     ../modules/services/flatpak.nix
     ../modules/programs/distrobox.nix
