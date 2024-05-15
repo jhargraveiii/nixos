@@ -5,14 +5,17 @@ let
   overridePackageAttrs = pkg:
     if lib.hasAttr "overrideAttrs" pkg then
       pkg.overrideAttrs (oldAttrs: {
+        configureFlags = oldAttrs.configureFlags or [ ]
+          ++ [ "--gpu-architecture=compute_89" "--gpu-code=sm_89" ];
         platformDependent = true;
         preConfigure = ''
           export CUDA_USE_TENSOR_CORES=yes
           export GGML_CUDA_FORCE_MMQ=yes 
           export CFLAGS=" -O3 -march=native -mtune=native"
           export CXXFLAGS=" -O3 -march=native -mtune=native"
-          export CUDA_NVCC_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3 --use_fast_math -maxrregcount=32  -ftz=true -prec-div=false -prec-sqrt=false"
-          export CMAKE_CUDA_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3 --use_fast_math -maxrregcount=32 -ftz=true -prec-div=false -prec-sqrt=false"
+          export NVCC_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3"
+          export CUDA_NVCC_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3"
+          export CMAKE_CUDA_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3"
         '' + oldAttrs.preConfigure or "";
         cudaCompatibilities = [ "8.9" ];
         NIX_CFLAGS_COMPILE = toString [

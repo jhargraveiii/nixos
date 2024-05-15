@@ -57,6 +57,7 @@ in effectiveStdenv.mkDerivation (finalAttrs: {
   buildInputs = optionals cudaSupport cudaBuildInputs
     ++ optionals mpiSupport [ mpi ];
 
+  cudaCompatibilities = [ "8.9" ];
   cmakeFlags = [
     # -march=native is non-deterministic; override with platform-specific flags if needed
     (cmakeBool "LLAMA_NATIVE" false)
@@ -71,6 +72,12 @@ in effectiveStdenv.mkDerivation (finalAttrs: {
       cmakeFeature "CMAKE_CUDA_ARCHITECTURES"
       (builtins.concatStringsSep ";" (map dropDot cudaCapabilities)))
   ];
+
+  preConfigure = ''
+    export CMAKE_CUDA_ARCHITECTURES="89"
+    export NVCC_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3"
+    export CMAKE_CXX_FLAGS="-O3 -march=native -mtune=native"
+  '';
 
   # upstream plans on adding targets at the cmakelevel, remove those
   # additional steps after that
