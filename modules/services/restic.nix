@@ -7,9 +7,11 @@
           ".Trash"
           ".log"
           ".tmp"
-          "/home/.ollama"
-          "/home/*/.cache"
+          "/home/${username}/.ollama"
+          "/home/${username}/.cache"
           "/home/${username}/BACKUP/*"
+          "/home/${username}/DATA2/ollama/*"
+          "/home/${username}/DATA2/models/*"
         ];
         initialize = true;
         passwordFile = "/etc/nixos/restic-password";
