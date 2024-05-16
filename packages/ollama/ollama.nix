@@ -124,7 +124,6 @@ in goBuild ((lib.optionalAttrs enableCuda {
     # expose runtime libraries necessary to use the gpu
     mv "$out/bin/ollama" "$out/bin/.ollama-unwrapped"
     makeWrapper "$out/bin/.ollama-unwrapped" "$out/bin/ollama"
-      --suffix '${lib.makeLibraryPath runtimeLibs}'
   '';
 
   ldflags = [
