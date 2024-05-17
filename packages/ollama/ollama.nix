@@ -1,5 +1,5 @@
 { pkgs, lib, buildGo122Module, fetchFromGitHub, fetchpatch, buildEnv, linkFarm
-, overrideCC, makeWrapper, stdenv, writeShellScriptBin
+, overrideCC, makeWrapper, stdenv, writeShellScript
 
 , cmake, gcc12, clblast, libdrm, rocmPackages, cudaPackages, linuxPackages
 
@@ -56,10 +56,10 @@ let
     ];
   };
 
-  envSetupHook = writeShellScriptBin "env-setup-hook.sh" ''
+  envSetup = writeShellScript "env-setup.sh" ''
     export CUDA_USE_TENSOR_CORES=yes
     export GGML_CUDA_FORCE_MMQ=yes 
-    export LD_LIBRARY_PATH=${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${cudaPackages.tensorrt}/lib:${cudaPackages.cudnn}/lib:$LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH=${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${cudaPackages.tensorrt}/lib:${cudaPackages.cudnn}/lib
     export NVCC_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3"
     export OLLAMA_CUSTOM_CPU_DEFS=" -DBLAS_LIBRARIES=${pkgs.amd-blis}/lib/libblis-mt.so -DBLAS_INCLUDE_DIRS=${pkgs.amd-blis}/include/blis -DLLAMA_BLAS=on -DLLAMA_BLAS_VENDOR=FLAME -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_F16C=on -DLLAMA_FMA=on"
   '';
@@ -82,7 +82,7 @@ in goBuild ((lib.optionalAttrs enableCuda {
 }) // {
   inherit pname version src vendorHash;
 
-  nativeBuildInputs = [ envSetupHook cmake ]
+  nativeBuildInputs = [ envSetup cmake ]
     ++ lib.optionals (enableCuda) [ makeWrapper ];
 
   buildInputs = lib.optionals enableCuda [

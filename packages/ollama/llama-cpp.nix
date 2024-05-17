@@ -5,7 +5,7 @@
 
 , blasSupport ? builtins.all (x: !x) [ cudaSupport ], blas
 
-, writeShellScriptBin
+, writeShellScript
 
 , pkg-config, mpiSupport ? false # Increases the runtime closure by ~700M
 , vulkan-headers, vulkan-loader, ninja, git, mpi }:
@@ -30,13 +30,13 @@ let
     libcublas.static
   ];
 
-  envSetupHook = writeShellScriptBin "env-setup-hook.sh" ''
+  envSetup = writeShellScript "env-setup.sh" ''
     export CUDA_USE_TENSOR_CORES=yes
     export GGML_CUDA_FORCE_MMQ=yes 
     export CMAKE_CUDA_ARCHITECTURES="89"
     export NVCC_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3"
     export CMAKE_CXX_FLAGS="-O3 -march=native -mtune=native"
-    export LD_LIBRARY_PATH=${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${cudaPackages.tensorrt}/lib:${cudaPackages.cudnn}/lib:$LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH=${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${cudaPackages.tensorrt}/lib:${cudaPackages.cudnn}/lib
   '';
 
 in effectiveStdenv.mkDerivation (finalAttrs: {
@@ -64,7 +64,7 @@ in effectiveStdenv.mkDerivation (finalAttrs: {
       --replace-fail 'set(BUILD_COMMIT "unknown")' "set(BUILD_COMMIT \"$(cat COMMIT)\")"
   '';
 
-  nativeBuildInputs = [ envSetupHook cmake ninja pkg-config git ]
+  nativeBuildInputs = [ envSetup cmake ninja pkg-config git ]
     ++ optionals cudaSupport [ cudaPackages.cuda_nvcc autoAddDriverRunpath ];
 
   buildInputs = optionals cudaSupport cudaBuildInputs

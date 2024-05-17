@@ -1,7 +1,7 @@
 # This file defines overlays
 { inputs, lib, pkgs, ... }:
 let
-  envSetupHook = pkgs.writeShellScriptBin "env-setup-hook.sh" ''
+  envSetup = pkgs.writeShellScript "env-setup.sh" ''
     export CUDA_USE_TENSOR_CORES=yes
     export GGML_CUDA_FORCE_MMQ=yes 
     export CFLAGS=" -O3 -march=native -mtune=native"
@@ -16,7 +16,7 @@ let
         configureFlags = oldAttrs.configureFlags or [ ]
           ++ [ "--gpu-architecture=compute_89" "--gpu-code=sm_89" ];
         platformDependent = true;
-        nativeBuildInputs = [ envSetupHook ]
+        nativeBuildInputs = [ envSetup ]
           ++ oldAttrs.nativeBuildInputs or [ ];
         cudaCompatibilities = [ "8.9" ];
         NIX_CFLAGS_COMPILE = toString [
