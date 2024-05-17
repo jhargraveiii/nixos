@@ -1,10 +1,7 @@
 { pkgs, lib, buildGo122Module, fetchFromGitHub, fetchpatch, buildEnv, linkFarm
-, overrideCC, makeWrapper, stdenv, writeShellScript
-
+, overrideCC, makeWrapper, stdenv
 , cmake, gcc12, clblast, libdrm, rocmPackages, cudaPackages, linuxPackages
-
 , config
-# one of `[ null false "rocm" "cuda" ]`
 , acceleration ? null }:
 
 let
@@ -56,14 +53,6 @@ let
     ];
   };
 
-  envSetup = writeShellScript "env-setup.sh" ''
-    export CUDA_USE_TENSOR_CORES=yes
-    export GGML_CUDA_FORCE_MMQ=yes 
-    export LD_LIBRARY_PATH=${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${cudaPackages.tensorrt}/lib:${cudaPackages.cudnn}/lib
-    export NVCC_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3"
-    export OLLAMA_CUSTOM_CPU_DEFS=" -DBLAS_LIBRARIES=${pkgs.amd-blis}/lib/libblis-mt.so -DBLAS_INCLUDE_DIRS=${pkgs.amd-blis}/include/blis -DLLAMA_BLAS=on -DLLAMA_BLAS_VENDOR=FLAME -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_F16C=on -DLLAMA_FMA=on"
-  '';
-
   runtimeLibs = lib.optionals enableCuda [
     linuxPackages.nvidia_x11
     cudaPackages.cudnn
@@ -82,7 +71,7 @@ in goBuild ((lib.optionalAttrs enableCuda {
 }) // {
   inherit pname version src vendorHash;
 
-  nativeBuildInputs = [ envSetup cmake ]
+  nativeBuildInputs = [ cmake ]
     ++ lib.optionals (enableCuda) [ makeWrapper ];
 
   buildInputs = lib.optionals enableCuda [
@@ -106,6 +95,8 @@ in goBuild ((lib.optionalAttrs enableCuda {
   preBuild = ''
     # disable uses of `git`, since nix removes the git directory
     export OLLAMA_SKIP_PATCHING=true
+
+    export OLLAMA_CUSTOM_CPU_DEFS=" -DBLAS_LIBRARIES=${pkgs.amd-blis}/lib/libblis-mt.so -DBLAS_INCLUDE_DIRS=${pkgs.amd-blis}/include/blis -DLLAMA_BLAS=on -DLLAMA_BLAS_VENDOR=FLAME -DLLAMA_NATIVE=on -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_F16C=on -DLLAMA_FMA=on"
 
     # build llama.cpp libraries for ollama
     go generate ./...

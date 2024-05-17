@@ -5,10 +5,8 @@
 
 , blasSupport ? builtins.all (x: !x) [ cudaSupport ], blas
 
-, writeShellScript
-
 , pkg-config, mpiSupport ? false # Increases the runtime closure by ~700M
-, vulkan-headers, vulkan-loader, ninja, git, mpi }:
+, ninja, git, mpi }:
 
 let
   # It's necessary to consistently use backendStdenv when building with CUDA support,
@@ -29,15 +27,6 @@ let
     libcublas.lib
     libcublas.static
   ];
-
-  envSetup = writeShellScript "env-setup.sh" ''
-    export CUDA_USE_TENSOR_CORES=yes
-    export GGML_CUDA_FORCE_MMQ=yes 
-    export CMAKE_CUDA_ARCHITECTURES="89"
-    export NVCC_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3"
-    export CMAKE_CXX_FLAGS="-O3 -march=native -mtune=native"
-    export LD_LIBRARY_PATH=${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${cudaPackages.tensorrt}/lib:${cudaPackages.cudnn}/lib
-  '';
 
 in effectiveStdenv.mkDerivation (finalAttrs: {
   pname = "llama-cpp";
@@ -64,7 +53,7 @@ in effectiveStdenv.mkDerivation (finalAttrs: {
       --replace-fail 'set(BUILD_COMMIT "unknown")' "set(BUILD_COMMIT \"$(cat COMMIT)\")"
   '';
 
-  nativeBuildInputs = [ envSetup cmake ninja pkg-config git ]
+  nativeBuildInputs = [ cmake ninja pkg-config git ]
     ++ optionals cudaSupport [ cudaPackages.cuda_nvcc autoAddDriverRunpath ];
 
   buildInputs = optionals cudaSupport cudaBuildInputs
@@ -73,9 +62,8 @@ in effectiveStdenv.mkDerivation (finalAttrs: {
   cudaCompatibilities = [ "8.9" ];
   cmakeFlags = [
     # -march=native is non-deterministic; override with platform-specific flags if needed
-    (cmakeBool "LLAMA_NATIVE" false)
+    (cmakeBool "LLAMA_NATIVE" true)
     (cmakeBool "BUILD_SHARED_SERVER" true)
-    (cmakeBool "BUILD_SHARED_LIBS" true)
     (cmakeBool "BUILD_SHARED_LIBS" true)
     (cmakeBool "LLAMA_BLAS" blasSupport)
     (cmakeBool "LLAMA_CUDA" cudaSupport)

@@ -21,9 +21,6 @@
   outputs = { self, nixpkgs, home-manager, ... }@inputs:
     let
       inherit (self) outputs;
-
-      pkgs = import nixpkgs { inherit system; };
-
       system = "x86_64-linux";
 
       # User Variables
@@ -41,8 +38,6 @@
       # Your custom packages and modifications, exported as overlays
       overlays = import ./modules/overlays {
         inherit inputs;
-        lib = nixpkgs.lib;
-        pkgs = pkgs;
       };
 
       nixosConfigurations = {
