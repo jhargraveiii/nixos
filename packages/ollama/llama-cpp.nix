@@ -87,7 +87,6 @@ in effectiveStdenv.mkDerivation (finalAttrs: {
     (cmakeBool "LLAMA_NATIVE" true)
     (cmakeBool "BUILD_SHARED_SERVER" true)
     (cmakeBool "BUILD_SHARED_LIBS" true)
-    (cmakeBool "BUILD_SHARED_LIBS" true)
     (cmakeBool "LLAMA_BLAS" blasSupport)
     (cmakeBool "LLAMA_CLBLAST" openclSupport)
     (cmakeBool "LLAMA_CUDA" cudaSupport)
