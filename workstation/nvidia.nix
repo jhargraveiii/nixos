@@ -19,7 +19,11 @@ in {
 
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = [ "nvidia" ];
-  environment.systemPackages = with pkgs; [ nvtopPackages.full ];
+  environment.systemPackages = with pkgs; [
+    nvtopPackages.full
+    cudaPackages.cudnn
+    cudaPackages.tensorrt
+  ];
   hardware.nvidia = {
     modesetting.enable = false;
     forceFullCompositionPipeline = true;

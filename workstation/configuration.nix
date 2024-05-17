@@ -91,7 +91,6 @@
       # we want to use some packages from unstable so need this overlay
       outputs.overlays.stable-packages
       outputs.overlays.cuda
-      outputs.overlays.numerical_amd
     ];
 
     # Configure your nixpkgs instance
@@ -101,6 +100,10 @@
       allowBroken = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
       allowUnfreePredicate = _: true;
+      blasSupport = true;
+      blasProvider = pkgs.amd-blis;
+      lapackSupport = true;
+      lapackProvider = pkgs.amd-libflame;
     };
   };
 
