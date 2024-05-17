@@ -181,16 +181,18 @@
     fwupd
     lazygit
     wl-clipboard
-    kdePackages.partitionmanager
-    libsForQt5.partitionmanager
-    kdePackages.isoimagewriter
-    kdePackages.filelight
-    kdePackages.kcharselect
     dotenv-linter
     shellharden
     nix-direnv
     amd-blis
     amd-libflame
+
+    kdePackages.partitionmanager
+    libsForQt5.partitionmanager
+    kdePackages.isoimagewriter
+    kdePackages.filelight
+    kdePackages.kcharselect
+    kdePackages.ksystemlog
   ];
 
   programs.direnv = {
