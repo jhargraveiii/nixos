@@ -1,5 +1,5 @@
 { pkgs, lib, buildGo122Module, fetchFromGitHub, fetchpatch, buildEnv, linkFarm
-, overrideCC, makeWrapper, stdenv
+, overrideCC, makeWrapper, stdenv, writeShellScriptBin
 
 , cmake, gcc12, clblast, libdrm, rocmPackages, cudaPackages, linuxPackages
 
@@ -16,7 +16,7 @@ let
     owner = "jmorganca";
     repo = "ollama";
     rev = "v${version}";
-    hash = "sha256-wWEeA7SqH8YJXRo6j7e5oCRfovTI7q/U6Sr22bU5Irg=";
+    hash = "sha256-9HHR48gqETYVJgIaDH8s/yHTrDPEmHm80shpDNS+6hY=";
     fetchSubmodules = true;
   };
   vendorHash = "sha256-zOQGhNcGNlQppTqZdPfx+y4fUrxH0NOUl38FN8J6ffE=";
@@ -40,17 +40,7 @@ let
       extraPrefix = "llm/llama.cpp/";
     };
 
-  accelIsValid = builtins.elem acceleration [ null false "cuda" ];
-  validateLinux = api:
-    (lib.warnIfNot stdenv.isLinux
-      "building ollama with `${api}` is only supported on linux; falling back to cpu"
-      stdenv.isLinux);
-  shouldEnable = assert accelIsValid;
-    mode: fallback:
-    ((acceleration == mode) || (fallback && acceleration == null))
-    && (validateLinux mode);
-
-  enableCuda = shouldEnable "cuda" config.cudaSupport;
+  enableCuda = true;
 
   cudaToolkit = buildEnv {
     name = "cuda-toolkit";
@@ -65,6 +55,14 @@ let
       cudaPackages.cuda_nvcc
     ];
   };
+
+  envSetupHook = writeShellScriptBin "env-setup-hook.sh" ''
+    export CUDA_USE_TENSOR_CORES=yes
+    export GGML_CUDA_FORCE_MMQ=yes 
+    export LD_LIBRARY_PATH=${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${cudaPackages.tensorrt}/lib:${cudaPackages.cudnn}/lib:$LD_LIBRARY_PATH
+    export NVCC_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3"
+    export OLLAMA_CUSTOM_CPU_DEFS=" -DBLAS_LIBRARIES=${pkgs.amd-blis}/lib/libblis-mt.so -DBLAS_INCLUDE_DIRS=${pkgs.amd-blis}/include/blis -DLLAMA_BLAS=on -DLLAMA_BLAS_VENDOR=FLAME -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_F16C=on -DLLAMA_FMA=on"
+  '';
 
   runtimeLibs = lib.optionals enableCuda [
     linuxPackages.nvidia_x11
@@ -84,7 +82,8 @@ in goBuild ((lib.optionalAttrs enableCuda {
 }) // {
   inherit pname version src vendorHash;
 
-  nativeBuildInputs = [ cmake ] ++ lib.optionals (enableCuda) [ makeWrapper ];
+  nativeBuildInputs = [ envSetupHook cmake ]
+    ++ lib.optionals (enableCuda) [ makeWrapper ];
 
   buildInputs = lib.optionals enableCuda [
     cudaPackages.cuda_cudart
@@ -104,15 +103,10 @@ in goBuild ((lib.optionalAttrs enableCuda {
     substituteInPlace version/version.go --replace 0.0.0 '${version}'
   '';
 
-  preConfigure = ''
-    export LD_LIBRARY_PATH=${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${cudaPackages.tensorrt}/lib:${cudaPackages.cudnn}/lib:$LD_LIBRARY_PATH
-    export NVCC_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3"
-    export OLLAMA_CUSTOM_CPU_DEFS=" -DBLAS_LIBRARIES=${pkgs.amd-blis}/lib/libblis-mt.so -DBLAS_INCLUDE_DIRS=${pkgs.amd-blis}/include/blis -DLLAMA_BLAS=on -DLLAMA_BLAS_VENDOR=FLAME -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_F16C=on -DLLAMA_FMA=on"
-  '';
-
   preBuild = ''
     # disable uses of `git`, since nix removes the git directory
     export OLLAMA_SKIP_PATCHING=true
+
     # build llama.cpp libraries for ollama
     go generate ./...
   '';

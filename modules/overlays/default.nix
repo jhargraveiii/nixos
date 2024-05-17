@@ -1,6 +1,14 @@
 # This file defines overlays
-{ inputs, lib, ... }:
+{ inputs, lib, pkgs, ... }:
 let
+  envSetupHook = pkgs.writeShellScriptBin "env-setup-hook.sh" ''
+    export CUDA_USE_TENSOR_CORES=yes
+    export GGML_CUDA_FORCE_MMQ=yes 
+    export CFLAGS=" -O3 -march=native -mtune=native"
+    export CXXFLAGS=" -O3 -march=native -mtune=native"
+    export NVCC_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3"
+  '';
+
   # Function to override package attributes
   overridePackageAttrs = pkg:
     if lib.hasAttr "overrideAttrs" pkg then
@@ -8,13 +16,8 @@ let
         configureFlags = oldAttrs.configureFlags or [ ]
           ++ [ "--gpu-architecture=compute_89" "--gpu-code=sm_89" ];
         platformDependent = true;
-        preConfigure = ''
-          export CUDA_USE_TENSOR_CORES=yes
-          export GGML_CUDA_FORCE_MMQ=yes 
-          export CFLAGS=" -O3 -march=native -mtune=native"
-          export CXXFLAGS=" -O3 -march=native -mtune=native"
-          export NVCC_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3"
-        '' + oldAttrs.preConfigure or "";
+        nativeBuildInputs = [ envSetupHook ]
+          ++ oldAttrs.nativeBuildInputs or [ ];
         cudaCompatibilities = [ "8.9" ];
         NIX_CFLAGS_COMPILE = toString [
           "-O3"

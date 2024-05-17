@@ -1,8 +1,11 @@
-{ lib, autoAddDriverRunpath, cmake, fetchFromGitHub, nix-update-script, stdenv
+{ lib, pkgs, autoAddDriverRunpath, cmake, fetchFromGitHub, nix-update-script
+, stdenv
 
 , config, cudaSupport ? config.cudaSupport, cudaPackages ? { }
 
 , blasSupport ? builtins.all (x: !x) [ cudaSupport ], blas
+
+, writeShellScriptBin
 
 , pkg-config, mpiSupport ? false # Increases the runtime closure by ~700M
 , vulkan-headers, vulkan-loader, ninja, git, mpi }:
@@ -26,15 +29,25 @@ let
     libcublas.lib
     libcublas.static
   ];
+
+  envSetupHook = writeShellScriptBin "env-setup-hook.sh" ''
+    export CUDA_USE_TENSOR_CORES=yes
+    export GGML_CUDA_FORCE_MMQ=yes 
+    export CMAKE_CUDA_ARCHITECTURES="89"
+    export NVCC_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3"
+    export CMAKE_CXX_FLAGS="-O3 -march=native -mtune=native"
+    export LD_LIBRARY_PATH=${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${cudaPackages.tensorrt}/lib:${cudaPackages.cudnn}/lib:$LD_LIBRARY_PATH
+  '';
+
 in effectiveStdenv.mkDerivation (finalAttrs: {
   pname = "llama-cpp";
-  version = "2885";
+  version = "2915";
 
   src = fetchFromGitHub {
     owner = "ggerganov";
     repo = "llama.cpp";
     rev = "refs/tags/b${finalAttrs.version}";
-    hash = "sha256-DEvyeYCjHAdUyY+Civ7SxN8QfVeTrnNthW2Yw433Jjg=";
+    hash = "sha256-pC9mgB3YCIeQF8NvE/TxOF5Vxi46Lv29b4T44zE0NQw=";
     leaveDotGit = true;
     postFetch = ''
       git -C "$out" rev-parse --short HEAD > $out/COMMIT
@@ -51,7 +64,7 @@ in effectiveStdenv.mkDerivation (finalAttrs: {
       --replace-fail 'set(BUILD_COMMIT "unknown")' "set(BUILD_COMMIT \"$(cat COMMIT)\")"
   '';
 
-  nativeBuildInputs = [ cmake ninja pkg-config git ]
+  nativeBuildInputs = [ envSetupHook cmake ninja pkg-config git ]
     ++ optionals cudaSupport [ cudaPackages.cuda_nvcc autoAddDriverRunpath ];
 
   buildInputs = optionals cudaSupport cudaBuildInputs
@@ -72,12 +85,6 @@ in effectiveStdenv.mkDerivation (finalAttrs: {
       cmakeFeature "CMAKE_CUDA_ARCHITECTURES"
       (builtins.concatStringsSep ";" (map dropDot cudaCapabilities)))
   ];
-
-  preConfigure = ''
-    export CMAKE_CUDA_ARCHITECTURES="89"
-    export NVCC_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3"
-    export CMAKE_CXX_FLAGS="-O3 -march=native -mtune=native"
-  '';
 
   # upstream plans on adding targets at the cmakelevel, remove those
   # additional steps after that
