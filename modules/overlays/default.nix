@@ -14,8 +14,6 @@ let
           export CFLAGS=" -O3 -march=native -mtune=native"
           export CXXFLAGS=" -O3 -march=native -mtune=native"
           export NVCC_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3"
-          export CUDA_NVCC_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3"
-          export CMAKE_CUDA_FLAGS=" -Xptxas -O3 -arch=sm_89 -code=sm_89 -O3"
         '' + oldAttrs.preConfigure or "";
         cudaCompatibilities = [ "8.9" ];
         NIX_CFLAGS_COMPILE = toString [
