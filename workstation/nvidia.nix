@@ -10,6 +10,7 @@ in {
     allowUnfree = true;
     cudaSupport = true;
     cuda = true;
+    cuBlas = true;
     cudVersion = "12.4";
     cudnnSupport = true;
     tensorrtSupport = true;

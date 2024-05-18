@@ -139,6 +139,7 @@
     '';
 
     shellAliases = {
+      flake-check = "nix flake check --verbose --show-trace ${flakeDir}";
       flake-rebuild =
         "sudo nixos-rebuild switch --max-jobs 24 --verbose --show-trace --flake ${flakeDir}";
       flake-update = "sudo nix flake update ${flakeDir}";

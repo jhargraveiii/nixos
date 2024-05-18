@@ -1,5 +1,5 @@
 { pkgs, lib, buildEnv, ... }:
-let llamaOptimized = pkgs.callPackage ../../packages/ollama/llama-cpp.nix {};
+let llamaOptimized = pkgs.callPackage ../../packages/ollama/llama-cpp.nix { };
 in {
   environment.systemPackages = with pkgs; [ llamaOptimized ];
   systemd.services.ollama.serviceConfig.DynamicUser = lib.mkForce false;

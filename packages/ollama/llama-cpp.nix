@@ -1,4 +1,4 @@
-{ lib, autoAddDriverRunpath, cmake, darwin, fetchFromGitHub, nix-update-script
+{ lib, autoAddDriverRunpath, cmake, darwin, fetchFromGitHub, gcc12, overrideCC, nix-update-script
 , stdenv
 
 , config, cudaSupport ? config.cudaSupport, cudaPackages ? { }
@@ -25,7 +25,8 @@ let
   # It's necessary to consistently use backendStdenv when building with CUDA support,
   # otherwise we get libstdc++ errors downstream.
   # cuda imposes an upper bound on the gcc version, e.g. the latest gcc compatible with cudaPackages_11 is gcc11
-  effectiveStdenv = if cudaSupport then cudaPackages.backendStdenv else stdenv;
+  effectiveStdenv = if cudaSupport then cudaPackages.backendStdenv.override { stdenv = overrideCC stdenv gcc12; }
+ else stdenv;
   inherit (lib) cmakeBool cmakeFeature optionals;
 
   darwinBuildInputs = with darwin.apple_sdk.frameworks;
@@ -50,13 +51,13 @@ let
   vulkanBuildInputs = [ vulkan-headers vulkan-loader ];
 in effectiveStdenv.mkDerivation (finalAttrs: {
   pname = "llama-cpp";
-  version = "2915";
+  version = "2928";
 
   src = fetchFromGitHub {
     owner = "ggerganov";
     repo = "llama.cpp";
     rev = "refs/tags/b${finalAttrs.version}";
-    hash = "sha256-pC9mgB3YCIeQF8NvE/TxOF5Vxi46Lv29b4T44zE0NQw=";
+    hash = "sha256-6/VA5tQZyGxpRNCVkt9Ab74G8imNsLcCR1Oppj6a9qY=";
     leaveDotGit = true;
     postFetch = ''
       git -C "$out" rev-parse --short HEAD > $out/COMMIT
