@@ -1,31 +1,14 @@
 { lib, buildGo122Module, fetchFromGitHub, fetchpatch, buildEnv, linkFarm
 , overrideCC, makeWrapper, stdenv, nixosTests
 
-, pkgs, cmake, gcc12, libdrm, linuxPackages, darwin
+, pkgs, cmake, gcc12, clblast, libdrm, rocmPackages, cudaPackages, linuxPackages
+, darwin
 
 , testers, ollama
 
-, cudaSupport ? config.cudaSupport, cudaPackages ? { }
-
-, rocmSupport ? config.rocmSupport, rocmPackages ? { }
-
-, openclSupport ? false, clblast
-
-, blasSupport ? builtins.all (x: !x) [
-  cudaSupport
-  metalSupport
-  openclSupport
-  rocmSupport
-  vulkanSupport
-], blas
-
 , config
 # one of `[ null false "rocm" "cuda" ]`
-, acceleration ? null
-, metalSupport ? stdenv.isDarwin && stdenv.isAarch64 && !openclSupport
-, vulkanSupport ? false
-, mpiSupport ? false # Increases the runtime closure by ~700M
-, vulkan-headers, vulkan-loader, mpi }:
+, acceleration ? null }:
 let
   pname = "ollama";
   # don't forget to invalidate all hashes each update
@@ -103,6 +86,13 @@ let
       cudaPackages.cudatoolkit
       cudaPackages.cuda_cudart
       cudaPackages.cuda_cudart.static
+      cudaPackages.libcublas.dev
+      cudaPackages.libcublas.lib
+      cudaPackages.libcublas.static
+      cudaPackages.tensorrt
+      cudaPackages.cudnn
+      pkgs.amd-blis
+      pkgs.amd-libflame
     ];
   };
 
@@ -122,7 +112,6 @@ let
   else
     buildGo122Module;
   inherit (lib) licenses platforms maintainers;
-  inherit (lib) cmakeBool cmakeFeature optionals;
 in goBuild ((lib.optionalAttrs enableRocm {
   ROCM_PATH = rocmPath;
   CLBlast_DIR = "${clblast}/lib/cmake/CLBlast";
@@ -138,45 +127,22 @@ in goBuild ((lib.optionalAttrs enableRocm {
     ++ lib.optionals (enableRocm || enableCuda) [ makeWrapper ]
     ++ lib.optionals stdenv.isDarwin metalFrameworks;
 
-  buildInputs = lib.optionals enableRocm [
-    rocmPackages.clr
-    rocmPackages.hipblas
-    rocmPackages.rocblas
-    rocmPackages.rocsolver
-    rocmPackages.rocsparse
-    libdrm
-  ] ++ lib.optionals enableCuda [ cudaPackages.cuda_cudart ]
-    ++ lib.optionals stdenv.isDarwin metalFrameworks;
-
-  cmakeFlags = [
-    # -march=native is non-deterministic; override with platform-specific flags if needed
-    (cmakeBool "LLAMA_NATIVE" true)
-    (cmakeBool "BUILD_SHARED_SERVER" true)
-    (cmakeBool "BUILD_SHARED_LIBS" true)
-    (cmakeBool "LLAMA_BLAS" blasSupport)
-    (cmakeBool "LLAMA_CLBLAST" openclSupport)
-    (cmakeBool "LLAMA_CUDA" cudaSupport)
-    (cmakeBool "LLAMA_HIPBLAS" rocmSupport)
-    (cmakeBool "LLAMA_METAL" metalSupport)
-    (cmakeBool "LLAMA_MPI" mpiSupport)
-    (cmakeBool "LLAMA_VULKAN" vulkanSupport)
-  ] ++ optionals cudaSupport [
-    (with cudaPackages.flags;
-      cmakeFeature "CMAKE_CUDA_ARCHITECTURES"
-      (builtins.concatStringsSep ";" (map dropDot cudaCapabilities)))
-  ] ++ optionals rocmSupport [
-    (cmakeFeature "CMAKE_C_COMPILER" "hipcc")
-    (cmakeFeature "CMAKE_CXX_COMPILER" "hipcc")
-
-    # Build all targets supported by rocBLAS. When updating search for TARGET_LIST_ROCM
-    # in https://github.com/ROCmSoftwarePlatform/rocBLAS/blob/develop/CMakeLists.txt
-    # and select the line that matches the current nixpkgs version of rocBLAS.
-    # Should likely use `rocmPackages.clr.gpuTargets`.
-    "-DAMDGPU_TARGETS=gfx803;gfx900;gfx906:xnack-;gfx908:xnack-;gfx90a:xnack+;gfx90a:xnack-;gfx940;gfx941;gfx942;gfx1010;gfx1012;gfx1030;gfx1100;gfx1101;gfx1102"
-  ] ++ optionals metalSupport [
-    (cmakeFeature "CMAKE_C_FLAGS" "-D__ARM_FEATURE_DOTPROD=1")
-    (cmakeBool "LLAMA_METAL_EMBED_LIBRARY" true)
-  ];
+  buildInputs = [ pkgs.amd-blis pkgs.amd-libflame ]
+    ++ lib.optionals enableRocm [
+      rocmPackages.clr
+      rocmPackages.hipblas
+      rocmPackages.rocblas
+      rocmPackages.rocsolver
+      rocmPackages.rocsparse
+      libdrm
+    ] ++ lib.optionals enableCuda [
+      cudaPackages.cuda_cudart
+      cudaPackages.tensorrt
+      cudaPackages.cudnn
+      cudaPackages.libcublas.dev
+      cudaPackages.libcublas.lib
+      cudaPackages.libcublas.static
+    ] ++ lib.optionals stdenv.isDarwin metalFrameworks;
 
   patches = [
     # disable uses of `git` in the `go generate` script
@@ -193,6 +159,11 @@ in goBuild ((lib.optionalAttrs enableRocm {
     # disable uses of `git`, since nix removes the git directory
     export OLLAMA_SKIP_PATCHING=true
     # build llama.cpp libraries for ollama
+
+    export CMAKE_CUDA_ARCHITECTURES="89"
+    export OLLAMA_CUSTOM_CUDA_DEFS=" -DLLAMA_CUDA_FORCE_MMQ=off -DLLAMA_CUBLAS=on -DLLAMA_CUDA_F16=on"
+    export OLLAMA_CUSTOM_CPU_DEFS=" -DLLAMA_BLAS=on -DLLAMA_BLAS_VENDOR=FLAME -DLLAMA_NATIVE=on -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_FMA=on -DLLAMA_F16C=on"
+    export COMMON_CMAKE_DEFS=" -DCMAKE_POSITION_INDEPENDENT_CODE=on -DLLAMA_BLAS=on -DLLAMA_BLAS_VENDOR=FLAME -DLLAMA_NATIVE=on -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_FMA=on -DLLAMA_F16C=on"
     go generate ./...
   '';
   postFixup = ''

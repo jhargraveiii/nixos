@@ -1,5 +1,5 @@
-{ lib, autoAddDriverRunpath, cmake, darwin, fetchFromGitHub, gcc12, overrideCC, nix-update-script
-, stdenv
+{ lib, autoAddDriverRunpath, cmake, darwin, fetchFromGitHub, gcc12, overrideCC
+, pkgs, nix-update-script, stdenv
 
 , config, cudaSupport ? config.cudaSupport, cudaPackages ? { }
 
@@ -25,8 +25,10 @@ let
   # It's necessary to consistently use backendStdenv when building with CUDA support,
   # otherwise we get libstdc++ errors downstream.
   # cuda imposes an upper bound on the gcc version, e.g. the latest gcc compatible with cudaPackages_11 is gcc11
-  effectiveStdenv = if cudaSupport then cudaPackages.backendStdenv.override { stdenv = overrideCC stdenv gcc12; }
- else stdenv;
+  effectiveStdenv = if cudaSupport then
+    cudaPackages.backendStdenv.override { stdenv = overrideCC stdenv gcc12; }
+  else
+    stdenv;
   inherit (lib) cmakeBool cmakeFeature optionals;
 
   darwinBuildInputs = with darwin.apple_sdk.frameworks;
@@ -77,7 +79,8 @@ in effectiveStdenv.mkDerivation (finalAttrs: {
   nativeBuildInputs = [ cmake ninja pkg-config git ]
     ++ optionals cudaSupport [ cudaPackages.cuda_nvcc autoAddDriverRunpath ];
 
-  buildInputs = optionals effectiveStdenv.isDarwin darwinBuildInputs
+  buildInputs = [ pkgs.amd-blis pkgs.amd-libflame ]
+    ++ optionals effectiveStdenv.isDarwin darwinBuildInputs
     ++ optionals cudaSupport cudaBuildInputs ++ optionals mpiSupport [ mpi ]
     ++ optionals openclSupport [ clblast ]
     ++ optionals rocmSupport rocmBuildInputs ++ optionals blasSupport [ blas ]
@@ -89,16 +92,24 @@ in effectiveStdenv.mkDerivation (finalAttrs: {
     (cmakeBool "BUILD_SHARED_SERVER" true)
     (cmakeBool "BUILD_SHARED_LIBS" true)
     (cmakeBool "LLAMA_BLAS" blasSupport)
+    (cmakeFeature "LLAMA_BLAS_VENDOR" "FLAME")
     (cmakeBool "LLAMA_CLBLAST" openclSupport)
     (cmakeBool "LLAMA_CUDA" cudaSupport)
     (cmakeBool "LLAMA_HIPBLAS" rocmSupport)
     (cmakeBool "LLAMA_METAL" metalSupport)
     (cmakeBool "LLAMA_MPI" mpiSupport)
     (cmakeBool "LLAMA_VULKAN" vulkanSupport)
+    (cmakeBool "LLAMA_AVX" true)
+    (cmakeBool "LLAMA_AVX2" true)
+    (cmakeBool "LLAMA_FMA" true)
+    (cmakeBool "LLAMA_F16C" true)
   ] ++ optionals cudaSupport [
     (with cudaPackages.flags;
       cmakeFeature "CMAKE_CUDA_ARCHITECTURES"
       (builtins.concatStringsSep ";" (map dropDot cudaCapabilities)))
+    (cmakeBool "LLAMA_CUDA_FORCE_MMQ" false)
+    (cmakeBool "LLAMA_CUBLAS" true)
+    (cmakeBool "LLAMA_CUDA_F16" true)
   ] ++ optionals rocmSupport [
     (cmakeFeature "CMAKE_C_COMPILER" "hipcc")
     (cmakeFeature "CMAKE_CXX_COMPILER" "hipcc")

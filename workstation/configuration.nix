@@ -67,17 +67,18 @@
     ];
   };
 
-  users.extraGroups.vboxusers.members = [ "jimh" ];
-  virtualisation = {
-    virtualbox = {
-      host = {
-        package = pkgs.virtualbox;
-        enable = true;
-        enableExtensionPack = true;
-      };
-      guest.enable = true;
-    };
-  };
+  /* users.extraGroups.vboxusers.members = [ "jimh" ];
+     virtualisation = {
+       virtualbox = {
+         host = {
+           package = pkgs.virtualbox;
+           enable = true;
+           enableExtensionPack = true;
+         };
+         guest.enable = true;
+       };
+     };
+  */
 
   security.pam.loginLimits = [{
     domain = "*";
