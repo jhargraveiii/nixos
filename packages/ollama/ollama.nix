@@ -160,10 +160,21 @@ in goBuild ((lib.optionalAttrs enableRocm {
     export OLLAMA_SKIP_PATCHING=true
     # build llama.cpp libraries for ollama
 
+    export OLLAMA_DEBUG=1
     export CMAKE_CUDA_ARCHITECTURES="89"
+
+    export LLAMA_BLAS=1
+    export LLAMA_BLAS_VENDOR="FLAME"
+    export LLAMA_NATIVE=1
+    export LLAMA_AVX=1
+    export LLAMA_AVX2=1
+    export LLAMA_FMA=1
+    export LLAMA_F16C=1
+    export BLAS_LIBRARIES="${pkgs.amd-blis}/lib/libblis-mt.so"
+    export BLAS_INCLUDE_DIRS="${pkgs.amd-blis}/include/blis"
+
     export OLLAMA_CUSTOM_CUDA_DEFS=" -DLLAMA_CUDA_FORCE_MMQ=off -DLLAMA_CUBLAS=on -DLLAMA_CUDA_F16=on"
-    export OLLAMA_CUSTOM_CPU_DEFS=" -DLLAMA_BLAS=on -DLLAMA_BLAS_VENDOR=FLAME -DLLAMA_NATIVE=on -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_FMA=on -DLLAMA_F16C=on"
-    export COMMON_CMAKE_DEFS=" -DCMAKE_POSITION_INDEPENDENT_CODE=on -DLLAMA_BLAS=on -DLLAMA_BLAS_VENDOR=FLAME -DLLAMA_NATIVE=on -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_FMA=on -DLLAMA_F16C=on"
+    export OLLAMA_CUSTOM_CPU_DEFS=" -DBLAS_LIBRARIES=${pkgs.amd-blis}/lib/libblis-mt.so -DBLAS_INCLUDE_DIRS=${pkgs.amd-blis}/include/blis -DLLAMA_BLAS=on -DLLAMA_BLAS_VENDOR=FLAME -DLLAMA_NATIVE=on -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_FMA=on -DLLAMA_F16C=on"
     go generate ./...
   '';
   postFixup = ''

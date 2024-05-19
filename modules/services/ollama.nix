@@ -8,6 +8,11 @@ in {
     enable = true;
     package = ollamaOptimized;
     environmentVariables = {
+      LLAMA_BLAS_VENDOR="FLAME";
+      BLAS_LIBRARIES="${pkgs.amd-blis}/lib/libblis-mt.so";
+      BLAS_INCLUDE_DIRS="${pkgs.amd-blis}/include/blis";
+      LD_LIBRARY_PATH ="${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${pkgs.cudaPackages.tensorrt}/lib:$LD_LIBRARY_PATH";
+      #OLLAMA_LLM_LIBRARY = "cpu";
       OLLAMA_LLM_LIBRARY = "cuda_v12";
       OLLAMA_MAX_VRAM = "11796917760";
     };
