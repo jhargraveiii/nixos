@@ -53,13 +53,13 @@ let
   vulkanBuildInputs = [ vulkan-headers vulkan-loader ];
 in effectiveStdenv.mkDerivation (finalAttrs: {
   pname = "llama-cpp";
-  version = "2928";
+  version = "2950";
 
   src = fetchFromGitHub {
     owner = "ggerganov";
     repo = "llama.cpp";
     rev = "refs/tags/b${finalAttrs.version}";
-    hash = "sha256-6/VA5tQZyGxpRNCVkt9Ab74G8imNsLcCR1Oppj6a9qY=";
+    hash = "sha256-kKwkYZflWTin/Vhhwf7gRZo5I5rEbcBV7Higag1C6Ag=";
     leaveDotGit = true;
     postFetch = ''
       git -C "$out" rev-parse --short HEAD > $out/COMMIT
@@ -93,6 +93,8 @@ in effectiveStdenv.mkDerivation (finalAttrs: {
     (cmakeBool "BUILD_SHARED_LIBS" true)
     (cmakeBool "LLAMA_BLAS" blasSupport)
     (cmakeFeature "LLAMA_BLAS_VENDOR" "FLAME")
+    (cmakeFeature "BLAS_LIBRARIES" "${pkgs.amd-blis}/lib/libblis-mt.so")
+    (cmakeFeature "BLAS_INCLUDE_DIRS" "${pkgs.amd-blis}/include/blis")
     (cmakeBool "LLAMA_CLBLAST" openclSupport)
     (cmakeBool "LLAMA_CUDA" cudaSupport)
     (cmakeBool "LLAMA_HIPBLAS" rocmSupport)

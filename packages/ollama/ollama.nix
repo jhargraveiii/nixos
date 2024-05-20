@@ -160,16 +160,16 @@ in goBuild ((lib.optionalAttrs enableRocm {
     export OLLAMA_SKIP_PATCHING=true
     # build llama.cpp libraries for ollama
 
-    export OLLAMA_DEBUG=1
+    #export OLLAMA_DEBUG=off
     export CMAKE_CUDA_ARCHITECTURES="89"
 
-    export LLAMA_BLAS=1
+    export LLAMA_BLAS=on
     export LLAMA_BLAS_VENDOR="FLAME"
-    export LLAMA_NATIVE=1
-    export LLAMA_AVX=1
-    export LLAMA_AVX2=1
-    export LLAMA_FMA=1
-    export LLAMA_F16C=1
+    export LLAMA_NATIVE=on
+    export LLAMA_AVX=on
+    export LLAMA_AVX2=on
+    export LLAMA_FMA=on
+    export LLAMA_F16C=on
     export BLAS_LIBRARIES="${pkgs.amd-blis}/lib/libblis-mt.so"
     export BLAS_INCLUDE_DIRS="${pkgs.amd-blis}/include/blis"
 
