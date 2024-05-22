@@ -53,13 +53,13 @@ let
   vulkanBuildInputs = [ vulkan-headers vulkan-loader ];
 in effectiveStdenv.mkDerivation (finalAttrs: {
   pname = "llama-cpp";
-  version = "2950";
+  version = "2965";
 
   src = fetchFromGitHub {
     owner = "ggerganov";
     repo = "llama.cpp";
     rev = "refs/tags/b${finalAttrs.version}";
-    hash = "sha256-kKwkYZflWTin/Vhhwf7gRZo5I5rEbcBV7Higag1C6Ag=";
+    hash = "sha256-JyiLCJhgSrSK7z04WT8yVIkrEzNf28LnXBrLP3nkOdM=";
     leaveDotGit = true;
     postFetch = ''
       git -C "$out" rev-parse --short HEAD > $out/COMMIT
@@ -81,17 +81,25 @@ in effectiveStdenv.mkDerivation (finalAttrs: {
 
   buildInputs = [ pkgs.amd-blis pkgs.amd-libflame ]
     ++ optionals effectiveStdenv.isDarwin darwinBuildInputs
-    ++ optionals cudaSupport cudaBuildInputs ++ optionals mpiSupport [ mpi ]
-    ++ optionals openclSupport [ clblast ]
+    ++ optionals cudaSupport cudaBuildInputs ++ [
+      cudaPackages.cuda_cudart
+      cudaPackages.tensorrt
+      cudaPackages.cudnn
+      cudaPackages.libcublas.dev
+      cudaPackages.libcublas.lib
+      cudaPackages.libcublas.static
+    ] ++ optionals mpiSupport [ mpi ] ++ optionals openclSupport [ clblast ]
     ++ optionals rocmSupport rocmBuildInputs ++ optionals blasSupport [ blas ]
     ++ optionals vulkanSupport vulkanBuildInputs;
 
   cmakeFlags = [
     # -march=native is non-deterministic; override with platform-specific flags if needed
+    (cmakeFeature "CMAKE_BUILD_TYPE" "Release")
     (cmakeBool "LLAMA_NATIVE" true)
     (cmakeBool "BUILD_SHARED_SERVER" true)
     (cmakeBool "BUILD_SHARED_LIBS" true)
     (cmakeBool "LLAMA_BLAS" blasSupport)
+    (cmakeFeature "BLAS_ROOT" "${pkgs.amd-blis}")
     (cmakeFeature "LLAMA_BLAS_VENDOR" "FLAME")
     (cmakeFeature "BLAS_LIBRARIES" "${pkgs.amd-blis}/lib/libblis-mt.so")
     (cmakeFeature "BLAS_INCLUDE_DIRS" "${pkgs.amd-blis}/include/blis")

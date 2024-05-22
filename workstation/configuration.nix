@@ -67,19 +67,6 @@
     ];
   };
 
-  /* users.extraGroups.vboxusers.members = [ "jimh" ];
-     virtualisation = {
-       virtualbox = {
-         host = {
-           package = pkgs.virtualbox;
-           enable = true;
-           enableExtensionPack = true;
-         };
-         guest.enable = true;
-       };
-     };
-  */
-
   security.pam.loginLimits = [{
     domain = "*";
     type = "-";
@@ -190,6 +177,7 @@
     nix-direnv
     amd-blis
     amd-libflame
+    aocl-utils
 
     kdePackages.partitionmanager
     libsForQt5.partitionmanager

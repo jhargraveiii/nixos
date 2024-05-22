@@ -96,7 +96,8 @@ let
     ];
   };
 
-  runtimeLibs = lib.optionals enableRocm [ rocmPackages.rocm-smi ]
+  runtimeLibs = [ pkgs.amd-blis pkgs.amd-libflame ]
+    ++ lib.optionals enableRocm [ rocmPackages.rocm-smi ]
     ++ lib.optionals enableCuda [ linuxPackages.nvidia_x11 ];
 
   appleFrameworks = darwin.apple_sdk_11_0.frameworks;
@@ -162,19 +163,24 @@ in goBuild ((lib.optionalAttrs enableRocm {
 
     #export OLLAMA_DEBUG=off
     export CMAKE_CUDA_ARCHITECTURES="89"
-
+    export CMAKE_BUILD_TYPE=Release
     export LLAMA_BLAS=on
-    export LLAMA_BLAS_VENDOR="FLAME"
+    export LLAMA_BLAS_VENDOR=FLAME
     export LLAMA_NATIVE=on
     export LLAMA_AVX=on
     export LLAMA_AVX2=on
     export LLAMA_FMA=on
     export LLAMA_F16C=on
+    export BLAS_ROOT="${pkgs.amd-blis}"
     export BLAS_LIBRARIES="${pkgs.amd-blis}/lib/libblis-mt.so"
     export BLAS_INCLUDE_DIRS="${pkgs.amd-blis}/include/blis"
 
+    export LD_LIBRARY_PATH="${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${pkgs.cudaPackages.tensorrt}/lib:$LD_LIBRARY_PATH";
+    export LIBRARY_PATH="${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${pkgs.cudaPackages.tensorrt}/lib:$LIBRARY_PATH";
+    export CPATH="${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${pkgs.cudaPackages.tensorrt}/lib:$CPATH";
+
     export OLLAMA_CUSTOM_CUDA_DEFS=" -DLLAMA_CUDA_FORCE_MMQ=off -DLLAMA_CUBLAS=on -DLLAMA_CUDA_F16=on"
-    export OLLAMA_CUSTOM_CPU_DEFS=" -DBLAS_LIBRARIES=${pkgs.amd-blis}/lib/libblis-mt.so -DBLAS_INCLUDE_DIRS=${pkgs.amd-blis}/include/blis -DLLAMA_BLAS=on -DLLAMA_BLAS_VENDOR=FLAME -DLLAMA_NATIVE=on -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_FMA=on -DLLAMA_F16C=on"
+    export OLLAMA_CUSTOM_CPU_DEFS=" -DBLAS_ROOT=${pkgs.amd-blis} -DBLAS_LIBRARIES=${pkgs.amd-blis}/lib/libblis-mt.so -DBLAS_INCLUDE_DIRS=${pkgs.amd-blis}/include/blis -DLLAMA_BLAS=on -DLLAMA_BLAS_VENDOR=FLAME -DLLAMA_NATIVE=on -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_FMA=on -DLLAMA_F16C=on"
     go generate ./...
   '';
   postFixup = ''
