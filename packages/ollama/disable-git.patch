@@ -9,7 +9,7 @@
      if [ -n "$(ls -A ../patches/*.diff)" ]; then
          # apply temporary patches until fix is upstream
          for patch in ../patches/*.diff; do
-@@ -110,6 +112,8 @@
+@@ -107,6 +112,8 @@
  
  # Keep the local tree clean after we're done with the build
  cleanup() {

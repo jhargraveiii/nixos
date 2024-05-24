@@ -12,16 +12,16 @@
 let
   pname = "ollama";
   # don't forget to invalidate all hashes each update
-  version = "0.1.38";
+  version = "0.1.39";
 
   src = fetchFromGitHub {
     owner = "jmorganca";
     repo = "ollama";
     rev = "v${version}";
-    hash = "sha256-9HHR48gqETYVJgIaDH8s/yHTrDPEmHm80shpDNS+6hY=";
+    hash = "sha256-lPpzKtVjSrLdUJAkoMVq51j/GAKjDuQUmsTTUED/kL8=";
     fetchSubmodules = true;
   };
-  vendorHash = "sha256-zOQGhNcGNlQppTqZdPfx+y4fUrxH0NOUl38FN8J6ffE=";
+  vendorHash = "sha256-bomHpEcoHG/xUGgzrFXB9D3np0ainTX066SCMY+NdnA=";
   # ollama's patches of llama.cpp's example server
   # `ollama/llm/generate/gen_common.sh` -> "apply temporary patches until fix is upstream"
   # each update, these patches should be synchronized with the contents of `ollama/llm/patches/`
@@ -29,12 +29,16 @@ let
   # `ollama/llm/generate/gen_common.sh` -> "apply temporary patches until fix is upstream"
   # each update, these patches should be synchronized with the contents of `ollama/llm/patches/`
   llamacppPatches = [
+    (preparePatch "01-load-progress.diff"
+      "sha256-3QxyKX1n5NeMLU8d7wI/96wCM1Cvb5X5sQL5CFhMFo4=")
     (preparePatch "02-clip-log.diff"
       "sha256-rMWbl3QgrPlhisTeHwD7EnGRJyOhLB4UeS7rqa0tdXM=")
     (preparePatch "03-load_exception.diff"
-      "sha256-1DfNahFYYxqlx4E4pwMKQpL+XR0bibYnDFGt6dCL4TM=")
+      "sha256-0XfMtMyg17oihqSFDBakBtAF0JwhsR188D+cOodgvDk=")
     (preparePatch "04-metal.diff"
       "sha256-Ne8J9R8NndUosSK0qoMvFfKNwqV5xhhce1nSoYrZo7Y=")
+    (preparePatch "05-default-pretokenizer.diff" 
+      "sha256-8ffYnl9kMHEZ05e5CqryYJLdJ6/EEQJSlW6e/IgaU2Q=")
   ];
 
   preparePatch = patch: hash:
@@ -179,7 +183,8 @@ in goBuild ((lib.optionalAttrs enableRocm {
     export LIBRARY_PATH="${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${pkgs.cudaPackages.tensorrt}/lib:$LIBRARY_PATH";
     export CPATH="${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${pkgs.cudaPackages.tensorrt}/lib:$CPATH";
 
-    export OLLAMA_CUSTOM_CUDA_DEFS=" -DLLAMA_CUDA_FORCE_MMQ=off -DLLAMA_CUBLAS=on -DLLAMA_CUDA_F16=on"
+    export FORCE_CMAKE=1
+    export OLLAMA_CUSTOM_CUDA_DEFS=" -DLLAMA_CUDA_FORCE_MMV=on -DLLAMA_CUDA_FORCE_DMMV=off -DLLAMA_CUDA_KQUANTS_ITER=2 -DLLAMA_CUDA_MMV_Y=2 -DLLAMA_CUDA_FORCE_MMQ=off -DLLAMA_CUDA=on -DLLAMA_CUDA_F16=on"
     export OLLAMA_CUSTOM_CPU_DEFS=" -DBLAS_ROOT=${pkgs.amd-blis} -DBLAS_LIBRARIES=${pkgs.amd-blis}/lib/libblis-mt.so -DBLAS_INCLUDE_DIRS=${pkgs.amd-blis}/include/blis -DLLAMA_BLAS=on -DLLAMA_BLAS_VENDOR=FLAME -DLLAMA_NATIVE=on -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_FMA=on -DLLAMA_F16C=on"
     go generate ./...
   '';

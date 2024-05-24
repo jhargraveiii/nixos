@@ -3,6 +3,7 @@
 {
   programs.nixvim = {
     enable = true;
+    colorschemes.kanagawa.enable = true;
     globals.mapleader = " "; # Sets the leader key to space
 
     opts = {
@@ -113,7 +114,6 @@
       julia-vim
       denops-vim
       vim-pluto
-      #ollama-nvim
       vim-dotenv
     ];
 

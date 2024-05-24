@@ -53,13 +53,13 @@ let
   vulkanBuildInputs = [ vulkan-headers vulkan-loader ];
 in effectiveStdenv.mkDerivation (finalAttrs: {
   pname = "llama-cpp";
-  version = "2965";
+  version = "2989";
 
   src = fetchFromGitHub {
     owner = "ggerganov";
     repo = "llama.cpp";
     rev = "refs/tags/b${finalAttrs.version}";
-    hash = "sha256-JyiLCJhgSrSK7z04WT8yVIkrEzNf28LnXBrLP3nkOdM=";
+    hash = "sha256-xBcaOqbkLe86EG4sjh6BH16q4rS7087TSMzChRexiQ4=";
     leaveDotGit = true;
     postFetch = ''
       git -C "$out" rev-parse --short HEAD > $out/COMMIT
@@ -117,8 +117,11 @@ in effectiveStdenv.mkDerivation (finalAttrs: {
     (with cudaPackages.flags;
       cmakeFeature "CMAKE_CUDA_ARCHITECTURES"
       (builtins.concatStringsSep ";" (map dropDot cudaCapabilities)))
-    (cmakeBool "LLAMA_CUDA_FORCE_MMQ" false)
-    (cmakeBool "LLAMA_CUBLAS" true)
+    (cmakeBool "LLAMA_CUDA_FORCE_MMQ" true)
+    (cmakeBool "LLAMA_CUDA_FORCE_MMV" true)
+    (cmakeBool "LLAMA_CUDA_FORCE_DMMV" false)
+    (cmakeFeature "LLAMA_CUDA_KQUANTS_ITER" "2")
+    (cmakeFeature "LLAMA_CUDA_MMV_Y" "2")
     (cmakeBool "LLAMA_CUDA_F16" true)
   ] ++ optionals rocmSupport [
     (cmakeFeature "CMAKE_C_COMPILER" "hipcc")
