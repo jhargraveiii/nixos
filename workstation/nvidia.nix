@@ -9,25 +9,18 @@ in {
   nixpkgs.config = {
     allowUnfree = true;
     cudaSupport = true;
-    cuda = true;
-    cuBlas = true;
     cudVersion = "12.4";
-    cudnnSupport = true;
-    tensorrtSupport = true;
     cudaCapabilities = [ "8.9" ];
     nvidia.acceptLicense = true;
   };
 
   # Load nvidia driver for Xorg and Wayland
   services.xserver.videoDrivers = [ "nvidia" ];
-  environment.systemPackages = with pkgs; [
-    nvtopPackages.full
-    cudaPackages.cudnn
-    cudaPackages.tensorrt
-  ];
+  environment.systemPackages = with pkgs; [ nvtopPackages.full ];
+
   hardware.nvidia = {
     modesetting.enable = false;
-    forceFullCompositionPipeline = true;
+    forceFullCompositionPipeline = false;
     powerManagement.enable = false;
     powerManagement.finegrained = false;
     open = false;

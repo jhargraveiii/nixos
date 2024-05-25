@@ -18,7 +18,7 @@ let
     owner = "jmorganca";
     repo = "ollama";
     rev = "v${version}";
-    hash = "sha256-lPpzKtVjSrLdUJAkoMVq51j/GAKjDuQUmsTTUED/kL8=";
+    hash = "sha256-j6gIj/pmWKyw1nihTpRLmvEGqgUVmvK/MMW7GWngrQY=";
     fetchSubmodules = true;
   };
   vendorHash = "sha256-bomHpEcoHG/xUGgzrFXB9D3np0ainTX066SCMY+NdnA=";
@@ -37,7 +37,7 @@ let
       "sha256-0XfMtMyg17oihqSFDBakBtAF0JwhsR188D+cOodgvDk=")
     (preparePatch "04-metal.diff"
       "sha256-Ne8J9R8NndUosSK0qoMvFfKNwqV5xhhce1nSoYrZo7Y=")
-    (preparePatch "05-default-pretokenizer.diff" 
+    (preparePatch "05-default-pretokenizer.diff"
       "sha256-8ffYnl9kMHEZ05e5CqryYJLdJ6/EEQJSlW6e/IgaU2Q=")
   ];
 
@@ -165,16 +165,8 @@ in goBuild ((lib.optionalAttrs enableRocm {
     export OLLAMA_SKIP_PATCHING=true
     # build llama.cpp libraries for ollama
 
-    #export OLLAMA_DEBUG=off
     export CMAKE_CUDA_ARCHITECTURES="89"
     export CMAKE_BUILD_TYPE=Release
-    export LLAMA_BLAS=on
-    export LLAMA_BLAS_VENDOR=FLAME
-    export LLAMA_NATIVE=on
-    export LLAMA_AVX=on
-    export LLAMA_AVX2=on
-    export LLAMA_FMA=on
-    export LLAMA_F16C=on
     export BLAS_ROOT="${pkgs.amd-blis}"
     export BLAS_LIBRARIES="${pkgs.amd-blis}/lib/libblis-mt.so"
     export BLAS_INCLUDE_DIRS="${pkgs.amd-blis}/include/blis"
@@ -184,7 +176,7 @@ in goBuild ((lib.optionalAttrs enableRocm {
     export CPATH="${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:${pkgs.cudaPackages.tensorrt}/lib:$CPATH";
 
     export FORCE_CMAKE=1
-    export OLLAMA_CUSTOM_CUDA_DEFS=" -DLLAMA_CUDA_FORCE_MMV=on -DLLAMA_CUDA_FORCE_DMMV=off -DLLAMA_CUDA_KQUANTS_ITER=2 -DLLAMA_CUDA_MMV_Y=2 -DLLAMA_CUDA_FORCE_MMQ=off -DLLAMA_CUDA=on -DLLAMA_CUDA_F16=on"
+    export OLLAMA_CUSTOM_CUDA_DEFS=" -DLLAMA_CUDA_KQUANTS_ITER=2 -DLLAMA_CUDA_FORCE_MMQ=off -DLLAMA_CUDA=on -DLLAMA_CUDA_F16=on"
     export OLLAMA_CUSTOM_CPU_DEFS=" -DBLAS_ROOT=${pkgs.amd-blis} -DBLAS_LIBRARIES=${pkgs.amd-blis}/lib/libblis-mt.so -DBLAS_INCLUDE_DIRS=${pkgs.amd-blis}/include/blis -DLLAMA_BLAS=on -DLLAMA_BLAS_VENDOR=FLAME -DLLAMA_NATIVE=on -DLLAMA_AVX=on -DLLAMA_AVX2=on -DLLAMA_FMA=on -DLLAMA_F16C=on"
     go generate ./...
   '';

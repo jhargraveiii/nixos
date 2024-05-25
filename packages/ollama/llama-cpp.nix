@@ -117,11 +117,8 @@ in effectiveStdenv.mkDerivation (finalAttrs: {
     (with cudaPackages.flags;
       cmakeFeature "CMAKE_CUDA_ARCHITECTURES"
       (builtins.concatStringsSep ";" (map dropDot cudaCapabilities)))
-    (cmakeBool "LLAMA_CUDA_FORCE_MMQ" true)
-    (cmakeBool "LLAMA_CUDA_FORCE_MMV" true)
-    (cmakeBool "LLAMA_CUDA_FORCE_DMMV" false)
+    (cmakeBool "LLAMA_CUDA_FORCE_MMQ" false)
     (cmakeFeature "LLAMA_CUDA_KQUANTS_ITER" "2")
-    (cmakeFeature "LLAMA_CUDA_MMV_Y" "2")
     (cmakeBool "LLAMA_CUDA_F16" true)
   ] ++ optionals rocmSupport [
     (cmakeFeature "CMAKE_C_COMPILER" "hipcc")

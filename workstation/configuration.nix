@@ -17,8 +17,6 @@
     ../modules/services/open-webui.nix
     ../modules/services/flatpak.nix
     ../modules/programs/distrobox.nix
-    #../modules/programs/julia.nix
-    #../modules/programs/python.nix
   ];
 
   systemd.enableEmergencyMode = false;
@@ -75,11 +73,7 @@
   }];
 
   nixpkgs = {
-    overlays = [
-      # we want to use some packages from unstable so need this overlay
-      outputs.overlays.stable-packages
-      outputs.overlays.cuda
-    ];
+    overlays = [ outputs.overlays.cuda ];
 
     # Configure your nixpkgs instance
     config = {
