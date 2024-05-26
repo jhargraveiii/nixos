@@ -43,7 +43,7 @@
   };
 
   nixpkgs = {
-    overlays = [ outputs.overlays.cuda ];
+    overlays = [ outputs.overlays.cuda-override ];
     # Configure your nixpkgs instance
     config = {
       # Disable if you don't want unfree packages

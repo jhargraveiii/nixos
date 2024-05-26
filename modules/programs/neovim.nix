@@ -95,6 +95,11 @@
         enable = true;
         nixGrammars = true;
       };
+      todo-comments = {
+        enable = true;
+        signs = true;
+        highlight = { before = "fg"; };
+      };
       cmp = {
         enable = true;
         settings = {
@@ -103,6 +108,7 @@
           mapping = {
             "<CR>" = "cmp.mapping.confirm({ select = true })";
             "<Tab>" = "cmp.mapping.select_next_item()";
+            "<S-Tab>" = "cmp.mapping.select_prev_item()";
           };
         };
       };

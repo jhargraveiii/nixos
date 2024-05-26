@@ -3,7 +3,15 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { pkgs, username, hostname, gitUsername, theLocale, theTimezone, outputs
-, theKBDLayout, inputs, system, ... }: {
+, theKBDLayout, inputs, system, ... }: 
+let 
+ spectacle-override = pkgs.kdePackages.spectacle.overrideAttrs (oldAttrs: {
+    cmakeFlags = (oldAttrs.cmakeFlags or [ ])
+      ++ [ "-DCUDA_TOOLKIT_ROOT_DIR=${pkgs.cudaPackages.cudatoolkit}" ];
+  });
+
+in 
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -73,7 +81,7 @@
   }];
 
   nixpkgs = {
-    overlays = [ outputs.overlays.cuda ];
+    overlays = [ outputs.overlays.cuda-override ];
 
     # Configure your nixpkgs instance
     config = {
@@ -94,6 +102,7 @@
     konsole
     oxygen
     kate
+    spectacle
   ];
 
   # List packages installed in system profile. To search, run:
@@ -173,8 +182,9 @@
     amd-libflame
     aocl-utils
 
+    # KDE Applications
+    spectacle-override
     kdePackages.partitionmanager
-    libsForQt5.partitionmanager
     kdePackages.isoimagewriter
     kdePackages.filelight
     kdePackages.kcharselect
@@ -191,7 +201,6 @@
   };
 
   fonts.packages = with pkgs; [
-    julia-mono
     fira-code
     fira
     cooper-hewitt

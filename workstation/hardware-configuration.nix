@@ -26,7 +26,7 @@
     ];
     initrd.kernelModules = [ ];
     kernel.sysctl = { "vm.max_map_count" = 2147483642; };
-    kernelModules = [ "kvm-amd" "amdgpu" ];
+    kernelModules = [ "kvm-amd" "amdgpu" "nvidia-uvm" ];
     kernelParams = [ ];
     extraModulePackages = [ ];
     tmp.cleanOnBoot = true;

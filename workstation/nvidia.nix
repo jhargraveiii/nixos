@@ -1,9 +1,4 @@
-{ config, pkgs, ... }:
-let
-  nvidiaOverride =
-    config.boot.kernelPackages.nvidiaPackages.stable.overrideAttrs
-    (oldAttrs: rec { NIX_CFLAGS_COMPILE = "-O3 -march=native -mtune=native"; });
-in {
+{ config, pkgs, ... }: {
 
   #Nvidia is used only for compute!!
   nixpkgs.config = {
@@ -25,6 +20,6 @@ in {
     powerManagement.finegrained = false;
     open = false;
     nvidiaSettings = false;
-    package = nvidiaOverride;
+    package = config.boot.kernelPackages.nvidiaPackages.latest;
   };
 }
