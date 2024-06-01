@@ -71,6 +71,8 @@
     git-cola
     vlc
     sddm
+    insync
+    
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;

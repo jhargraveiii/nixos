@@ -53,13 +53,13 @@ let
   vulkanBuildInputs = [ vulkan-headers vulkan-loader ];
 in effectiveStdenv.mkDerivation (finalAttrs: {
   pname = "llama-cpp";
-  version = "2989";
+  version = "3058";
 
   src = fetchFromGitHub {
     owner = "ggerganov";
     repo = "llama.cpp";
     rev = "refs/tags/b${finalAttrs.version}";
-    hash = "sha256-xBcaOqbkLe86EG4sjh6BH16q4rS7087TSMzChRexiQ4=";
+    hash = "sha256-uKBAM4aNxpuIKvpkWoU5+I/gqcD334yZ7rNUdZvfrnU=";
     leaveDotGit = true;
     postFetch = ''
       git -C "$out" rev-parse --short HEAD > $out/COMMIT

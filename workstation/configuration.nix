@@ -3,15 +3,14 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { pkgs, username, hostname, gitUsername, theLocale, theTimezone, outputs
-, theKBDLayout, inputs, system, ... }: 
-let 
- spectacle-override = pkgs.kdePackages.spectacle.overrideAttrs (oldAttrs: {
+, theKBDLayout, inputs, system, ... }:
+let
+  spectacle-override = pkgs.kdePackages.spectacle.overrideAttrs (oldAttrs: {
     cmakeFlags = (oldAttrs.cmakeFlags or [ ])
       ++ [ "-DCUDA_TOOLKIT_ROOT_DIR=${pkgs.cudaPackages.cudatoolkit}" ];
   });
 
-in 
-{
+in {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
