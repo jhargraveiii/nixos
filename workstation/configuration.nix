@@ -180,6 +180,7 @@ in {
     amd-blis
     amd-libflame
     aocl-utils
+    insync
 
     # KDE Applications
     spectacle-override
