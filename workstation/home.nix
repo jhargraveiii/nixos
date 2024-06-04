@@ -141,7 +141,7 @@
     shellAliases = {
       flake-check = "nix flake check --verbose --show-trace ${flakeDir}";
       flake-rebuild =
-        "sudo nixos-rebuild switch --max-jobs 24 --verbose --show-trace --flake ${flakeDir}";
+        "sudo nixos-rebuild switch --upgrade --max-jobs 24 --flake ${flakeDir}";
       flake-update = "sudo nix flake update ${flakeDir}";
       gcCleanup =
         "nix-collect-garbage --delete-old && sudo nix-collect-garbage -d";

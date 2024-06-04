@@ -12,13 +12,13 @@
 let
   pname = "ollama";
   # don't forget to invalidate all hashes each update
-  version = "0.1.40";
+  version = "0.1.41";
 
   src = fetchFromGitHub {
     owner = "jmorganca";
     repo = "ollama";
     rev = "v${version}";
-    hash = "sha256-MoyB3xxOYohZbd5iNS3WPbg2pbalBKWcz10QKx8xSFU=";
+    hash = "sha256-rwJf/DbqTOD2TIS0YHK8CaIEC93CfeDg08qV9ydaNe4=";
     fetchSubmodules = true;
   };
   vendorHash = "sha256-bomHpEcoHG/xUGgzrFXB9D3np0ainTX066SCMY+NdnA=";

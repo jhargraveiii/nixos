@@ -33,7 +33,7 @@
       flakeDir = "/home/${username}/nixos";
       wallpaperDir = "/home/${username}/Pictures/Wallpapers";
     in {
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt;
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.formatter;
       # Your custom packages and modifications, exported as overlays
       overlays = import ./modules/overlays { inherit inputs; };
 

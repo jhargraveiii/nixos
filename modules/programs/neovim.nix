@@ -75,7 +75,7 @@
       lsp = {
         enable = true;
         servers = {
-          nil_ls.enable = true;
+          nil-ls.enable = true;
           julials.enable = true;
           lua-ls.enable = true;
           bashls.enable = true;
