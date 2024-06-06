@@ -1,4 +1,5 @@
-{ config, pkgs, ... }: {
+{ config, pkgs, ... }:
+{
 
   #Nvidia is used only for compute!!
   nixpkgs.config = {

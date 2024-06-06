@@ -43,7 +43,9 @@
       nvim-autopairs.enable = true;
       nix.enable = true;
       comment.enable = true;
-      lualine = { enable = true; };
+      lualine = {
+        enable = true;
+      };
       startup = {
         enable = true;
         theme = "auto";
@@ -98,13 +100,18 @@
       todo-comments = {
         enable = true;
         signs = true;
-        highlight = { before = "fg"; };
+        highlight = {
+          before = "fg";
+        };
       };
       cmp = {
         enable = true;
         settings = {
-          sources =
-            [ { name = "nvim_lsp"; } { name = "path"; } { name = "buffer"; } ];
+          sources = [
+            { name = "nvim_lsp"; }
+            { name = "path"; }
+            { name = "buffer"; }
+          ];
           mapping = {
             "<CR>" = "cmp.mapping.confirm({ select = true })";
             "<Tab>" = "cmp.mapping.select_next_item()";

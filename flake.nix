@@ -17,7 +17,13 @@
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      ...
+    }@inputs:
     let
       inherit (self) outputs;
       system = "x86_64-linux";
@@ -32,8 +38,10 @@
       theKBDLayout = "us";
       flakeDir = "/home/${username}/nixos";
       wallpaperDir = "/home/${username}/Pictures/Wallpapers";
-    in {
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.formatter;
+    in
+    {
+      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
+
       # Your custom packages and modifications, exported as overlays
       overlays = import ./modules/overlays { inherit inputs; };
 

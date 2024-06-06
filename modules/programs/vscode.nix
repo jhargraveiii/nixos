@@ -1,10 +1,12 @@
-{ pkgs, ... }: {
+{ pkgs, ... }:
+{
   programs.vscode = {
     enable = true;
     package = pkgs.vscode;
     enableUpdateCheck = true;
     enableExtensionUpdateCheck = true;
-    extensions = with pkgs.vscode-extensions;
+    extensions =
+      with pkgs.vscode-extensions;
       [
         yzhang.markdown-all-in-one
         jnoortheen.nix-ide
@@ -19,6 +21,7 @@
         zxh404.vscode-proto3
         eamodio.gitlens
         dotenv.dotenv-vscode
-      ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [ ];
+      ]
+      ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [ ];
   };
 }

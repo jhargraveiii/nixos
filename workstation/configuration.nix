@@ -2,15 +2,27 @@
 # your system.  Help is available in the configuration.nix(5) man page
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ pkgs, username, hostname, gitUsername, theLocale, theTimezone, outputs
-, theKBDLayout, inputs, system, ... }:
+{
+  pkgs,
+  username,
+  hostname,
+  gitUsername,
+  theLocale,
+  theTimezone,
+  outputs,
+  theKBDLayout,
+  inputs,
+  system,
+  ...
+}:
 let
   spectacle-override = pkgs.kdePackages.spectacle.overrideAttrs (oldAttrs: {
-    cmakeFlags = (oldAttrs.cmakeFlags or [ ])
-      ++ [ "-DCUDA_TOOLKIT_ROOT_DIR=${pkgs.cudaPackages.cudatoolkit}" ];
+    cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [
+      "-DCUDA_TOOLKIT_ROOT_DIR=${pkgs.cudaPackages.cudatoolkit}"
+    ];
   });
-
-in {
+in
+{
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
@@ -63,8 +75,15 @@ in {
   users.users.${username} = {
     isNormalUser = true;
     description = "${gitUsername}";
-    extraGroups =
-      [ "networkmanager" "wheel" "docker" "libvirtd" "scanner" "lp" "video" ];
+    extraGroups = [
+      "networkmanager"
+      "wheel"
+      "docker"
+      "libvirtd"
+      "scanner"
+      "lp"
+      "video"
+    ];
     uid = 1000;
     openssh.authorizedKeys.keys = [
       # Replace with your own public key
@@ -72,12 +91,14 @@ in {
     ];
   };
 
-  security.pam.loginLimits = [{
-    domain = "*";
-    type = "-";
-    item = "nofile";
-    value = "65536";
-  }];
+  security.pam.loginLimits = [
+    {
+      domain = "*";
+      type = "-";
+      item = "nofile";
+      value = "65536";
+    }
+  ];
 
   nixpkgs = {
     overlays = [ outputs.overlays.cuda-override ];
@@ -250,13 +271,17 @@ in {
   };
 
   hardware.printers = {
-    ensurePrinters = [{
-      name = "Canon_MF450_Series";
-      location = "Home";
-      deviceUri = "ipp://Canon224062/ipp";
-      model = "CNRCUPSMF450ZS.ppd";
-      ppdOptions = { PageSize = "Letter"; };
-    }];
+    ensurePrinters = [
+      {
+        name = "Canon_MF450_Series";
+        location = "Home";
+        deviceUri = "ipp://Canon224062/ipp";
+        model = "CNRCUPSMF450ZS.ppd";
+        ppdOptions = {
+          PageSize = "Letter";
+        };
+      }
+    ];
     ensureDefaultPrinter = "Canon_MF450_Series";
   };
 
@@ -273,8 +298,7 @@ in {
   hardware.pulseaudio.enable = false;
   sound.enable = true;
   hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot =
-    true; # powers up the default Bluetooth controller on boot
+  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
   hardware.bluetooth.package = pkgs.bluez;
   services.blueman.enable = true;
 
@@ -288,7 +312,10 @@ in {
   services.dbus.enable = true;
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 631 53 ];
+  networking.firewall.allowedTCPPorts = [
+    631
+    53
+  ];
   networking.firewall.allowedUDPPorts = [ 5353 ];
   networking.firewall.enable = true;
 
@@ -298,18 +325,25 @@ in {
   nix = {
     settings = {
       auto-optimise-store = true;
-      experimental-features = [ "nix-command" "flakes" ];
+      experimental-features = [
+        "nix-command"
+        "flakes"
+      ];
       max-jobs = "auto";
       cores = 12;
-      system-features =
-        [ "nixos-test" "benchmark" "big-parallel" "kvm" "gccarch-znver3" ];
+      system-features = [
+        "nixos-test"
+        "benchmark"
+        "big-parallel"
+        "kvm"
+        "gccarch-znver3"
+      ];
       allowed-users = [ "*" ];
       require-sigs = true;
       sandbox = true;
       sandbox-fallback = false;
       substituters = [ "https://cache.nixos.org/" ];
-      trusted-public-keys =
-        [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
+      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
       trusted-users = [ "root" ];
     };
 

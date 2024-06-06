@@ -1,4 +1,11 @@
-{ pkgs, config, lib, host, ... }: {
+{
+  pkgs,
+  config,
+  lib,
+  host,
+  ...
+}:
+{
   services.flatpak.enable = true;
 
   systemd.services.flatpak-repo = {

@@ -1,5 +1,6 @@
 # This file defines overlays
-{ inputs, ... }: {
+{ inputs, ... }:
+{
 
   cuda-override = final: prev: {
     # Override attributes of packages inside cudaPackages

@@ -1,4 +1,14 @@
-{ pkgs, inputs, username, gitUsername, gitEmail, flakeDir, outputs, ... }: {
+{
+  pkgs,
+  inputs,
+  username,
+  gitUsername,
+  gitEmail,
+  flakeDir,
+  outputs,
+  ...
+}:
+{
   # Home Manager Settings
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
@@ -70,7 +80,7 @@
     gittyup
     git-cola
     vlc
-    sddm    
+    sddm
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
@@ -93,7 +103,9 @@
       kdeplasma-addons
       okular
     ];
-    bookmarks = { H = "/home/${username}"; };
+    bookmarks = {
+      H = "/home/${username}";
+    };
     plugins = {
       mappings = {
         c = "fzcd";
@@ -140,11 +152,9 @@
 
     shellAliases = {
       flake-check = "nix flake check --verbose --show-trace ${flakeDir}";
-      flake-rebuild =
-        "sudo nixos-rebuild switch --upgrade --max-jobs 24 --flake ${flakeDir}";
+      flake-rebuild = "sudo nixos-rebuild switch --flake ${flakeDir}";
       flake-update = "sudo nix flake update ${flakeDir}";
-      gcCleanup =
-        "nix-collect-garbage --delete-old && sudo nix-collect-garbage -d";
+      gcCleanup = "nix-collect-garbage --delete-old && sudo nix-collect-garbage -d";
       less = "most";
       cat = "bat";
       ll = "ls -alF";
