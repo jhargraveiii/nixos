@@ -15,13 +15,6 @@
   system,
   ...
 }:
-let
-  spectacle-override = pkgs.kdePackages.spectacle.overrideAttrs (oldAttrs: {
-    cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [
-      "-DCUDA_TOOLKIT_ROOT_DIR=${pkgs.cudaPackages.cudatoolkit}"
-    ];
-  });
-in
 {
   imports = [
     # Include the results of the hardware scan.
@@ -117,12 +110,20 @@ in
     };
   };
 
+  boot.binfmt.registrations.appimage = {
+    wrapInterpreterInShell = false;
+    interpreter = "${pkgs.appimage-run}/bin/appimage-run";
+    recognitionType = "magic";
+    offset = 0;
+    mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
+    magicOrExtension = ''\x7fELF....AI\x02'';
+  };
+
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     plasma-browser-integration
     konsole
     oxygen
     kate
-    spectacle
   ];
 
   # List packages installed in system profile. To search, run:
@@ -204,7 +205,6 @@ in
     insync
 
     # KDE Applications
-    spectacle-override
     kdePackages.partitionmanager
     kdePackages.isoimagewriter
     kdePackages.filelight

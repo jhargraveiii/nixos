@@ -86,7 +86,7 @@ let
 in
 effectiveStdenv.mkDerivation (finalAttrs: {
   pname = "llama-cpp";
-  version = "3091";
+  version = "3151";
 
   src = fetchFromGitHub {
     owner = "ggerganov";

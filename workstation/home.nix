@@ -15,7 +15,6 @@
   home.stateVersion = "23.11";
 
   imports = [
-    inputs.nixvim.homeManagerModules.nixvim
     ../config/files.nix
     ../modules/programs/kitty.nix
     ../modules/programs/oxygen.nix
