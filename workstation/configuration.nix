@@ -239,6 +239,8 @@
     xorg.fontadobe100dpi
     xorg.fontadobeutopia100dpi
     noto-fonts-color-emoji
+    noto-fonts-emoji
+    noto-fonts-cjk
     (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
   ];
 
