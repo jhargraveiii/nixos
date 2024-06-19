@@ -1,5 +1,10 @@
-{ pkgs, ... }:
-
+{ pkgs, inputs, ... }:
+let
+  finecmdline = pkgs.vimUtils.buildVimPlugin {
+    name = "fine-cmdline";
+    src = inputs.fine-cmdline;
+  };
+in
 {
   programs.neovim = {
     enable = true;
@@ -28,6 +33,8 @@
       bufferline-nvim
       dressing-nvim
       indent-blankline-nvim
+      nui-nvim
+      finecmdline
       nvim-treesitter.withAllGrammars
       lualine-nvim
       nvim-autopairs
@@ -43,6 +50,14 @@
       lspkind-nvim
       comment-nvim
       nvim-ts-context-commentstring
+      plenary-nvim
+      neodev-nvim
+      luasnip
+      telescope-nvim
+      todo-comments-nvim
+      nvim-tree-lua
+      telescope-fzf-native-nvim
+      vim-tmux-navigator
       {
         plugin = dracula-nvim;
         config = "colorscheme dracula";
@@ -58,6 +73,7 @@
     ];
     extraConfig = ''
       set noemoji
+      nnoremap : <cmd>FineCmdline<CR>
     '';
     extraLuaConfig = ''
       ${builtins.readFile ../../config/nvim/options.lua}
@@ -72,6 +88,8 @@
       ${builtins.readFile ../../config/nvim/plugins/telescope.lua}
       ${builtins.readFile ../../config/nvim/plugins/todo-comments.lua}
       ${builtins.readFile ../../config/nvim/plugins/treesitter.lua}
+      ${builtins.readFile ../../config/nvim/plugins/fine-cmdline.lua}
+
       require("ibl").setup()
       require("bufferline").setup{}
       require("lualine").setup({

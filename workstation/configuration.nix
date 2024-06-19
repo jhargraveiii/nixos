@@ -330,7 +330,7 @@
         "flakes"
       ];
       max-jobs = "auto";
-      cores = 12;
+      cores = 24;
       system-features = [
         "nixos-test"
         "benchmark"

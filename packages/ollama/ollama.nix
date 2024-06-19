@@ -30,7 +30,7 @@
 let
   pname = "ollama";
   # don't forget to invalidate all hashes each update
-  version = "0.1.44";
+  version = "0.1.45";
 
   src = fetchFromGitHub {
     owner = "jmorganca";
