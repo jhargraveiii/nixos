@@ -1,10 +1,8 @@
 { pkgs, theKBDLayout, ... }:
 
 {
-  # Enable OpenGL
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
   };
 
   services.desktopManager.plasma6.enable = true;

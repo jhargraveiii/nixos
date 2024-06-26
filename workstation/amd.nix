@@ -10,7 +10,7 @@
   services.xserver.videoDrivers = [ "amdgpu" ];
   environment.systemPackages = with pkgs; [ rocmPackages.rocm-smi ];
   # OpenGL
-  hardware.opengl = {
+  hardware.graphics = {
     ## amdvlk: an open-source Vulkan driver from AMD
     extraPackages = [ pkgs.amdvlk ];
     extraPackages32 = [ pkgs.driversi686Linux.amdvlk ];
