@@ -1,11 +1,4 @@
-{ pkgs, inputs, ... }:
-let
-  finecmdline = pkgs.vimUtils.buildVimPlugin {
-    name = "fine-cmdline";
-    src = inputs.fine-cmdline;
-  };
-in
-{
+{ pkgs, inputs, ... }: {
   programs.neovim = {
     enable = true;
     defaultEditor = true;
@@ -34,7 +27,6 @@ in
       dressing-nvim
       indent-blankline-nvim
       nui-nvim
-      finecmdline
       nvim-treesitter.withAllGrammars
       lualine-nvim
       nvim-autopairs
@@ -88,7 +80,6 @@ in
       ${builtins.readFile ../../config/nvim/plugins/telescope.lua}
       ${builtins.readFile ../../config/nvim/plugins/todo-comments.lua}
       ${builtins.readFile ../../config/nvim/plugins/treesitter.lua}
-      ${builtins.readFile ../../config/nvim/plugins/fine-cmdline.lua}
 
       require("ibl").setup()
       require("bufferline").setup{}

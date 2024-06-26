@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "fine-cmdline": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1700512774,
-        "narHash": "sha256-w9wwjClkOWk3wCgEiZIFLZRJ/gAfX38x2LnVRaelKD8=",
-        "owner": "VonHeikemen",
-        "repo": "fine-cmdline.nvim",
-        "rev": "dd676584145d62b30d7e8dbdd011796a8f0a065f",
-        "type": "github"
-      },
-      "original": {
-        "owner": "VonHeikemen",
-        "repo": "fine-cmdline.nvim",
-        "type": "github"
-      }
-    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -95,7 +79,6 @@
     },
     "root": {
       "inputs": {
-        "fine-cmdline": "fine-cmdline",
         "home-manager": "home-manager",
         "nil": "nil",
         "nixpkgs": "nixpkgs"
