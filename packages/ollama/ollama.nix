@@ -30,13 +30,13 @@
 let
   pname = "ollama";
   # don't forget to invalidate all hashes each update
-  version = "0.1.46";
+  version = "0.1.48";
 
   src = fetchFromGitHub {
     owner = "jmorganca";
     repo = "ollama";
     rev = "v${version}";
-    hash = "sha256-HM7xtVdhRwhsLEBLvCgjU1iwdaqowRdrxh/Z0BzTPn8=";
+    hash = "sha256-rMStHUFC88TXIH/1c9bCOU0csnEZHOhWKBlLKarmCmE=";
     fetchSubmodules = true;
   };
   vendorHash = "sha256-LNH3mpxIrPMe5emfum1W10jvXIjKC6GkGcjq1HhpJQo=";
@@ -47,12 +47,13 @@ let
   # `ollama/llm/generate/gen_common.sh` -> "apply temporary patches until fix is upstream"
   # each update, these patches should be synchronized with the contents of `ollama/llm/patches/`
   llamacppPatches = [
-    (preparePatch "01-load-progress.diff" "sha256-3QxyKX1n5NeMLU8d7wI/96wCM1Cvb5X5sQL5CFhMFo4=")
+    (preparePatch "01-load-progress.diff" "sha256-K4GryCH/1cl01cyxaMLX3m4mTE79UoGwLMMBUgov+ew=")
     (preparePatch "02-clip-log.diff" "sha256-rMWbl3QgrPlhisTeHwD7EnGRJyOhLB4UeS7rqa0tdXM=")
     (preparePatch "03-load_exception.diff" "sha256-0XfMtMyg17oihqSFDBakBtAF0JwhsR188D+cOodgvDk=")
     (preparePatch "04-metal.diff" "sha256-Ne8J9R8NndUosSK0qoMvFfKNwqV5xhhce1nSoYrZo7Y=")
-    (preparePatch "05-default-pretokenizer.diff" "sha256-8ffYnl9kMHEZ05e5CqryYJLdJ6/EEQJSlW6e/IgaU2Q=")
+    (preparePatch "05-default-pretokenizer.diff" "sha256-JnCmFzAkmuI1AqATG3jbX7nGIam4hdDKqqbG5oh7h70=")
     (preparePatch "06-qwen2.diff" "sha256-nMtoAQUsjYuJv45uTlz8r/K1oF5NUsc75SnhgfSkE30=")
+    (preparePatch "07-gemma.diff" "sha256-dKJrRvg/XC6xtwxLHZ7lFkLNMwT8Ugmd5xRPuKQDXvU=")
   ];
 
   preparePatch =

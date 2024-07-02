@@ -205,6 +205,8 @@
     insync
 
     # KDE Applications
+    kdePackages.kcalc
+    kdePackages.kalgebra
     kdePackages.partitionmanager
     kdePackages.isoimagewriter
     kdePackages.filelight
