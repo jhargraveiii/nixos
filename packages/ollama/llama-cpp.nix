@@ -20,6 +20,8 @@
   openclSupport ? false,
   clblast,
 
+  rpcSupport ? false,
+
   blasSupport ? builtins.all (x: !x) [
     cudaSupport
     metalSupport
@@ -49,7 +51,12 @@ let
       cudaPackages.backendStdenv.override { stdenv = overrideCC stdenv gcc12; }
     else
       stdenv;
-  inherit (lib) cmakeBool cmakeFeature optionals;
+  inherit (lib)
+    cmakeBool
+    cmakeFeature
+    optionals
+    optionalString
+    ;
 
   darwinBuildInputs =
     with darwin.apple_sdk.frameworks;
@@ -86,13 +93,13 @@ let
 in
 effectiveStdenv.mkDerivation (finalAttrs: {
   pname = "llama-cpp";
-  version = "3151";
+  version = "3295";
 
   src = fetchFromGitHub {
     owner = "ggerganov";
     repo = "llama.cpp";
     rev = "refs/tags/b${finalAttrs.version}";
-    hash = "sha256-ppujag6Nrk/M9QMQ4mYe2iADsfKzmfKtOP8Ib7GZBmk=";
+    hash = "sha256-djsoCLBRU3McOgB/4gn87kHs4pKIVnDQp512UI7aqhs=";
     leaveDotGit = true;
     postFetch = ''
       git -C "$out" rev-parse --short HEAD > $out/COMMIT
@@ -101,12 +108,12 @@ effectiveStdenv.mkDerivation (finalAttrs: {
   };
 
   postPatch = ''
-    substituteInPlace ./ggml-metal.m \
+      substituteInPlace ./ggml/src/ggml-metal.m \
       --replace-fail '[bundle pathForResource:@"ggml-metal" ofType:@"metal"];' "@\"$out/bin/ggml-metal.metal\";"
 
-    substituteInPlace ./scripts/build-info.cmake \
-      --replace-fail 'set(BUILD_NUMBER 0)' 'set(BUILD_NUMBER ${finalAttrs.version})' \
-      --replace-fail 'set(BUILD_COMMIT "unknown")' "set(BUILD_COMMIT \"$(cat COMMIT)\")"
+    substituteInPlace ./scripts/build-info.sh \
+      --replace-fail 'build_number="0"' 'build_number="${finalAttrs.version}"' \
+      --replace-fail 'build_commit="unknown"' "build_commit=\"$(cat COMMIT)\""
   '';
 
   nativeBuildInputs =
@@ -193,12 +200,15 @@ effectiveStdenv.mkDerivation (finalAttrs: {
 
   # upstream plans on adding targets at the cmakelevel, remove those
   # additional steps after that
-  postInstall = ''
-    mv $out/bin/main $out/bin/llama
-    mv $out/bin/server $out/bin/llama-server
-    mkdir -p $out/include
-    cp $src/llama.h $out/include/
-  '';
+  postInstall =
+    ''
+        # Match previous binary name for this package
+      ln -sf $out/bin/llama-cli $out/bin/llama
+
+      mkdir -p $out/include
+      cp $src/include/llama.h $out/include/
+    ''
+    + optionalString rpcSupport "cp bin/rpc-server $out/bin/llama-rpc-server";
 
   passthru.updateScript = nix-update-script {
     attrPath = "llama-cpp";
