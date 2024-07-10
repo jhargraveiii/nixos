@@ -22,7 +22,6 @@
     ./amd.nix
     ./nvidia.nix
     ./displaymanager.nix
-    ../modules/programs/1password.nix
     ../modules/services/restic.nix
     ../modules/services/ollama.nix
     ../modules/services/llama-cpp.nix
@@ -202,7 +201,14 @@
     amd-blis
     amd-libflame
     aocl-utils
-    insync
+
+    # GTK
+    gsettings-desktop-schemas
+    gtk3
+    swt
+    xdg-desktop-portal-gtk
+    xdg-user-dirs
+    adwaita-icon-theme
 
     # KDE Applications
     kdePackages.kcalc

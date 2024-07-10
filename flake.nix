@@ -2,7 +2,7 @@
   description = "Datalore OS Configuration";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable-small";
+    nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -23,6 +23,7 @@
     let
       inherit (self) outputs;
       system = "x86_64-linux";
+      pkgs = import nixpkgs { inherit system; };
 
       # User Variables
       hostname = "datalore";
@@ -39,7 +40,7 @@
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
 
       # Your custom packages and modifications, exported as overlays
-      overlays = import ./modules/overlays { inherit inputs; };
+      overlays = import ./modules/overlays { inherit inputs pkgs; };
 
       nixosConfigurations = {
         "${hostname}" = nixpkgs.lib.nixosSystem {

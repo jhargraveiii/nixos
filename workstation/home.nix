@@ -67,6 +67,7 @@
     slack
     (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
     _1password
+    _1password-gui
     brave
     firefox
     thunderbird
@@ -76,10 +77,10 @@
     klavaro
     meld
     okteta
-    gittyup
     git-cola
     vlc
     sddm
+    insync
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
@@ -151,7 +152,7 @@
 
     shellAliases = {
       flake-check = "nix flake check --verbose --show-trace ${flakeDir}";
-      flake-rebuild = "sudo nixos-rebuild switch --flake ${flakeDir}";
+      flake-rebuild = "sudo nixos-rebuild switch --keep-going --flake ${flakeDir}";
       flake-update = "sudo nix flake update ${flakeDir}";
       gcCleanup = "nix-collect-garbage --delete-old && sudo nix-collect-garbage -d && sudo /run/current-system/bin/switch-to-configuration boot";
       less = "most";
