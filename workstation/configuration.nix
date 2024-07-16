@@ -202,14 +202,6 @@
     amd-libflame
     aocl-utils
 
-    # GTK
-    gsettings-desktop-schemas
-    gtk3
-    swt
-    xdg-desktop-portal-gtk
-    xdg-user-dirs
-    adwaita-icon-theme
-
     # KDE Applications
     kdePackages.kcalc
     kdePackages.kalgebra
@@ -306,7 +298,6 @@
   };
 
   hardware.pulseaudio.enable = false;
-  sound.enable = true;
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
   hardware.bluetooth.package = pkgs.bluez;

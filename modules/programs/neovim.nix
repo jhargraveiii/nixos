@@ -19,6 +19,12 @@
       yaml-language-server
       pyright
       marksman
+      java-language-server
+      lemminx
+      taplo
+      ccls
+      nodePackages.vscode-langservers-extracted
+      nodePackages.yaml-language-server
     ];
     plugins = with pkgs.vimPlugins; [
       copilot-vim
