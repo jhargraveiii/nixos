@@ -9,7 +9,7 @@ let
 in
 {
   environment.systemPackages = with pkgs; [ ollamaOptimized ];
-  systemd.services.ollama.serviceConfig.DynamicUser = lib.mkForce false;
+  #systemd.services.ollama.serviceConfig.DynamicUser = lib.mkForce false;
 
   services.ollama = {
     enable = true;
@@ -23,7 +23,5 @@ in
       OLLAMA_FLASH_ATTENTION = "1";
     };
     acceleration = "cuda";
-    home = "/home/jimh/DATA2/ollama";
-    models = "/home/jimh/DATA2/ollama/models";
   };
 }

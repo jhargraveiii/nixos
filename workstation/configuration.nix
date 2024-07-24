@@ -24,7 +24,7 @@
     ./displaymanager.nix
     ../modules/services/restic.nix
     ../modules/services/ollama.nix
-    ../modules/services/llama-cpp.nix
+    #../modules/services/llama-cpp.nix
     ../modules/services/open-webui.nix
     ../modules/services/flatpak.nix
     ../modules/programs/distrobox.nix
@@ -82,15 +82,6 @@
       "sssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPwpk2rfNtxHjaGTucwvBPxcr9D8ly6MXh68/9+VacZy jim.hargrave@strakertranslations.com"
     ];
   };
-
-  security.pam.loginLimits = [
-    {
-      domain = "*";
-      type = "-";
-      item = "nofile";
-      value = "65536";
-    }
-  ];
 
   nixpkgs = {
     overlays = [ outputs.overlays.cuda-override ];

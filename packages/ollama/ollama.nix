@@ -9,20 +9,16 @@
   makeWrapper,
   stdenv,
   nixosTests,
-
   pkgs,
   cmake,
   gcc12,
   clblast,
   libdrm,
-  rocmPackages,
   cudaPackages,
   linuxPackages,
-  darwin,
-
+  addDriverRunpath,
   testers,
   ollama,
-
   config,
   # one of `[ null false "rocm" "cuda" ]`
   acceleration ? null,
@@ -30,13 +26,13 @@
 let
   pname = "ollama";
   # don't forget to invalidate all hashes each update
-  version = "0.2.7";
+  version = "0.2.8";
 
   src = fetchFromGitHub {
     owner = "jmorganca";
     repo = "ollama";
     rev = "v${version}";
-    hash = "sha256-YHBGS615dxz6pZR+8awMinp+ZRf3J8Re5BVeDEIyt2E=";
+    hash = "sha256-uir/GoFs0nhhHpznyYkwVjAUWxwjWmGZ7liU2htyQ04=";
     fetchSubmodules = true;
   };
   vendorHash = "sha256-hSxcREAujhvzHVNwnRTfhi0MKI3s8HNavER2VLz6SYk=";
@@ -49,10 +45,10 @@ let
     (preparePatch "03-load_exception.diff" "sha256-NJkT/k8Mf8HcEMb0XkaLmyUNKV3T+384JRPnmwDI/sk=")
     (preparePatch "04-metal.diff" "sha256-bPBCfoT3EjZPjWKfCzh0pnCUbM/fGTj37yOaQr+QxQ4=")
     (preparePatch "05-default-pretokenizer.diff" "sha256-50+mzQBQZmYEhYvARHw/dliH0M/gDOYm2uy/yJupDF4=")
-    (preparePatch "06-qwen2.diff" "sha256-FdDqEIblPy47z3yavKUnaV93Yk+3oboEzj4vHq+R66M=")
-    (preparePatch "07-embeddings.diff" "sha256-lqg2SI0OapD9LCoAG6MJW6HIHXEmCTv7P75rE9yq/Mo=")
-    (preparePatch "08-clip-unicode.diff" "sha256-1qMJoXhDewxsqPbmi+/7xILQfGaybZDyXc5eH0winL8=")
-    (preparePatch "09-pooling.diff" "sha256-7meKWbr06lbVrtxau0AU9BwJ88Z9svwtDXhmHI+hYBk=")
+    (preparePatch "06-embeddings.diff" "sha256-lqg2SI0OapD9LCoAG6MJW6HIHXEmCTv7P75rE9yq/Mo=")
+    (preparePatch "07-clip-unicode.diff" "sha256-1qMJoXhDewxsqPbmi+/7xILQfGaybZDyXc5eH0winL8=")
+    (preparePatch "08-pooling.diff" "sha256-7meKWbr06lbVrtxau0AU9BwJ88Z9svwtDXhmHI+hYBk=")
+    (preparePatch "09-lora.diff" "sha256-HVDYiqNkuWO9K7aIiT73iiMj5lxMsJC1oqIG4madAPk=")
   ];
 
   preparePatch =
@@ -67,41 +63,15 @@ let
   accelIsValid = builtins.elem acceleration [
     null
     false
-    "rocm"
     "cuda"
   ];
-  validateFallback = lib.warnIf (config.rocmSupport && config.cudaSupport) (lib.concatStrings [
-    "both `nixpkgs.config.rocmSupport` and `nixpkgs.config.cudaSupport` are enabled, "
-    "but they are mutually exclusive; falling back to cpu"
-  ]) (!(config.rocmSupport && config.cudaSupport));
-  validateLinux =
-    api:
-    (lib.warnIfNot stdenv.isLinux
-      "building ollama with `${api}` is only supported on linux; falling back to cpu"
-      stdenv.isLinux
-    );
+
   shouldEnable =
     assert accelIsValid;
-    mode: fallback:
-    ((acceleration == mode) || (fallback && acceleration == null && validateFallback))
-    && (validateLinux mode);
+    mode: fallback: (acceleration == mode) || (fallback && acceleration == null);
 
-  enableRocm = shouldEnable "rocm" config.rocmSupport;
   enableCuda = shouldEnable "cuda" config.cudaSupport;
-
-  rocmClang = linkFarm "rocm-clang" { llvm = rocmPackages.llvm.clang; };
-  rocmPath = buildEnv {
-    name = "rocm-path";
-    paths = [
-      rocmPackages.clr
-      rocmPackages.hipblas
-      rocmPackages.rocblas
-      rocmPackages.rocsolver
-      rocmPackages.rocsparse
-      rocmPackages.rocm-device-libs
-      rocmClang
-    ];
-  };
+  cudaRequested = shouldEnable "cuda" config.cudaSupport;
 
   cudaToolkit = buildEnv {
     name = "cuda-toolkit";
@@ -120,21 +90,19 @@ let
     ];
   };
 
-  runtimeLibs =
-    [
-      pkgs.amd-blis
-      pkgs.amd-libflame
-    ]
-    ++ lib.optionals enableRocm [ rocmPackages.rocm-smi ]
-    ++ lib.optionals enableCuda [ linuxPackages.nvidia_x11 ];
+  runtimeLibs = [
+    pkgs.amd-blis
+    pkgs.amd-libflame
+  ] ++ lib.optionals enableCuda [ linuxPackages.nvidia_x11 ];
 
-  appleFrameworks = darwin.apple_sdk_11_0.frameworks;
-  metalFrameworks = [
-    appleFrameworks.Accelerate
-    appleFrameworks.Metal
-    appleFrameworks.MetalKit
-    appleFrameworks.MetalPerformanceShaders
+  wrapperOptions = [
+    # ollama embeds llama-cpp binaries which actually run the ai models
+    # these llama-cpp binaries are unaffected by the ollama binary's DT_RUNPATH
+    # LD_LIBRARY_PATH is temporarily required to use the gpu
+    # until these llama-cpp binaries can have their runpath patched
+    "--suffix LD_LIBRARY_PATH : '${addDriverRunpath.driverLink}/lib'"
   ];
+  wrapperArgs = builtins.concatStringsSep " " wrapperOptions;
 
   goBuild =
     if enableCuda then
@@ -144,11 +112,7 @@ let
   inherit (lib) licenses platforms maintainers;
 in
 goBuild (
-  (lib.optionalAttrs enableRocm {
-    ROCM_PATH = rocmPath;
-    CLBlast_DIR = "${clblast}/lib/cmake/CLBlast";
-  })
-  // (lib.optionalAttrs enableCuda {
+  (lib.optionalAttrs enableCuda {
     CUDA_LIB_DIR = "${cudaToolkit}/lib";
     CUDACXX = "${cudaToolkit}/bin/nvcc";
     CUDAToolkit_ROOT = cudaToolkit;
@@ -161,24 +125,12 @@ goBuild (
       vendorHash
       ;
 
-    nativeBuildInputs =
-      [ cmake ]
-      ++ lib.optionals enableRocm [ rocmPackages.llvm.bintools ]
-      ++ lib.optionals (enableRocm || enableCuda) [ makeWrapper ]
-      ++ lib.optionals stdenv.isDarwin metalFrameworks;
+    nativeBuildInputs = [ cmake ] ++ lib.optionals (enableCuda) [ makeWrapper ];
 
     buildInputs =
       [
         pkgs.amd-blis
         pkgs.amd-libflame
-      ]
-      ++ lib.optionals enableRocm [
-        rocmPackages.clr
-        rocmPackages.hipblas
-        rocmPackages.rocblas
-        rocmPackages.rocsolver
-        rocmPackages.rocsparse
-        libdrm
       ]
       ++ lib.optionals enableCuda [
         cudaPackages.cuda_cudart
@@ -187,15 +139,16 @@ goBuild (
         cudaPackages.libcublas.dev
         cudaPackages.libcublas.lib
         cudaPackages.libcublas.static
-      ]
-      ++ lib.optionals stdenv.isDarwin metalFrameworks;
-
+      ];
     patches = [
       # disable uses of `git` in the `go generate` script
       # ollama's build script assumes the source is a git repo, but nix removes the git directory
       # this also disables necessary patches contained in `ollama/llm/patches/`
       # those patches are added to `llamacppPatches`, and reapplied here in the patch phase
       ./disable-git.patch
+      # disable a check that unnecessarily exits compilation during rocm builds
+      # since `rocmPath` is in `LD_LIBRARY_PATH`, ollama uses rocm correctly
+      ./disable-lib-check.patch
     ] ++ llamacppPatches;
     postPatch = ''
       # replace inaccurate version number with actual release version
@@ -226,11 +179,9 @@ goBuild (
         # the app doesn't appear functional at the moment, so hide it
         mv "$out/bin/app" "$out/bin/.ollama-app"
       ''
-      + lib.optionalString (enableRocm || enableCuda) ''
+      + lib.optionalString (enableCuda) ''
         # expose runtime libraries necessary to use the gpu
-        mv "$out/bin/ollama" "$out/bin/.ollama-unwrapped"
-        makeWrapper "$out/bin/.ollama-unwrapped" "$out/bin/ollama" ${lib.optionalString enableRocm "--set-default HIP_PATH '${rocmPath}' "} \
-          --suffix LD_LIBRARY_PATH : '/run/opengl-driver/lib:${lib.makeLibraryPath runtimeLibs}'
+        wrapProgram "$out/bin/ollama" ${wrapperArgs}
       '';
 
     ldflags = [
@@ -241,26 +192,27 @@ goBuild (
     ];
 
     passthru.tests = {
+      inherit ollama;
       service = nixosTests.ollama;
-      rocm = pkgs.ollama.override { acceleration = "rocm"; };
-      cuda = pkgs.ollama.override { acceleration = "cuda"; };
       version = testers.testVersion {
         inherit version;
         package = ollama;
       };
     };
-
     meta = {
-      description = "Get up and running with large language models locally";
+      description =
+        "Get up and running with large language models locally"
+        + lib.optionalString cudaRequested ", using CUDA for NVIDIA GPU acceleration";
       homepage = "https://github.com/ollama/ollama";
       changelog = "https://github.com/ollama/ollama/releases/tag/v${version}";
       license = licenses.mit;
-      platforms = platforms.unix;
+      platforms = if (cudaRequested) then platforms.linux else platforms.unix;
       mainProgram = "ollama";
       maintainers = with maintainers; [
         abysssol
         dit7ya
         elohmeier
+        roydubnium
       ];
     };
   }

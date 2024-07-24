@@ -72,7 +72,6 @@
     ];
     extraConfig = ''
       set noemoji
-      nnoremap : <cmd>FineCmdline<CR>
     '';
     extraLuaConfig = ''
       ${builtins.readFile ../../config/nvim/options.lua}
