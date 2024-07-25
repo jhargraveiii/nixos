@@ -26,13 +26,13 @@
 let
   pname = "ollama";
   # don't forget to invalidate all hashes each update
-  version = "0.2.8";
+  version = "0.3.0";
 
   src = fetchFromGitHub {
     owner = "jmorganca";
     repo = "ollama";
     rev = "v${version}";
-    hash = "sha256-uir/GoFs0nhhHpznyYkwVjAUWxwjWmGZ7liU2htyQ04=";
+    hash = "sha256-baEX0skofhIULe2UAO00rYpFwid6NoBWVbpaQbYcGxY=";
     fetchSubmodules = true;
   };
   vendorHash = "sha256-hSxcREAujhvzHVNwnRTfhi0MKI3s8HNavER2VLz6SYk=";
@@ -40,6 +40,7 @@ let
   # `ollama/llm/generate/gen_common.sh` -> "apply temporary patches until fix is upstream"
   # each update, these patches should be synchronized with the contents of `ollama/llm/patches/`
   llamacppPatches = [
+    (preparePatch "0001-llama-3.1-rope-scaling.diff" "sha256-20gmWQI+kIdwGYnItaqb/nwPCPNVt/DulOa4dfxaZXY=")
     (preparePatch "01-load-progress.diff" "sha256-K4GryCH/1cl01cyxaMLX3m4mTE79UoGwLMMBUgov+ew=")
     (preparePatch "02-clip-log.diff" "sha256-rMWbl3QgrPlhisTeHwD7EnGRJyOhLB4UeS7rqa0tdXM=")
     (preparePatch "03-load_exception.diff" "sha256-NJkT/k8Mf8HcEMb0XkaLmyUNKV3T+384JRPnmwDI/sk=")
