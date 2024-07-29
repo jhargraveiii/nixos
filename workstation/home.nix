@@ -8,9 +8,6 @@
   outputs,
   ...
 }:
-let
-  git-cola_fix = pkgs.callPackage ../packages/git-cola.nix { };
-in
 {
   # Home Manager Settings
   home.username = "${username}";
@@ -82,8 +79,8 @@ in
     okteta
     vlc
     sddm
-    insync
-    git-cola_fix
+    #insync
+    git-cola
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
