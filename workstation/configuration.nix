@@ -22,6 +22,7 @@
     ./amd.nix
     ./nvidia.nix
     ./displaymanager.nix
+    ../modules/services/ollama.nix
     ../modules/services/restic.nix
     ../modules/services/flatpak.nix
     ../modules/programs/distrobox.nix
@@ -347,6 +348,7 @@
 
   # Set Environment Variables
   environment.variables = {
+    HF_HOME = "/home/jimh/DATA2/.cache/huggingface";
     PATH = [ "\${HOME}/oxygenDeveloper" ];
     EDITOR = "nvim";
     _ZO_ECHO = "1";

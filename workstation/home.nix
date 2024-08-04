@@ -81,6 +81,7 @@
     sddm
     #insync
     git-cola
+    clickup
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
