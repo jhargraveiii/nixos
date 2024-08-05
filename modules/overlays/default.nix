@@ -2,8 +2,6 @@
 { inputs, ... }:
 {
 
-  cuda-override = final: prev: {
-    # Override attributes of packages inside cudaPackages
-    cudaPackages = prev.cudaPackages_12_3;
-  };
+  cuda-override = final: prev: { cudaPackages = prev.cudaPackages_12_3; };
+
 }

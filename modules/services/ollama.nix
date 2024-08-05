@@ -1,5 +1,16 @@
-{ pkgs }:
+{ pkgs, lib, ... }:
 {
+  systemd.services.ollama.serviceConfig.DynamicUser = lib.mkForce false;
+
+  users.users.ollama = {
+    isSystemUser = true;
+    home = lib.mkDefault "/home/jimh/DATA2/ollama";
+    description = "Ollama Service User";
+    group = "ollama";
+    extraGroups = [ ];
+  };
+  users.groups.ollama = { };
+
   services.ollama = {
     enable = true;
     environmentVariables = {
@@ -11,5 +22,9 @@
       OLLAMA_FLASH_ATTENTION = "1";
     };
     acceleration = "cuda";
+    user = "ollama";
+    group = "ollama";
+    home = "/home/jimh/DATA2/ollama";
+    models = "/home/jimh/DATA2/ollama/models";
   };
 }

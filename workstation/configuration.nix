@@ -22,7 +22,8 @@
     ./amd.nix
     ./nvidia.nix
     ./displaymanager.nix
-    ../modules/services/ollama.nix
+    #../modules/services/ollama.nix
+    ../modules/services/update-systemd-resolved.nix
     ../modules/services/restic.nix
     ../modules/services/flatpak.nix
     ../modules/programs/distrobox.nix
@@ -37,7 +38,6 @@
 
   networking.timeServers = [ "pool.ntp.org" ];
   services.timesyncd.enable = true;
-
   services.fwupd.enable = true;
 
   # Set your time zone.
@@ -73,6 +73,7 @@
       "scanner"
       "lp"
       "video"
+      "ollama"
     ];
     uid = 1000;
     openssh.authorizedKeys.keys = [
@@ -82,7 +83,9 @@
   };
 
   nixpkgs = {
-    overlays = [ outputs.overlays.cuda-override ];
+    overlays = [
+      outputs.overlays.cuda-override
+    ];
 
     # Configure your nixpkgs instance
     config = {
@@ -117,6 +120,7 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    networkmanager-openvpn
     openjdk11
     openvpn
     nil
