@@ -22,7 +22,7 @@
     ./amd.nix
     ./nvidia.nix
     ./displaymanager.nix
-    #../modules/services/ollama.nix
+    ../modules/services/ollama.nix
     ../modules/services/update-systemd-resolved.nix
     ../modules/services/restic.nix
     ../modules/services/flatpak.nix
@@ -32,9 +32,6 @@
   systemd.enableEmergencyMode = false;
 
   networking.hostName = "${hostname}"; # Define your hostname.
-
-  # Enable networking
-  networking.networkmanager.enable = true;
 
   networking.timeServers = [ "pool.ntp.org" ];
   services.timesyncd.enable = true;
@@ -83,9 +80,7 @@
   };
 
   nixpkgs = {
-    overlays = [
-      outputs.overlays.cuda-override
-    ];
+    overlays = [ outputs.overlays.cuda-override ];
 
     # Configure your nixpkgs instance
     config = {
@@ -120,9 +115,8 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    networkmanager-openvpn
-    openjdk11
     openvpn
+    openjdk11
     nil
     shellcheck
     vale
