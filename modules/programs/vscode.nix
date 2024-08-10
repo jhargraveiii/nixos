@@ -10,7 +10,7 @@
       [
         yzhang.markdown-all-in-one
         jnoortheen.nix-ide
-        ms-pyright.pyright
+        ms-python.vscode-pylance
         ms-python.python
         ms-toolsai.jupyter
         github.copilot
@@ -19,9 +19,15 @@
         redhat.vscode-yaml
         tamasfe.even-better-toml
         zxh404.vscode-proto3
-        eamodio.gitlens
         dotenv.dotenv-vscode
       ]
-      ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [ ];
+      ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
+        {
+          name = "pixi-vscode";
+          publisher = "jjjermiah";
+          version = "1.0.1";
+          sha256 = "sha256-+vHyjXT4Qiz/ZLtfd/3ZcgZfajzqfdOQC4pMkE+PSGU=";
+        }
+      ];
   };
 }

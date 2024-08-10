@@ -66,6 +66,7 @@
   home.packages = with pkgs; [
     slack
     (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
+    (jetbrains.plugins.addPlugins jetbrains.pycharm-professional [ "github-copilot" ])
     _1password
     _1password-gui
     brave
@@ -81,6 +82,7 @@
     sddm
     insync
     git-cola
+    cheese
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
