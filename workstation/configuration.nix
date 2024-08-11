@@ -184,7 +184,6 @@
     wl-clipboard
     dotenv-linter
     shellharden
-    nix-direnv
     amd-blis
     amd-libflame
     aocl-utils
