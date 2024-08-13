@@ -12,7 +12,7 @@
       gopls
       xclip
       wl-clipboard
-      luajitPackages.lua-lsp
+      #luajitPackages.lua-lsp
       nil
       rust-analyzer
       nodePackages.bash-language-server

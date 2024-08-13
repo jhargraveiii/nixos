@@ -40,7 +40,7 @@
       "amdgpu"
       "nvidia-uvm"
     ];
-    kernelParams = [ "atkbd.softrepeat=1" ];
+    #kernelParams = [ "atkbd.softrepeat=1" ];
     extraModulePackages = [ ];
     tmp.cleanOnBoot = true;
   };
