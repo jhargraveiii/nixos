@@ -28,8 +28,9 @@
       LIBRARY_PATH = "${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudatoolkit}/lib64:${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LIBRARY_PATH";
       CPATH = "${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$CPATH";
       OLLAMA_LLM_LIBRARY = "cuda_v12";
-      OLLAMA_MAX_VRAM = "11796917760";
+      OLLAMA_MAX_VRAM = "11994000000";
       OLLAMA_FLASH_ATTENTION = "1";
+      OLLAMA_NUM_PARALLEL = "2";
     };
     acceleration = "cuda";
     user = "ollama";

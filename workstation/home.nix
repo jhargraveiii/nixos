@@ -69,8 +69,8 @@
     (jetbrains.plugins.addPlugins jetbrains.pycharm-professional [ "github-copilot" ])
     _1password
     _1password-gui
-    brave
     firefox
+    google-chrome
     thunderbird
     libreoffice
     hunspell
