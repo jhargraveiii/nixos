@@ -55,6 +55,16 @@
     overlays = [ outputs.overlays.cuda-override ];
     # Configure your nixpkgs instance
     config = {
+      # Nvidia is used only for compute!!
+      allowBroken = true;
+      cudaSupport = true;
+      cudaVersion = "12.3";
+      cudaCapabilities = [ "8.9" ];
+      nvidia.acceptLicense = true;
+      blasSupport = true;
+      blasProvider = pkgs.amd-blis;
+      lapackSupport = true;
+      lapackProvider = pkgs.amd-libflame;
       # Disable if you don't want unfree packages
       allowUnfree = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
@@ -67,9 +77,8 @@
     slack
     (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
     (jetbrains.plugins.addPlugins jetbrains.pycharm-professional [ "github-copilot" ])
-    _1password
-    _1password-gui
     firefox
+    _1password
     google-chrome
     thunderbird
     libreoffice
@@ -137,6 +146,24 @@
       if [ -f $HOME/.oxygen-xml-developer-profile ]; then
          source $HOME/.oxygen-xml-developer-profile
       fi
+      # Set CUDA-related environment variables
+      export CUDA_PATH="${pkgs.cudaPackages.cudatoolkit}"
+      export CUDA_HOME="${pkgs.cudaPackages.cudatoolkit}"
+      export CUDA_ROOT="${pkgs.cudaPackages.cudatoolkit}"
+      export CUDACXX="${pkgs.cudaPackages.cudatoolkit}/bin/nvcc"
+      export CUDAHOSTCXX="${pkgs.gcc}/bin/g++"
+      export CUDA_TOOLKIT_ROOT_DIR="${pkgs.cudaPackages.cudatoolkit}"
+
+      # Set paths
+      export PATH="${pkgs.cudaPackages.cudatoolkit}/bin:$PATH"
+      export LD_LIBRARY_PATH="${pkgs.linuxPackages_latest.nvidia_x11}/lib:${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudnn_8_9}/lib:${pkgs.cudaPackages.tensorrt}/lib:${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LD_LIBRARY_PATH"
+      export LIBRARY_PATH="${pkgs.linuxPackages_latest.nvidia_x11}/lib:${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudnn_8_9}/lib:${pkgs.cudaPackages.tensorrt}/lib:${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LIBRARY_PATH"
+      export CPATH="${pkgs.cudaPackages.cudatoolkit}/include:${pkgs.cudaPackages.cudnn_8_9}/include:${pkgs.cudaPackages.tensorrt}/include:${pkgs.amd-blis}/include:${pkgs.amd-libflame}/include:$CPATH"
+
+      # Set BLAS-related environment variables
+      export BLAS_ROOT="${pkgs.amd-blis}"
+      export BLAS_LIBRARIES="${pkgs.amd-blis}/lib/libblis-mt.so"
+      export BLAS_INCLUDE_DIRS="${pkgs.amd-blis}/include/blis"
     '';
     bashrcExtra = ''
       # Configure nnn

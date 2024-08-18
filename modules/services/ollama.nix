@@ -1,15 +1,5 @@
 { pkgs, lib, ... }:
 {
-  environment.systemPackages = with pkgs; [
-    cudaPackages.cudatoolkit
-    #cudaPackages.tensorrt
-    cudaPackages.cuda_cudart
-    cudaPackages.libcublas
-    cudaPackages.cudnn
-    amd-libflame
-    amd-blis
-  ];
-
   systemd.services.ollama.serviceConfig.DynamicUser = lib.mkForce false;
 
   users.users.ollama = {

@@ -187,6 +187,8 @@
     amd-blis
     amd-libflame
     aocl-utils
+    poetry
+    pixi
 
     # KDE Applications
     kdePackages.kcalc
@@ -329,14 +331,8 @@
       require-sigs = true;
       sandbox = true;
       sandbox-fallback = false;
-      substituters = [
-        "https://cache.nixos.org/"
-        "https://cuda-maintainers.cachix.org"
-      ];
-      trusted-public-keys = [
-        "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
-        "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
-      ];
+      substituters = [ "https://cache.nixos.org/" ];
+      trusted-public-keys = [ "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY=" ];
       trusted-users = [ "root" ];
     };
 
@@ -348,6 +344,14 @@
   };
 
   environment.sessionVariables.TERMINAL = [ "kitty" ];
+  environment.sessionVariables.EDITOR = [ "nvim" ];
+  environment.sessionVariables.BROWSER = [ "firefox" ];
+  environment.sessionVariables.XDG_SESSION_TYPE = [ "wayland" ];
+  environment.sessionVariables.MOZ_ENABLE_WAYLAND = [ "1" ];
+  environment.sessionVariables.ELECTRON_OZONE_PLATFORM_HINT = [ "wayland" ];
+  environment.sessionVariables.WLR_NO_HARDWARE_CURSORS = [ "1" ];
+  environment.sessionVariables.QT_QPA_PLATFORM = [ "wayland" ];
+  environment.sessionVariables.QT_QPA_PLATFORMTHEME = [ "qt6ct" ];
 
   # Set Environment Variables
   environment.variables = {
