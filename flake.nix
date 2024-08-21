@@ -57,7 +57,7 @@
             inherit theTimezone;
           };
           modules = [
-            ./workstation/configuration.nix
+            ./${hostname}/configuration.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.extraSpecialArgs = {
@@ -73,7 +73,7 @@
               };
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
-              home-manager.users.${username} = import ./workstation/home.nix;
+              home-manager.users.${username} = import ./${hostname}/home.nix;
             }
           ];
         };
