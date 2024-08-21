@@ -29,6 +29,40 @@
     ../modules/programs/distrobox.nix
   ];
 
+  services.nfs.server = {
+    enable = true;
+    lockdPort = 4001;
+    mountdPort = 4002;
+    statdPort = 4000;
+    exports = ''
+      /home/jimh *(rw,sync,no_subtree_check)
+    '';
+  };
+
+  # Open ports in the firewall.
+  networking.firewall = {
+    enable = true;
+    allowedTCPPorts = [
+      631
+      53
+      111
+      2049
+      4000
+      4001
+      4002
+      20048
+    ];
+    allowedUDPPorts = [
+      5353
+      111
+      2049
+      4000
+      4001
+      4002
+      20048
+    ];
+  };
+
   systemd.enableEmergencyMode = false;
 
   networking.hostName = "${hostname}"; # Define your hostname.
@@ -299,14 +333,6 @@
   system.stateVersion = "23.11";
 
   services.dbus.enable = true;
-
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [
-    631
-    53
-  ];
-  networking.firewall.allowedUDPPorts = [ 5353 ];
-  networking.firewall.enable = true;
 
   # Optimization settings and garbage collection automation
   programs.ccache.enable = true;

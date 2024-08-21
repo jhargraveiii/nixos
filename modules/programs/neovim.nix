@@ -15,7 +15,7 @@
       luajitPackages.lua-lsp
       nil
       rust-analyzer
-      nodePackages.bash-language-server
+      #nodePackages.bash-language-server
       yaml-language-server
       pyright
       marksman
@@ -23,8 +23,8 @@
       lemminx
       taplo
       ccls
-      nodePackages.vscode-langservers-extracted
-      nodePackages.yaml-language-server
+      #nodePackages.vscode-langservers-extracted
+      #nodePackages.yaml-language-server
     ];
     plugins = with pkgs.vimPlugins; [
       copilot-vim

@@ -1,6 +1,5 @@
 { pkgs, ... }:
 {
-  #Nvidia is used only for compute!!
   nixpkgs.config = {
     allowUnfree = true;
     allowBroken = true;

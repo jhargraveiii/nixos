@@ -11,6 +11,11 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
+  powerManagement = {
+    cpuFreqGovernor = "performance";
+    enable = true;
+  };
+
   boot = {
     extraModprobeConfig = ''
       blacklist nouveau
@@ -40,7 +45,10 @@
       "amdgpu"
       "nvidia-uvm"
     ];
-    #kernelParams = [ "atkbd.softrepeat=1" ];
+    kernelParams = [
+      "usbcore.autosuspend=-1"
+      "atkbd.softrepeat=0"
+    ];
     extraModulePackages = [ ];
     tmp.cleanOnBoot = true;
   };
