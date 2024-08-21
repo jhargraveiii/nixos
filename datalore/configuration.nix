@@ -143,7 +143,6 @@
     plasma-browser-integration
     konsole
     oxygen
-    kate
   ];
 
   # List packages installed in system profile. To search, run:
@@ -370,7 +369,7 @@
   };
 
   environment.sessionVariables.TERMINAL = [ "kitty" ];
-  environment.sessionVariables.EDITOR = [ "nvim" ];
+  environment.sessionVariables.EDITOR = [ "kate" ];
   environment.sessionVariables.BROWSER = [ "firefox" ];
   environment.sessionVariables.XDG_SESSION_TYPE = [ "wayland" ];
   environment.sessionVariables.MOZ_ENABLE_WAYLAND = [ "1" ];
@@ -383,7 +382,7 @@
   environment.variables = {
     HF_HOME = "/home/jimh/DATA2/.cache/huggingface";
     PATH = [ "\${HOME}/oxygenDeveloper" ];
-    EDITOR = "nvim";
+    EDITOR = "kate";
     _ZO_ECHO = "1";
     M2_COLORS = "true";
     _JAVA_AWT_WM_NONREPARENTING = "1";

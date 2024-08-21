@@ -1,6 +1,9 @@
 { pkgs, lib, ... }:
 {
-  systemd.services.ollama.serviceConfig.DynamicUser = lib.mkForce false;
+  systemd.services.ollama.serviceConfig = {
+    DynamicUser = lib.mkForce false;
+    WorkingDirectory = "/home/jimh/DATA2/ollama";
+  };
 
   users.users.ollama = {
     isSystemUser = true;

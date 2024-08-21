@@ -195,7 +195,7 @@
   systemd.user.startServices = "sd-switch";
 
   home.sessionVariables = {
-    EDITOR = "nvim";
+    EDITOR = "kate";
     BROWSER = "firefox";
     TERMINAL = "kitty";
   };
