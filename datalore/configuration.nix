@@ -22,7 +22,6 @@
     ./amd.nix
     ./nvidia.nix
     ./displaymanager.nix
-    ../modules/services/ollama.nix
     ../modules/services/update-systemd-resolved.nix
     ../modules/services/restic.nix
     ../modules/services/flatpak.nix
@@ -118,6 +117,9 @@
 
     # Configure your nixpkgs instance
     config = {
+      cudaSupport = true;
+      cudaVersion = "12.3";
+      cudaCapabilities = [ "8.9" ];
       # Disable if you don't want unfree packages
       allowUnfree = true;
       allowBroken = true;
@@ -231,6 +233,8 @@
     kdePackages.filelight
     kdePackages.kcharselect
     kdePackages.ksystemlog
+
+    ollama-cuda
   ];
 
   programs.direnv = {
@@ -298,7 +302,7 @@
       {
         name = "Canon_MF450_Series";
         location = "Home";
-        deviceUri = "ipp://Canon224062/ipp";
+        deviceUri = "ipp://192.168.50.29/ipp";
         model = "CNRCUPSMF450ZS.ppd";
         ppdOptions = {
           PageSize = "Letter";
