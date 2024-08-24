@@ -180,9 +180,9 @@
     '';
 
     shellAliases = {
-      flake-check = "nix flake check --verbose --show-trace ${flakeDir}#datalore";
+      flake-check = "nix flake check --verbose --show-trace ${flakeDir}";
       flake-rebuild = "sudo nixos-rebuild switch --keep-going --flake ${flakeDir}#datalore";
-      flake-update = "sudo nix flake update ${flakeDir}#datalore";
+      flake-update = "sudo nix flake update ${flakeDir}";
       gcCleanup = "nix-collect-garbage --delete-old && sudo nix-collect-garbage -d && sudo /run/current-system/bin/switch-to-configuration boot";
       less = "most";
       cat = "bat";
