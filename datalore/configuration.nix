@@ -233,7 +233,9 @@
     kdePackages.filelight
     kdePackages.kcharselect
     kdePackages.ksystemlog
-
+    kdePackages.baloo
+    kdePackages.baloo-widgets
+    kdePackages.milou
     ollama-cuda
   ];
 
