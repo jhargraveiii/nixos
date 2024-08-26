@@ -5,7 +5,6 @@
 {
   pkgs,
   username,
-  hostname,
   gitUsername,
   theLocale,
   theTimezone,
@@ -64,7 +63,7 @@
 
   systemd.enableEmergencyMode = false;
 
-  networking.hostName = "${hostname}"; # Define your hostname.
+  networking.hostName = "datalore";
 
   networking.timeServers = [ "pool.ntp.org" ];
   services.timesyncd.enable = true;
