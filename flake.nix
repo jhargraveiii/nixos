@@ -26,7 +26,6 @@
       pkgs = import nixpkgs { inherit system; };
 
       # User Variables
-      hostname = "datalore";
       username = "jimh";
       gitUsername = "Jim Hargrave";
       gitEmail = "jim.hargrave@strakergroup.com";
@@ -43,14 +42,14 @@
       overlays = import ./modules/overlays { inherit inputs pkgs; };
 
       nixosConfigurations = {
-        "${hostname}" = nixpkgs.lib.nixosSystem {
+
+        "datalore" = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit system;
             inherit inputs;
             inherit outputs;
             inherit theKBDLayout;
             inherit username;
-            inherit hostname;
             inherit gitUsername;
             inherit gitEmail;
             inherit theLocale;
@@ -77,6 +76,41 @@
             }
           ];
         };
+
+        "laptop" = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit system;
+            inherit inputs;
+            inherit outputs;
+            inherit theKBDLayout;
+            inherit username;
+            inherit gitUsername;
+            inherit gitEmail;
+            inherit theLocale;
+            inherit theTimezone;
+          };
+          modules = [
+            ./laptop/configuration.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.extraSpecialArgs = {
+                inherit username;
+                inherit system;
+                inherit theKBDLayout;
+                inherit wallpaperDir;
+                inherit outputs;
+                inherit flakeDir;
+                inherit gitUsername;
+                inherit gitEmail;
+                inherit inputs;
+              };
+              home-manager.useUserPackages = true;
+              home-manager.backupFileExtension = "backup";
+              home-manager.users.${username} = import ./laptop/home.nix;
+            }
+          ];
+        };
+
       };
     };
 }
