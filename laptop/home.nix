@@ -18,7 +18,7 @@
     ../config/files.nix
     ../modules/programs/kitty.nix
     ../modules/programs/oxygen.nix
-    # ../modules/programs/neovim.nix
+    ../modules/programs/neovim.nix
     ../modules/programs/vscode.nix
   ];
 
@@ -87,9 +87,8 @@
     sddm
     insync
     git-cola
-    tcl
-    tk
     cheese
+    calibre
   ];
 
   home.file.".jdks/openjdk11".source = pkgs.openjdk11;
