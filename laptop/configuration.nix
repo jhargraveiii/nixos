@@ -21,7 +21,6 @@
     ./amd.nix
     ./displaymanager.nix
     ../modules/services/update-systemd-resolved.nix
-    ../modules/services/restic.nix
     ../modules/services/flatpak.nix
     ../modules/programs/distrobox.nix
   ];
@@ -185,7 +184,6 @@
     aocl-utils
     poetry
     pixi
-    ollama-rocm
 
     # KDE Applications
     kdePackages.kcalc
@@ -194,9 +192,9 @@
     kdePackages.isoimagewriter
     kdePackages.filelight
     kdePackages.kcharselect
-    kdePackages.ksystemlog
+    kdePackages.wacomtablet
     iio-sensor-proxy
-    tcl
+    onboard # On-screen keyboard
   ];
 
   programs.direnv = {
@@ -264,7 +262,7 @@
       {
         name = "Canon_MF450_Series";
         location = "Home";
-        deviceUri = "ipp://Canon224062/ipp";
+        deviceUri = "ipp://192.168.50.29/ipp";
         model = "CNRCUPSMF450ZS.ppd";
         ppdOptions = {
           PageSize = "Letter";
@@ -282,6 +280,10 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
+  };
+
+  services.power-profiles-daemon = {
+    enable = true;
   };
 
   hardware.pulseaudio.enable = false;
