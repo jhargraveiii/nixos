@@ -3,8 +3,6 @@
 
   # Nvidia is used only for compute!!
   nixpkgs.config = {
-    allowUnfree = true;
-    allowBroken = true;
     cudaSupport = true;
     cudaVersion = "12.3";
     cudaCapabilities = [ "8.9" ];
