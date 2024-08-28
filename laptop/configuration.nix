@@ -193,6 +193,8 @@
     kdePackages.filelight
     kdePackages.kcharselect
     kdePackages.wacomtablet
+    kdePackages.kup
+    bup
     iio-sensor-proxy
     onboard # On-screen keyboard
   ];
@@ -304,9 +306,10 @@
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [
     631
-    53
   ];
-  networking.firewall.allowedUDPPorts = [ 5353 ];
+  networking.firewall.allowedUDPPorts = [
+    631
+  ];
   networking.firewall.enable = true;
 
   # Optimization settings and garbage collection automation
