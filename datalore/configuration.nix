@@ -22,7 +22,6 @@
     ./nvidia.nix
     ./displaymanager.nix
     ../modules/services/update-systemd-resolved.nix
-    ../modules/services/restic.nix
     ../modules/services/flatpak.nix
     ../modules/programs/distrobox.nix
   ];
@@ -231,7 +230,8 @@
     kdePackages.isoimagewriter
     kdePackages.filelight
     kdePackages.kcharselect
-    kdePackages.ksystemlog
+    kdePackages.kup
+    bup
     kdePackages.baloo
     kdePackages.baloo-widgets
     kdePackages.milou
