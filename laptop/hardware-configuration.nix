@@ -55,7 +55,7 @@
   fileSystems."/home/jimh/BACKUP" = {
     device = "/dev/mmcblk0p1";
     fsType = "ext4";
-      options = [
+    options = [
       "noatime"
       "nodiratime"
       "discard"

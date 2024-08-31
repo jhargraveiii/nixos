@@ -297,13 +297,26 @@
     jack.enable = true;
   };
 
-  services.power-profiles-daemon = {
+  powerManagement = {
     enable = true;
   };
+  services.power-profiles-daemon.enable = false;
+  services.auto-cpufreq.enable = true;
+  services.auto-cpufreq.settings = {
+	  battery = {
+	     governor = "ondemand";
+	     turbo = "auto";
+	  };
+	  charger = {
+	     governor = "performance";
+	     turbo = "auto";
+	  };
+	};
+
 
   hardware.pulseaudio.enable = false;
   hardware.bluetooth.enable = true; # enables support for Bluetooth
-  hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
+  hardware.bluetooth.powerOnBoot = false; # powers up the default Bluetooth controller on boot
   hardware.bluetooth.package = pkgs.bluez;
   services.blueman.enable = true;
 
