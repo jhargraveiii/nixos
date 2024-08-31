@@ -52,6 +52,16 @@
     ];
   };
 
+  fileSystems."/home/jimh/BACKUP" = {
+    device = "/dev/mmcblk0p1";
+    fsType = "ext4";
+      options = [
+      "noatime"
+      "nodiratime"
+      "discard"
+    ];
+  };
+
   swapDevices = [ { device = "/dev/disk/by-uuid/1e8f15a3-88e4-4389-9993-bb3ff7b92bac"; } ];
 
   # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
