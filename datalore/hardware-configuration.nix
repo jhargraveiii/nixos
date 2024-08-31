@@ -16,6 +16,14 @@
     enable = true;
   };
 
+  systemd.services.keyboard = {
+    serviceConfig = {
+      Nice = -10;
+      CPUSchedulingPolicy = "rr";
+      CPUSchedulingPriority = 99;
+    };
+  };
+
   boot = {
     extraModprobeConfig = ''
       blacklist nouveau
@@ -46,6 +54,7 @@
       "nvidia-uvm"
     ];
     kernelParams = [
+      "elevator=deadline"
       "usbcore.autosuspend=-1"
       "atkbd.softrepeat=0"
     ];

@@ -120,7 +120,6 @@
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     plasma-browser-integration
-    konsole
     oxygen
   ];
 
@@ -137,6 +136,8 @@
     cppcheck
     protolint
     pylint
+    ruff-lsp
+    ruff
     checkstyle
     gitlint
     checkmake
@@ -200,7 +201,21 @@
     amd-libflame
     aocl-utils
     poetry
-    pixi
+    (import ../packages/pixi/package.nix {
+      inherit
+        lib
+        stdenv
+        rustPlatform
+        fetchFromGitHub
+        pkg-config
+        libgit2
+        openssl
+        installShellFiles
+        darwin
+        testers
+        pixi
+        ;
+    })
 
     # KDE Applications
     kdePackages.kcalc
