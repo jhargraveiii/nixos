@@ -213,7 +213,8 @@
         installShellFiles
         darwin
         testers
-        pixi;
+        pixi
+        ;
     })
 
     # KDE Applications
