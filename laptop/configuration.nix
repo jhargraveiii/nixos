@@ -170,7 +170,6 @@
     pciutils
     lshw
     clinfo
-    driversi686Linux.glxinfo
     vulkan-tools
     wayland-utils
     fwupd
@@ -211,6 +210,7 @@
     bup
     iio-sensor-proxy
     onboard # On-screen keyboard
+    nix-index
   ];
 
   programs.direnv = {

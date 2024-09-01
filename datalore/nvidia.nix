@@ -17,6 +17,7 @@
     cudaPackages.cutensor
     cudaPackages.tensorrt
     cudaPackages.cuda_cudart
+    cudaPackages.cuda_cupti
     cudaPackages.libcusparse
     cudaPackages.libcublas
     cudaPackages.libcurand

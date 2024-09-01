@@ -228,7 +228,9 @@
     kdePackages.baloo
     kdePackages.baloo-widgets
     kdePackages.milou
+
     ollama-cuda
+    nix-index
   ];
 
   programs.direnv = {
@@ -366,20 +368,40 @@
     };
   };
 
-  environment.sessionVariables.TERMINAL = [ "kitty" ];
-  environment.sessionVariables.EDITOR = [ "kate" ];
-  environment.sessionVariables.BROWSER = [ "firefox" ];
-  environment.sessionVariables.XDG_SESSION_TYPE = [ "wayland" ];
-  environment.sessionVariables.MOZ_ENABLE_WAYLAND = [ "1" ];
-  environment.sessionVariables.ELECTRON_OZONE_PLATFORM_HINT = [ "wayland" ];
-  environment.sessionVariables.WLR_NO_HARDWARE_CURSORS = [ "1" ];
-  environment.sessionVariables.QT_QPA_PLATFORM = [ "wayland" ];
-  environment.sessionVariables.QT_QPA_PLATFORMTHEME = [ "qt6ct" ];
+  environment.sessionVariables = {
+    CUDA_PATH = "${pkgs.cudaPackages.cudatoolkit}";
+    CUDA_HOME = "${pkgs.cudaPackages.cudatoolkit}";
+    CUDA_ROOT = "${pkgs.cudaPackages.cudatoolkit}";
+    CUDACXX = "${pkgs.cudaPackages.cudatoolkit}/bin/nvcc";
+    CUDAHOSTCXX = "${pkgs.gcc}/bin/g++";
+    CUDA_TOOLKIT_ROOT_DIR = "${pkgs.cudaPackages.cudatoolkit}";
+
+    # BLAS-related environment variables
+    BLAS_ROOT = "${pkgs.amd-blis}";
+    BLAS_LIBRARIES = "${pkgs.amd-blis}/lib/libblis-mt.so";
+    BLAS_INCLUDE_DIRS = "${pkgs.amd-blis}/include/blis";
+
+    TERMINAL = [ "kitty" ];
+    EDITOR = [ "kate" ];
+    BROWSER = [ "firefox" ];
+    XDG_SESSION_TYPE = [ "wayland" ];
+    MOZ_ENABLE_WAYLAND = [ "1" ];
+    ELECTRON_OZONE_PLATFORM_HINT = [ "wayland" ];
+    WLR_NO_HARDWARE_CURSORS = [ "1" ];
+    QT_QPA_PLATFORM = [ "wayland" ];
+    QT_QPA_PLATFORMTHEME = [ "qt6ct" ];
+  };
+
+  environment.extraInit = ''
+    export PATH="${pkgs.cudaPackages.cudatoolkit}/bin:$PATH"
+    export LD_LIBRARY_PATH="${pkgs.linuxPackages_latest.nvidia_x11}/lib:${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudatoolkit}/lib64:${pkgs.cudaPackages.cudnn}/lib:${pkgs.cudaPackages.tensorrt}/lib:${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LD_LIBRARY_PATH"
+    export LIBRARY_PATH="${pkgs.linuxPackages_latest.nvidia_x11}/lib:${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudatoolkit}/lib64:${pkgs.cudaPackages.cudnn}/lib:${pkgs.cudaPackages.tensorrt}/lib:${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LIBRARY_PATH"
+    export CPATH="${pkgs.cudaPackages.cudatoolkit}/include:${pkgs.cudaPackages.cudnn}/include:${pkgs.cudaPackages.tensorrt}/include:${pkgs.amd-blis}/include:${pkgs.amd-libflame}/include:$CPATH"
+  '';
 
   # Set Environment Variables
   environment.variables = {
     HF_HOME = "/home/jimh/DATA2/.cache/huggingface";
-    PATH = [ "\${HOME}/oxygenDeveloper" ];
     EDITOR = "kate";
     _ZO_ECHO = "1";
     M2_COLORS = "true";
