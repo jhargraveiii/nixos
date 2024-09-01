@@ -205,6 +205,7 @@
     kdePackages.isoimagewriter
     kdePackages.filelight
     kdePackages.kcharselect
+    kdePackages.krdc
     kdePackages.wacomtablet
     kdePackages.kup
     bup
@@ -299,8 +300,8 @@
 
   powerManagement = {
     enable = true;
-    powertop.enable = true;
   };
+  services.thermald.enable = true;
   services.power-profiles-daemon.enable = true;
 
   hardware.pulseaudio.enable = false;
