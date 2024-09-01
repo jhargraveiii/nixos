@@ -205,6 +205,7 @@
     kdePackages.isoimagewriter
     kdePackages.filelight
     kdePackages.kcharselect
+    kdePackages.krdc
     kdePackages.wacomtablet
     kdePackages.kup
     bup
@@ -300,29 +301,8 @@
   powerManagement = {
     enable = true;
   };
-
-  services.tlp = {
-    enable = false;
-    settings = {
-      CPU_SCALING_GOVERNOR_ON_AC = "performance";
-      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-      CPU_BOOST_ON_AC = 1;
-      CPU_BOOST_ON_BAT = 0;
-    };
-  };
-
+  services.thermald.enable = true;
   services.power-profiles-daemon.enable = true;
-  services.auto-cpufreq.enable = true;
-  services.auto-cpufreq.settings = {
-    battery = {
-      governor = "ondemand";
-      turbo = "auto";
-    };
-    charger = {
-      governor = "performance";
-      turbo = "auto";
-    };
-  };
 
   hardware.pulseaudio.enable = false;
   hardware.bluetooth.enable = true; # enables support for Bluetooth

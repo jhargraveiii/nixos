@@ -24,11 +24,21 @@
     "rtsx_pci_sdmmc"
   ];
   boot.initrd.kernelModules = [ ];
+  boot.kernelParams = [
+    "amd_pstate=active"
+    "processor.ignore_ppc=1"
+    "radeon.dpm=1"
+    "pcie_aspm=force"
+  ];
   boot.kernelModules = [
     "kvm-amd"
     "amdgpu"
   ];
   boot.extraModulePackages = [ ];
+  boot.extraModprobeConfig = ''
+    options snd_hda_intel power_save=1
+    options iwlwifi power_save=1 uapsd_disable=1
+  '';
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/892e4229-5260-4957-be9e-df50894ebed2";
