@@ -54,9 +54,10 @@
       "nvidia-uvm"
     ];
     kernelParams = [
-      "elevator=deadline"
-      "usbcore.autosuspend=-1"
-      "atkbd.softrepeat=0"
+      "amd_pstate=active"
+      "processor.ignore_ppc=1"
+      "radeon.dpm=1"
+      "pcie_aspm=force"
     ];
     extraModulePackages = [ ];
     tmp.cleanOnBoot = true;

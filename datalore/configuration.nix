@@ -189,7 +189,6 @@
     pciutils
     lshw
     clinfo
-    driversi686Linux.glxinfo
     vulkan-tools
     wayland-utils
     fwupd
@@ -255,7 +254,7 @@
     powerline-fonts
     nerdfonts
     font-awesome
-    symbola
+    #symbola
     xorg.fontadobe100dpi
     xorg.fontadobeutopia100dpi
     noto-fonts-color-emoji
