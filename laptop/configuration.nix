@@ -312,17 +312,6 @@
   };
 
   services.power-profiles-daemon.enable = true;
-  services.auto-cpufreq.enable = true;
-  services.auto-cpufreq.settings = {
-    battery = {
-      governor = "ondemand";
-      turbo = "auto";
-    };
-    charger = {
-      governor = "performance";
-      turbo = "auto";
-    };
-  };
 
   hardware.pulseaudio.enable = false;
   hardware.bluetooth.enable = true; # enables support for Bluetooth
