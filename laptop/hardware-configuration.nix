@@ -16,6 +16,9 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_6_10;
+  environment.systemPackages = [
+    pkgs.linuxKernel.packages.linux_6_10.virtualboxGuestAdditions
+  ];
   boot.initrd.availableKernelModules = [
     "nvme"
     "xhci_pci"
@@ -29,6 +32,7 @@
     "processor.ignore_ppc=1"
     "radeon.dpm=1"
     "pcie_aspm=force"
+    "ahci.mobile_lpm_policy=3"
   ];
   boot.kernelModules = [
     "kvm-amd"
@@ -74,12 +78,7 @@
 
   swapDevices = [ { device = "/dev/disk/by-uuid/1e8f15a3-88e4-4389-9993-bb3ff7b92bac"; } ];
 
-  # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
-  # (the default) this is the recommended approach. When using systemd-networkd it's
-  # still possible to use this option, but it's recommended to use it in conjunction
-  # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp2s0.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.enableAllFirmware = lib.mkDefault true;
   hardware.enableRedistributableFirmware = lib.mkDefault true;
