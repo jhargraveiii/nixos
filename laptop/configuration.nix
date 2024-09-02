@@ -92,6 +92,12 @@
     };
   };
 
+  virtualisation.virtualbox = {
+    host.enable = true;
+    host.enableExtensionPack = true;
+    guest.enable = true;
+  };
+
   boot.binfmt.registrations.appimage = {
     wrapInterpreterInShell = false;
     interpreter = "${pkgs.appimage-run}/bin/appimage-run";
@@ -207,6 +213,9 @@
     kdePackages.krdc
     kdePackages.wacomtablet
     kdePackages.kup
+    kdePackages.ktorrent
+    kdePackages.dolphin-plugins
+    kdePackages.powerdevil
     bup
     iio-sensor-proxy
     onboard # On-screen keyboard
@@ -236,7 +245,7 @@
     powerline-fonts
     nerdfonts
     font-awesome
-    symbola
+    #symbola
     xorg.fontadobe100dpi
     xorg.fontadobeutopia100dpi
     noto-fonts-color-emoji
@@ -298,11 +307,69 @@
     jack.enable = true;
   };
 
-  powerManagement = {
+  services.power-profiles-daemon.enable = false;
+
+  services.tlp = {
     enable = true;
+    settings = {
+      # CPU power management
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
+      CPU_BOOST_ON_AC = 1;
+      CPU_BOOST_ON_BAT = 0;
+
+      # Platform profile (for AMD Ryzen)
+      PLATFORM_PROFILE_ON_AC = "performance";
+      PLATFORM_PROFILE_ON_BAT = "low-power";
+
+      # GPU power management (if applicable)
+      RADEON_DPM_STATE_ON_AC = "performance";
+      RADEON_DPM_STATE_ON_BAT = "battery";
+      RADEON_DPM_PERF_LEVEL_ON_AC = "auto";
+      RADEON_DPM_PERF_LEVEL_ON_BAT = "low";
+
+      # Disk power management
+      DISK_DEVICES = "mmcblk0p1 nvme0n1p1 nvme0n1p2 nvme0n1p3";
+      DISK_IDLE_SECS_ON_AC = 0;
+      DISK_IDLE_SECS_ON_BAT = 2;
+      DISK_APM_LEVEL_ON_AC = "254 254";
+      DISK_APM_LEVEL_ON_BAT = "128 128";
+      SATA_LINKPWR_ON_AC = "max_performance";
+      SATA_LINKPWR_ON_BAT = "min_power";
+      DISK_IOSCHED="mq-deadline mq-deadline";
+
+      # USB autosuspend
+      USB_AUTOSUSPEND = 1;
+
+      # Wi-Fi power saving
+      WIFI_PWR_ON_AC = "off";
+      WIFI_PWR_ON_BAT = "on";
+
+      # Battery charge thresholds (adjust as needed)
+      START_CHARGE_THRESH_BAT0 = 75;
+      STOP_CHARGE_THRESH_BAT0 = 80;
+
+      # Runtime Power Management
+      RUNTIME_PM_ON_AC = "on";
+      RUNTIME_PM_ON_BAT = "auto";
+
+      # Wake-on-LAN
+      WOL_DISABLE = 1;
+
+      # Audio power saving
+      SOUND_POWER_SAVE_ON_AC = 0;
+      SOUND_POWER_SAVE_ON_BAT = 1;
+      SOUND_POWER_SAVE_CONTROLLER="Y";
+
+      NMI_WATCHDOG = 0;
+      DEVICES_TO_DISABLE_ON_STARTUP = "bluetooth wwan";
+
+      PCIE_ASPM_ON_AC = "default";
+      PCIE_ASPM_ON_BAT = "default";
+    };
   };
-  services.thermald.enable = true;
-  services.power-profiles-daemon.enable = true;
 
   hardware.pulseaudio.enable = false;
   hardware.bluetooth.enable = true; # enables support for Bluetooth
