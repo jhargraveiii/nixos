@@ -209,6 +209,8 @@
     kdePackages.kup
     kdePackages.ktorrent
     bup
+    ntfs3g
+    udftools
     iio-sensor-proxy
     onboard # On-screen keyboard
     nix-index
@@ -237,7 +239,7 @@
     powerline-fonts
     nerdfonts
     font-awesome
-    symbola
+    #symbola
     xorg.fontadobe100dpi
     xorg.fontadobeutopia100dpi
     noto-fonts-color-emoji
