@@ -4,7 +4,7 @@
   # Nvidia is used only for compute!!
   nixpkgs.config = {
     cudaSupport = true;
-    cudaVersion = "12.3";
+    cudaVersion = "12.4";
     cudaCapabilities = [ "8.9" ];
     nvidia.acceptLicense = true;
   };
@@ -17,6 +17,7 @@
     cudaPackages.cutensor
     cudaPackages.tensorrt
     cudaPackages.cuda_cudart
+    cudaPackages.cuda_cupti
     cudaPackages.libcusparse
     cudaPackages.libcublas
     cudaPackages.libcurand
