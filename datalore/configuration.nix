@@ -17,16 +17,45 @@
   ...
 }:
 let
-  # Import the cudaEnv from nvidia.nix
-  nvidiaConfig = import ./nvidia.nix { inherit config pkgs lib; };
-  cudaEnv = nvidiaConfig.cudaEnv;
+  cudaEnv = rec {
+    # CUDA Paths
+    CUDA_PATH = "${pkgs.cudaPackages.cudatoolkit}";
+    CUDA_HOME = CUDA_PATH;
+    CUDA_ROOT = CUDA_PATH;
+    CUDA_BIN_PATH = "${CUDA_PATH}/bin";
+    CUDACXX = "${CUDA_PATH}/bin/nvcc";
+    CUDAHOSTCXX = "${pkgs.gcc}/bin/g++";
+    CUDA_TOOLKIT_ROOT_DIR = CUDA_PATH;
+
+    # LD_LIBRARY_PATH and other CUDA-related paths
+    CUDA_LD_LIBRARY_PATH = lib.makeLibraryPath [
+      "${CUDA_PATH}/lib64"
+      "${pkgs.cudaPackages.cudnn}/lib"
+      "${pkgs.cudaPackages.cutensor}/lib"
+      "${pkgs.cudaPackages.tensorrt}/lib"
+      "${pkgs.cudaPackages.nccl}/lib"
+      "${pkgs.cudaPackages.libcublas}/lib"
+      "${pkgs.cudaPackages.libcufft}/lib"
+      "${pkgs.cudaPackages.libcurand}/lib"
+      "${pkgs.cudaPackages.libcusolver}/lib"
+      "${pkgs.cudaPackages.libcusparse}/lib"
+      "${pkgs.cudaPackages.libcufile}/lib"
+      "${pkgs.cudaPackages.libnpp}/lib"
+      "${pkgs.cudaPackages.libnvjpeg}/lib"
+      "${pkgs.cudaPackages.libnvjitlink}/lib"
+    ];
+
+    # Flags for compiling and linking CUDA code
+    EXTRA_CUDA_LDFLAGS = "-L${CUDA_PATH}/lib64";
+    EXTRA_CUDA_CCFLAGS = "-I${CUDA_PATH}/include";
+  };
 in
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./amd.nix
-    #./nvidia.nix
+    ./nvidia.nix
     ./displaymanager.nix
     ../modules/services/update-systemd-resolved.nix
     ../modules/services/flatpak.nix
@@ -421,18 +450,6 @@ in
     SCRIPTDIR = "\${HOME}/.local/share/scriptdeps";
   };
 
-  # Updated shell initialization
-  environment.shellInit = ''
-    export CUDA_PATH=${cudaEnv.CUDA_PATH}
-    export CUDA_HOME=${cudaEnv.CUDA_HOME}
-    export CUDA_ROOT=${cudaEnv.CUDA_ROOT}
-    export CUDACXX=${cudaEnv.CUDACXX}
-    export CUDAHOSTCXX=${cudaEnv.CUDAHOSTCXX}
-    export CUDA_TOOLKIT_ROOT_DIR=${cudaEnv.CUDA_TOOLKIT_ROOT_DIR}
-    export LD_LIBRARY_PATH=${config.environment.sessionVariables.LD_LIBRARY_PATH}
-    export PATH=${cudaEnv.CUDA_PATH}/bin:$PATH
-  '';
-
   # Updated CUDA environment script
   environment.etc."cuda-env.sh" = {
     text = ''
@@ -446,7 +463,7 @@ in
       export LD_LIBRARY_PATH=${config.environment.sessionVariables.LD_LIBRARY_PATH}
       export PATH=${cudaEnv.CUDA_PATH}/bin:$PATH
       export NVIDIA_VISIBLE_DEVICES=all
-      export NVIDIA_DRIVER_CAPABILITIES=all
+      export NVIDIA_DRIVER_CAPABILITIES=8.9
     '';
     mode = "0755";
   };

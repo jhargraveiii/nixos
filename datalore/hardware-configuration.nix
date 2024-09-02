@@ -16,20 +16,17 @@
     enable = true;
   };
 
-  systemd.services.keyboard = {
-    serviceConfig = {
-      Nice = -10;
-      CPUSchedulingPolicy = "rr";
-      CPUSchedulingPriority = 99;
-    };
-  };
-
   boot = {
     extraModprobeConfig = ''
       blacklist nouveau
       options nouveau modeset=0
     '';
-    blacklistedKernelModules = [ "nouveau" ];
+    blacklistedKernelModules = [
+      "nouveau"
+      "nvidia_drm"
+      "nvidia_modeset"
+      "nvidia"
+    ];
     loader = {
       efi.canTouchEfiVariables = true;
       systemd-boot.enable = true;
@@ -51,7 +48,6 @@
     kernelModules = [
       "kvm-amd"
       "amdgpu"
-      "nvidia-uvm"
     ];
     kernelParams = [
       "amd_pstate=active"
@@ -59,7 +55,9 @@
       "radeon.dpm=1"
       "pcie_aspm=force"
     ];
-    extraModulePackages = [ ];
+    extraModulePackages = [
+      pkgs.cudaPackages.nvidia_driver
+    ];
     tmp.cleanOnBoot = true;
   };
 
