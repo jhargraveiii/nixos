@@ -208,6 +208,7 @@
     kdePackages.krdc
     kdePackages.wacomtablet
     kdePackages.kup
+    kdePackages.ktorrent
     bup
     iio-sensor-proxy
     onboard # On-screen keyboard
@@ -298,10 +299,6 @@
     jack.enable = true;
   };
 
-  powerManagement = {
-    enable = true;
-  };
-  services.thermald.enable = true;
   services.power-profiles-daemon.enable = true;
 
   hardware.pulseaudio.enable = false;
