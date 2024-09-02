@@ -338,7 +338,7 @@
       DISK_APM_LEVEL_ON_BAT = "128 128";
       SATA_LINKPWR_ON_AC = "max_performance";
       SATA_LINKPWR_ON_BAT = "min_power";
-      DISK_IOSCHED="mq-deadline mq-deadline";
+      DISK_IOSCHED = "mq-deadline mq-deadline";
 
       # USB autosuspend
       USB_AUTOSUSPEND = 1;
@@ -361,7 +361,7 @@
       # Audio power saving
       SOUND_POWER_SAVE_ON_AC = 0;
       SOUND_POWER_SAVE_ON_BAT = 1;
-      SOUND_POWER_SAVE_CONTROLLER="Y";
+      SOUND_POWER_SAVE_CONTROLLER = "Y";
 
       NMI_WATCHDOG = 0;
       DEVICES_TO_DISABLE_ON_STARTUP = "bluetooth wwan";

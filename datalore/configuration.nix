@@ -12,14 +12,21 @@
   theKBDLayout,
   inputs,
   system,
+  lib,
+  config,
   ...
 }:
+let
+  # Import the cudaEnv from nvidia.nix
+  nvidiaConfig = import ./nvidia.nix { inherit config pkgs lib; };
+  cudaEnv = nvidiaConfig.cudaEnv;
+in
 {
   imports = [
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./amd.nix
-    ./nvidia.nix
+    #./nvidia.nix
     ./displaymanager.nix
     ../modules/services/update-systemd-resolved.nix
     ../modules/services/flatpak.nix
@@ -368,41 +375,43 @@
     };
   };
 
+  # Updated environment variables
   environment.sessionVariables = {
-    CUDA_PATH = "${pkgs.cudaPackages.cudatoolkit}";
-    CUDA_HOME = "${pkgs.cudaPackages.cudatoolkit}";
-    CUDA_ROOT = "${pkgs.cudaPackages.cudatoolkit}";
-    CUDACXX = "${pkgs.cudaPackages.cudatoolkit}/bin/nvcc";
-    CUDAHOSTCXX = "${pkgs.gcc}/bin/g++";
-    CUDA_TOOLKIT_ROOT_DIR = "${pkgs.cudaPackages.cudatoolkit}";
+    LD_LIBRARY_PATH = lib.mkDefault "${cudaEnv.CUDA_LD_LIBRARY_PATH}}:\${LD_LIBRARY_PATH}";
+    EXTRA_LDFLAGS = "-L/lib -L${cudaEnv.EXTRA_CUDA_LDFLAGS}/lib64";
+    EXTRA_CCFLAGS = "-I/usr/include -I${cudaEnv.EXTRA_CUDA_CCFLAGS}/include";
+    EXTRA_CXXFLAGS = "-I/usr/include -I${cudaEnv.EXTRA_CUDA_CCFLAGS}/include";
+    EXTRA_CPPFLAGS = "-I/usr/include -I${cudaEnv.EXTRA_CUDA_CCFLAGS}/include";
+    EXTRA_CFLAGS = "-I/usr/include -I${cudaEnv.EXTRA_CUDA_CCFLAGS}/include";
+    EXTRA_FFLAGS = "-I/usr/include -I${cudaEnv.EXTRA_CUDA_CCFLAGS}/include";
+
+    # CUDA Paths
+    CUDA_PATH = cudaEnv.CUDA_PATH;
+    CUDA_HOME = cudaEnv.CUDA_PATH;
+    CUDA_ROOT = cudaEnv.CUDA_PATH;
+    CUDA_BIN_PATH = "${cudaEnv.CUDA_PATH}/bin";
+    CUDACXX = "${cudaEnv.CUDA_PATH}/bin/nvcc";
+    CUDAHOSTCXX = cudaEnv.CUDAHOSTCXX;
+    CUDA_TOOLKIT_ROOT_DIR = cudaEnv.CUDA_PATH;
+    NVIDIA_VISIBLE_DEVICES = "all";
+    NVIDIA_DRIVER_CAPABILITIES = "8.9";
 
     # BLAS-related environment variables
     BLAS_ROOT = "${pkgs.amd-blis}";
     BLAS_LIBRARIES = "${pkgs.amd-blis}/lib/libblis-mt.so";
     BLAS_INCLUDE_DIRS = "${pkgs.amd-blis}/include/blis";
 
-    TERMINAL = [ "kitty" ];
-    EDITOR = [ "kate" ];
-    BROWSER = [ "firefox" ];
-    XDG_SESSION_TYPE = [ "wayland" ];
-    MOZ_ENABLE_WAYLAND = [ "1" ];
-    ELECTRON_OZONE_PLATFORM_HINT = [ "wayland" ];
-    WLR_NO_HARDWARE_CURSORS = [ "1" ];
-    QT_QPA_PLATFORM = [ "wayland" ];
-    QT_QPA_PLATFORMTHEME = [ "qt6ct" ];
-  };
-
-  environment.extraInit = ''
-    export PATH="${pkgs.cudaPackages.cudatoolkit}/bin:$PATH"
-    export LD_LIBRARY_PATH="${pkgs.linuxPackages_latest.nvidia_x11}/lib:${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudatoolkit}/lib64:${pkgs.cudaPackages.cudnn}/lib:${pkgs.cudaPackages.tensorrt}/lib:${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LD_LIBRARY_PATH"
-    export LIBRARY_PATH="${pkgs.linuxPackages_latest.nvidia_x11}/lib:${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudatoolkit}/lib64:${pkgs.cudaPackages.cudnn}/lib:${pkgs.cudaPackages.tensorrt}/lib:${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LIBRARY_PATH"
-    export CPATH="${pkgs.cudaPackages.cudatoolkit}/include:${pkgs.cudaPackages.cudnn}/include:${pkgs.cudaPackages.tensorrt}/include:${pkgs.amd-blis}/include:${pkgs.amd-libflame}/include:$CPATH"
-  '';
-
-  # Set Environment Variables
-  environment.variables = {
-    HF_HOME = "/home/jimh/DATA2/.cache/huggingface";
+    TERMINAL = "kitty";
     EDITOR = "kate";
+    BROWSER = "firefox";
+    XDG_SESSION_TYPE = "wayland";
+    MOZ_ENABLE_WAYLAND = "1";
+    ELECTRON_OZONE_PLATFORM_HINT = "wayland";
+    WLR_NO_HARDWARE_CURSORS = "1";
+    QT_QPA_PLATFORM = "wayland";
+    QT_QPA_PLATFORMTHEME = "qt6ct";
+
+    HF_HOME = "/home/jimh/DATA2/.cache/huggingface";
     _ZO_ECHO = "1";
     M2_COLORS = "true";
     _JAVA_AWT_WM_NONREPARENTING = "1";
@@ -410,11 +419,45 @@
     NIXOS_OZONE_WL = "1";
     NIXPKGS_ALLOW_UNFREE = "1";
     SCRIPTDIR = "\${HOME}/.local/share/scriptdeps";
-    XDG_SESSION_TYPE = "wayland";
-    MOZ_ENABLE_WAYLAND = "1";
-    ELECTRON_OZONE_PLATFORM_HINT = "wayland";
-    WLR_NO_HARDWARE_CURSORS = "1";
-    QT_QPA_PLATFORM = "wayland";
-    QT_QPA_PLATFORMTHEME = "qt6ct";
   };
+
+  # Updated shell initialization
+  environment.shellInit = ''
+    export CUDA_PATH=${cudaEnv.CUDA_PATH}
+    export CUDA_HOME=${cudaEnv.CUDA_HOME}
+    export CUDA_ROOT=${cudaEnv.CUDA_ROOT}
+    export CUDACXX=${cudaEnv.CUDACXX}
+    export CUDAHOSTCXX=${cudaEnv.CUDAHOSTCXX}
+    export CUDA_TOOLKIT_ROOT_DIR=${cudaEnv.CUDA_TOOLKIT_ROOT_DIR}
+    export LD_LIBRARY_PATH=${config.environment.sessionVariables.LD_LIBRARY_PATH}
+    export PATH=${cudaEnv.CUDA_PATH}/bin:$PATH
+  '';
+
+  # Updated CUDA environment script
+  environment.etc."cuda-env.sh" = {
+    text = ''
+      #!/bin/sh
+      export CUDA_PATH=${cudaEnv.CUDA_PATH}
+      export CUDA_HOME=${cudaEnv.CUDA_HOME}
+      export CUDA_ROOT=${cudaEnv.CUDA_ROOT}
+      export CUDACXX=${cudaEnv.CUDACXX}
+      export CUDAHOSTCXX=${cudaEnv.CUDAHOSTCXX}
+      export CUDA_TOOLKIT_ROOT_DIR=${cudaEnv.CUDA_TOOLKIT_ROOT_DIR}
+      export LD_LIBRARY_PATH=${config.environment.sessionVariables.LD_LIBRARY_PATH}
+      export PATH=${cudaEnv.CUDA_PATH}/bin:$PATH
+      export NVIDIA_VISIBLE_DEVICES=all
+      export NVIDIA_DRIVER_CAPABILITIES=all
+    '';
+    mode = "0755";
+  };
+
+  # Optional: Add CUDA to system PATH
+  environment.extraInit = ''
+    export PATH=$PATH:${cudaEnv.CUDA_PATH}/bin
+  '';
+
+  # Set Environment Variables
+  environment.variables =
+    {
+    };
 }
