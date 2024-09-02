@@ -331,7 +331,7 @@
       RADEON_DPM_PERF_LEVEL_ON_BAT = "low";
 
       # Disk power management
-      DISK_DEVICES = "nvme0n1 sda";
+      DISK_DEVICES = "mmcblk0p1 nvme0n1p1 nvme0n1p2 nvme0n1p3";
       DISK_IDLE_SECS_ON_AC = 0;
       DISK_IDLE_SECS_ON_BAT = 2;
       DISK_APM_LEVEL_ON_AC = "254 254";
