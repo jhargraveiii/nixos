@@ -16,40 +16,6 @@
   config,
   ...
 }:
-let
-  cudaEnv = rec {
-    # CUDA Paths
-    CUDA_PATH = "${pkgs.cudaPackages.cudatoolkit}";
-    CUDA_HOME = CUDA_PATH;
-    CUDA_ROOT = CUDA_PATH;
-    CUDA_BIN_PATH = "${CUDA_PATH}/bin";
-    CUDACXX = "${CUDA_PATH}/bin/nvcc";
-    CUDAHOSTCXX = "${pkgs.gcc}/bin/g++";
-    CUDA_TOOLKIT_ROOT_DIR = CUDA_PATH;
-
-    # LD_LIBRARY_PATH and other CUDA-related paths
-    CUDA_LD_LIBRARY_PATH = lib.makeLibraryPath [
-      "${CUDA_PATH}/lib64"
-      "${pkgs.cudaPackages.cudnn}/lib"
-      "${pkgs.cudaPackages.cutensor}/lib"
-      "${pkgs.cudaPackages.tensorrt}/lib"
-      "${pkgs.cudaPackages.nccl}/lib"
-      "${pkgs.cudaPackages.libcublas}/lib"
-      "${pkgs.cudaPackages.libcufft}/lib"
-      "${pkgs.cudaPackages.libcurand}/lib"
-      "${pkgs.cudaPackages.libcusolver}/lib"
-      "${pkgs.cudaPackages.libcusparse}/lib"
-      "${pkgs.cudaPackages.libcufile}/lib"
-      "${pkgs.cudaPackages.libnpp}/lib"
-      "${pkgs.cudaPackages.libnvjpeg}/lib"
-      "${pkgs.cudaPackages.libnvjitlink}/lib"
-    ];
-
-    # Flags for compiling and linking CUDA code
-    EXTRA_CUDA_LDFLAGS = "-L${CUDA_PATH}/lib64";
-    EXTRA_CUDA_CCFLAGS = "-I${CUDA_PATH}/include";
-  };
-in
 {
   imports = [
     # Include the results of the hardware scan.
@@ -126,7 +92,9 @@ in
   };
 
   nixpkgs = {
-    overlays = [ outputs.overlays.cuda-override ];
+    overlays = [
+      outputs.overlays.cuda-override
+    ];
 
     # Configure your nixpkgs instance
     config = {
@@ -264,7 +232,7 @@ in
     kdePackages.baloo
     kdePackages.baloo-widgets
     kdePackages.milou
-
+    nvtopPackages.full
     ollama-cuda
     nix-index
   ];
@@ -406,30 +374,7 @@ in
 
   # Updated environment variables
   environment.sessionVariables = {
-    LD_LIBRARY_PATH = lib.mkDefault "${cudaEnv.CUDA_LD_LIBRARY_PATH}}:\${LD_LIBRARY_PATH}";
-    EXTRA_LDFLAGS = "-L/lib -L${cudaEnv.EXTRA_CUDA_LDFLAGS}/lib64";
-    EXTRA_CCFLAGS = "-I/usr/include -I${cudaEnv.EXTRA_CUDA_CCFLAGS}/include";
-    EXTRA_CXXFLAGS = "-I/usr/include -I${cudaEnv.EXTRA_CUDA_CCFLAGS}/include";
-    EXTRA_CPPFLAGS = "-I/usr/include -I${cudaEnv.EXTRA_CUDA_CCFLAGS}/include";
-    EXTRA_CFLAGS = "-I/usr/include -I${cudaEnv.EXTRA_CUDA_CCFLAGS}/include";
-    EXTRA_FFLAGS = "-I/usr/include -I${cudaEnv.EXTRA_CUDA_CCFLAGS}/include";
-
-    # CUDA Paths
-    CUDA_PATH = cudaEnv.CUDA_PATH;
-    CUDA_HOME = cudaEnv.CUDA_PATH;
-    CUDA_ROOT = cudaEnv.CUDA_PATH;
-    CUDA_BIN_PATH = "${cudaEnv.CUDA_PATH}/bin";
-    CUDACXX = "${cudaEnv.CUDA_PATH}/bin/nvcc";
-    CUDAHOSTCXX = cudaEnv.CUDAHOSTCXX;
-    CUDA_TOOLKIT_ROOT_DIR = cudaEnv.CUDA_PATH;
-    NVIDIA_VISIBLE_DEVICES = "all";
-    NVIDIA_DRIVER_CAPABILITIES = "8.9";
-
-    # BLAS-related environment variables
-    BLAS_ROOT = "${pkgs.amd-blis}";
-    BLAS_LIBRARIES = "${pkgs.amd-blis}/lib/libblis-mt.so";
-    BLAS_INCLUDE_DIRS = "${pkgs.amd-blis}/include/blis";
-
+    # Other environment variables
     TERMINAL = "kitty";
     EDITOR = "kate";
     BROWSER = "firefox";
@@ -440,41 +385,13 @@ in
     QT_QPA_PLATFORM = "wayland";
     QT_QPA_PLATFORMTHEME = "qt6ct";
 
-    HF_HOME = "/home/jimh/DATA2/.cache/huggingface";
+    HF_HOME = "/home/${username}/DATA2/.cache/huggingface";
     _ZO_ECHO = "1";
     M2_COLORS = "true";
     _JAVA_AWT_WM_NONREPARENTING = "1";
-    JAVA_HOME = "\${HOME}/.jdks/openjdk11/lib/openjdk";
+    JAVA_HOME = "/home/${username}/.jdks/openjdk11/lib/openjdk";
     NIXOS_OZONE_WL = "1";
     NIXPKGS_ALLOW_UNFREE = "1";
-    SCRIPTDIR = "\${HOME}/.local/share/scriptdeps";
+    SCRIPTDIR = "/home/${username}/.local/share/scriptdeps";
   };
-
-  # Updated CUDA environment script
-  environment.etc."cuda-env.sh" = {
-    text = ''
-      #!/bin/sh
-      export CUDA_PATH=${cudaEnv.CUDA_PATH}
-      export CUDA_HOME=${cudaEnv.CUDA_HOME}
-      export CUDA_ROOT=${cudaEnv.CUDA_ROOT}
-      export CUDACXX=${cudaEnv.CUDACXX}
-      export CUDAHOSTCXX=${cudaEnv.CUDAHOSTCXX}
-      export CUDA_TOOLKIT_ROOT_DIR=${cudaEnv.CUDA_TOOLKIT_ROOT_DIR}
-      export LD_LIBRARY_PATH=${config.environment.sessionVariables.LD_LIBRARY_PATH}
-      export PATH=${cudaEnv.CUDA_PATH}/bin:$PATH
-      export NVIDIA_VISIBLE_DEVICES=all
-      export NVIDIA_DRIVER_CAPABILITIES=8.9
-    '';
-    mode = "0755";
-  };
-
-  # Optional: Add CUDA to system PATH
-  environment.extraInit = ''
-    export PATH=$PATH:${cudaEnv.CUDA_PATH}/bin
-  '';
-
-  # Set Environment Variables
-  environment.variables =
-    {
-    };
 }

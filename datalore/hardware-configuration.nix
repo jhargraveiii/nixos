@@ -23,9 +23,6 @@
     '';
     blacklistedKernelModules = [
       "nouveau"
-      "nvidia_drm"
-      "nvidia_modeset"
-      "nvidia"
     ];
     loader = {
       efi.canTouchEfiVariables = true;
@@ -55,9 +52,9 @@
       "radeon.dpm=1"
       "pcie_aspm=force"
     ];
-    extraModulePackages = [
-      pkgs.cudaPackages.nvidia_driver
-    ];
+    extraModulePackages =
+      [
+      ];
     tmp.cleanOnBoot = true;
   };
 

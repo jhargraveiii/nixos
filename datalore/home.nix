@@ -146,6 +146,28 @@
       if [ -f $HOME/.oxygen-xml-developer-profile ]; then
          source $HOME/.oxygen-xml-developer-profile
       fi
+
+      # Set CUDA-related environment variables
+      export CUDA_PATH="${pkgs.cudaPackages.cudatoolkit}"
+      export CUDA_HOME="${pkgs.cudaPackages.cudatoolkit}"
+      export CUDA_ROOT="${pkgs.cudaPackages.cudatoolkit}"
+      export CUDACXX="${pkgs.cudaPackages.cudatoolkit}/bin/nvcc"
+      export CUDAHOSTCXX="${pkgs.gcc}/bin/g++"
+      export CUDA_TOOLKIT_ROOT_DIR="${pkgs.cudaPackages.cudatoolkit}"
+
+      # Set paths
+      export PATH="${pkgs.cudaPackages.cudatoolkit}/bin:$PATH"
+      export LD_LIBRARY_PATH="${pkgs.linuxPackages_latest.nvidia_x11}/lib:${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudnn_8_9}/lib:${pkgs.cudaPackages.tensorrt}/lib:${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LD_LIBRARY_PATH"
+      export LIBRARY_PATH="${pkgs.linuxPackages_latest.nvidia_x11}/lib:${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudnn_8_9}/lib:${pkgs.cudaPackages.tensorrt}/lib:${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LIBRARY_PATH"
+      export CPATH="${pkgs.cudaPackages.cudatoolkit}/include:${pkgs.cudaPackages.cudnn_8_9}/include:${pkgs.cudaPackages.tensorrt}/include:${pkgs.amd-blis}/include:${pkgs.amd-libflame}/include:$CPATH"
+
+      # Set BLAS-related environment variables
+      export BLAS_ROOT="${pkgs.amd-blis}"
+      export BLAS_LIBRARIES="${pkgs.amd-blis}/lib/libblis-mt.so"
+      export BLAS_INCLUDE_DIRS="${pkgs.amd-blis}/include/blis"
+      export LAPACK_ROOT="${pkgs.amd-libflame}"
+      export LAPACK_LIBRARIES="${pkgs.amd-libflame}/lib/libflame.so"
+      export LAPACK_INCLUDE_DIRS="${pkgs.amd-libflame}/include/flame"
     '';
     bashrcExtra = ''
       # Configure nnn
