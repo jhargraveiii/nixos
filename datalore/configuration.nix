@@ -12,6 +12,8 @@
   theKBDLayout,
   inputs,
   system,
+  lib,
+  config,
   ...
 }:
 {
@@ -90,7 +92,9 @@
   };
 
   nixpkgs = {
-    overlays = [ outputs.overlays.cuda-override ];
+    overlays = [
+      outputs.overlays.cuda-override
+    ];
 
     # Configure your nixpkgs instance
     config = {
@@ -228,7 +232,7 @@
     kdePackages.baloo
     kdePackages.baloo-widgets
     kdePackages.milou
-
+    nvtopPackages.full
     ollama-cuda
     nix-index
   ];
@@ -368,53 +372,26 @@
     };
   };
 
+  # Updated environment variables
   environment.sessionVariables = {
-    CUDA_PATH = "${pkgs.cudaPackages.cudatoolkit}";
-    CUDA_HOME = "${pkgs.cudaPackages.cudatoolkit}";
-    CUDA_ROOT = "${pkgs.cudaPackages.cudatoolkit}";
-    CUDACXX = "${pkgs.cudaPackages.cudatoolkit}/bin/nvcc";
-    CUDAHOSTCXX = "${pkgs.gcc}/bin/g++";
-    CUDA_TOOLKIT_ROOT_DIR = "${pkgs.cudaPackages.cudatoolkit}";
-
-    # BLAS-related environment variables
-    BLAS_ROOT = "${pkgs.amd-blis}";
-    BLAS_LIBRARIES = "${pkgs.amd-blis}/lib/libblis-mt.so";
-    BLAS_INCLUDE_DIRS = "${pkgs.amd-blis}/include/blis";
-
-    TERMINAL = [ "kitty" ];
-    EDITOR = [ "kate" ];
-    BROWSER = [ "firefox" ];
-    XDG_SESSION_TYPE = [ "wayland" ];
-    MOZ_ENABLE_WAYLAND = [ "1" ];
-    ELECTRON_OZONE_PLATFORM_HINT = [ "wayland" ];
-    WLR_NO_HARDWARE_CURSORS = [ "1" ];
-    QT_QPA_PLATFORM = [ "wayland" ];
-    QT_QPA_PLATFORMTHEME = [ "qt6ct" ];
-  };
-
-  environment.extraInit = ''
-    export PATH="${pkgs.cudaPackages.cudatoolkit}/bin:$PATH"
-    export LD_LIBRARY_PATH="${pkgs.linuxPackages_latest.nvidia_x11}/lib:${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudatoolkit}/lib64:${pkgs.cudaPackages.cudnn}/lib:${pkgs.cudaPackages.tensorrt}/lib:${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LD_LIBRARY_PATH"
-    export LIBRARY_PATH="${pkgs.linuxPackages_latest.nvidia_x11}/lib:${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudatoolkit}/lib64:${pkgs.cudaPackages.cudnn}/lib:${pkgs.cudaPackages.tensorrt}/lib:${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LIBRARY_PATH"
-    export CPATH="${pkgs.cudaPackages.cudatoolkit}/include:${pkgs.cudaPackages.cudnn}/include:${pkgs.cudaPackages.tensorrt}/include:${pkgs.amd-blis}/include:${pkgs.amd-libflame}/include:$CPATH"
-  '';
-
-  # Set Environment Variables
-  environment.variables = {
-    HF_HOME = "/home/jimh/DATA2/.cache/huggingface";
+    # Other environment variables
+    TERMINAL = "kitty";
     EDITOR = "kate";
-    _ZO_ECHO = "1";
-    M2_COLORS = "true";
-    _JAVA_AWT_WM_NONREPARENTING = "1";
-    JAVA_HOME = "\${HOME}/.jdks/openjdk11/lib/openjdk";
-    NIXOS_OZONE_WL = "1";
-    NIXPKGS_ALLOW_UNFREE = "1";
-    SCRIPTDIR = "\${HOME}/.local/share/scriptdeps";
+    BROWSER = "firefox";
     XDG_SESSION_TYPE = "wayland";
     MOZ_ENABLE_WAYLAND = "1";
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
     WLR_NO_HARDWARE_CURSORS = "1";
     QT_QPA_PLATFORM = "wayland";
     QT_QPA_PLATFORMTHEME = "qt6ct";
+
+    HF_HOME = "/home/${username}/DATA2/.cache/huggingface";
+    _ZO_ECHO = "1";
+    M2_COLORS = "true";
+    _JAVA_AWT_WM_NONREPARENTING = "1";
+    JAVA_HOME = "/home/${username}/.jdks/openjdk11/lib/openjdk";
+    NIXOS_OZONE_WL = "1";
+    NIXPKGS_ALLOW_UNFREE = "1";
+    SCRIPTDIR = "/home/${username}/.local/share/scriptdeps";
   };
 }

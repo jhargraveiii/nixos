@@ -1,7 +1,12 @@
-{ config, pkgs, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 {
 
-  # Nvidia is used only for compute!!
+  # Nvidia card is used only for compute, not display!!
   nixpkgs.config = {
     cudaSupport = true;
     cudaVersion = "12.4";
@@ -9,26 +14,49 @@
     nvidia.acceptLicense = true;
   };
 
-  # Load nvidia driver for Xorg and Wayland
-  services.xserver.videoDrivers = [ "nvidia" ];
   environment.systemPackages = with pkgs; [
-    nvtopPackages.nvidia
-    cudaPackages.cudatoolkit
-    cudaPackages.cutensor
-    cudaPackages.tensorrt
+    # CUDA Toolkit and related packages
     cudaPackages.cuda_cudart
     cudaPackages.cuda_cupti
-    cudaPackages.libcusparse
-    cudaPackages.libcublas
-    cudaPackages.libcurand
-    cudaPackages.libcufft
-    cudaPackages.cudnn_8_9
-    cudaPackages.libcusolver
     cudaPackages.cuda_cccl
     cudaPackages.cuda_nvcc
+    cudaPackages.cuda_nvtx
+    cudaPackages.cuda_sanitizer_api
+    cudaPackages.cuda_profiler_api
+    cudaPackages.cudatoolkit
+    cudaPackages.cuda_gdb
+    cudaPackages.cuda_nsight
+
+    # CUDA libraries
+    cudaPackages.libcublas
+    cudaPackages.libcufft
+    cudaPackages.libcurand
+    cudaPackages.libcusolver
+    cudaPackages.libcusparse
+    cudaPackages.libcufile
+    cudaPackages.libnpp
+    cudaPackages.libnvjpeg
+    cudaPackages.libnvjitlink
+    cudaPackages.cutensor
+    cudaPackages.cudnn
     cudaPackages.nccl
+    cudaPackages.tensorrt
   ];
 
+  #hardware.nvidia-container-toolkit.enable = true;
+
+  systemd.services.nvidia-persistenced = {
+    description = "NVIDIA Persistence Daemon";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "forking";
+      Restart = "always";
+      ExecStart = "${config.hardware.nvidia.package}/bin/nvidia-persistenced --verbose";
+    };
+  };
+
+  # Enable the NVIDIA driver - but not sure why it is needed for compute only??
+  services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
     modesetting.enable = false;
     forceFullCompositionPipeline = false;
@@ -36,6 +64,6 @@
     powerManagement.finegrained = false;
     open = false;
     nvidiaSettings = false;
-    package = config.boot.kernelPackages.nvidiaPackages.latest;
+    package = config.boot.kernelPackages.nvidia_x11_production;
   };
 }
