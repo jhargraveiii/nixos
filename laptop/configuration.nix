@@ -215,7 +215,7 @@
     kdePackages.kup
     kdePackages.ktorrent
     kdePackages.dolphin-plugins
-    kdePackages.powerdevil
+    kdePackages.k3b
     bup
     iio-sensor-proxy
     onboard # On-screen keyboard
