@@ -201,7 +201,7 @@
   home.sessionVariables = {
     EDITOR = "kate";
     BROWSER = "firefox";
-    TERMINAL = "kitty";
+    TERMINAL = "konsole";
   };
   programs.home-manager.enable = true;
 }

@@ -165,6 +165,7 @@
       if [ -f $HOME/.bashrc-personal ]; then
         source $HOME/.bashrc-personal
       fi
+      echo 'eval "$(pixi completion --shell bash)"' >> ~/.bashrc
     '';
 
     shellAliases = {
@@ -185,7 +186,7 @@
   home.sessionVariables = {
     EDITOR = "kate";
     BROWSER = "firefox";
-    TERMINAL = "kitty";
+    TERMINAL = "konsole";
   };
   programs.home-manager.enable = true;
 }

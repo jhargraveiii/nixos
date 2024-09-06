@@ -429,7 +429,7 @@
     };
   };
 
-  environment.sessionVariables.TERMINAL = [ "kitty" ];
+  environment.sessionVariables.TERMINAL = [ "konsole" ];
   environment.sessionVariables.EDITOR = [ "kate" ];
   environment.sessionVariables.BROWSER = [ "firefox" ];
   environment.sessionVariables.XDG_SESSION_TYPE = [ "wayland" ];
