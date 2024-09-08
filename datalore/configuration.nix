@@ -237,6 +237,7 @@
     kdePackages.milou
     nvtopPackages.full
     ollama-cuda
+    llama-cpp
     nix-index
   ];
 

@@ -16,27 +16,10 @@
     enable = true;
   };
 
-  systemd.services.bluetooth = {
-    serviceConfig = {
-      Nice = -10;
-      IOSchedulingClass = "realtime";
-      IOSchedulingPriority = 0;
-    };
-  };
-
-  systemd.services.keyboard = {
-    serviceConfig = {
-      Nice = -10;
-      IOSchedulingClass = "realtime";
-      IOSchedulingPriority = 0;
-    };
-  };
-
   boot = {
     extraModprobeConfig = ''
       blacklist nouveau
       options nouveau modeset=0
-      options usbcore autosuspend=-1
     '';
     blacklistedKernelModules = [
       "nouveau"
@@ -66,8 +49,6 @@
     kernelParams = [
       "amd_pstate=active"
       "amdgpu.ppfeaturemask=0xffffffff"
-      "usbhid.mousepoll=1"
-      "usbhid.kbpoll=1"
     ];
     extraModulePackages =
       [
