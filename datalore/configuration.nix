@@ -154,6 +154,7 @@
     taplo
     jq
     jsonfmt
+    yamlfmt
     deno
     go
     gh
@@ -183,6 +184,8 @@
     cmake
     clang
     gcc
+    ccache
+    mpi
     nano
     wget
     curl

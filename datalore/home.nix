@@ -6,8 +6,12 @@
   gitEmail,
   flakeDir,
   outputs,
+  config,
   ...
 }:
+let 
+  nvidia_driver = pkgs.linuxPackages_6_10.nvidia_x11_production;
+in 
 {
   # Home Manager Settings
   home.username = "${username}";
@@ -157,9 +161,9 @@
 
       # Set paths
       export PATH="${pkgs.cudaPackages.cudatoolkit}/bin:$PATH"
-      export LD_LIBRARY_PATH="${pkgs.linuxPackages_6_10.nvidia_x11_production}/lib:${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudnn_8_9}/lib:${pkgs.cudaPackages.tensorrt}/lib:${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LD_LIBRARY_PATH"
-      export LIBRARY_PATH="${pkgs.linuxPackages_6_10.nvidia_x11_production}/lib:${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudnn_8_9}/lib:${pkgs.cudaPackages.tensorrt}/lib:${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LIBRARY_PATH"
-      export CPATH="${pkgs.cudaPackages.cudatoolkit}/include:${pkgs.cudaPackages.cudnn_8_9}/include:${pkgs.cudaPackages.tensorrt}/include:${pkgs.amd-blis}/include:${pkgs.amd-libflame}/include:$CPATH"
+      export LD_LIBRARY_PATH="${nvidia_driver}/lib:${pkgs.cudaPackages.nccl}/lib:${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudnn_8_9}/lib:${pkgs.cudaPackages.tensorrt}/lib:${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LD_LIBRARY_PATH"
+      export LIBRARY_PATH="${nvidia_driver}/lib:${pkgs.cudaPackages.nccl}/lib:${pkgs.cudaPackages.cudatoolkit}/lib:${pkgs.cudaPackages.cudnn_8_9}/lib:${pkgs.cudaPackages.tensorrt}/lib:${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LIBRARY_PATH"
+      export CPATH="${pkgs.cudaPackages.nccl}/include:${pkgs.cudaPackages.cudatoolkit}/include:${pkgs.cudaPackages.cudnn_8_9}/include:${pkgs.cudaPackages.tensorrt}/include:${pkgs.amd-blis}/include:${pkgs.amd-libflame}/include:$CPATH"
 
       # Set BLAS-related environment variables
       export BLAS_ROOT="${pkgs.amd-blis}"
