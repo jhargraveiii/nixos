@@ -239,6 +239,7 @@
     ollama-cuda
     llama-cpp
     nix-index
+    cargo
   ];
 
   programs.direnv = {
