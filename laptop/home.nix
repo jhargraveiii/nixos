@@ -80,7 +80,6 @@
     libreoffice
     hunspell
     hunspellDicts.en_US
-    klavaro
     meld
     okteta
     vlc
@@ -165,7 +164,6 @@
       if [ -f $HOME/.bashrc-personal ]; then
         source $HOME/.bashrc-personal
       fi
-      echo 'eval "$(pixi completion --shell bash)"' >> ~/.bashrc
     '';
 
     shellAliases = {
@@ -186,7 +184,7 @@
   home.sessionVariables = {
     EDITOR = "kate";
     BROWSER = "firefox";
-    TERMINAL = "konsole";
+    TERMINAL = "kitty";
   };
   programs.home-manager.enable = true;
 }

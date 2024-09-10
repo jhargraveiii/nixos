@@ -57,6 +57,7 @@
   # User account
   users.users.${username} = {
     isNormalUser = true;
+    home = "/home/${username}";
     description = "${gitUsername}";
     extraGroups = [
       "networkmanager"
@@ -240,7 +241,6 @@
     powerline-fonts
     nerdfonts
     font-awesome
-    #symbola
     xorg.fontadobe100dpi
     xorg.fontadobeutopia100dpi
     noto-fonts-color-emoji
@@ -294,12 +294,14 @@
 
   services.openssh.enable = true;
   services.fstrim.enable = true;
+  sound.enable = true;
   services.pipewire = {
     enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
+    wireplumber.enable = true;
   };
 
   services.power-profiles-daemon.enable = false;
