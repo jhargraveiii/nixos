@@ -92,12 +92,6 @@
     };
   };
 
-  virtualisation.virtualbox = {
-    host.enable = true;
-    host.enableExtensionPack = true;
-    guest.enable = true;
-  };
-
   boot.binfmt.registrations.appimage = {
     wrapInterpreterInShell = false;
     interpreter = "${pkgs.appimage-run}/bin/appimage-run";
@@ -216,6 +210,7 @@
     kdePackages.ktorrent
     kdePackages.dolphin-plugins
     kdePackages.k3b
+    gnome-firmware
     bup
     iio-sensor-proxy
     onboard # On-screen keyboard
@@ -348,8 +343,8 @@
       WIFI_PWR_ON_BAT = "on";
 
       # Battery charge thresholds (adjust as needed)
-      START_CHARGE_THRESH_BAT0 = 75;
-      STOP_CHARGE_THRESH_BAT0 = 80;
+      START_CHARGE_THRESH_BAT0 = 60;
+      STOP_CHARGE_THRESH_BAT0 = 90;
 
       # Runtime Power Management
       RUNTIME_PM_ON_AC = "on";
