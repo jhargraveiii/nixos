@@ -9,9 +9,9 @@
   config,
   ...
 }:
-let 
+let
   nvidia_driver = pkgs.linuxPackages_6_10.nvidia_x11_production;
-in 
+in
 {
   # Home Manager Settings
   home.username = "${username}";

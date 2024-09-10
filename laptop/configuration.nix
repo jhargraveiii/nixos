@@ -306,29 +306,31 @@
     pulse.enable = true;
     jack.enable = true;
   };
-
+  
+  networking.networkmanager.wifi.powersave = true;
   services.power-profiles-daemon.enable = false;
 
   services.tlp = {
     enable = true;
     settings = {
-      # CPU power management
+      # CPU settings
       CPU_SCALING_GOVERNOR_ON_AC = "performance";
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-      CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
-      CPU_ENERGY_PERF_POLICY_ON_BAT = "balance_power";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      CPU_MIN_PERF_ON_AC = 0;
+      CPU_MAX_PERF_ON_AC = 100;
+      CPU_MIN_PERF_ON_BAT = 0;
+      CPU_MAX_PERF_ON_BAT = 50;
       CPU_BOOST_ON_AC = 1;
       CPU_BOOST_ON_BAT = 0;
 
-      # Platform profile (for AMD Ryzen)
-      PLATFORM_PROFILE_ON_AC = "performance";
-      PLATFORM_PROFILE_ON_BAT = "low-power";
+      # Scheduler settings
+      SCHED_POWERSAVE_ON_AC = 0;
+      SCHED_POWERSAVE_ON_BAT = 1;
 
-      # GPU power management (if applicable)
-      RADEON_DPM_STATE_ON_AC = "performance";
-      RADEON_DPM_STATE_ON_BAT = "battery";
-      RADEON_DPM_PERF_LEVEL_ON_AC = "auto";
-      RADEON_DPM_PERF_LEVEL_ON_BAT = "low";
+      # Kernel settings
+      NMI_WATCHDOG = 0;
 
       # Disk power management
       DISK_DEVICES = "mmcblk0p1 nvme0n1p1 nvme0n1p2 nvme0n1p3";
@@ -340,34 +342,40 @@
       SATA_LINKPWR_ON_BAT = "min_power";
       DISK_IOSCHED = "mq-deadline mq-deadline";
 
-      # USB autosuspend
-      USB_AUTOSUSPEND = 1;
+      # PCI Express settings
+      PCIE_ASPM_ON_AC = "performance";
+      PCIE_ASPM_ON_BAT = "powersave";
 
       # Wi-Fi power saving
       WIFI_PWR_ON_AC = "off";
       WIFI_PWR_ON_BAT = "on";
 
-      # Battery charge thresholds (adjust as needed)
-      START_CHARGE_THRESH_BAT0 = 75;
-      STOP_CHARGE_THRESH_BAT0 = 80;
-
-      # Runtime Power Management
-      RUNTIME_PM_ON_AC = "on";
-      RUNTIME_PM_ON_BAT = "auto";
-
       # Wake-on-LAN
-      WOL_DISABLE = 1;
+      WOL_DISABLE = "Y";
 
       # Audio power saving
       SOUND_POWER_SAVE_ON_AC = 0;
       SOUND_POWER_SAVE_ON_BAT = 1;
       SOUND_POWER_SAVE_CONTROLLER = "Y";
 
-      NMI_WATCHDOG = 0;
-      DEVICES_TO_DISABLE_ON_STARTUP = "bluetooth wwan";
+      # Runtime Power Management
+      RUNTIME_PM_ON_AC = "on";
+      RUNTIME_PM_ON_BAT = "auto";
 
-      PCIE_ASPM_ON_AC = "default";
-      PCIE_ASPM_ON_BAT = "default";
+      # USB settings
+      USB_AUTOSUSPEND = 1;
+      USB_DENYLIST = "1-1"; # Adjust this if you have issues with specific USB devices
+      USB_EXCLUDE_AUDIO = 1;
+      USB_EXCLUDE_BTUSB = 1;
+      USB_EXCLUDE_PHONE = 1;
+      USB_EXCLUDE_PRINTER = 1;
+
+      # Restore device state
+      RESTORE_DEVICE_STATE_ON_STARTUP = 0;
+
+      # AMD-specific settings (if available)
+      PLATFORM_PROFILE_ON_AC = "performance";
+      PLATFORM_PROFILE_ON_BAT = "low-power";
     };
   };
 
