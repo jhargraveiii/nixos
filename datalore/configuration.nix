@@ -154,6 +154,7 @@
     taplo
     jq
     jsonfmt
+    yamlfmt
     deno
     go
     gh
@@ -183,6 +184,8 @@
     cmake
     clang
     gcc
+    ccache
+    mpi
     nano
     wget
     curl
@@ -234,7 +237,9 @@
     kdePackages.milou
     nvtopPackages.full
     ollama-cuda
+    llama-cpp
     nix-index
+    cargo
   ];
 
   programs.direnv = {
@@ -322,6 +327,15 @@
     jack.enable = true;
   };
 
+  security.pam.loginLimits = [
+    {
+      domain = "*";
+      item = "rtprio";
+      type = "-";
+      value = 99;
+    }
+  ];
+
   hardware.pulseaudio.enable = false;
   hardware.bluetooth.enable = true; # enables support for Bluetooth
   hardware.bluetooth.powerOnBoot = true; # powers up the default Bluetooth controller on boot
@@ -375,7 +389,7 @@
   # Updated environment variables
   environment.sessionVariables = {
     # Other environment variables
-    TERMINAL = "kitty";
+    TERMINAL = "konsole";
     EDITOR = "kate";
     BROWSER = "firefox";
     XDG_SESSION_TYPE = "wayland";

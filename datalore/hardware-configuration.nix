@@ -48,9 +48,7 @@
     ];
     kernelParams = [
       "amd_pstate=active"
-      "processor.ignore_ppc=1"
-      "radeon.dpm=1"
-      "pcie_aspm=force"
+      "amdgpu.ppfeaturemask=0xffffffff"
     ];
     extraModulePackages =
       [

@@ -48,10 +48,27 @@
   systemd.services.nvidia-persistenced = {
     description = "NVIDIA Persistence Daemon";
     wantedBy = [ "multi-user.target" ];
+    after = [
+      "syslog.target"
+      "systemd-modules-load.service"
+    ];
+    requires = [
+      "syslog.target"
+      "systemd-modules-load.service"
+    ];
     serviceConfig = {
       Type = "forking";
       Restart = "always";
+      RestartSec = "1s";
       ExecStart = "${config.hardware.nvidia.package}/bin/nvidia-persistenced --verbose";
+      ExecStopPost = "${pkgs.coreutils}/bin/rm -rf /var/run/nvidia-persistenced";
+      User = "root";
+      Group = "root";
+      TimeoutStartSec = "10s";
+      TimeoutStopSec = "10s";
+      RuntimeDirectory = "nvidia-persistenced";
+      RuntimeDirectoryMode = "0755";
+      PIDFile = "/var/run/nvidia-persistenced/nvidia-persistenced.pid";
     };
   };
 
@@ -63,7 +80,7 @@
     powerManagement.enable = false;
     powerManagement.finegrained = false;
     open = false;
-    nvidiaSettings = false;
+    nvidiaSettings = true;
     package = config.boot.kernelPackages.nvidia_x11_production;
   };
 }
