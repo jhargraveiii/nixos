@@ -17,7 +17,7 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_6_10;
   environment.systemPackages = [
-    pkgs.linuxKernel.packages.linux_6_10.virtualboxGuestAdditions
+
   ];
   boot.initrd.availableKernelModules = [
     "nvme"
@@ -81,4 +81,5 @@
   hardware.enableAllFirmware = lib.mkDefault true;
   hardware.enableRedistributableFirmware = lib.mkDefault true;
   hardware.cpu.amd.updateMicrocode = lib.mkDefault true;
+  hardware.pulseaudio.enable = false;
 }

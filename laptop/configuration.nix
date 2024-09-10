@@ -57,6 +57,7 @@
   # User account
   users.users.${username} = {
     isNormalUser = true;
+    home = "/home/${username}";
     description = "${gitUsername}";
     extraGroups = [
       "networkmanager"
@@ -216,6 +217,7 @@
     kdePackages.ktorrent
     kdePackages.dolphin-plugins
     kdePackages.k3b
+    gnome-firmware
     bup
     iio-sensor-proxy
     onboard # On-screen keyboard
@@ -305,8 +307,9 @@
     alsa.support32Bit = true;
     pulse.enable = true;
     jack.enable = true;
+    wireplumber.enable = true;
   };
-  
+
   networking.networkmanager.wifi.powersave = true;
   services.power-profiles-daemon.enable = false;
 
@@ -349,6 +352,10 @@
       # Wi-Fi power saving
       WIFI_PWR_ON_AC = "off";
       WIFI_PWR_ON_BAT = "on";
+
+      # Battery charge thresholds (adjust as needed)
+      START_CHARGE_THRESH_BAT0 = 60;
+      STOP_CHARGE_THRESH_BAT0 = 90;
 
       # Wake-on-LAN
       WOL_DISABLE = "Y";
