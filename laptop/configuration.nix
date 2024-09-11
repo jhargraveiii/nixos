@@ -133,6 +133,7 @@
     stylelint
     nixpkgs-lint
     nixpkgs-fmt
+    yaml-language-server
     protobuf
     statix
     taplo
