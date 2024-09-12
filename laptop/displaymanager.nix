@@ -8,12 +8,6 @@
   services.desktopManager.plasma6.enable = true;
   services.libinput = {
     enable = true;
-    touchpad = {
-      naturalScrolling = false;
-      accelProfile = "adaptive";
-      middleEmulation = true;
-      disableWhileTyping = true;
-    };
   };
   services.iptsd = {
     enable = true;

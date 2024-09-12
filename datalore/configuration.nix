@@ -408,8 +408,8 @@
     NIXOS_OZONE_WL = "1";
     NIXPKGS_ALLOW_UNFREE = "1";
     SCRIPTDIR = "/home/${username}/.local/share/scriptdeps";
-    CMAKE_ARGS="-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=on";
-    FORCE_CMAKE=1;
+    CMAKE_ARGS = "-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=on";
+    FORCE_CMAKE = 1;
     PATH = "${pkgs.cudaPackages.cudatoolkit}/bin:$PATH";
   };
 }
