@@ -1,3 +1,2 @@
 flakes/*/result
 flakes/*/*.log
-flake.lock
