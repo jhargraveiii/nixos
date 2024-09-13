@@ -3,9 +3,6 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
-    nixos-hardware = {
-      url = "github:NixOS/nixos-hardware/master";
-    };
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,7 +17,6 @@
     {
       self,
       nixpkgs,
-      nixos-hardware,
       home-manager,
       ...
     }@inputs:
@@ -92,7 +88,6 @@
             inherit gitEmail;
             inherit theLocale;
             inherit theTimezone;
-            inherit nixos-hardware;
           };
           modules = [
             ./laptop/configuration.nix
