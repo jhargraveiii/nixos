@@ -236,6 +236,9 @@
     kdePackages.baloo
     kdePackages.baloo-widgets
     kdePackages.milou
+    kdePackages.kcoreaddons
+    kdePackages.plasma-workspace
+    gnome-firmware
     nvtopPackages.full
     ollama-cuda
     llama-cpp

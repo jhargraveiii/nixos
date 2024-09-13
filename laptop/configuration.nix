@@ -218,6 +218,8 @@
     kdePackages.ktorrent
     kdePackages.dolphin-plugins
     kdePackages.k3b
+    kdePackages.kcoreaddons
+    kdePackages.plasma-workspace
     gnome-firmware
     bup
     iio-sensor-proxy
