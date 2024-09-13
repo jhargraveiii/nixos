@@ -127,6 +127,7 @@
     stylelint
     nixpkgs-lint
     nixpkgs-fmt
+    yaml-language-server
     protobuf
     statix
     taplo
@@ -211,6 +212,8 @@
     kdePackages.ktorrent
     kdePackages.dolphin-plugins
     kdePackages.k3b
+    kdePackages.kcoreaddons
+    kdePackages.plasma-workspace
     gnome-firmware
     bup
     iio-sensor-proxy

@@ -158,6 +158,11 @@ in
       export CUDACXX="${pkgs.cudaPackages.cudatoolkit}/bin/nvcc"
       export CUDAHOSTCXX="${pkgs.gcc}/bin/g++"
       export CUDA_TOOLKIT_ROOT_DIR="${pkgs.cudaPackages.cudatoolkit}"
+      export CUDNN_ROOT="${pkgs.cudaPackages.cudnn_8_9}"
+
+      # for llama.cpp mostly
+      export CMAKE_ARGS="-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=on"
+      export FORCE_CMAKE=1
 
       # Set paths
       export PATH="${pkgs.cudaPackages.cudatoolkit}/bin:$PATH"
