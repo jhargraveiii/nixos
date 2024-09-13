@@ -17,7 +17,7 @@
 }:
 {
   imports = [
-    nixos-hardware.nixosModules.lenovo-ideapad-slim-5   # Include the results of the hardware scan.
+    nixos-hardware.nixosModules.lenovo-ideapad-slim-5 # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./amd.nix
     ./displaymanager.nix
@@ -222,6 +222,7 @@
     iio-sensor-proxy
     onboard # On-screen keyboard
     nix-index
+    unetbootin
   ];
 
   programs.direnv = {
@@ -468,6 +469,7 @@
     NIXPKGS_ALLOW_UNFREE = "1";
     SCRIPTDIR = "\${HOME}/.local/share/scriptdeps";
     XDG_SESSION_TYPE = "wayland";
+    XDG_RUNTIME_DIR = "/run/user/$(id -u)";
     MOZ_ENABLE_WAYLAND = "1";
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
     WLR_NO_HARDWARE_CURSORS = "1";

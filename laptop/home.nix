@@ -142,7 +142,7 @@
       if [ -f $HOME/.oxygen-xml-developer-profile ]; then
          source $HOME/.oxygen-xml-developer-profile
       fi
-
+      export XDG_RUNTIME_DIR="/run/user/$(id -u)"
       export LD_LIBRARY_PATH="${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LD_LIBRARY_PATH"
       export LIBRARY_PATH="${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LIBRARY_PATH"
       export CPATH="${pkgs.amd-blis}/include:${pkgs.amd-libflame}/include:$CPATH"
