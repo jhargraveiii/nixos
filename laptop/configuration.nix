@@ -4,6 +4,7 @@
 
 {
   pkgs,
+  nixos-hardware,
   username,
   gitUsername,
   theLocale,
@@ -16,7 +17,7 @@
 }:
 {
   imports = [
-    # Include the results of the hardware scan.
+    nixos-hardware.nixosModules.lenovo-ideapad-slim-5   # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ./amd.nix
     ./displaymanager.nix

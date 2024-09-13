@@ -17,7 +17,8 @@
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_6_10;
   environment.systemPackages = [
-
+    config.boot.kernelPackages.lenovo-legion-module
+    pkgs.lenovo-legion
   ];
   boot.initrd.availableKernelModules = [
     "nvme"
@@ -36,7 +37,7 @@
     "kvm-amd"
     "amdgpu"
   ];
-  boot.extraModulePackages = [ ];
+  boot.extraModulePackages = [ pkgs.linuxKernel.packages.linux_6_10.lenovo-legion-module ];
   boot.extraModprobeConfig = ''
     options snd_hda_intel power_save=1
     options mt7921e power_save=1
