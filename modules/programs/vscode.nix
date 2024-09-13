@@ -11,7 +11,7 @@
         yzhang.markdown-all-in-one
         jnoortheen.nix-ide
         ms-python.vscode-pylance
-        ms-python.python
+        #ms-python.python
         ms-toolsai.jupyter
         github.copilot
         github.copilot-chat

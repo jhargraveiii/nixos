@@ -20,7 +20,7 @@
     ./hardware-configuration.nix
     ./amd.nix
     ./displaymanager.nix
-    ../modules/services/update-systemd-resolved.nix
+    ../modules/services/networking.nix
     ../modules/services/flatpak.nix
     ../modules/programs/distrobox.nix
   ];
@@ -29,7 +29,6 @@
 
   networking.hostName = "datalore_laptop"; # Define your hostname.
 
-  networking.timeServers = [ "pool.ntp.org" ];
   services.timesyncd.enable = true;
   services.fwupd.enable = true;
 
@@ -91,12 +90,6 @@
       lapackSupport = true;
       lapackProvider = pkgs.amd-libflame;
     };
-  };
-
-  virtualisation.virtualbox = {
-    host.enable = true;
-    host.enableExtensionPack = true;
-    guest.enable = true;
   };
 
   boot.binfmt.registrations.appimage = {
@@ -314,7 +307,12 @@
   };
 
   networking.networkmanager.wifi.powersave = true;
+
+  # Disable power-profiles-daemon to avoid conflicts with TLP
   services.power-profiles-daemon.enable = false;
+
+  # Enable powertop auto-tune
+  powerManagement.powertop.enable = true;
 
   services.tlp = {
     enable = true;
@@ -322,12 +320,12 @@
       # CPU settings
       CPU_SCALING_GOVERNOR_ON_AC = "performance";
       CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
-      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "balance_performance";
       CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
       CPU_MIN_PERF_ON_AC = 0;
       CPU_MAX_PERF_ON_AC = 100;
       CPU_MIN_PERF_ON_BAT = 0;
-      CPU_MAX_PERF_ON_BAT = 50;
+      CPU_MAX_PERF_ON_BAT = 30; # Reduced from 50 for more power saving
       CPU_BOOST_ON_AC = 1;
       CPU_BOOST_ON_BAT = 0;
 
@@ -339,6 +337,8 @@
       NMI_WATCHDOG = 0;
 
       # Disk power management
+      DISK_IOSCHED = "bfq";
+      DISK_SPINDOWN_TIMEOUT_ON_BAT = "1 1";
       DISK_DEVICES = "mmcblk0p1 nvme0n1p1 nvme0n1p2 nvme0n1p3";
       DISK_IDLE_SECS_ON_AC = 0;
       DISK_IDLE_SECS_ON_BAT = 2;
@@ -346,19 +346,18 @@
       DISK_APM_LEVEL_ON_BAT = "128 128";
       SATA_LINKPWR_ON_AC = "max_performance";
       SATA_LINKPWR_ON_BAT = "min_power";
-      DISK_IOSCHED = "mq-deadline mq-deadline";
 
       # PCI Express settings
       PCIE_ASPM_ON_AC = "performance";
-      PCIE_ASPM_ON_BAT = "powersave";
+      PCIE_ASPM_ON_BAT = "powersupersave";
 
       # Wi-Fi power saving
       WIFI_PWR_ON_AC = "off";
       WIFI_PWR_ON_BAT = "on";
 
-      # Battery charge thresholds (adjust as needed)
+      # Battery charge thresholds
       START_CHARGE_THRESH_BAT0 = 60;
-      STOP_CHARGE_THRESH_BAT0 = 90;
+      STOP_CHARGE_THRESH_BAT0 = 80; # 80% to prolong battery life
 
       # Wake-on-LAN
       WOL_DISABLE = "Y";
@@ -374,18 +373,22 @@
 
       # USB settings
       USB_AUTOSUSPEND = 1;
-      USB_DENYLIST = "1-1"; # Adjust this if you have issues with specific USB devices
-      USB_EXCLUDE_AUDIO = 1;
-      USB_EXCLUDE_BTUSB = 1;
-      USB_EXCLUDE_PHONE = 1;
-      USB_EXCLUDE_PRINTER = 1;
+      USB_DENYLIST = "1-1";
 
       # Restore device state
       RESTORE_DEVICE_STATE_ON_STARTUP = 0;
 
-      # AMD-specific settings (if available)
+      # AMD-specific settings
       PLATFORM_PROFILE_ON_AC = "performance";
       PLATFORM_PROFILE_ON_BAT = "low-power";
+
+      RADEON_DPM_STATE_ON_BAT = "battery";
+      RADEON_POWER_PROFILE_ON_BAT = "low";
+      RADEON_DPM_STATE_ON_AC = "performance";
+
+      # Additional AMD settings
+      RADEON_DPM_PERF_LEVEL_ON_BAT = "auto";
+      RADEON_DPM_PERF_LEVEL_ON_AC = "auto";
     };
   };
 
@@ -403,15 +406,6 @@
   system.stateVersion = "24.05"; # Did you read the comment?
 
   services.dbus.enable = true;
-
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [
-    631
-  ];
-  networking.firewall.allowedUDPPorts = [
-    631
-  ];
-  networking.firewall.enable = true;
 
   # Optimization settings and garbage collection automation
   programs.ccache.enable = true;

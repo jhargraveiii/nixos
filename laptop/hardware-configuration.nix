@@ -39,7 +39,7 @@
   boot.extraModulePackages = [ ];
   boot.extraModprobeConfig = ''
     options snd_hda_intel power_save=1
-    # options rtw88_8822ce power_save=1 replace with wifi hardware
+    options mt7921e power_save=1
   '';
 
   fileSystems."/" = {
