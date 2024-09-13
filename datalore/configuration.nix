@@ -388,7 +388,7 @@
     WLR_NO_HARDWARE_CURSORS = "1";
     QT_QPA_PLATFORM = "wayland";
     QT_QPA_PLATFORMTHEME = "qt6ct";
-
+    QML_DISABLE_DISK_CACHE=1;
     HF_HOME = "/home/${username}/DATA2/.cache/huggingface";
     _ZO_ECHO = "1";
     M2_COLORS = "true";
