@@ -20,7 +20,7 @@
     ./hardware-configuration.nix
     ./amd.nix
     ./displaymanager.nix
-    ../modules/services/update-systemd-resolved.nix
+    ../modules/services/networking.nix
     ../modules/services/flatpak.nix
     ../modules/programs/distrobox.nix
   ];
@@ -29,7 +29,6 @@
 
   networking.hostName = "datalore_laptop"; # Define your hostname.
 
-  networking.timeServers = [ "pool.ntp.org" ];
   services.timesyncd.enable = true;
   services.fwupd.enable = true;
 
@@ -366,7 +365,7 @@
       # Audio power saving
       SOUND_POWER_SAVE_ON_AC = 0;
       SOUND_POWER_SAVE_ON_BAT = 1;
-      #SOUND_POWER_SAVE_CONTROLLER = "Y";
+      SOUND_POWER_SAVE_CONTROLLER = "Y";
 
       # Runtime Power Management
       RUNTIME_PM_ON_AC = "on";
@@ -374,7 +373,7 @@
 
       # USB settings
       USB_AUTOSUSPEND = 1;
-      USB_DENYLIST = "1-1"; 
+      USB_DENYLIST = "1-1";
 
       # Restore device state
       RESTORE_DEVICE_STATE_ON_STARTUP = 0;
@@ -407,15 +406,6 @@
   system.stateVersion = "24.05"; # Did you read the comment?
 
   services.dbus.enable = true;
-
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [
-    631
-  ];
-  networking.firewall.allowedUDPPorts = [
-    631
-  ];
-  networking.firewall.enable = true;
 
   # Optimization settings and garbage collection automation
   programs.ccache.enable = true;

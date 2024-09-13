@@ -23,29 +23,15 @@
     ./amd.nix
     ./nvidia.nix
     ./displaymanager.nix
-    ../modules/services/update-systemd-resolved.nix
+    ../modules/services/networking.nix
     ../modules/services/flatpak.nix
     ../modules/programs/distrobox.nix
   ];
-
-  # Open ports in the firewall.
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [
-      631
-      53
-    ];
-    allowedUDPPorts = [
-      5353
-      111
-    ];
-  };
 
   systemd.enableEmergencyMode = false;
 
   networking.hostName = "datalore";
 
-  networking.timeServers = [ "pool.ntp.org" ];
   services.timesyncd.enable = true;
   services.fwupd.enable = true;
 
