@@ -93,12 +93,6 @@
     };
   };
 
-  virtualisation.virtualbox = {
-    host.enable = true;
-    host.enableExtensionPack = true;
-    guest.enable = true;
-  };
-
   boot.binfmt.registrations.appimage = {
     wrapInterpreterInShell = false;
     interpreter = "${pkgs.appimage-run}/bin/appimage-run";
@@ -371,11 +365,6 @@
 
       # USB settings
       USB_AUTOSUSPEND = 1;
-      USB_DENYLIST = "1-1"; # Adjust this if you have issues with specific USB devices
-      USB_EXCLUDE_AUDIO = 1;
-      USB_EXCLUDE_BTUSB = 1;
-      USB_EXCLUDE_PHONE = 1;
-      USB_EXCLUDE_PRINTER = 1;
 
       # Restore device state
       RESTORE_DEVICE_STATE_ON_STARTUP = 0;
