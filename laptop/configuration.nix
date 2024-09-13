@@ -212,6 +212,9 @@
     kdePackages.dolphin-plugins
     kdePackages.k3b
     kdePackages.kcoreaddons
+    kdePackages.kirigami
+    kdePackages.kirigami-addons
+    kdePackages.kirigami-gallery
     kdePackages.plasma-workspace
     gnome-firmware
     bup
