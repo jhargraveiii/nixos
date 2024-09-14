@@ -57,6 +57,9 @@
     options mt7921e power_save=1
   '';
 
+  boot.tmp.cleanOnBoot = true;
+
+
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/892e4229-5260-4957-be9e-df50894ebed2";
     fsType = "ext4";
@@ -99,5 +102,4 @@
   hardware.enableAllFirmware = lib.mkDefault true;
   hardware.enableRedistributableFirmware = lib.mkDefault true;
   hardware.cpu.amd.updateMicrocode = lib.mkDefault true;
-  hardware.pulseaudio.enable = false;
 }

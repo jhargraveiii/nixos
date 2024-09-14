@@ -1,0 +1,145 @@
+{
+  pkgs,
+  inputs,
+  username,
+  gitUsername,
+  gitEmail,
+  flakeDir,
+  outputs,
+  config,
+  ...
+}:
+{
+  nixpkgs = {
+    # Configure your nixpkgs instance
+    config = {
+      # Nvidia is used only for compute!!
+      allowBroken = true;
+      blasSupport = true;
+      blasProvider = pkgs.amd-blis;
+      lapackSupport = true;
+      lapackProvider = pkgs.amd-libflame;
+      # Disable if you don't want unfree packages
+      allowUnfree = true;
+      # Workaround for https://github.com/nix-community/home-manager/issues/2942
+      allowUnfreePredicate = _: true;
+    };
+  };
+
+  # Home Manager Settings
+  home.username = "${username}";
+  home.homeDirectory = "/home/${username}";
+
+  imports = [
+    ../config/files.nix
+    ../modules/programs/kitty.nix
+    ../modules/programs/oxygen.nix
+    ../modules/programs/neovim.nix
+    ../modules/programs/vscode.nix
+  ];
+
+  home.packages = with pkgs; [
+    slack
+    (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
+    (jetbrains.plugins.addPlugins jetbrains.pycharm-professional [ "github-copilot" ])
+    firefox
+    _1password
+    google-chrome
+    thunderbird
+    libreoffice
+    hunspell
+    hunspellDicts.en_US
+    klavaro
+    meld
+    okteta
+    vlc
+    sddm
+    insync
+    git-cola
+    cheese
+  ];
+
+  home.file.".jdks/openjdk11".source = pkgs.openjdk11;
+  home.file.".jdks/openjdk17".source = pkgs.openjdk17;
+  home.file.".jdks/openjdk21".source = pkgs.openjdk21;
+
+  # Create XDG Dirs
+  xdg = {
+    userDirs = {
+      enable = true;
+      createDirectories = true;
+    };
+  };
+
+  # Theme GTK
+  dconf = {
+    enable = true;
+    settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
+  };
+
+  # global home programs
+  programs.fzf = {
+    enable = true;
+    enableBashIntegration = true;
+    # Enable fzf key bindings
+  };
+
+  # Install & Configure Git
+  programs.git = {
+    enable = true;
+    lfs.enable = true;
+    userName = "${gitUsername}";
+    userEmail = "${gitEmail}";
+    package = pkgs.gitFull;
+  };
+
+  # Starship Prompt
+  programs.starship = {
+    enable = true;
+    package = pkgs.starship;
+  };
+
+  programs.nnn = {
+    enable = true;
+    package = pkgs.nnn.override { withNerdIcons = true; };
+    extraPackages = with pkgs; [
+      ffmpegthumbnailer
+      mediainfo
+      sxiv
+      kdeplasma-addons
+      okular
+    ];
+    bookmarks = {
+      H = "/home/${username}";
+    };
+    plugins = {
+      mappings = {
+        c = "fzcd";
+        f = "finder";
+        v = "imgview";
+        o = "xdg-open";
+        t = "trash";
+        d = "diffs";
+        x = "!chmod +x $nnn";
+        q = "preview";
+      };
+    };
+  };
+
+  programs.atuin = {
+    enable = true;
+    enableBashIntegration = true;
+    flags = [ "--disable-up-arrow" ];
+    settings = { };
+  };
+
+  # Nicely reload system units when changing configs
+  systemd.user.startServices = "sd-switch";
+
+  home.sessionVariables = {
+    EDITOR = "kate";
+    BROWSER = "firefox";
+    TERMINAL = "konsole";
+  };
+  programs.home-manager.enable = true;
+}

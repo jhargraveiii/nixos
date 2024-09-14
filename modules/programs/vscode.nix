@@ -2,7 +2,7 @@
 {
   programs.vscode = {
     enable = true;
-    package = pkgs.vscode;
+    package = pkgs.vscode.fhs;
     enableUpdateCheck = true;
     enableExtensionUpdateCheck = true;
     extensions =
@@ -11,7 +11,7 @@
         yzhang.markdown-all-in-one
         jnoortheen.nix-ide
         ms-python.vscode-pylance
-        #ms-python.python
+        # sha256 error ms-python.python
         ms-toolsai.jupyter
         github.copilot
         github.copilot-chat
