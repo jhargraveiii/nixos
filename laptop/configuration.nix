@@ -317,6 +317,7 @@
 
   # Enable powertop auto-tune
   powerManagement.powertop.enable = true;
+  powerManagement.enable = true;
 
   services.tlp = {
     enable = true;
