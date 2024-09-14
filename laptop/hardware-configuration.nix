@@ -59,7 +59,6 @@
 
   boot.tmp.cleanOnBoot = true;
 
-
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/892e4229-5260-4957-be9e-df50894ebed2";
     fsType = "ext4";

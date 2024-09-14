@@ -26,7 +26,7 @@
     ../modules/programs/distrobox.nix
   ];
 
-  networking.hostName = "datalore_laptop"; #
+  networking.hostName = "datalore_laptop";
 
   environment.systemPackages = with pkgs; [
     kdePackages.wacomtablet

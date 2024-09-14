@@ -4,6 +4,10 @@
   hardware.graphics = {
     enable = true;
   };
+  environment.sessionVariables = {
+    QML2_IMPORT_PATH = "/run/current-system/sw/lib/qt-6/qml";
+    QML_DISABLE_DISK_CACHE = 1;
+  };
   services.desktopManager.plasma6.enable = true;
   services.libinput = {
     enable = true;

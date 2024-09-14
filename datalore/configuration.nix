@@ -13,17 +13,10 @@
   ...
 }:
 {
-   nixpkgs = {
+  nixpkgs = {
     overlays = [
       outputs.overlays.cuda-override
     ];
-
-    # Configure your nixpkgs instance
-    config = {
-      cudaSupport = true;
-      cudaVersion = "12.4";
-      cudaCapabilities = [ "8.9" ];
-    };
   };
 
   imports = [

@@ -13,18 +13,10 @@ let
   nvidia_driver = pkgs.linuxPackages_6_10.nvidia_x11_production;
 in
 {
-   nixpkgs = {
+  nixpkgs = {
     overlays = [ outputs.overlays.cuda-override ];
-    # Configure your nixpkgs instance
-    config = {
-      # Nvidia is used only for compute!!
-      cudaSupport = true;
-      cudaVersion = "12.4";
-      cudaCapabilities = [ "8.9" ];
-      nvidia.acceptLicense = true;
-    };
   };
-  
+
   home.stateVersion = "23.11";
   imports = [
     ../global/home.nix

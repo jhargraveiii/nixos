@@ -13,7 +13,7 @@
   ...
 }:
 {
-   nixpkgs = {
+  nixpkgs = {
     config = {
       allowUnfree = true;
       allowBroken = true;
@@ -25,7 +25,7 @@
       lapackProvider = pkgs.amd-libflame;
     };
   };
-  
+
   imports = [
     ../modules/services/networking.nix
     ../modules/services/flatpak.nix
