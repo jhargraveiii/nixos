@@ -14,6 +14,10 @@
     nvidia.acceptLicense = true;
   };
 
+  environment.variables = {
+    CUDA_CACHE_PATH = "/tmp/cuda-cache";
+  };
+
   environment.systemPackages = with pkgs; [
     # CUDA Toolkit and related packages
     cudaPackages.cuda_cudart
@@ -43,44 +47,15 @@
     cudaPackages.tensorrt
   ];
 
-  #hardware.nvidia-container-toolkit.enable = true;
-
-  systemd.services.nvidia-persistenced = {
-    description = "NVIDIA Persistence Daemon";
-    wantedBy = [ "multi-user.target" ];
-    after = [
-      "syslog.target"
-      "systemd-modules-load.service"
-    ];
-    requires = [
-      "syslog.target"
-      "systemd-modules-load.service"
-    ];
-    serviceConfig = {
-      Type = "forking";
-      Restart = "always";
-      RestartSec = "1s";
-      ExecStart = "${config.hardware.nvidia.package}/bin/nvidia-persistenced --verbose";
-      ExecStopPost = "${pkgs.coreutils}/bin/rm -rf /var/run/nvidia-persistenced";
-      User = "root";
-      Group = "root";
-      TimeoutStartSec = "10s";
-      TimeoutStopSec = "10s";
-      RuntimeDirectory = "nvidia-persistenced";
-      RuntimeDirectoryMode = "0755";
-      PIDFile = "/var/run/nvidia-persistenced/nvidia-persistenced.pid";
-    };
-  };
-
   # Enable the NVIDIA driver - but not sure why it is needed for compute only??
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia = {
+    nvidiaPersistenced = false;
     modesetting.enable = false;
     forceFullCompositionPipeline = false;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
+    powerManagement.enable = true;
     open = false;
-    nvidiaSettings = true;
+    nvidiaSettings = false;
     package = config.boot.kernelPackages.nvidia_x11_production;
   };
 }

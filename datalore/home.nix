@@ -13,12 +13,13 @@ let
   nvidia_driver = pkgs.linuxPackages_6_10.nvidia_x11_production;
 in
 {
-  # Home Manager Settings
-  home.username = "${username}";
-  home.homeDirectory = "/home/${username}";
-  home.stateVersion = "23.11";
+  nixpkgs = {
+    overlays = [ outputs.overlays.cuda-override ];
+  };
 
+  home.stateVersion = "23.11";
   imports = [
+    ../global/home.nix
     ../config/files.nix
     ../modules/programs/kitty.nix
     ../modules/programs/oxygen.nix
@@ -26,121 +27,11 @@ in
     ../modules/programs/vscode.nix
   ];
 
-  # Create XDG Dirs
-  xdg = {
-    userDirs = {
-      enable = true;
-      createDirectories = true;
-    };
-  };
-
-  programs.fzf = {
-    enable = true;
-    enableBashIntegration = true;
-    # Enable fzf key bindings
-  };
-
-  # Install & Configure Git
-  programs.git = {
-    enable = true;
-    lfs.enable = true;
-    userName = "${gitUsername}";
-    userEmail = "${gitEmail}";
-    package = pkgs.gitFull;
-  };
-
-  # Starship Prompt
-  programs.starship = {
-    enable = true;
-    package = pkgs.starship;
-  };
-
-  nixpkgs = {
-    overlays = [ outputs.overlays.cuda-override ];
-    # Configure your nixpkgs instance
-    config = {
-      # Nvidia is used only for compute!!
-      allowBroken = true;
-      cudaSupport = true;
-      cudaVersion = "12.3";
-      cudaCapabilities = [ "8.9" ];
-      nvidia.acceptLicense = true;
-      blasSupport = true;
-      blasProvider = pkgs.amd-blis;
-      lapackSupport = true;
-      lapackProvider = pkgs.amd-libflame;
-      # Disable if you don't want unfree packages
-      allowUnfree = true;
-      # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      allowUnfreePredicate = _: true;
-    };
-  };
-
   # Install Packages For The User
-  home.packages = with pkgs; [
-    slack
-    (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
-    (jetbrains.plugins.addPlugins jetbrains.pycharm-professional [ "github-copilot" ])
-    firefox
-    _1password
-    google-chrome
-    thunderbird
-    libreoffice
-    hunspell
-    hunspellDicts.en_US
-    klavaro
-    meld
-    okteta
-    vlc
-    sddm
-    insync
-    git-cola
-    cheese
-  ];
-
-  home.file.".jdks/openjdk11".source = pkgs.openjdk11;
-  home.file.".jdks/openjdk17".source = pkgs.openjdk17;
-  home.file.".jdks/openjdk21".source = pkgs.openjdk21;
-
-  # Theme GTK
-  dconf = {
-    enable = true;
-    settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
-  };
-
-  programs.nnn = {
-    enable = true;
-    package = pkgs.nnn.override { withNerdIcons = true; };
-    extraPackages = with pkgs; [
-      ffmpegthumbnailer
-      mediainfo
-      sxiv
-      kdeplasma-addons
-      okular
+  home.packages =
+    with pkgs;
+    [
     ];
-    bookmarks = {
-      H = "/home/${username}";
-    };
-    plugins = {
-      mappings = {
-        c = "fzcd";
-        f = "finder";
-        v = "imgview";
-        o = "xdg-open";
-        t = "trash";
-        d = "diffs";
-        x = "!chmod +x $nnn";
-        q = "preview";
-      };
-    };
-  };
-
-  programs.atuin = {
-    enable = true;
-    enableBashIntegration = true;
-    flags = [ "--disable-up-arrow" ];
-    settings = { };
-  };
 
   # Configure Bash
   programs.bash = {
@@ -205,14 +96,4 @@ in
       lg = "lazygit";
     };
   };
-
-  # Nicely reload system units when changing configs
-  systemd.user.startServices = "sd-switch";
-
-  home.sessionVariables = {
-    EDITOR = "kate";
-    BROWSER = "firefox";
-    TERMINAL = "konsole";
-  };
-  programs.home-manager.enable = true;
 }
