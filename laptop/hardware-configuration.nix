@@ -43,12 +43,10 @@
     "pcie_aspm.policy=powersupersave"
     "amdgpu.ppfeaturemask=0xffffffff"
     "amdgpu.runpm=1"
-    "amdgpu.dc=0"
     "amdgpu.audio=0"
     "amdgpu.dpm=1"
   ];
   boot.kernelModules = [
-    "kvm-amd"
     "amdgpu"
     "acpi_call"
     "amd-pstate"
