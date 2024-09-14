@@ -151,6 +151,8 @@ in
          source $HOME/.oxygen-xml-developer-profile
       fi
 
+      export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+
       # Set CUDA-related environment variables
       export CUDA_PATH="${pkgs.cudaPackages.cudatoolkit}"
       export CUDA_HOME="${pkgs.cudaPackages.cudatoolkit}"
