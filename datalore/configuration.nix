@@ -45,6 +45,11 @@
     cargo
   ];
 
+  powerManagement = {
+    cpuFreqGovernor = "performance";
+    enable = true;
+  };
+
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 

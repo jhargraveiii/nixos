@@ -11,18 +11,14 @@
 {
   imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  powerManagement = {
-    cpuFreqGovernor = "performance";
-    enable = true;
-  };
-
   boot = {
     extraModprobeConfig = ''
       blacklist nouveau
-      options nouveau modeset=0
     '';
     blacklistedKernelModules = [
       "nouveau"
+      "nvidia_drm"
+      "nvidia_modeset"
     ];
     loader = {
       efi.canTouchEfiVariables = true;
@@ -117,7 +113,6 @@
   # networking.interfaces.enp7s0.useDHCP = lib.mkDefault true;
   # networking.interfaces.wlp6s0.useDHCP = lib.mkDefault true;
 
-  hardware.amdgpu.initrd.enable = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.enableAllFirmware = lib.mkDefault true;
   hardware.cpu.amd.updateMicrocode = lib.mkDefault true;
