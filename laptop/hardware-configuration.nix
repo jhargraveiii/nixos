@@ -35,6 +35,7 @@
     "vm.max_map_count" = 2147483642;
     "vm.dirty_writeback_centisecs" = 6000;
     "vm.laptop_mode" = 5;
+    "vm.swappiness" = 10;
   };
   boot.kernelParams = [
     "nmi_watchdog=0"
@@ -45,6 +46,10 @@
     "amdgpu.runpm=1"
     "amdgpu.audio=0"
     "amdgpu.dpm=1"
+    "pcie_aspm=force"
+    "zswap.enabled=1"
+    "mitigations=off"
+    "quiet"
   ];
   boot.kernelModules = [
     "amdgpu"
@@ -55,6 +60,7 @@
   boot.extraModprobeConfig = ''
     options snd_hda_intel power_save=1
     options mt7921e power_save=1
+      options usbcore autosuspend=1
   '';
 
   boot.tmp.cleanOnBoot = true;
