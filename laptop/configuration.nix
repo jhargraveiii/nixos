@@ -37,9 +37,9 @@
   networking.networkmanager.wifi.powersave = true;
 
   services.power-profiles-daemon.enable = true;
+  powerManagement.powertop.enable = true;
   powerManagement = {
     enable = true;
-    powertop.enable = true;
     cpuFreqGovernor = "powersave";
   };
 
