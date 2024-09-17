@@ -2,33 +2,37 @@
 
 {
   environment.systemPackages = with pkgs; [
-    update-systemd-resolved
     networkmanager
     networkmanager-openvpn
+    update-systemd-resolved
   ];
 
   systemd.services.systemd-resolved.environment = with lib; {
-    LD_LIBRARY_PATH = "${getLib pkgs.libidn2}/lib";
+    LD_LIBRARY_PATH = "${getLib pkgs.libidn2}/lib:$LD_LIBRARY_PATH";
+  };
+
+  networking = {
+    firewall = {
+      enable = true;
+      checkReversePath = "loose";
+      allowedTCPPorts = [
+        80
+        443
+      ];
+    };
+
+    networkmanager = {
+      enable = true;
+    };
   };
 
   services.resolved = {
     enable = true;
-  };
-
-  networking.networkmanager = {
-    enable = true;
-  };
-
-  # Open ports in the firewall.
-  networking.firewall = {
-    enable = true;
-    allowedTCPPorts = [
-      631
-      53
-    ];
-    allowedUDPPorts = [
-      5353
-      111
+    dnssec = "true";
+    domains = [ "~." ];
+    fallbackDns = [
+      "1.1.1.1"
+      "1.0.0.1"
     ];
   };
 
