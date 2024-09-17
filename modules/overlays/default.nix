@@ -2,7 +2,7 @@
 { inputs, ... }:
 {
   cuda-override = final: prev: {
-    cudaPackages = prev.cudaPackages_12_4.overrideScope (
+    cudaPackages = prev.cudaPackages.overrideScope (
       finalCuda: prevCuda: {
         tensorrt = prevCuda.tensorrt.overrideAttrs (oldAttrs: {
           buildInputs = oldAttrs.buildInputs ++ [
