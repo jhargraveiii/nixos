@@ -11,7 +11,7 @@
         yzhang.markdown-all-in-one
         jnoortheen.nix-ide
         ms-python.vscode-pylance
-        #ms-python.python
+        ms-python.python
         ms-toolsai.jupyter
         github.copilot
         github.copilot-chat
@@ -27,12 +27,6 @@
           publisher = "jjjermiah";
           version = "1.0.1";
           sha256 = "sha256-+vHyjXT4Qiz/ZLtfd/3ZcgZfajzqfdOQC4pMkE+PSGU=";
-        }
-        {
-          name = "python";
-          publisher = "ms-python";
-          version = "2024.15.2024091301";
-          sha256 = "sha256-MB8Vq2rjO37yW3Zh+f8ek/yz0qT+ZYHn/JnF5ZA6CXQ=";
         }
       ];
   };

@@ -24,7 +24,7 @@
       efi.canTouchEfiVariables = true;
       systemd-boot.enable = true;
     };
-    kernelPackages = pkgs.linuxPackages_6_10;
+    kernelPackages = pkgs.linuxPackages_6_11;
     initrd.availableKernelModules = [
       "thunderbolt"
       "nvme"
@@ -110,9 +110,6 @@
   };
 
   networking.useDHCP = lib.mkDefault true;
-  # networking.interfaces.enp7s0.useDHCP = lib.mkDefault true;
-  # networking.interfaces.wlp6s0.useDHCP = lib.mkDefault true;
-
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.enableAllFirmware = lib.mkDefault true;
   hardware.cpu.amd.updateMicrocode = lib.mkDefault true;
