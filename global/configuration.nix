@@ -4,12 +4,8 @@
   gitUsername,
   theLocale,
   theTimezone,
-  outputs,
   theKBDLayout,
-  inputs,
-  system,
   lib,
-  config,
   ...
 }:
 {
