@@ -1,12 +1,8 @@
 {
   pkgs,
-  inputs,
   username,
   gitUsername,
   gitEmail,
-  flakeDir,
-  outputs,
-  config,
   ...
 }:
 {

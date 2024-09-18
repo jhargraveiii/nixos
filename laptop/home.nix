@@ -23,6 +23,7 @@
   # Install Packages For The User
   home.packages = with pkgs; [
     calibre
+    stremio
   ];
 
   # Configure Bash
