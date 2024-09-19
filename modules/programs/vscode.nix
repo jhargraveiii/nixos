@@ -20,7 +20,9 @@
         zxh404.vscode-proto3
         dotenv.dotenv-vscode
       ]
-      ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
-      ];
+      ++
+        pkgs.vscode-utils.extensionsFromVscodeMarketplace
+          [
+          ];
   };
 }

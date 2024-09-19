@@ -57,10 +57,6 @@
       nvim-tree-lua
       telescope-fzf-native-nvim
       vim-tmux-navigator
-      {
-        plugin = dracula-nvim;
-        config = "colorscheme dracula";
-      }
       plenary-nvim
       neodev-nvim
       luasnip

@@ -39,7 +39,6 @@
     (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
     (jetbrains.plugins.addPlugins jetbrains.pycharm-professional [ "github-copilot" ])
     firefox
-    _1password
     google-chrome
     thunderbird
     libreoffice
@@ -136,6 +135,15 @@
     EDITOR = "kate";
     BROWSER = "firefox";
     TERMINAL = "konsole";
+  };
+
+  programs.bash = {
+    enable = true;
+    enableCompletion = true;
+    shellAliases = {
+      straker-vpn = "sudo openvpn --config /home/jimh/work/straker_vpn.ovpn";
+      straker-office-vpn = "sudo openvpn --config /home/jimh/work/straker_office_vpn.ovpn";
+    };
   };
   programs.home-manager.enable = true;
 }

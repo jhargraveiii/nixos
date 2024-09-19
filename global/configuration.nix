@@ -305,6 +305,16 @@
     '';
   };
 
+  security.pam.services._1password = {};
+  programs._1password.enable = true;
+   programs._1password-gui = {
+    enable = true;
+    polkitPolicyOwners = [
+      "jimh"
+      "root"
+    ];
+  };
+
   programs.dconf.enable = true;
   programs.mtr.enable = true;
   programs.system-config-printer.enable = true;
