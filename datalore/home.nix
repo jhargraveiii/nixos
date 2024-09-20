@@ -14,7 +14,7 @@ let
 in
 {
   nixpkgs = {
-    overlays = [ outputs.overlays.cuda-override ];
+    overlays = [];
   };
 
   home.stateVersion = "23.11";
