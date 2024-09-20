@@ -35,8 +35,6 @@ in
 
   # Configure Bash
   programs.bash = {
-    enable = true;
-    enableCompletion = true;
     profileExtra = ''
       if [ -f $HOME/.oxygen-xml-developer-profile ]; then
          source $HOME/.oxygen-xml-developer-profile
@@ -86,7 +84,6 @@ in
     '';
 
     shellAliases = {
-      straker-vpn = "sudo openvpn --config /home/jimh/work/straker_vpn.ovpn --auth-user-pass /home/jimh/work/auth.txt";
       flake-check = "nix flake check --verbose --show-trace ${flakeDir}";
       flake-rebuild = "sudo nixos-rebuild switch --keep-going --flake ${flakeDir}#datalore";
       flake-update = "sudo nix flake update ${flakeDir}";

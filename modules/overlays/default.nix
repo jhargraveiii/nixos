@@ -1,5 +1,5 @@
 # This file defines overlays
-{inputs, ...}:
+{ inputs, ... }:
 {
   cuda-override = final: prev: {
     cudaPackages = prev.cudaPackages.overrideScope (

@@ -28,8 +28,6 @@
 
   # Configure Bash
   programs.bash = {
-    enable = true;
-    enableCompletion = true;
     profileExtra = ''
       if [ -f $HOME/.oxygen-xml-developer-profile ]; then
          source $HOME/.oxygen-xml-developer-profile
