@@ -37,8 +37,6 @@
     cudaPackages.cuda_cccl
     cudaPackages.cuda_nvcc
     cudaPackages.cuda_nvtx
-    cudaPackages.cuda_sanitizer_api
-    cudaPackages.cuda_profiler_api
     cudaPackages.cudatoolkit
     cudaPackages.cuda_gdb
     cudaPackages.cuda_nsight
