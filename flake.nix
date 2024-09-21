@@ -39,7 +39,7 @@
       formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
 
       # Your custom packages and modifications, exported as overlays
-      overlays = import ./modules/overlays { inherit inputs pkgs; };
+      #overlays = import ./modules/overlays { inherit inputs pkgs; };
 
       nixosConfigurations = {
 
