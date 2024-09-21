@@ -15,7 +15,6 @@
 {
   nixpkgs = {
     overlays = [
-      outputs.overlays.cuda-override
     ];
   };
 

@@ -150,6 +150,7 @@
     wget
     curl
     gitFull
+    git-lfs
     libinput
     libinput-gestures
     aha
