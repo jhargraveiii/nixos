@@ -36,6 +36,7 @@
 
   home.packages = with pkgs; [
     slack
+    clickup
     (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
     (jetbrains.plugins.addPlugins jetbrains.pycharm-professional [ "github-copilot" ])
     firefox
