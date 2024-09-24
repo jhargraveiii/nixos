@@ -5,7 +5,7 @@
     enable = true;
     package = pkgs.kitty;
     font.name = "JetBrainsMono Nerd Font";
-    font.size = 14;
+    font.size = 12;
     settings = {
       disable_ligatures = "never";
       scrollback_lines = 5000;

@@ -90,7 +90,7 @@
 
   environment.systemPackages = with pkgs; [
     openvpn
-    openjdk11
+    openjdk17
     nil
     shellcheck
     vale
@@ -337,7 +337,6 @@
         "benchmark"
         "big-parallel"
         "kvm"
-        "gccarch-znver3"
       ];
       allowed-users = [ "*" ];
       require-sigs = true;
@@ -371,7 +370,7 @@
     _ZO_ECHO = "1";
     M2_COLORS = "true";
     _JAVA_AWT_WM_NONREPARENTING = "1";
-    JAVA_HOME = "/home/${username}/.jdks/openjdk11/lib/openjdk";
+    JAVA_HOME = "/home/${username}/.jdks/openjdk17/lib/openjdk";
     NIXOS_OZONE_WL = "1";
     NIXPKGS_ALLOW_UNFREE = "1";
     SCRIPTDIR = "/home/${username}/.local/share/scriptdeps";
