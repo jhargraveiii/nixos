@@ -204,6 +204,7 @@
     gnome-firmware
     nix-index
     cargo
+    waypipe
   ];
 
   fonts.packages = with pkgs; [
