@@ -14,8 +14,8 @@
   };
   services.iptsd = {
     enable = true;
-    config.Touch.DisableOnStylus = true;
-    config.Touch.DisableOnPalm = true;
+    config.Touchscreen.DisableOnStylus = true;
+    config.Touchscreen.DisableOnPalm = true;
   };
   services.xserver.wacom.enable = true;
 
