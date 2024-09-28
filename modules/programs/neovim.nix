@@ -8,7 +8,6 @@
     vimdiffAlias = true;
     withNodeJs = true;
     extraPackages = with pkgs; [
-      jsonls
       lua-language-server
       gopls
       xclip
