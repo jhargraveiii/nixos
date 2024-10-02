@@ -111,6 +111,7 @@
     yaml-language-server
     protobuf
     statix
+    shfmt
     taplo
     jq
     jsonfmt
