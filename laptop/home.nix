@@ -24,6 +24,7 @@
   home.packages = with pkgs; [
     calibre
     stremio
+    unetbootin
   ];
 
   # Configure Bash
