@@ -49,7 +49,7 @@ in
   ];
 
   powerManagement = {
-    cpuFreqGovernor = "performance";
+    cpuFreqGovernor = "ondemand";
     enable = true;
   };
 
