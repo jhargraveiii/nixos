@@ -34,6 +34,9 @@
     onboard # On-screen keyboard
   ];
 
+  # Start fingerprint service
+  services.fprintd.enable = true;
+
   networking.networkmanager.wifi.powersave = true;
 
   services.power-profiles-daemon.enable = true;
