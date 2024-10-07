@@ -359,6 +359,7 @@
   # Updated environment variables
   environment.sessionVariables = {
     # Other environment variables
+    SSH_AUTH_SOCK= "~/.1password/agent.sock";
     TERMINAL = "konsole";
     EDITOR = "kate";
     BROWSER = "firefox";
