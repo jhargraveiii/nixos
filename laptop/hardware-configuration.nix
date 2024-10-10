@@ -60,7 +60,7 @@
   boot.extraModprobeConfig = ''
     options snd_hda_intel power_save=1
     options mt7921e power_save=1
-      options usbcore autosuspend=1
+    options usbcore autosuspend=1
   '';
 
   boot.tmp.cleanOnBoot = true;
