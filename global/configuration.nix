@@ -206,6 +206,7 @@
     nix-index
     cargo
     waypipe
+    zip
   ];
 
   fonts.packages = with pkgs; [
