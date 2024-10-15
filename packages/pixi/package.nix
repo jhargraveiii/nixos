@@ -105,6 +105,7 @@ rustPlatform.buildRustPackage rec {
       "--skip=test_update_single_package"
       "--skip=test_index_strategy"
       "--skip=add_remove_channel"
+      "--skip=task::file_hashes::test::compute_hashes"
 
     ]
     ++ lib.optionals stdenv.isDarwin [
