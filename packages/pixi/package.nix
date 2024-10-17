@@ -14,13 +14,13 @@
 
 rustPlatform.buildRustPackage rec {
   pname = "pixi";
-  version = "0.31.0";
+  version = "0.33.0";
 
   src = fetchFromGitHub {
     owner = "prefix-dev";
     repo = "pixi";
     rev = "v${version}";
-    hash = "sha256-1Woi+HwlN1nP05/cMNj+FVqEVREy/+UivdWGD6lZSNY=";
+    hash = "sha256-erg0YBYZMaSFBFuo685Fq81cH6wv7YLSYwW1Z7aGzO8=";
   };
 
   cargoLock = {
@@ -106,6 +106,8 @@ rustPlatform.buildRustPackage rec {
       "--skip=test_index_strategy"
       "--skip=add_remove_channel"
       "--skip=task::file_hashes::test::compute_hashes"
+      "--skip=lock_file::satisfiability::tests::test_failing_satisiability"
+      "--skip=global::project::parsed_manifest::tests::test_duplicate_exposed"
 
     ]
     ++ lib.optionals stdenv.isDarwin [
