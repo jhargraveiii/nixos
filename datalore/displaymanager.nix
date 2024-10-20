@@ -11,11 +11,6 @@
   };
   services.xserver.xkb.layout = theKBDLayout;
 
-  environment.sessionVariables = {
-    QML2_IMPORT_PATH = "/run/current-system/sw/lib/qt-6/qml";
-    QML_DISABLE_DISK_CACHE = 1;
-  };
-
   services.displayManager = {
     enable = true;
     defaultSession = "plasma";
