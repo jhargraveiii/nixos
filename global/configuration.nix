@@ -169,6 +169,7 @@
     amd-libflame
     aocl-utils
     poetry
+    pipenv
     (import ../packages/pixi/package.nix {
       inherit
         lib
@@ -202,6 +203,7 @@
     kdePackages.kirigami-addons
     kdePackages.kirigami-gallery
     kdePackages.plasma-workspace
+
     gnome-firmware
     nix-index
     cargo
