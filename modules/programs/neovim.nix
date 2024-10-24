@@ -25,6 +25,7 @@
       ccls
       nodePackages.vscode-langservers-extracted
       nodePackages.yaml-language-server
+      nodePackages.vscode-json-languageserver
     ];
     plugins = with pkgs.vimPlugins; [
       copilot-vim
