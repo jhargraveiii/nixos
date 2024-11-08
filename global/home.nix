@@ -55,8 +55,8 @@
     cheese
   ];
 
-  home.file.".jdks/openjdk17".source = pkgs.openjdk17;
-  home.file.".jdks/openjdk21".source = pkgs.openjdk21;
+  home.file.".jdks/openjdk17".source = pkgs.jdk17;
+  home.file.".jdks/openjdk21".source = pkgs.jdk21;
 
   # Create XDG Dirs
   xdg = {
