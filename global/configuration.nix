@@ -90,7 +90,7 @@
 
   environment.systemPackages = with pkgs; [
     openvpn
-    openjdk17
+    jdk21
     nil
     shellcheck
     vale
