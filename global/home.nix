@@ -37,8 +37,9 @@
   home.packages = with pkgs; [
     slack
     clickup
-    (jetbrains.plugins.addPlugins jetbrains.idea-ultimate [ "github-copilot" ])
-    (jetbrains.plugins.addPlugins jetbrains.pycharm-professional [ "github-copilot" ])
+    jetbrains.idea-ultimate
+    jetbrains.pycharm-professional
+    github-copilot-intellij-agent
     firefox
     google-chrome
     thunderbird

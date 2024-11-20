@@ -17,11 +17,6 @@
   home.stateVersion = "23.11";
   imports = [
     ../global/home.nix
-    ../config/files.nix
-    ../modules/programs/kitty.nix
-    ../modules/programs/oxygen.nix
-    ../modules/programs/neovim.nix
-    ../modules/programs/vscode.nix
   ];
 
   # Install Packages For The User

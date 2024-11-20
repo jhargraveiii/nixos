@@ -21,9 +21,6 @@
     ./hardware-configuration.nix
     ./amd.nix
     ./displaymanager.nix
-    ../modules/services/networking.nix
-    ../modules/services/flatpak.nix
-    ../modules/programs/distrobox.nix
   ];
 
   networking.hostName = "datalore_laptop";
