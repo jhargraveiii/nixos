@@ -13,7 +13,7 @@
   ...
 }:
 let
-  nvidia_driver = pkgs.linuxPackages_6_11.nvidia_x11_production;
+  nvidia_driver = pkgs.linuxPackages_6_12.nvidia_x11_production;
   cudaPackages = pkgs.cudaPackages_12_4;
 in
 {
