@@ -194,7 +194,6 @@
     kdePackages.filelight
     kdePackages.kcharselect
     kdePackages.kup
-    bup
     kdePackages.baloo
     kdePackages.baloo-widgets
     kdePackages.milou
@@ -207,8 +206,9 @@
     gnome-firmware
     nix-index
     cargo
-    waypipe
     zip
+    bup
+    qt6.qtwayland
   ];
 
   fonts.packages = with pkgs; [
@@ -370,7 +370,7 @@
     MOZ_ENABLE_WAYLAND = "1";
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
     WLR_NO_HARDWARE_CURSORS = "1";
-    QT_QPA_PLATFORM = "wayland";
+    QT_QPA_PLATFORM = "wayland;xcb";
     QT_QPA_PLATFORMTHEME = "qt6ct";
     HF_HOME = "/home/${username}/DATA2/.cache/huggingface";
     _ZO_ECHO = "1";
