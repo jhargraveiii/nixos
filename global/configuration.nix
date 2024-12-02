@@ -223,7 +223,8 @@
     spleen
     fira-code-symbols
     powerline-fonts
-    nerdfonts
+    nerd-fonts.ubuntu
+    nerd-fonts.ubuntu-mono
     font-awesome
     symbola
     xorg.fontadobe100dpi
@@ -231,7 +232,6 @@
     noto-fonts-color-emoji
     noto-fonts-emoji
     noto-fonts-cjk-sans
-    (nerdfonts.override { fonts = [ "JetBrainsMono" ]; })
   ];
 
   # global hardware settings
