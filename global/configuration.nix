@@ -170,6 +170,7 @@
     aocl-utils
     poetry
     pipenv
+    mecab
     (import ../packages/pixi/package.nix {
       inherit
         lib
