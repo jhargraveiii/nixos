@@ -171,6 +171,7 @@
     poetry
     pipenv
     mecab
+    irqbalance
     (import ../packages/pixi/package.nix {
       inherit
         lib
