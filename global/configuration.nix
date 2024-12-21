@@ -134,6 +134,7 @@
     lolcat
     fastfetch
     btop
+    iotop
     lm_sensors
     unzip
     unrar
