@@ -171,23 +171,9 @@
     aocl-utils
     poetry
     pipenv
+    pixi
     mecab
     irqbalance
-    (import ../packages/pixi/package.nix {
-      inherit
-        lib
-        stdenv
-        rustPlatform
-        fetchFromGitHub
-        pkg-config
-        libgit2
-        openssl
-        installShellFiles
-        darwin
-        testers
-        pixi
-        ;
-    })
 
     # KDE Applications
     kdePackages.kcalc
