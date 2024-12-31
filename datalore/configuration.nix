@@ -59,7 +59,7 @@ in
     CUDA_HOME = "${cudaPackages.cudatoolkit}";
     CUDA_ROOT = "${cudaPackages.cudatoolkit}";
     CUDACXX = "${cudaPackages.cudatoolkit}/bin/nvcc";
-    CUDAHOSTCXX = "${pkgs.gcc}/bin/g++";
+    CUDAHOSTCXX = "${pkgs.gcc13}/bin/g++";
     CUDA_TOOLKIT_ROOT_DIR = "${cudaPackages.cudatoolkit}";
     CUDNN_ROOT = "${cudaPackages.cudnn}";
 

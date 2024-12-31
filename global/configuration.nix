@@ -166,8 +166,6 @@
     wl-clipboard
     dotenv-linter
     shellharden
-    amd-blis
-    amd-libflame
     aocl-utils
     poetry
     pipenv
