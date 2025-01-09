@@ -243,7 +243,7 @@
     ensureDefaultPrinter = "Canon_MF450_Series";
   };
 
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.package = pkgs.bluez;
 
@@ -298,9 +298,9 @@
     '';
   };
 
-  security.pam.services._1password = {};
+  security.pam.services._1password = { };
   programs._1password.enable = true;
-   programs._1password-gui = {
+  programs._1password-gui = {
     enable = true;
     polkitPolicyOwners = [
       "jimh"
@@ -349,7 +349,7 @@
   # Updated environment variables
   environment.sessionVariables = {
     # Other environment variables
-    SSH_AUTH_SOCK= "~/.1password/agent.sock";
+    SSH_AUTH_SOCK = "~/.1password/agent.sock";
     TERMINAL = "konsole";
     EDITOR = "kate";
     BROWSER = "firefox";
@@ -367,7 +367,5 @@
     NIXOS_OZONE_WL = "1";
     NIXPKGS_ALLOW_UNFREE = "1";
     SCRIPTDIR = "/home/${username}/.local/share/scriptdeps";
-    CMAKE_ARGS = "-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=on";
-    FORCE_CMAKE = 1;
   };
 }

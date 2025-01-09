@@ -11,7 +11,7 @@
 }:
 {
   nixpkgs = {
-    overlays = [];
+    overlays = [ ];
   };
 
   home.stateVersion = "23.11";
@@ -20,10 +20,8 @@
   ];
 
   # Install Packages For The User
-  home.packages =
-    with pkgs;
-    [
-    ];
+  home.packages = with pkgs; [
+  ];
 
   # Configure Bash
   programs.bash = {
@@ -32,7 +30,7 @@
          source $HOME/.oxygen-xml-developer-profile
       fi
       export XDG_RUNTIME_DIR="/run/user/$(id -u)"
-    
+
     '';
     bashrcExtra = ''
       # Configure nnn

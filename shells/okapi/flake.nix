@@ -20,25 +20,25 @@
 
       devShells.${system}.default = pkgs.mkShell {
         buildInputs = with pkgs; [
-            gsettings-desktop-schemas
-            gtk3
-            kdePackages.kde-gtk-config
-            webkitgtk
-            xdg-desktop-portal-gtk
-            xdg-user-dirs
-            adwaita-icon-theme
-            gobject-introspection
-            cairo
-            pango
-            gdk-pixbuf
-            atk
-            shared-mime-info
-            dbus
-            glib
-            glib-networking
-            gnome-themes-extra
-            hicolor-icon-theme
-            swt
+          gsettings-desktop-schemas
+          gtk3
+          kdePackages.kde-gtk-config
+          webkitgtk
+          xdg-desktop-portal-gtk
+          xdg-user-dirs
+          adwaita-icon-theme
+          gobject-introspection
+          cairo
+          pango
+          gdk-pixbuf
+          atk
+          shared-mime-info
+          dbus
+          glib
+          glib-networking
+          gnome-themes-extra
+          hicolor-icon-theme
+          swt
         ];
 
         shellHook = ''
@@ -50,10 +50,10 @@
           export GTK_USE_PORTAL=1
           export GTK_THEME="Breeze"
           export GTK2_RC_FILES="${pkgs.kdePackages.breeze-gtk}/share/themes/Breeze/gtk-2.0/gtkrc"
-          
+
           # Add SWT libraries to java.library.path
           export _JAVA_OPTIONS="$_JAVA_OPTIONS -Djava.library.path=${pkgs.swt}/lib"
-          
+
           # Ensure SWT can find its native libraries
           export SWT_GTK3=1
           export SWT_LIBRARY_PATH="${pkgs.swt}/lib"

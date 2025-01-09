@@ -29,14 +29,6 @@
          source $HOME/.oxygen-xml-developer-profile
       fi
       export XDG_RUNTIME_DIR="/run/user/$(id -u)"
-      export LD_LIBRARY_PATH="${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LD_LIBRARY_PATH"
-      export LIBRARY_PATH="${pkgs.amd-blis}/lib:${pkgs.amd-libflame}/lib:$LIBRARY_PATH"
-      export CPATH="${pkgs.amd-blis}/include:${pkgs.amd-libflame}/include:$CPATH"
-
-      # Set BLAS-related environment variables
-      export BLAS_ROOT="${pkgs.amd-blis}"
-      export BLAS_LIBRARIES="${pkgs.amd-blis}/lib/libblis-mt.so"
-      export BLAS_INCLUDE_DIRS="${pkgs.amd-blis}/include/blis"
     '';
     bashrcExtra = ''
       # Configure nnn

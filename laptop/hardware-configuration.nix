@@ -16,9 +16,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
   boot.kernelPackages = pkgs.linuxPackages_6_12;
-  environment.systemPackages =
-    [
-    ];
+  environment.systemPackages = [
+  ];
   boot.initrd.availableKernelModules = [
     "nvme"
     "xhci_pci"
