@@ -171,8 +171,6 @@
     pipenv
     pixi
     mecab
-    sparsehash
-    gperftools
     irqbalance
 
     # KDE Applications
