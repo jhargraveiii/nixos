@@ -11,6 +11,14 @@
 {
   nixpkgs = {
     config = {
+      kdePackages = pkgs.kdePackages.overrideScope (
+        self: super: {
+          skanpage = super.skanpage.override {
+            tesseractLanguages = pkgs.tesseract.languages;
+          };
+        }
+      );
+
       allowUnfree = true;
       allowBroken = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
@@ -174,6 +182,7 @@
     irqbalance
 
     # KDE Applications
+    qt6.qtwayland
     kdePackages.kcalc
     kdePackages.kalgebra
     kdePackages.partitionmanager
@@ -189,13 +198,16 @@
     kdePackages.kirigami-addons
     kdePackages.kirigami-gallery
     kdePackages.plasma-workspace
+    kdePackages.skanpage
+    kdePackages.ksanecore
+    kdePackages.libksane
+    kdePackages.skanlite
 
     gnome-firmware
     nix-index
     cargo
     zip
     bup
-    qt6.qtwayland
   ];
 
   fonts.packages = with pkgs; [
@@ -220,12 +232,17 @@
     noto-fonts-emoji
     noto-fonts-cjk-sans
   ];
+  
+  # Enable network discovery if scanner is network-connected
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+  };
 
-  # global hardware settings
   hardware.sane = {
     enable = true;
-    extraBackends = [ pkgs.sane-airscan ];
-    disabledDefaultBackends = [ "escl" ];
+    extraBackends = [ pkgs.sane-airscan pkgs.sane-backends ];
+    #disabledDefaultBackends = [ "escl" ];
   };
 
   hardware.printers = {
