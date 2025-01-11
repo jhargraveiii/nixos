@@ -242,7 +242,7 @@
   hardware.sane = {
     enable = true;
     extraBackends = [ pkgs.sane-airscan pkgs.sane-backends ];
-    #disabledDefaultBackends = [ "escl" ];
+    disabledDefaultBackends = [ "escl" ];
   };
 
   hardware.printers = {
