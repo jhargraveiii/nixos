@@ -51,9 +51,8 @@
       "amd_pstate=active"
       "amdgpu.ppfeaturemask=0xffffffff"
     ];
-    extraModulePackages =
-      [
-      ];
+    extraModulePackages = [
+    ];
     tmp.cleanOnBoot = true;
   };
 

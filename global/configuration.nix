@@ -11,6 +11,14 @@
 {
   nixpkgs = {
     config = {
+      kdePackages = pkgs.kdePackages.overrideScope (
+        self: super: {
+          skanpage = super.skanpage.override {
+            tesseractLanguages = pkgs.tesseract.languages;
+          };
+        }
+      );
+
       allowUnfree = true;
       allowBroken = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
@@ -174,6 +182,7 @@
     irqbalance
 
     # KDE Applications
+    qt6.qtwayland
     kdePackages.kcalc
     kdePackages.kalgebra
     kdePackages.partitionmanager
@@ -189,13 +198,16 @@
     kdePackages.kirigami-addons
     kdePackages.kirigami-gallery
     kdePackages.plasma-workspace
+    kdePackages.skanpage
+    kdePackages.ksanecore
+    kdePackages.libksane
+    kdePackages.skanlite
 
     gnome-firmware
     nix-index
     cargo
     zip
     bup
-    qt6.qtwayland
   ];
 
   fonts.packages = with pkgs; [
@@ -220,11 +232,16 @@
     noto-fonts-emoji
     noto-fonts-cjk-sans
   ];
+  
+  # Enable network discovery if scanner is network-connected
+  services.avahi = {
+    enable = true;
+    nssmdns4 = true;
+  };
 
-  # global hardware settings
   hardware.sane = {
     enable = true;
-    extraBackends = [ pkgs.sane-airscan ];
+    extraBackends = [ pkgs.sane-airscan pkgs.sane-backends ];
     disabledDefaultBackends = [ "escl" ];
   };
 
@@ -243,7 +260,7 @@
     ensureDefaultPrinter = "Canon_MF450_Series";
   };
 
-  hardware.pulseaudio.enable = false;
+  services.pulseaudio.enable = false;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.package = pkgs.bluez;
 
@@ -298,9 +315,9 @@
     '';
   };
 
-  security.pam.services._1password = {};
+  security.pam.services._1password = { };
   programs._1password.enable = true;
-   programs._1password-gui = {
+  programs._1password-gui = {
     enable = true;
     polkitPolicyOwners = [
       "jimh"
@@ -349,7 +366,7 @@
   # Updated environment variables
   environment.sessionVariables = {
     # Other environment variables
-    SSH_AUTH_SOCK= "~/.1password/agent.sock";
+    SSH_AUTH_SOCK = "~/.1password/agent.sock";
     TERMINAL = "konsole";
     EDITOR = "kate";
     BROWSER = "firefox";
@@ -367,7 +384,5 @@
     NIXOS_OZONE_WL = "1";
     NIXPKGS_ALLOW_UNFREE = "1";
     SCRIPTDIR = "/home/${username}/.local/share/scriptdeps";
-    CMAKE_ARGS = "-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=on";
-    FORCE_CMAKE = 1;
   };
 }

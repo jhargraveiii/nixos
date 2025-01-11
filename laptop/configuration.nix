@@ -46,5 +46,27 @@
   hardware.bluetooth.powerOnBoot = false;
   services.blueman.enable = false;
 
+  environment.sessionVariables = {
+    # Extend PATH
+    PATH = [
+    ];
+
+    # Set library paths
+    LD_LIBRARY_PATH = [
+      "${pkgs.amd-blis}/lib"
+      "${pkgs.amd-libflame}/lib"
+    ];
+
+    LIBRARY_PATH = [
+      "${pkgs.amd-blis}/lib"
+      "${pkgs.amd-libflame}/lib"
+    ];
+
+    CPATH = [
+      "${pkgs.amd-blis}/include"
+      "${pkgs.amd-libflame}/include"
+    ];
+  };
+
   system.stateVersion = "24.05";
 }

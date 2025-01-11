@@ -17,9 +17,15 @@ let
   cudaPackages = pkgs.cudaPackages_12_4;
 in
 {
+  # fixes bug in these packages. Remove when fixed in nixpkgs
+  nixpkgs.config.packageOverrides = pkgs: {
+    ucc = pkgs.ucc.override {
+      stdenv = pkgs.gcc13Stdenv;
+    };
+  };
+
   nixpkgs = {
-    overlays = [
-    ];
+    overlays = [ ];
   };
 
   imports = [
@@ -33,16 +39,18 @@ in
 
   networking.hostName = "datalore";
 
-  environment.plasma6.excludePackages =
-    with pkgs.kdePackages;
-    [
-    ];
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [
+  ];
 
   environment.systemPackages = with pkgs; [
     nvtopPackages.full
     ollama-cuda
     llama-cpp
     cargo
+    blas
+    lapack
+    #amd-libflame
+    amd-blis
   ];
 
   powerManagement = {
@@ -53,19 +61,19 @@ in
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 
-   environment.sessionVariables = {
+  environment.sessionVariables = {
     # CUDA-related environment variables
     CUDA_PATH = "${cudaPackages.cudatoolkit}";
     CUDA_HOME = "${cudaPackages.cudatoolkit}";
     CUDA_ROOT = "${cudaPackages.cudatoolkit}";
     CUDACXX = "${cudaPackages.cudatoolkit}/bin/nvcc";
-    CUDAHOSTCXX = "${pkgs.gcc13}/bin/g++";
+    CUDA_HOST_COMPILER = "${pkgs.gcc13}/bin/gcc";
     CUDA_TOOLKIT_ROOT_DIR = "${cudaPackages.cudatoolkit}";
     CUDNN_ROOT = "${cudaPackages.cudnn}";
 
     # for llama.cpp mostly
-    CMAKE_ARGS = "-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=on";
-    FORCE_CMAKE = lib.mkForce "1";
+    #CMAKE_ARGS = "-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=on";
+    #FORCE_CMAKE = lib.mkForce "1";
 
     # Extend PATH
     PATH = [
@@ -80,7 +88,7 @@ in
       "${cudaPackages.cudnn}/lib"
       "${cudaPackages.tensorrt}/lib"
       "${pkgs.amd-blis}/lib"
-      "${pkgs.amd-libflame}/lib"
+      #"${pkgs.amd-libflame}/lib"
     ];
 
     LIBRARY_PATH = [
@@ -90,7 +98,7 @@ in
       "${cudaPackages.cudnn}/lib"
       "${cudaPackages.tensorrt}/lib"
       "${pkgs.amd-blis}/lib"
-      "${pkgs.amd-libflame}/lib"
+      #"${pkgs.amd-libflame}/lib"
     ];
 
     CPATH = [
@@ -99,7 +107,7 @@ in
       "${cudaPackages.cudnn}/include"
       "${cudaPackages.tensorrt}/include"
       "${pkgs.amd-blis}/include"
-      "${pkgs.amd-libflame}/include"
+      #"${pkgs.amd-libflame}/include"
     ];
   };
 
