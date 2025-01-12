@@ -27,7 +27,7 @@
   services.ucodenix = {
     enable = true;
     # cpuid -1 -l 1 -r | sed -n 's/.*eax=0x\([0-9a-f]*\).*/\U\1/p'
-    #cpuModelId = "00A20F12"; # Replace with your processor's model ID
+    cpuModelId = "00A70F52"; # Replace with your processor's model ID
   };
 
   networking.hostName = "datalore_laptop";
