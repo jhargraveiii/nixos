@@ -54,17 +54,17 @@
     # Set library paths
     LD_LIBRARY_PATH = [
       "${pkgs.amd-blis}/lib"
-      "${pkgs.amd-libflame}/lib"
+      #"${pkgs.amd-libflame}/lib"
     ];
 
     LIBRARY_PATH = [
       "${pkgs.amd-blis}/lib"
-      "${pkgs.amd-libflame}/lib"
+      #"${pkgs.amd-libflame}/lib"
     ];
 
     CPATH = [
       "${pkgs.amd-blis}/include"
-      "${pkgs.amd-libflame}/include"
+      #"${pkgs.amd-libflame}/include"
     ];
   };
 
