@@ -17,11 +17,18 @@
 }:
 {
   imports = [
+    inputs.ucodenix.nixosModules.default
     ../global/configuration.nix
     ./hardware-configuration.nix
     ./amd.nix
     ./displaymanager.nix
   ];
+
+  services.ucodenix = {
+    enable = true;
+    # cpuid -1 -l 1 -r | sed -n 's/.*eax=0x\([0-9a-f]*\).*/\U\1/p'
+    #cpuModelId = "00A20F12"; # Replace with your processor's model ID
+  };
 
   networking.hostName = "datalore_laptop";
 
