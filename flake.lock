@@ -1,5 +1,22 @@
 {
   "nodes": {
+    "cpu-microcodes": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1735409317,
+        "narHash": "sha256-08yRkyEKk94ax8KfqRFsffXH8J6DCOCE7vKLvHORWZM=",
+        "owner": "platomav",
+        "repo": "CPUMicrocodes",
+        "rev": "ec5200961ecdf78cf00e55d73902683e835edefd",
+        "type": "github"
+      },
+      "original": {
+        "owner": "platomav",
+        "repo": "CPUMicrocodes",
+        "rev": "ec5200961ecdf78cf00e55d73902683e835edefd",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -63,11 +80,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1736344531,
-        "narHash": "sha256-8YVQ9ZbSfuUk2bUf2KRj60NRraLPKPS0Q4QFTbc+c2c=",
+        "lastModified": 1736523798,
+        "narHash": "sha256-Xb8mke6UCYjge9kPR9o4P1nVrhk7QBbKv3xQ9cj7h2s=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "bffc22eb12172e6db3c5dde9e3e5628f8e3e7912",
+        "rev": "130595eba61081acde9001f43de3248d8888ac4a",
         "type": "github"
       },
       "original": {
@@ -81,7 +98,8 @@
       "inputs": {
         "home-manager": "home-manager",
         "nil": "nil",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs": "nixpkgs",
+        "ucodenix": "ucodenix"
       }
     },
     "rust-overlay": {
@@ -117,6 +135,24 @@
       "original": {
         "owner": "nix-systems",
         "repo": "default",
+        "type": "github"
+      }
+    },
+    "ucodenix": {
+      "inputs": {
+        "cpu-microcodes": "cpu-microcodes"
+      },
+      "locked": {
+        "lastModified": 1736198812,
+        "narHash": "sha256-7ZGGuLEz3SfL0Sqj6p92AL0VBAqwgvXy4Rln0zqrPw0=",
+        "owner": "e-tho",
+        "repo": "ucodenix",
+        "rev": "769032e440674d3d963fa9e66e301f9265cd3d24",
+        "type": "github"
+      },
+      "original": {
+        "owner": "e-tho",
+        "repo": "ucodenix",
         "type": "github"
       }
     }

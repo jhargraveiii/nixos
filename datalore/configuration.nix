@@ -29,6 +29,7 @@ in
   };
 
   imports = [
+    inputs.ucodenix.nixosModules.default
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../global/configuration.nix
@@ -36,6 +37,11 @@ in
     ./nvidia.nix
     ./displaymanager.nix
   ];
+
+  services.ucodenix = {
+    enable = true;
+    cpuModelId = "00A20F12"; # Replace with your processor's model ID
+  };
 
   networking.hostName = "datalore";
 

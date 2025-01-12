@@ -232,7 +232,7 @@
     noto-fonts-emoji
     noto-fonts-cjk-sans
   ];
-  
+
   # Enable network discovery if scanner is network-connected
   services.avahi = {
     enable = true;
@@ -241,7 +241,10 @@
 
   hardware.sane = {
     enable = true;
-    extraBackends = [ pkgs.sane-airscan pkgs.sane-backends ];
+    extraBackends = [
+      pkgs.sane-airscan
+      pkgs.sane-backends
+    ];
     disabledDefaultBackends = [ "escl" ];
   };
 
