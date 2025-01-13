@@ -24,10 +24,6 @@ in
     };
   };
 
-  nixpkgs = {
-    overlays = [ ];
-  };
-
   imports = [
     inputs.ucodenix.nixosModules.default
     # Include the results of the hardware scan.
@@ -38,9 +34,10 @@ in
     ./displaymanager.nix
   ];
 
+  @ AMD microcode flake
   services.ucodenix = {
     enable = true;
-    cpuModelId = "00A20F12"; # Replace with your processor's model ID
+    cpuModelId = "00A20F12";
   };
 
   networking.hostName = "datalore";
@@ -53,10 +50,6 @@ in
     ollama-cuda
     llama-cpp
     cargo
-    blas
-    lapack
-    #amd-libflame
-    amd-blis
   ];
 
   powerManagement = {
@@ -78,7 +71,7 @@ in
     CUDNN_ROOT = "${cudaPackages.cudnn}";
 
     # for llama.cpp mostly
-    #CMAKE_ARGS = "-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=on";
+    CMAKE_ARGS = "-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=on";
     #FORCE_CMAKE = lib.mkForce "1";
 
     # Extend PATH
@@ -94,7 +87,7 @@ in
       "${cudaPackages.cudnn}/lib"
       "${cudaPackages.tensorrt}/lib"
       "${pkgs.amd-blis}/lib"
-      #"${pkgs.amd-libflame}/lib"
+      "${pkgs.amd-libflame}/lib"
     ];
 
     LIBRARY_PATH = [
@@ -104,7 +97,7 @@ in
       "${cudaPackages.cudnn}/lib"
       "${cudaPackages.tensorrt}/lib"
       "${pkgs.amd-blis}/lib"
-      #"${pkgs.amd-libflame}/lib"
+      "${pkgs.amd-libflame}/lib"
     ];
 
     CPATH = [
@@ -113,7 +106,7 @@ in
       "${cudaPackages.cudnn}/include"
       "${cudaPackages.tensorrt}/include"
       "${pkgs.amd-blis}/include"
-      #"${pkgs.amd-libflame}/include"
+      "${pkgs.amd-libflame}/include"
     ];
   };
 

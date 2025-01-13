@@ -24,10 +24,11 @@
     ./displaymanager.nix
   ];
 
+  # AMD microcode flake
   services.ucodenix = {
     enable = true;
     # cpuid -1 -l 1 -r | sed -n 's/.*eax=0x\([0-9a-f]*\).*/\U\1/p'
-    cpuModelId = "00A70F52"; # Replace with your processor's model ID
+    cpuModelId = "00A70F52";
   };
 
   networking.hostName = "datalore_laptop";
@@ -54,6 +55,8 @@
   services.blueman.enable = false;
 
   environment.sessionVariables = {
+    CMAKE_ARGS = "-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=off";
+    
     # Extend PATH
     PATH = [
     ];
@@ -61,17 +64,17 @@
     # Set library paths
     LD_LIBRARY_PATH = [
       "${pkgs.amd-blis}/lib"
-      #"${pkgs.amd-libflame}/lib"
+      "${pkgs.amd-libflame}/lib"
     ];
 
     LIBRARY_PATH = [
       "${pkgs.amd-blis}/lib"
-      #"${pkgs.amd-libflame}/lib"
+      "${pkgs.amd-libflame}/lib"
     ];
 
     CPATH = [
       "${pkgs.amd-blis}/include"
-      #"${pkgs.amd-libflame}/include"
+      "${pkgs.amd-libflame}/include"
     ];
   };
 
