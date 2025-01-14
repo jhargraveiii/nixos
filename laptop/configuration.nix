@@ -34,6 +34,7 @@
   networking.hostName = "datalore_laptop";
 
   environment.systemPackages = with pkgs; [
+    ollama-rocm
     kdePackages.wacomtablet
     iio-sensor-proxy
     onboard # On-screen keyboard
