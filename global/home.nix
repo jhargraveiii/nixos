@@ -41,7 +41,7 @@
     jetbrains.pycharm-professional
     github-copilot-intellij-agent
     firefox
-    google-chrome
+    brave
     thunderbird
     libreoffice
     hunspell

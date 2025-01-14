@@ -34,7 +34,7 @@ in
     ./displaymanager.nix
   ];
 
-  @ AMD microcode flake
+  # AMD microcode flake
   services.ucodenix = {
     enable = true;
     cpuModelId = "00A20F12";
