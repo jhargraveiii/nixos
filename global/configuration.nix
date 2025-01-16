@@ -96,7 +96,6 @@
       "scanner"
       "lp"
       "video"
-      "ollama"
     ];
     uid = 1000;
     openssh.authorizedKeys.keys = [

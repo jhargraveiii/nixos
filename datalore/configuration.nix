@@ -60,6 +60,12 @@ in
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 
+   services.ollama = {
+    enable = true;
+    user = "ollama-service";
+    group = "ollama-service";
+  };
+
   environment.sessionVariables = {
     # CUDA-related environment variables
     CUDA_PATH = "${cudaPackages.cudatoolkit}";
