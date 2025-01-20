@@ -30,20 +30,20 @@
     };
   };
 
-   nixpkgs.overlays = [
+  nixpkgs.overlays = [
     (final: prev: {
       amd-libflame = prev.amd-libflame.overrideAttrs (oldAttrs: {
         # Add BLIS and LAPACK headers
         CFLAGS = (oldAttrs.CFLAGS or "") + " -I${prev.amd-blis}/include -I${prev.lapack}/include";
-        
+
         # Use AMD BLIS instead of generic BLAS
-        buildInputs = (oldAttrs.buildInputs or []) ++ [
+        buildInputs = (oldAttrs.buildInputs or [ ]) ++ [
           prev.amd-blis
           prev.lapack
         ];
-        
+
         # Configure to use BLIS specifically
-        cmakeFlags = (oldAttrs.cmakeFlags or []) ++ [
+        cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [
           "-DCMAKE_C_FLAGS=-Wno-error=implicit-function-declaration"
           "-DBLIS_ENABLE=ON"
           "-DBLIS_LIBS=${prev.amd-blis}/lib/libblis.so"
@@ -238,6 +238,7 @@
   fonts.packages = with pkgs; [
     fira-code
     fira
+    fira-code-symbols
     cooper-hewitt
     ibm-plex
     source-code-pro

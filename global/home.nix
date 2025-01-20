@@ -32,6 +32,7 @@
     ../modules/programs/oxygen.nix
     ../modules/programs/neovim.nix
     ../modules/programs/vscode.nix
+    #../modules/programs/pia.nix
   ];
 
   home.packages = with pkgs; [

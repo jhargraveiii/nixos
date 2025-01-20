@@ -63,7 +63,7 @@
 
   environment.sessionVariables = {
     CMAKE_ARGS = "-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=off";
-    
+
     # Extend PATH
     PATH = [
     ];

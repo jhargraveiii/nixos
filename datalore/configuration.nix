@@ -60,7 +60,7 @@ in
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 
-   services.ollama = {
+  services.ollama = {
     enable = true;
     user = "ollama-service";
     group = "ollama-service";
