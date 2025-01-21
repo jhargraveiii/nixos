@@ -1,9 +1,8 @@
-{
-  pkgs,
-  username,
-  gitUsername,
-  gitEmail,
-  ...
+{ pkgs
+, username
+, gitUsername
+, gitEmail
+, ...
 }:
 {
   nixpkgs = {

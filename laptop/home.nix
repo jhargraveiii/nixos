@@ -1,12 +1,11 @@
-{
-  pkgs,
-  inputs,
-  username,
-  gitUsername,
-  gitEmail,
-  flakeDir,
-  outputs,
-  ...
+{ pkgs
+, inputs
+, username
+, gitUsername
+, gitEmail
+, flakeDir
+, outputs
+, ...
 }:
 {
   home.stateVersion = "24.05";

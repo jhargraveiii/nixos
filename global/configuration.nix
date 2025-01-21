@@ -1,12 +1,11 @@
-{
-  pkgs,
-  username,
-  gitUsername,
-  theLocale,
-  theTimezone,
-  theKBDLayout,
-  lib,
-  ...
+{ pkgs
+, username
+, gitUsername
+, theLocale
+, theTimezone
+, theKBDLayout
+, lib
+, ...
 }:
 {
   nixpkgs = {

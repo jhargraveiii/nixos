@@ -1,16 +1,15 @@
-{
-  pkgs,
-  username,
-  gitUsername,
-  theLocale,
-  theTimezone,
-  outputs,
-  theKBDLayout,
-  inputs,
-  system,
-  lib,
-  config,
-  ...
+{ pkgs
+, username
+, gitUsername
+, theLocale
+, theTimezone
+, outputs
+, theKBDLayout
+, inputs
+, system
+, lib
+, config
+, ...
 }:
 let
   nvidia_driver = pkgs.linuxPackages_6_12.nvidia_x11_production;
