@@ -199,6 +199,7 @@
     poetry
     pipenv
     pixi
+    pixi-pack
     mecab
     irqbalance
 
