@@ -10,14 +10,6 @@
 {
   nixpkgs = {
     config = {
-      kdePackages = pkgs.kdePackages.overrideScope (
-        self: super: {
-          skanpage = super.skanpage.override {
-            tesseractLanguages = pkgs.tesseract.languages;
-          };
-        }
-      );
-
       allowUnfree = true;
       allowBroken = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
@@ -238,7 +230,6 @@
   fonts.packages = with pkgs; [
     fira-code
     fira
-    fira-code-symbols
     cooper-hewitt
     ibm-plex
     source-code-pro

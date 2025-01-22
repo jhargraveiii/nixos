@@ -16,13 +16,6 @@ let
   cudaPackages = pkgs.cudaPackages_12_4;
 in
 {
-  # fixes bug in these packages. Remove when fixed in nixpkgs
-  nixpkgs.config.packageOverrides = pkgs: {
-    ucc = pkgs.ucc.override {
-      stdenv = pkgs.gcc13Stdenv;
-    };
-  };
-
   imports = [
     inputs.ucodenix.nixosModules.default
     # Include the results of the hardware scan.
