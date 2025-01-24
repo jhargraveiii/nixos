@@ -16,11 +16,10 @@
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      ...
+    { self
+    , nixpkgs
+    , home-manager
+    , ...
     }@inputs:
     let
       inherit (self) outputs;
@@ -38,7 +37,7 @@
       wallpaperDir = "/home/${username}/Pictures/Wallpapers";
     in
     {
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-rfc-style;
+      formatter.${system} = pkgs.nixpkgs-fmt;
 
       # Your custom packages and modifications, exported as overlays
       #overlays = import ./modules/overlays { inherit inputs pkgs; };

@@ -1,6 +1,6 @@
 { pkgs, lib, ... }:
 {
-   nixpkgs.config = {
+  nixpkgs.config = {
     rocmSupport = true;
     #rocmVersion = "4.5.0";
     #rocmCapabilities = [ "gfx90a" ];

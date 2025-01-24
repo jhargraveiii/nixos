@@ -1,24 +1,15 @@
-{
-  pkgs,
-  username,
-  gitUsername,
-  theLocale,
-  theTimezone,
-  theKBDLayout,
-  lib,
-  ...
+{ pkgs
+, username
+, gitUsername
+, theLocale
+, theTimezone
+, theKBDLayout
+, lib
+, ...
 }:
 {
   nixpkgs = {
     config = {
-      kdePackages = pkgs.kdePackages.overrideScope (
-        self: super: {
-          skanpage = super.skanpage.override {
-            tesseractLanguages = pkgs.tesseract.languages;
-          };
-        }
-      );
-
       allowUnfree = true;
       allowBroken = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
@@ -30,20 +21,20 @@
     };
   };
 
-   nixpkgs.overlays = [
+  nixpkgs.overlays = [
     (final: prev: {
       amd-libflame = prev.amd-libflame.overrideAttrs (oldAttrs: {
         # Add BLIS and LAPACK headers
         CFLAGS = (oldAttrs.CFLAGS or "") + " -I${prev.amd-blis}/include -I${prev.lapack}/include";
-        
+
         # Use AMD BLIS instead of generic BLAS
-        buildInputs = (oldAttrs.buildInputs or []) ++ [
+        buildInputs = (oldAttrs.buildInputs or [ ]) ++ [
           prev.amd-blis
           prev.lapack
         ];
-        
+
         # Configure to use BLIS specifically
-        cmakeFlags = (oldAttrs.cmakeFlags or []) ++ [
+        cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [
           "-DCMAKE_C_FLAGS=-Wno-error=implicit-function-declaration"
           "-DBLIS_ENABLE=ON"
           "-DBLIS_LIBS=${prev.amd-blis}/lib/libblis.so"
@@ -200,6 +191,7 @@
     poetry
     pipenv
     pixi
+    pixi-pack
     mecab
     irqbalance
 

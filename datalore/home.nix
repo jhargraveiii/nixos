@@ -1,13 +1,12 @@
-{
-  pkgs,
-  inputs,
-  username,
-  gitUsername,
-  gitEmail,
-  flakeDir,
-  outputs,
-  config,
-  ...
+{ pkgs
+, inputs
+, username
+, gitUsername
+, gitEmail
+, flakeDir
+, outputs
+, config
+, ...
 }:
 {
   nixpkgs = {

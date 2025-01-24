@@ -1,29 +1,21 @@
-{
-  pkgs,
-  username,
-  gitUsername,
-  theLocale,
-  theTimezone,
-  outputs,
-  theKBDLayout,
-  inputs,
-  system,
-  lib,
-  config,
-  ...
+{ pkgs
+, username
+, gitUsername
+, theLocale
+, theTimezone
+, outputs
+, theKBDLayout
+, inputs
+, system
+, lib
+, config
+, ...
 }:
 let
   nvidia_driver = pkgs.linuxPackages_6_12.nvidia_x11_production;
   cudaPackages = pkgs.cudaPackages_12_4;
 in
 {
-  # fixes bug in these packages. Remove when fixed in nixpkgs
-  nixpkgs.config.packageOverrides = pkgs: {
-    ucc = pkgs.ucc.override {
-      stdenv = pkgs.gcc13Stdenv;
-    };
-  };
-
   imports = [
     inputs.ucodenix.nixosModules.default
     # Include the results of the hardware scan.
@@ -60,7 +52,7 @@ in
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 
-   services.ollama = {
+  services.ollama = {
     enable = true;
     user = "ollama-service";
     group = "ollama-service";

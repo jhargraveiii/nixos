@@ -4,6 +4,7 @@
   environment.systemPackages = with pkgs; [
     networkmanager
     networkmanager-openvpn
+    wireguard-tools
     update-systemd-resolved
   ];
 

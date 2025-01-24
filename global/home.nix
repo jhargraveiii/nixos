@@ -1,9 +1,8 @@
-{
-  pkgs,
-  username,
-  gitUsername,
-  gitEmail,
-  ...
+{ pkgs
+, username
+, gitUsername
+, gitEmail
+, ...
 }:
 {
   nixpkgs = {
@@ -61,6 +60,9 @@
 
   # Create XDG Dirs
   xdg = {
+    mimeApps = {
+      enable = true;
+    };
     userDirs = {
       enable = true;
       createDirectories = true;
