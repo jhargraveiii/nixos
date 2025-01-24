@@ -58,6 +58,7 @@
     enable = true;
     user = "ollama-service";
     group = "ollama-service";
+    acceleration = "rocm";
   };
 
   environment.sessionVariables = {

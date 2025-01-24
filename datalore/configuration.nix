@@ -56,6 +56,7 @@ in
     enable = true;
     user = "ollama-service";
     group = "ollama-service";
+    acceleration = "cuda";
   };
 
   environment.sessionVariables = {
@@ -110,3 +111,4 @@ in
 
   system.stateVersion = "23.11";
 }
+
