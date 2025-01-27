@@ -33,7 +33,6 @@
   networking.hostName = "datalore_laptop";
 
   environment.systemPackages = with pkgs; [
-    ollama-rocm
     kdePackages.wacomtablet
     iio-sensor-proxy
     onboard # On-screen keyboard
@@ -53,13 +52,6 @@
 
   hardware.bluetooth.powerOnBoot = false;
   services.blueman.enable = false;
-
-  services.ollama = {
-    enable = true;
-    user = "ollama-service";
-    group = "ollama-service";
-    acceleration = "rocm";
-  };
 
   environment.sessionVariables = {
     CMAKE_ARGS = "-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=off";
