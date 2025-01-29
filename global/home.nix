@@ -39,6 +39,7 @@
     jetbrains.idea-ultimate
     jetbrains.pycharm-professional
     github-copilot-intellij-agent
+    nodePackages.vscode-langservers-extracted
     firefox
     brave
     thunderbird

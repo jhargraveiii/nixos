@@ -71,7 +71,7 @@
                 inherit inputs;
               };
               home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "backup";
+              home-manager.backupFileExtension = "old";
               home-manager.users.${username} = import ./datalore/home.nix;
             }
           ];
@@ -105,7 +105,7 @@
                 inherit inputs;
               };
               home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "backup";
+              home-manager.backupFileExtension = "old";
               home-manager.users.${username} = import ./laptop/home.nix;
             }
           ];
