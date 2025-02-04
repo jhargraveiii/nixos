@@ -36,6 +36,7 @@
     "vm.swappiness" = 10;
   };
   boot.kernelParams = [
+    "msr.allow_writes=on"
     "nmi_watchdog=0"
     "amd_pstate=active"
     "ahci.mobile_lpm_policy=3"
@@ -53,6 +54,7 @@
     "amdgpu"
     "acpi_call"
     "amd-pstate"
+    "ideapad_laptop"
   ];
   boot.extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
   boot.extraModprobeConfig = ''
