@@ -385,6 +385,7 @@
 
   # Updated environment variables
   environment.sessionVariables = {
+    SAL_USE_VCLPLUGIN = "kf5";  # For KDE Plasma 6
     # Other environment variables
     SSH_AUTH_SOCK = "~/.1password/agent.sock";
     TERMINAL = "konsole";
