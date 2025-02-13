@@ -13,7 +13,7 @@
       allowUnfree = true;
       allowBroken = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      allowUnfreePredicate = _: true;
+      #allowUnfreePredicate = _: true;
       blasSupport = true;
       blasProvider = pkgs.amd-blis;
       lapackSupport = true;
@@ -385,7 +385,7 @@
 
   # Updated environment variables
   environment.sessionVariables = {
-    SAL_USE_VCLPLUGIN = "kf5";  # For KDE Plasma 6
+    SAL_USE_VCLPLUGIN = "kf5"; # For KDE Plasma 6
     # Other environment variables
     SSH_AUTH_SOCK = "~/.1password/agent.sock";
     TERMINAL = "konsole";
