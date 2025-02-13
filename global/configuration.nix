@@ -286,10 +286,10 @@
 
   # global services
   services.printing = {
-    enable = true;
+    enable = false;
     browsing = true;
     stateless = true;
-    drivers = [ pkgs.canon-cups-ufr2 ];
+    #drivers = [ pkgs.canon-cups-ufr2 ];
     browsedConf = ''
       BrowseDNSSDSubTypes _cups,_print
       BrowseLocalProtocols all
