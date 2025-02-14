@@ -22,6 +22,13 @@
   };
 
   nixpkgs.overlays = [
+
+    (self: super: {
+      canon-cups-ufr2 = super.canon-cups-ufr2.overrideAttrs (oldAttrs: {
+        # Disable symlink checks for the package
+        dontCheckForBrokenSymlinks = true;
+      });
+    })
     (final: prev: {
       amd-libflame = prev.amd-libflame.overrideAttrs (oldAttrs: {
         # Add BLIS and LAPACK headers
@@ -286,10 +293,10 @@
 
   # global services
   services.printing = {
-    enable = false;
+    enable = true;
     browsing = true;
     stateless = true;
-    #drivers = [ pkgs.canon-cups-ufr2 ];
+    drivers = [ pkgs.canon-cups-ufr2 ];
     browsedConf = ''
       BrowseDNSSDSubTypes _cups,_print
       BrowseLocalProtocols all
@@ -385,7 +392,7 @@
 
   # Updated environment variables
   environment.sessionVariables = {
-    SAL_USE_VCLPLUGIN = "kf5";  # For KDE Plasma 6
+    SAL_USE_VCLPLUGIN = "kf5"; # For KDE Plasma 6
     # Other environment variables
     SSH_AUTH_SOCK = "~/.1password/agent.sock";
     TERMINAL = "konsole";
