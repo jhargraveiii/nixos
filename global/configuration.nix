@@ -24,21 +24,6 @@
   nixpkgs.overlays = [
 
     (self: super: {
-      cudaPackages = super.cudaPackages // {
-        tensorrt_10_3 = super.cudaPackages.tensorrt_10_3.overrideAttrs
-          (oldAttrs: rec {
-            dontCheckForBrokenSymlinks = true;
-            outputs = [ "out" ];
-            fixupPhase = ''
-              ${
-                oldAttrs.fixupPhase or ""
-              } # Remove broken symlinks in the main output
-               find $out -type l ! -exec test -e \{} \; -delete || true'';
-          });
-      };
-    })
-
-    (self: super: {
       canon-cups-ufr2 = super.canon-cups-ufr2.overrideAttrs (oldAttrs: {
         # Disable symlink checks for the package
         dontCheckForBrokenSymlinks = true;
