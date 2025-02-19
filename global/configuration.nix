@@ -22,7 +22,6 @@
   };
 
   nixpkgs.overlays = [
-
     (self: super: {
       canon-cups-ufr2 = super.canon-cups-ufr2.overrideAttrs (oldAttrs: {
         # Disable symlink checks for the package
