@@ -30,30 +30,6 @@
   '';
 
   environment.systemPackages = with pkgs; [
-    # CUDA Toolkit and related packages
-    cudaPackages.cuda_cudart
-    cudaPackages.cuda_cupti
-    cudaPackages.cuda_cccl
-    cudaPackages.cuda_nvcc
-    cudaPackages.cuda_nvtx
-    cudaPackages.cudatoolkit
-    cudaPackages.cuda_gdb
-    cudaPackages.cuda_nsight
-
-    # CUDA libraries
-    cudaPackages.libcublas
-    cudaPackages.libcufft
-    cudaPackages.libcurand
-    cudaPackages.libcusolver
-    cudaPackages.libcusparse
-    cudaPackages.libcufile
-    cudaPackages.libnpp
-    cudaPackages.libnvjpeg
-    cudaPackages.libnvjitlink
-    cudaPackages.cutensor
-    cudaPackages.cudnn
-    cudaPackages.nccl
-    cudaPackages.tensorrt
   ];
 
   # Enable the NVIDIA driver - but not sure why it is needed for compute only??
