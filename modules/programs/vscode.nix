@@ -2,9 +2,10 @@
 {
   programs.vscode = {
     enable = true;
-    enableUpdateCheck = true;
-    enableExtensionUpdateCheck = true;
-    extensions =
+    profiles.default.enableUpdateCheck = true;
+    profiles.default.enableExtensionUpdateCheck = true;
+
+    profiles.default.extensions =
       with pkgs.vscode-extensions;
       [
         github.copilot
