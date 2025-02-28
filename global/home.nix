@@ -50,7 +50,7 @@
     meld
     okteta
     vlc
-    sddm
+    kdePackages.sddm
     insync
     git-cola
     cheese
@@ -105,8 +105,8 @@
       ffmpegthumbnailer
       mediainfo
       sxiv
-      kdeplasma-addons
-      okular
+      kdePackages.kdeplasma-addons
+      kdePackages.okular
     ];
     bookmarks = {
       H = "/home/${username}";

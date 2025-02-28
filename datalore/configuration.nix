@@ -16,44 +16,6 @@ let
   current_cudaPackages = pkgs.cudaPackages_12_4;
 in
 {
-  nixpkgs.overlays = [
-    (self: super: {
-      current_cudaPackages.tensorrt = super.stdenv.mkDerivation rec {
-        name = "tensorrt-10.3.0.26";
-        src = /home/jimh/Download/TensorRT-10.3.0.26.tar.gz; # Path to your tarball
-
-        # If you already extracted the tarball manually (e.g., to /opt/tensorrt):
-        # src = /opt/tensorrt;
-
-        nativeBuildInputs = [ super.autoPatchelfHook ];
-        buildInputs = [ super.zlib super.current_cudaPackages.cudnn ];
-
-        installPhase = ''
-          # Copy the entire extracted tarball to the Nix store
-          mkdir -p $out
-          cp -r * $out/
-
-          # Fix broken symlinks:
-          # Option 1: Remove dangling symlinks (if they're non-critical)
-          rm -f $out/targets/x86_64-linux-gnu/samples
-          rm -f $out/targets/x86_64-linux-gnu/include
-
-          # Option 2: Recreate symlinks with corrected paths
-          ln -sf $out/samples $out/targets/x86_64-linux-gnu/samples
-          ln -sf $out/include $out/targets/x86_64-linux-gnu/include
-        '';
-
-        # Disable checks for broken symlinks (if you want to bypass entirely)
-        dontCheckForBrokenSymlinks = true;
-
-        # Ensure binaries are patched for Nix
-        autoPatchelfIgnoreMissingDeps = [
-          "libnvinfer.so.8" # Ignore dependencies resolved at runtime
-        ];
-      };
-    })
-  ];
-
   imports = [
     inputs.ucodenix.nixosModules.default
     # Include the results of the hardware scan.
