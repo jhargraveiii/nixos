@@ -11,7 +11,6 @@
       url = "github:oxalica/nil";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    ucodenix.url = "github:e-tho/ucodenix";
   };
 
   outputs =
