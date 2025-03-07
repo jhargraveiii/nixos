@@ -17,7 +17,6 @@ let
 in
 {
   imports = [
-    inputs.ucodenix.nixosModules.default
     # Include the results of the hardware scan.
     ./hardware-configuration.nix
     ../global/configuration.nix
@@ -25,12 +24,6 @@ in
     ./nvidia.nix
     ./displaymanager.nix
   ];
-
-  # AMD microcode flake
-  services.ucodenix = {
-    enable = true;
-    cpuModelId = "00A20F12";
-  };
 
   networking.hostName = "datalore";
 
