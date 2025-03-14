@@ -41,9 +41,10 @@
     github-copilot-intellij-agent
     nodePackages.vscode-langservers-extracted
     firefox
-    brave
+    opera
     thunderbird
     libreoffice
+    bleachbit
     hunspell
     hunspellDicts.en_US
     klavaro
