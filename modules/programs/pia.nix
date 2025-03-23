@@ -21,6 +21,8 @@ let
 
     buildInputs = [
       pkgs.glibc
+      pkgs.stdenv.cc.cc.lib # This provides libstdc++
+      pkgs.glib
       pkgs.qt6.qtbase
       pkgs.qt6.qtnetworkauth
       pkgs.gtk3
@@ -72,17 +74,37 @@ let
         MAIN_EXEC=$(find "$out/opt/pia/piafiles/bin" -type f -executable -not -name "*.sh" | head -n 1)
       fi
 
-      # Create main executable symlink if we found something
+      # Set up additional library paths
+      LIB_PATHS="\
+      ${pkgs.stdenv.cc.cc.lib}/lib:\
+      ${pkgs.glib}/lib:\
+      ${pkgs.gtk3}/lib:\
+      ${pkgs.libsecret}/lib:\
+      ${pkgs.libappindicator}/lib:\
+      ${pkgs.nss}/lib:\
+      ${pkgs.xorg.libXScrnSaver}/lib:\
+      ${pkgs.xorg.libX11}/lib:\
+      ${pkgs.xorg.libXext}/lib:\
+      ${pkgs.xorg.libXrender}/lib:\
+      ${pkgs.xorg.libXtst}/lib:\
+      ${pkgs.curl}/lib:\
+      $out/opt/pia/piafiles/lib:\
+      $out/opt/pia/lib"
+
+      # Instead of creating a symlink, create a wrapper script
       if [ -n "$MAIN_EXEC" ]; then
         echo "Found main executable: $MAIN_EXEC"
-        ln -s "$MAIN_EXEC" "$out/bin/pia"
+        # Create a wrapper script instead of a direct symlink
+        makeWrapper "$MAIN_EXEC" "$out/bin/pia" \
+          --prefix LD_LIBRARY_PATH : "$LIB_PATHS" \
+          --set QT_PLUGIN_PATH "$out/opt/pia/piafiles/plugins"
       else
         echo "Warning: couldn't find the main PIA executable"
         # Fall back to a known location (for debugging)
         echo "Available files in opt/pia:"
         find "$out/opt/pia" -type f -executable | sort
       fi
-
+      
       # Manually patch executables to include the correct internal library paths
       find "$out/opt/pia" -type f -executable -print0 | while IFS= read -r -d $'\0' file; do
         if [[ "$(file -b "$file")" == *ELF* ]]; then
@@ -91,8 +113,8 @@ let
           # Set interpreter
           patchelf --set-interpreter "$(cat "$NIX_CC/nix-support/dynamic-linker")" "$file" || true
           
-          # Set RPATH to include the piafiles directory where the internal libraries are
-          patchelf --set-rpath "$out/opt/pia/piafiles/lib:$out/opt/pia/piafiles:$out/opt/pia/lib:$out/opt/pia:$(patchelf --print-rpath "$file" 2>/dev/null || echo "")" "$file" || true
+          # Set RPATH to include all the required library paths
+          patchelf --set-rpath "$LIB_PATHS:$(patchelf --print-rpath "$file" 2>/dev/null || echo "")" "$file" || true
         fi
       done
 
@@ -101,8 +123,8 @@ let
         if [[ "$(file -b "$file")" == *ELF* ]]; then
           echo "Patching library $file"
           
-          # Set RPATH for libraries
-          patchelf --set-rpath "$out/opt/pia/piafiles/lib:$out/opt/pia/piafiles:$out/opt/pia/lib:$out/opt/pia:$(patchelf --print-rpath "$file" 2>/dev/null || echo "")" "$file" || true
+          # Set RPATH for libraries with all required library paths
+          patchelf --set-rpath "$LIB_PATHS:$(patchelf --print-rpath "$file" 2>/dev/null || echo "")" "$file" || true
         fi
       done
 
