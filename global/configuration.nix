@@ -68,7 +68,6 @@
   imports = [
     ../modules/services/networking.nix
     ../modules/services/flatpak.nix
-    #../modules/services/pia-vpn.nix
     ../modules/programs/distrobox.nix
   ];
 
