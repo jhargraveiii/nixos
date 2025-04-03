@@ -68,7 +68,6 @@
   imports = [
     ../modules/services/networking.nix
     ../modules/services/flatpak.nix
-    #../modules/services/pia-vpn.nix
     ../modules/programs/distrobox.nix
   ];
 
@@ -145,7 +144,7 @@
     ruff-lsp
     ruff
     checkstyle
-    gitlint
+    #gitlint
     checkmake
     cppcheck
     stylelint
@@ -167,8 +166,6 @@
     tldr
     ant
     maven
-    gradle
-    kotlin
     fd
     ripgrep
     silver-searcher
@@ -213,9 +210,7 @@
     poetry
     pipenv
     pixi
-    pixi-pack
     mecab
-    irqbalance
 
     # KDE Applications
     qt6.qtwayland
@@ -241,7 +236,6 @@
 
     gnome-firmware
     nix-index
-    cargo
     zip
     bup
 

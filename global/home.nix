@@ -17,7 +17,7 @@
       # Disable if you don't want unfree packages
       allowUnfree = true;
       # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      #allowUnfreePredicate = _: true;
+      allowUnfreePredicate = _: true;
     };
   };
 
@@ -58,7 +58,6 @@
   ];
 
   home.file.".jdks/openjdk17".source = pkgs.jdk17;
-  home.file.".jdks/openjdk21".source = pkgs.jdk21;
 
   # Create XDG Dirs
   xdg = {
