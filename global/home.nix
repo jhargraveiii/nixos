@@ -30,6 +30,7 @@
     ../modules/programs/kitty.nix
     ../modules/programs/oxygen.nix
     ../modules/programs/neovim.nix
+    ../modules/programs/pia.nix
     ../modules/programs/vscode.nix
   ];
 
