@@ -30,7 +30,6 @@
     ../modules/programs/kitty.nix
     ../modules/programs/oxygen.nix
     ../modules/programs/neovim.nix
-    ../modules/programs/pia.nix
     ../modules/programs/vscode.nix
   ];
 
@@ -42,7 +41,6 @@
     github-copilot-intellij-agent
     nodePackages.vscode-langservers-extracted
     firefox
-    opera
     thunderbird
     libreoffice
     bleachbit
