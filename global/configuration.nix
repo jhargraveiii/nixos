@@ -141,7 +141,6 @@
     cppcheck
     protolint
     pylint
-    ruff-lsp
     ruff
     checkstyle
     #gitlint
