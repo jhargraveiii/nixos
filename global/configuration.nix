@@ -22,47 +22,7 @@
   };
 
   nixpkgs.overlays = [
-    (self: super: {
-      cudaPackages_12_4 = super.cudaPackages_12_4 // {
-        tensorrt = super.cudaPackages_12_4.tensorrt_10_3.overrideAttrs
-          (oldAttrs: rec {
-            dontCheckForBrokenSymlinks = true;
-            outputs = [ "out" ];
-            fixupPhase = ''
-              ${
-                oldAttrs.fixupPhase or ""
-              } # Remove broken symlinks in the main output
-               find $out -type l ! -exec test -e \{} \; -delete || true'';
-          });
-      };
-    })
-    (self: super: {
-      canon-cups-ufr2 = super.canon-cups-ufr2.overrideAttrs (oldAttrs: {
-        # Disable symlink checks for the package
-        dontCheckForBrokenSymlinks = true;
-      });
-    })
-
-    (final: prev: {
-      amd-libflame = prev.amd-libflame.overrideAttrs (oldAttrs: {
-        # Add BLIS and LAPACK headers
-        CFLAGS = (oldAttrs.CFLAGS or "") + " -I${prev.amd-blis}/include -I${prev.lapack}/include";
-
-        # Use AMD BLIS instead of generic BLAS
-        buildInputs = (oldAttrs.buildInputs or [ ]) ++ [
-          prev.amd-blis
-          prev.lapack
-        ];
-
-        # Configure to use BLIS specifically
-        cmakeFlags = (oldAttrs.cmakeFlags or [ ]) ++ [
-          "-DCMAKE_C_FLAGS=-Wno-error=implicit-function-declaration"
-          "-DBLIS_ENABLE=ON"
-          "-DBLIS_LIBS=${prev.amd-blis}/lib/libblis.so"
-          "-DBLIS_INCLUDE_PATH=${prev.amd-blis}/include"
-        ];
-      });
-    })
+  
   ];
 
   imports = [

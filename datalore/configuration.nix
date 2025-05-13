@@ -13,7 +13,7 @@
 }:
 let
   nvidia_driver = pkgs.linuxPackages_6_12.nvidia_x11_production;
-  current_cudaPackages = pkgs.cudaPackages_12_4;
+  current_cudaPackages = pkgs.cudaPackages_12_8;
 in
 {
   imports = [
