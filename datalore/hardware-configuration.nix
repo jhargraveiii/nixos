@@ -23,7 +23,7 @@
       efi.canTouchEfiVariables = true;
       systemd-boot.enable = true;
     };
-    kernelPackages = pkgs.linuxPackages_6_14;
+    kernelPackages = pkgs.linuxPackages_6_12;
     initrd.availableKernelModules = [
       "thunderbolt"
       "nvme"
@@ -38,15 +38,15 @@
       "vm.max_map_count" = 2147483642;
     };
     kernelModules = [
-      "bfq"
+      # "bfq"
       "kvm-amd"
       "amdgpu"
       "amd-pstate"
     ];
     kernelParams = [
-      "elevator=bfq"
-      "scsi_mod.use_blk_mq=1"
-      "io_scheduler=bfq"
+      # "elevator=bfq"
+      # "scsi_mod.use_blk_mq=1"
+      # "io_scheduler=bfq"
       "amd_pstate=active"
       "amdgpu.ppfeaturemask=0xffffffff"
     ];
