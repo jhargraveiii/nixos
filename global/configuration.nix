@@ -170,27 +170,32 @@
     pixi
     mecab
 
-    # KDE Applications
+    # KDE Plasma 6 Wayland essentials
     qt6.qtwayland
+    libsForQt5.qt5.qtwayland
+    wayland
+    xwayland
+    
+    # Core KDE Plasma packages
+    kdePackages.plasma-workspace
+    kdePackages.kwayland
+    kdePackages.plasma-desktop
+    kdePackages.kwin
+    kdePackages.breeze
+    kdePackages.systemsettings
+    
+    # KDE Applications
     kdePackages.kcalc
-    kdePackages.kalgebra
     kdePackages.partitionmanager
-    kdePackages.isoimagewriter
     kdePackages.filelight
-    kdePackages.kcharselect
     kdePackages.kup
     kdePackages.baloo
     kdePackages.baloo-widgets
-    kdePackages.milou
     kdePackages.kcoreaddons
     kdePackages.kirigami
     kdePackages.kirigami-addons
-    kdePackages.kirigami-gallery
-    kdePackages.plasma-workspace
-    kdePackages.skanpage
-    kdePackages.ksanecore
-    kdePackages.libksane
-    kdePackages.skanlite
+    kdePackages.plasma-integration
+    kdePackages.qqc2-desktop-style
 
     gnome-firmware
     nix-index
