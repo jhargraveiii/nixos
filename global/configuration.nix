@@ -156,7 +156,6 @@
     libinput-gestures
     aha
     pciutils
-    lshw
     clinfo
     vulkan-tools
     wayland-utils
@@ -197,6 +196,7 @@
     nix-index
     zip
     bup
+    psutils
 
     amd-libflame
     amd-blis
