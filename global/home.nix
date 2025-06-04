@@ -41,6 +41,7 @@
     github-copilot-intellij-agent
     nodePackages.vscode-langservers-extracted
     firefox
+    brave
     thunderbird
     libreoffice
     bleachbit
