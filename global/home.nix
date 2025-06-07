@@ -41,7 +41,6 @@
     github-copilot-intellij-agent
     nodePackages.vscode-langservers-extracted
     firefox
-    brave
     thunderbird
     libreoffice
     bleachbit
@@ -51,7 +50,6 @@
     meld
     okteta
     vlc
-    kdePackages.sddm
     insync
     git-cola
     cheese

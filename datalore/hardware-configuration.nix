@@ -38,15 +38,11 @@
       "vm.max_map_count" = 2147483642;
     };
     kernelModules = [
-      # "bfq"
       "kvm-amd"
       "amdgpu"
       "amd-pstate"
     ];
     kernelParams = [
-      # "elevator=bfq"
-      # "scsi_mod.use_blk_mq=1"
-      # "io_scheduler=bfq"
       "amd_pstate=active"
       "amdgpu.ppfeaturemask=0xffffffff"
     ];

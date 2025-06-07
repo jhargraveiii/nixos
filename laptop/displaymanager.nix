@@ -14,6 +14,7 @@
     config.Touchscreen.DisableOnStylus = true;
     config.Touchscreen.DisableOnPalm = true;
   };
+  services.xserver.enable = true;
   services.xserver.wacom.enable = true;
 
   hardware.sensor.iio.enable = true;
