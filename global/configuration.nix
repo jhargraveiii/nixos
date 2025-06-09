@@ -34,6 +34,8 @@
   systemd.enableEmergencyMode = false;
   services.timesyncd.enable = true;
   services.fwupd.enable = true;
+  services.smartd.enable = true;
+  hardware.usbStorage.manageShutdown = true;
 
   # Set your time zone.
   time.timeZone = "${theTimezone}";
