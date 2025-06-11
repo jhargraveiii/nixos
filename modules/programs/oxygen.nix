@@ -11,8 +11,44 @@ let
     };
 
     installPhase = ''
+      # Create destination directory
       mkdir -p $out/opt/oxygen-xml-developer
+      
+      # Extract the tarball with verbose output and error checking
+      echo "Extracting tarball..."
       tar xzvf $src -C $out/opt/oxygen-xml-developer --strip-components=1
+
+      
+      # Check if extraction succeeded
+      if [ ! -f $out/opt/oxygen-xml-developer/oxygenDeveloper.sh ]; then
+        echo "Error: Failed to extract oxygenDeveloper script"
+        exit 1
+      fi
+      
+      # Create icon directory
+      mkdir -p $out/share/icons/hicolor/128x128/apps
+      
+      # Copy icon file if it exists
+      if [ -f $out/opt/oxygen-xml-developer/Developer128.png ]; then
+        cp $out/opt/oxygen-xml-developer/Developer128.png $out/share/icons/hicolor/128x128/apps/oxygen-xml-developer.png
+      else
+        echo "Warning: Developer128.png not found, looking for alternatives..."
+        find $out/opt/oxygen-xml-developer -name "*.ico" -o -name "*.png" | head -n 1 | xargs -I{} cp {} $out/share/icons/hicolor/128x128/apps/oxygen-xml-developer.png
+      fi
+      
+      # Create desktop entry directory
+      mkdir -p $out/share/applications
+      cat > $out/share/applications/oxygen-xml-developer.desktop << EOF
+      [Desktop Entry]
+      Name=Oxygen XML Developer
+      Comment=XML Development Environment
+      Exec=$out/opt/oxygen-xml-developer/oxygenDeveloper.sh
+      Icon=$out/share/icons/hicolor/128x128/apps/oxygen-xml-developer.ico
+      Terminal=false
+      Type=Application
+      Categories=Development;IDE;XML;
+      StartupNotify=true
+      EOF
     '';
   };
 in
@@ -21,4 +57,8 @@ in
   home.file.".oxygen-xml-developer-profile".text = ''
     export PATH=$PATH:${oxygen-xml-developer.out}/opt/oxygen-xml-developer
   '';
+  
+  # Link desktop file to user applications directory
+  home.file.".local/share/applications/oxygen-xml-developer.desktop".source = 
+    "${oxygen-xml-developer}/share/applications/oxygen-xml-developer.desktop";
 }

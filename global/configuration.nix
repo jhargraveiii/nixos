@@ -105,7 +105,7 @@
     pylint
     ruff
     checkstyle
-    #gitlint
+    gitlint
     checkmake
     cppcheck
     stylelint
@@ -292,19 +292,8 @@
     jack.enable = true;
   };
 
-  security.pam.loginLimits = [
-    {
-      domain = "*";
-      item = "rtprio";
-      type = "-";
-      value = 99;
-    }
-  ];
-
-  security.rtkit.enable = true;
   security.polkit.enable = true;
   services.udisks2.enable = true;
-  services.tumbler.enable = true;
   services.dbus.enable = true;
 
   # globl programs

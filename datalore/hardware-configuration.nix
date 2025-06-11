@@ -40,7 +40,6 @@
     kernelModules = [
       "kvm-amd"
       "amdgpu"
-      "amd-pstate"
     ];
     kernelParams = [
       "amd_pstate=active"

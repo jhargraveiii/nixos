@@ -53,7 +53,6 @@
   boot.kernelModules = [
     "amdgpu"
     "acpi_call"
-    "amd-pstate"
     "ideapad_laptop"
   ];
   boot.extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
