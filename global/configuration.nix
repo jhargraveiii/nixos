@@ -22,7 +22,7 @@
   };
 
   nixpkgs.overlays = [
-  
+
   ];
 
   imports = [
@@ -177,7 +177,7 @@
     libsForQt5.qt5.qtwayland
     wayland
     xwayland
-    
+
     # Core KDE Plasma packages
     kdePackages.plasma-workspace
     kdePackages.kwayland
@@ -185,7 +185,7 @@
     kdePackages.kwin
     kdePackages.breeze
     kdePackages.systemsettings
-    
+
     # KDE Applications
     kdePackages.kcalc
     kdePackages.partitionmanager
@@ -372,7 +372,7 @@
     _ZO_ECHO = "1";
     M2_COLORS = "true";
     _JAVA_AWT_WM_NONREPARENTING = "1";
-    JAVA_HOME = "${pkgs.openjdk17}/lib/openjdk";
+    JAVA_HOME = "${pkgs.openjdk21}/lib/openjdk";
     NIXOS_OZONE_WL = "1";
     NIXPKGS_ALLOW_UNFREE = "1";
     SCRIPTDIR = "/home/${username}/.local/share/scriptdeps";
