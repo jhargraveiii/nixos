@@ -22,7 +22,7 @@
   };
 
   nixpkgs.overlays = [
-  
+
   ];
 
   imports = [
@@ -34,6 +34,8 @@
   systemd.enableEmergencyMode = false;
   services.timesyncd.enable = true;
   services.fwupd.enable = true;
+  services.smartd.enable = true;
+  hardware.usbStorage.manageShutdown = true;
 
   # Set your time zone.
   time.timeZone = "${theTimezone}";
@@ -103,7 +105,7 @@
     pylint
     ruff
     checkstyle
-    #gitlint
+    gitlint
     checkmake
     cppcheck
     stylelint
@@ -175,7 +177,7 @@
     libsForQt5.qt5.qtwayland
     wayland
     xwayland
-    
+
     # Core KDE Plasma packages
     kdePackages.plasma-workspace
     kdePackages.kwayland
@@ -183,7 +185,7 @@
     kdePackages.kwin
     kdePackages.breeze
     kdePackages.systemsettings
-    
+
     # KDE Applications
     kdePackages.kcalc
     kdePackages.partitionmanager
@@ -290,19 +292,8 @@
     jack.enable = true;
   };
 
-  security.pam.loginLimits = [
-    {
-      domain = "*";
-      item = "rtprio";
-      type = "-";
-      value = 99;
-    }
-  ];
-
-  security.rtkit.enable = true;
   security.polkit.enable = true;
   services.udisks2.enable = true;
-  services.tumbler.enable = true;
   services.dbus.enable = true;
 
   # globl programs
@@ -381,7 +372,7 @@
     _ZO_ECHO = "1";
     M2_COLORS = "true";
     _JAVA_AWT_WM_NONREPARENTING = "1";
-    JAVA_HOME = "${pkgs.openjdk17}/lib/openjdk";
+    JAVA_HOME = "${pkgs.openjdk21}/lib/openjdk";
     NIXOS_OZONE_WL = "1";
     NIXPKGS_ALLOW_UNFREE = "1";
     SCRIPTDIR = "/home/${username}/.local/share/scriptdeps";

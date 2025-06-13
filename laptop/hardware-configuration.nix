@@ -27,7 +27,7 @@
 
   boot.blacklistedKernelModules = [
   ];
-  
+
   boot.initrd.kernelModules = [ ];
   boot.kernel.sysctl = {
     "vm.max_map_count" = 2147483642;
@@ -53,7 +53,6 @@
   boot.kernelModules = [
     "amdgpu"
     "acpi_call"
-    "amd-pstate"
     "ideapad_laptop"
   ];
   boot.extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
