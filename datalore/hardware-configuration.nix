@@ -40,6 +40,7 @@
     kernelModules = [
       "kvm-amd"
       "amdgpu"
+      "wireguard"
     ];
     kernelParams = [
       "amdgpu.gpu_recovery=1"

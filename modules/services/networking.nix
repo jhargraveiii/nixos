@@ -5,12 +5,13 @@
     networkmanager
     networkmanager-openvpn
     wireguard-tools
-    update-systemd-resolved
   ];
 
   systemd.services.systemd-resolved.environment = with lib; {
     LD_LIBRARY_PATH = "${getLib pkgs.libidn2}/lib:$LD_LIBRARY_PATH";
   };
+
+  networking.wireguard.enable = true;
 
   networking = {
     firewall = {
@@ -19,22 +20,25 @@
       allowedTCPPorts = [
         80
         443
+        53
       ];
+      allowedUDPPorts = [
+        53
+        51820
+      ];
+      # Trust traffic from the PIA interface
+      extraCommands = ''
+        iptables -A INPUT -i wgpia+ -j ACCEPT
+      '';
     };
 
+    hostName = "datalore";
+    domain = "local";
     networkmanager = {
       enable = true;
     };
-  };
-
-  services.resolved = {
-    enable = true;
-    dnssec = "true";
-    domains = [ "~." ];
-    fallbackDns = [
-      "1.1.1.1"
-      "1.0.0.1"
-    ];
+    # Set the system's DNS resolver to our local unbound instance.
+    nameservers = [ "192.168.50.1" ];
   };
 
   networking.timeServers = [ "pool.ntp.org" ];

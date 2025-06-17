@@ -22,13 +22,18 @@
   };
 
   nixpkgs.overlays = [
-
+    (final: prev: {
+      xwayland = prev.xwayland.overrideAttrs (oldAttrs: {
+        buildInputs = (oldAttrs.buildInputs or [ ]) ++ [ final.libgcrypt ];
+      });
+    })
   ];
 
   imports = [
     ../modules/services/networking.nix
     ../modules/services/flatpak.nix
     ../modules/programs/distrobox.nix
+    ../modules/services/pia.nix
   ];
 
   systemd.enableEmergencyMode = false;
@@ -119,7 +124,6 @@
     jq
     jsonfmt
     yamlfmt
-    deno
     go
     gh
     most
@@ -237,6 +241,9 @@
     enable = true;
     nssmdns4 = true;
   };
+
+  # enable pia
+  services.pia.enable = true;
 
   hardware.sane = {
     enable = true;
