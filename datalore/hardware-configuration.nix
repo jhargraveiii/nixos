@@ -40,11 +40,15 @@
     kernelModules = [
       "kvm-amd"
       "amdgpu"
+      "wireguard"
     ];
     kernelParams = [
-      "amd_pstate=active"
-      "amdgpu.ppfeaturemask=0xffffffff"
+      "amdgpu.gpu_recovery=1"
+      "amdgpu.runpm=0"
+      "amdgpu.dcdebugmask=0x10"
+      "prcessor.max_cstate=5"
     ];
+
     extraModulePackages = [
     ];
     tmp.cleanOnBoot = true;

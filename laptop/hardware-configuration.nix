@@ -54,6 +54,8 @@
     "amdgpu"
     "acpi_call"
     "ideapad_laptop"
+    "wireguard"
+    "kvm-amd"
   ];
   boot.extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
   boot.extraModprobeConfig = ''

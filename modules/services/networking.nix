@@ -5,7 +5,6 @@
     networkmanager
     networkmanager-openvpn
     wireguard-tools
-    update-systemd-resolved
   ];
 
   systemd.services.systemd-resolved.environment = with lib; {
@@ -13,30 +12,44 @@
   };
 
   networking = {
+    wireguard.enable = true;
+    
     firewall = {
       enable = true;
-      checkReversePath = "loose";
+      checkReversePath = false;
       allowedTCPPorts = [
         80
         443
+        53
       ];
+      allowedUDPPorts = [
+        53
+        51820
+        1317 # PIA client additional UDP port
+      ];
+      # Trust traffic from the PIA interface and allow DNS and PIA communication
+      extraCommands = ''
+        iptables -A INPUT -i wgpia+ -j ACCEPT
+        iptables -A OUTPUT -o wgpia+ -p udp --dport 53 -j ACCEPT
+        iptables -A OUTPUT -o wgpia+ -p udp --dport 1317 -j ACCEPT
+      '';
     };
 
     networkmanager = {
       enable = true;
+      dns = "systemd-resolved"; # Let NetworkManager manage DNS dynamically
     };
   };
 
   services.resolved = {
     enable = true;
-    dnssec = "true";
-    domains = [ "~." ];
+    dnssec = "allow-downgrade"; # Compatible with PIA's DNS
     fallbackDns = [
-      "1.1.1.1"
-      "1.0.0.1"
+      "192.168.50.1" # Router DNS
+      "1.1.1.1"      # Cloudflare DNS
+      "1.0.0.1"      # Cloudflare DNS
     ];
   };
 
   networking.timeServers = [ "pool.ntp.org" ];
-
 }
