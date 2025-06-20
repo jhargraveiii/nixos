@@ -31,7 +31,6 @@ in
   ];
 
   environment.systemPackages = with pkgs; [
-    nvtopPackages.full
     ollama-cuda
     llama-cpp
 
@@ -92,7 +91,6 @@ in
 
     # for llama.cpp mostly
     CMAKE_ARGS = "-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=on";
-    FORCE_CMAKE = lib.mkForce "1";
 
     # Extend PATH
     PATH = [

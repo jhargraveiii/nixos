@@ -23,8 +23,12 @@
 
   nixpkgs.overlays = [
     (final: prev: {
-      xwayland = prev.xwayland.overrideAttrs (oldAttrs: {
-        buildInputs = (oldAttrs.buildInputs or [ ]) ++ [ final.libgcrypt ];
+      # Target the rocmPackages set specifically
+      rocmPackages = prev.rocmPackages.overrideScope (rocmFinal: rocmPrev: {
+        # Now, inside this scope, override clr
+        clr = rocmPrev.clr.overrideAttrs (oldAttrs: {
+          disallowedRequisites = [];
+        });
       });
     })
   ];
@@ -333,6 +337,7 @@
   nix = {
     settings = {
       auto-optimise-store = true;
+      download-buffer-size = 524288000; # 500 MiB
       experimental-features = [
         "nix-command"
         "flakes"
@@ -363,7 +368,7 @@
 
   # Updated environment variables
   environment.sessionVariables = {
-    SAL_USE_VCLPLUGIN = "kf5"; # For KDE Plasma 6
+    #SAL_USE_VCLPLUGIN = "kf5"; # For KDE Plasma 6
     # Other environment variables
     SSH_AUTH_SOCK = "~/.1password/agent.sock";
     TERMINAL = "konsole";
@@ -383,6 +388,6 @@
     NIXOS_OZONE_WL = "1";
     NIXPKGS_ALLOW_UNFREE = "1";
     SCRIPTDIR = "/home/${username}/.local/share/scriptdeps";
-    KWIN_DRM_NO_DIRECT_SCANOUT = "1";
+    #KWIN_DRM_NO_DIRECT_SCANOUT = "1";
   };
 }
