@@ -31,8 +31,6 @@ in
   ];
 
   environment.systemPackages = with pkgs; [
-    gcc13
-    nvtopPackages.full
     ollama-cuda
     llama-cpp
 
@@ -83,17 +81,16 @@ in
     CUDA_HOME = "${current_cudaPackages.cudatoolkit}";
     CUDA_ROOT = "${current_cudaPackages.cudatoolkit}";
     CUDACXX = "${current_cudaPackages.cudatoolkit}/bin/nvcc";
-    CUDAHOSTCXX = "${pkgs.gcc13}/bin/g++";
-    CMAKE_CUDA_HOST_COMPILER = "${pkgs.gcc13}/bin/gcc";
-    CUDA_HOST_COMPILER = "${pkgs.gcc13}/bin/gcc";
-    CC = "${pkgs.gcc13}/bin/gcc";
-    CXX = "${pkgs.gcc13}/bin/g++";
+    CUDAHOSTCXX = "${pkgs.gcc}/bin/g++";
+    CMAKE_CUDA_HOST_COMPILER = "${pkgs.gcc}/bin/gcc";
+    CUDA_HOST_COMPILER = "${pkgs.gcc}/bin/gcc";
+    CC = "${pkgs.gcc}/bin/gcc";
+    CXX = "${pkgs.gcc}/bin/g++";
     CUDA_TOOLKIT_ROOT_DIR = "${current_cudaPackages.cudatoolkit}";
     CUDNN_ROOT = "${current_cudaPackages.cudnn}";
 
     # for llama.cpp mostly
-    #CMAKE_ARGS = "-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=on";
-    #FORCE_CMAKE = lib.mkForce "1";
+    CMAKE_ARGS = "-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=on";
 
     # Extend PATH
     PATH = [

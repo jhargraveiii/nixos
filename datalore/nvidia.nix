@@ -9,7 +9,7 @@
 
   nixpkgs.config = {
     cudaSupport = true;
-    cudaVersion = "12.4";
+    cudaVersion = "12.8";
     cudaCapabilities = [ "8.9" ];
     nvidia.acceptLicense = true;
   };
@@ -30,15 +30,22 @@
   '';
 
   environment.systemPackages = with pkgs; [
+    config.hardware.nvidia.package
+    nvtopPackages.full
   ];
 
-  # Enable the NVIDIA driver - but not sure why it is needed for compute only??
   services.xserver.videoDrivers = [ "nvidia" ];
+
+  hardware.nvidia-container-toolkit = {
+    enable = true;
+    suppressNvidiaDriverAssertion = true;
+  };
+  
   hardware.nvidia = {
-    nvidiaPersistenced = false;
+    nvidiaPersistenced = true;
     modesetting.enable = false;
     forceFullCompositionPipeline = false;
-    powerManagement.enable = true;
+    powerManagement.enable = false;
     open = false;
     nvidiaSettings = false;
     package = config.boot.kernelPackages.nvidia_x11_production;
