@@ -8,12 +8,9 @@
     extraModprobeConfig = ''
       blacklist nouveau
       options nvidia "NVreg_PreserveVideoMemoryAllocations=0"
-      options nvidia_drm modeset=0 fbdev=0
     '';
     blacklistedKernelModules = [
       "nouveau"
-      "nvidia_drm"
-      "nvidia_modeset"
     ];
     loader = {
       efi.canTouchEfiVariables = true;
@@ -39,24 +36,15 @@
       "wireguard"
       "nvidia" 
       "nvidia_uvm"
-      "nvidia_drm"
     ];
     kernelParams = [
       "amdgpu.gpu_recovery=1"
       "amdgpu.runpm=0"
       "amdgpu.dcdebugmask=0x10"
-      # Set NVIDIA as compute-only (no display)
-      "nvidia-drm.modeset=0"
+      # NVIDIA compute-only optimizations
       "nvidia.NVreg_PreserveVideoMemoryAllocations=0"
       "nvidia.NVreg_EnableBacklightHandler=0"
-      # Removing power management options as they may affect compute performance
-      # "nvidia.NVreg_DynamicPowerManagement=0x02"
-      # "nvidia.NVreg_EnableS0ixPowerManagement=1"
       "nvidia.NVreg_TemporaryFilePath=/tmp"
-      "nvidia.NVreg_RmLogonRC=1"
-      "nvidia.NVreg_ModifyDeviceFiles=0"
-      "nvidia.NVreg_DeviceFileUID=0"
-      "nvidia.NVreg_DeviceFileGID=0"
       "nvidia.NVreg_DeviceFileMode=0666"
     ];
 
