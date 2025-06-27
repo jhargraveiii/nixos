@@ -16,12 +16,17 @@
 
   environment.variables = {
     CUDA_CACHE_PATH = "/tmp/cuda-cache";
-    # Reduce VRAM allocation for display
+    # Force headless mode and minimize display memory
     __GL_SHADER_DISK_CACHE_PATH = "/tmp";
     __GL_SHADER_DISK_CACHE_SIZE = "100000000"; # 100MB
+    __GLX_FORCE_VRAM_MAPPING = "0";
+    __GL_THREADED_OPTIMIZATIONS = "0";
     # Force compute mode
     NVIDIA_VISIBLE_DEVICES = "all";
     NVIDIA_DRIVER_CAPABILITIES = "compute,utility";
+    # Minimize display memory allocation
+    NVIDIA_RESERVED_MEMORY = "128";
+    __GL_MaxFramesAllowed = "0";
   };
 
   services.udev.extraRules = ''
@@ -36,6 +41,11 @@
 
     # Enable runtime power management for NVIDIA GPUs
     ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x10de", ATTR{class}=="0x030000", ATTR{power/control}="auto"
+    
+    # Ensure compute access for monitoring tools
+    KERNEL=="nvidia*", GROUP="render", MODE="0664"
+    KERNEL=="nvidiactl", GROUP="render", MODE="0664"
+    KERNEL=="nvidia-uvm", GROUP="render", MODE="0664"
   '';
 
   environment.systemPackages = with pkgs; [
@@ -50,13 +60,24 @@
     enable = true;
     suppressNvidiaDriverAssertion = true;
   };
+
+  # NVIDIA driver requires X server video driver declaration to properly initialize
+  # kernel modules and create device nodes, even in headless/compute-only mode
+  services.xserver = {
+    enable = true;
+    display = null;
+    videoDrivers = [ "nvidia" ];
+    # Minimize X server footprint for compute-only use
+    displayManager.startx.enable = false;
+    autorun = false;
+  };
   
   hardware.nvidia = {
     nvidiaPersistenced = true; 
     modesetting.enable = false;
     forceFullCompositionPipeline = false;
-    powerManagement.enable = true;
-    powerManagement.finegrained = true;
+    powerManagement.enable = false;
+    powerManagement.finegrained = false;
     open = false;
     nvidiaSettings = false;
     package = config.boot.kernelPackages.nvidia_x11_production;
