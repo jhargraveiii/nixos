@@ -185,6 +185,7 @@
     libsForQt5.qt5.qtwayland
     wayland
     xwayland
+    xkeyboard-config
 
     # Core KDE Plasma packages
     kdePackages.plasma-workspace
@@ -209,6 +210,7 @@
 
     gnome-firmware
     nix-index
+    nix-ld
     zip
     bup
     psutils
