@@ -21,6 +21,13 @@
     };
   };
 
+  
+  # You need to ensure your home-manager configuration also uses the overlay.
+  # Add the nixpkgs.overlays line to your existing home-manager config.
+  nixpkgs.overlays = [ 
+    (import ./overlays/warp-terminal) 
+  ];
+
   # Home Manager Settings
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
@@ -54,7 +61,7 @@
     insync
     git-cola
     cheese
-    warp-terminal
+    warp-terminal  # Temporarily commented out due to hash mismatch
   ];
 
   home.file.".jdks/openjdk17".source = pkgs.jdk17;
