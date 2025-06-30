@@ -7,7 +7,6 @@
   boot = {
     extraModprobeConfig = ''
       blacklist nouveau
-      options nvidia "NVreg_PreserveVideoMemoryAllocations=0"
     '';
     blacklistedKernelModules = [
       "nouveau"
@@ -38,18 +37,9 @@
       "nvidia_uvm"
     ];
     kernelParams = [
-      "amdgpu.gpu_recovery=1"
-      "amdgpu.runpm=0"
-      "amdgpu.dcdebugmask=0x10"
-      # NVIDIA compute-only optimizations
-      "nvidia.NVreg_PreserveVideoMemoryAllocations=0"
-      "nvidia.NVreg_EnableBacklightHandler=0"
-      "nvidia.NVreg_TemporaryFilePath=/tmp"
-      "nvidia.NVreg_DeviceFileMode=0666"
     ];
 
     extraModulePackages = [
-      config.boot.kernelPackages.nvidia_x11_production
     ];
     tmp.cleanOnBoot = true;
   };
@@ -110,7 +100,8 @@
     ];
   };
 
-  networking.useDHCP = lib.mkDefault true;
+  # Disable global DHCP (preferred approach)
+  networking.useDHCP = false;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.enableAllFirmware = lib.mkDefault true;
   hardware.cpu.amd.updateMicrocode = lib.mkDefault true;
