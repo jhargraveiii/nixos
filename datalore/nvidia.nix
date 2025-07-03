@@ -15,10 +15,6 @@
   };
 
   environment.variables = {
-    # Optional: CUDA performance tuning
-    CUDA_DEVICE_MAX_CONNECTIONS = "32";
-    CUDA_CACHE_MAXSIZE = "2147483648"; # 2GB cache
-    # Add more CUDA env vars as needed
   };
 
   services.udev.extraRules = ''
@@ -45,7 +41,6 @@
     # Minimize X server footprint for compute-only use
     displayManager.startx.enable = false;
     displayManager.lightdm.enable = false;
-    displayManager.gdm.enable = false;
     desktopManager.xterm.enable = false;
     autorun = false;
     windowManager.i3.enable = false;

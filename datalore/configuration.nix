@@ -12,15 +12,15 @@
 , ...
 }:
 let
-  nvidia_driver = pkgs.linuxPackages_6_12.nvidia_x11_production;
+  nvidia_driver = config.boot.kernelPackages.nvidia_x11_production;
   current_cudaPackages = pkgs.cudaPackages_12_8;
 in
 {
   imports = [
     # Include the results of the hardware scan.
+    ./amd.nix
     ./hardware-configuration.nix
     ../global/configuration.nix
-    ./amd.nix
     ./nvidia.nix
     ./displaymanager.nix
   ];
@@ -76,7 +76,7 @@ in
   };
 
   environment.sessionVariables = {
-    # CUDA-related environment variables
+    # CUDA-related environment variables (only for compute)
     CUDA_PATH = "${current_cudaPackages.cudatoolkit}";
     CUDA_HOME = "${current_cudaPackages.cudatoolkit}";
     CUDA_ROOT = "${current_cudaPackages.cudatoolkit}";
@@ -97,7 +97,7 @@ in
       "${current_cudaPackages.cudatoolkit}/bin"
     ];
 
-    # Set library paths
+    # Set library paths - NVIDIA compute libraries only
     LD_LIBRARY_PATH = [
       "${nvidia_driver}/lib"
       "${current_cudaPackages.nccl}/lib"
@@ -126,6 +126,16 @@ in
       "${pkgs.amd-blis}/include"
       "${pkgs.amd-libflame}/include"
     ];
+
+    # GPU preferences for applications
+    AMD_VULKAN_ICD = "RADV";
+    VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json";
+    
+    # Prevent NVIDIA from being used for display
+    __GLX_VENDOR_LIBRARY_NAME = "amd";
+    
+    # Use AMD for OpenCL compute when available
+    OPENCL_VENDOR_PATH = "/run/opengl-driver/etc/OpenCL/vendors";
   };
 
   system.stateVersion = "23.11";

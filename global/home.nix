@@ -61,7 +61,9 @@
     insync
     git-cola
     cheese
-    warp-terminal  # Temporarily commented out due to hash mismatch
+    warp-terminal
+    mermaid-cli
+    typora
   ];
 
   home.file.".jdks/openjdk17".source = pkgs.jdk17;

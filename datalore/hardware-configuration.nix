@@ -7,7 +7,6 @@
   boot = {
     extraModprobeConfig = ''
       blacklist nouveau
-      options NVreg_EnablePCIeGen3=1 NVreg_UsePageAttributeTable=0
     '';
     blacklistedKernelModules = [
       "nouveau"
