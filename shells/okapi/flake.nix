@@ -22,7 +22,7 @@
           gsettings-desktop-schemas
           gtk3
           kdePackages.kde-gtk-config
-          webkitgtk
+          webkitgtk_4_1
           xdg-desktop-portal-gtk
           xdg-user-dirs
           adwaita-icon-theme
@@ -43,7 +43,7 @@
         shellHook = ''
           export GSETTINGS_SCHEMA_DIR="${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}/glib-2.0/schemas/"
           export XDG_DATA_DIRS="$GSETTINGS_SCHEMA_DIR:${pkgs.gtk3}/share/gsettings-schemas/${pkgs.gtk3.name}/:$XDG_DATA_DIRS"
-          export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${pkgs.webkitgtk}/lib:${pkgs.glib}/lib:${pkgs.glib-networking}/lib:${pkgs.swt}/lib:${pkgs.gtk3}/lib"
+          export LD_LIBRARY_PATH="$LD_LIBRARY_PATH:${pkgs.webkitgtk_4_1}/lib:${pkgs.glib}/lib:${pkgs.glib-networking}/lib:${pkgs.swt}/lib:${pkgs.gtk3}/lib"
           export GI_TYPELIB_PATH="${pkgs.gobject-introspection}/lib/girepository-1.0"
           export XDG_DATA_DIRS="${pkgs.shared-mime-info}/share:${pkgs.hicolor-icon-theme}/share:$XDG_DATA_DIRS"
           export GTK_USE_PORTAL=1

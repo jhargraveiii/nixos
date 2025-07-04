@@ -102,7 +102,6 @@
   # Hard disk protection if the laptop falls:
   services.hdapsd.enable = lib.mkDefault true;
   hardware.amdgpu.initrd.enable = lib.mkDefault true;
-  networking.useDHCP = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.enableAllFirmware = lib.mkDefault true;
   hardware.enableRedistributableFirmware = lib.mkDefault true;
