@@ -62,8 +62,7 @@
     git-cola
     cheese
     warp-terminal
-    mermaid-cli
-    typora
+    code-cursor
   ];
 
   home.file.".jdks/openjdk17".source = pkgs.jdk17;
