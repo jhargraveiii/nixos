@@ -179,6 +179,8 @@
     pipenv
     pixi
     mecab
+    mermaid-cli
+    uv
 
     # KDE Plasma 6 Wayland essentials
     qt6.qtwayland
