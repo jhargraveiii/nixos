@@ -14,8 +14,7 @@
     nvidia.acceptLicense = true;
   };
 
-  environment.variables = {
-  };
+  environment.variables = { };
 
   services.udev.extraRules = ''
   '';
@@ -44,11 +43,11 @@
     desktopManager.xterm.enable = false;
     autorun = false;
     windowManager.i3.enable = false;
-    
+
   };
-  
+
   hardware.nvidia = {
-    nvidiaPersistenced = true; 
+    nvidiaPersistenced = true;
     modesetting.enable = false;
     forceFullCompositionPipeline = false;
     powerManagement.enable = false;

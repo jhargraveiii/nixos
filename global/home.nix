@@ -21,11 +21,11 @@
     };
   };
 
-  
+
   # You need to ensure your home-manager configuration also uses the overlay.
   # Add the nixpkgs.overlays line to your existing home-manager config.
-  nixpkgs.overlays = [ 
-    (import ./overlays/warp-terminal) 
+  nixpkgs.overlays = [
+    (import ./overlays/warp-terminal)
   ];
 
   # Home Manager Settings

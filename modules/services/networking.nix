@@ -18,20 +18,40 @@
       enable = true;
       checkReversePath = false;
       allowedTCPPorts = [
-        80
-        443
-        53
+      22    # SSH
+      25    # SMTP
+      53    # DNS
+      80    # HTTP
+      110   # POP3
+      143   # IMAP
+      443   # HTTPS
+      465   # SMTPS
+      587   # Submission
+      631   # CUPS
+      993   # IMAPS
+      995   # POP3S
+      1194  # OpenVPN
+      3389  # RDP
+      5900  # VNC
+      8080  # Alt HTTP
+      8443  # Alt HTTPS
+      51820 # PIA client additional TCP port
       ];
       allowedUDPPorts = [
-        53
-        51820
-        1317 # PIA client additional UDP port
+      53     # DNS
+      123    # NTP
+      631    # CUPS
+      1194   # OpenVPN
+      1317   # PIA client additional UDP port
+      1900   # UPnP
+      5353   # mDNS/Bonjour
+      51820  # WireGuard
       ];
       # Trust traffic from the PIA interface and allow DNS and PIA communication
       extraCommands = ''
-        iptables -A INPUT -i wgpia+ -j ACCEPT
-        iptables -A OUTPUT -o wgpia+ -p udp --dport 53 -j ACCEPT
-        iptables -A OUTPUT -o wgpia+ -p udp --dport 1317 -j ACCEPT
+      iptables -A INPUT -i wgpia+ -j ACCEPT
+      iptables -A OUTPUT -o wgpia+ -p udp --dport 53 -j ACCEPT
+      iptables -A OUTPUT -o wgpia+ -p udp --dport 1317 -j ACCEPT
       '';
     };
 

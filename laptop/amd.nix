@@ -14,7 +14,7 @@
     rocmPackages.clr.icd
   ];
 
-   environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; [
     nvtopPackages.amd
   ];
 }

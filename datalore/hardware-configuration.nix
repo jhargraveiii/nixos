@@ -33,7 +33,7 @@
       "kvm-amd"
       "amdgpu"
       "wireguard"
-      "nvidia" 
+      "nvidia"
       "nvidia_uvm"
     ];
     kernelParams = [
