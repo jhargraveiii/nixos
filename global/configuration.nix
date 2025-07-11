@@ -79,6 +79,7 @@
       "scanner"
       "lp"
       "video"
+      "piavpn"
     ];
     uid = 1000;
     openssh.authorizedKeys.keys = [
@@ -216,6 +217,8 @@
     zip
     bup
     psutils
+    brev-cli
+    inetutils
 
     amd-libflame
     amd-blis

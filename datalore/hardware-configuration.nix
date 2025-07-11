@@ -35,6 +35,7 @@
       "wireguard"
       "nvidia"
       "nvidia_uvm"
+      "ovpn-dco"
     ];
     kernelParams = [
     ];

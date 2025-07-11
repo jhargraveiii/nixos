@@ -5,6 +5,7 @@
     networkmanager
     networkmanager-openvpn
     wireguard-tools
+    socat
   ];
 
   systemd.services.systemd-resolved.environment = with lib; {
@@ -39,13 +40,17 @@
       ];
       allowedUDPPorts = [
       53     # DNS
+      110    # POP3 / OpenVPN
       123    # NTP
       631    # CUPS
       1194   # OpenVPN
       1317   # PIA client additional UDP port
+      1318   # PIA client additional UDP port
       1900   # UPnP
       5353   # mDNS/Bonjour
       51820  # WireGuard
+      8080   # Alt HTTP / OpenVPN
+      502    # OpenVPN
       ];
       # Trust traffic from the PIA interface and allow DNS and PIA communication
       extraCommands = ''
@@ -64,8 +69,10 @@
   services.resolved = {
     enable = true;
     dnssec = "allow-downgrade"; # Compatible with PIA's DNS
+    extraConfig = ''
+      DNS = 192.168.50.1
+    '';
     fallbackDns = [
-      "192.168.50.1" # Router DNS
       "1.1.1.1"      # Cloudflare DNS
       "1.0.0.1"      # Cloudflare DNS
     ];
