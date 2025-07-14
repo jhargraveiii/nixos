@@ -200,14 +200,14 @@ in
       unmanaged-devices=interface-name:wgpia*
     '';
 
-  # Option 1: Use extraConfig for newer systemd features
-systemd.network.links."99-wgpia" = {
-  matchConfig.Name = "wgpia*";
-  extraConfig = ''
-    [Link]
-    Property=ID_NET_MANAGED_BY=
-  '';
-};
+    # Option 1: Use extraConfig for newer systemd features
+    systemd.network.links."99-wgpia" = {
+      matchConfig.Name = "wgpia*";
+      extraConfig = ''
+        [Link]
+        Property=ID_NET_MANAGED_BY=
+      '';
+    };
 
     security.wrappers.pia-unbound = {
       owner = "root";

@@ -27,7 +27,7 @@
       rocmPackages = prev.rocmPackages.overrideScope (rocmFinal: rocmPrev: {
         # Now, inside this scope, override clr
         clr = rocmPrev.clr.overrideAttrs (oldAttrs: {
-          disallowedRequisites = [];
+          disallowedRequisites = [ ];
         });
       });
     })
