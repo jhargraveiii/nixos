@@ -29,26 +29,12 @@
 
   hardware.nvidia-container-toolkit = {
     enable = true;
-  };
-
-  # NVIDIA driver requires X server video driver declaration to properly initialize
-  # kernel modules and create device nodes, even in headless/compute-only mode
-  services.xserver = {
-    enable = true;
-    display = null;
-    videoDrivers = [ "nvidia" ];
-    # Minimize X server footprint for compute-only use
-    displayManager.startx.enable = false;
-    displayManager.lightdm.enable = false;
-    desktopManager.xterm.enable = false;
-    autorun = false;
-    windowManager.i3.enable = false;
-
+    suppressNvidiaDriverAssertion = true;
   };
 
   hardware.nvidia = {
     nvidiaPersistenced = true;
-    modesetting.enable = false;
+    modesetting.enable = true;
     forceFullCompositionPipeline = false;
     powerManagement.enable = false;
     powerManagement.finegrained = false;

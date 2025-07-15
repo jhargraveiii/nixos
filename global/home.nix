@@ -26,6 +26,7 @@
   # Add the nixpkgs.overlays line to your existing home-manager config.
   nixpkgs.overlays = [
     (import ./overlays/warp-terminal)
+    (import ./overlays/jetbrains)
   ];
 
   # Home Manager Settings

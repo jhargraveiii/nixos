@@ -38,6 +38,7 @@
       "ovpn-dco"
     ];
     kernelParams = [
+      "pcie_aspm=off"
     ];
 
     extraModulePackages = [

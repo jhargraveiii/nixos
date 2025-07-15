@@ -238,8 +238,9 @@
     powerline-fonts
     nerd-fonts.ubuntu
     nerd-fonts.ubuntu-mono
+    nerd-fonts.jetbrains-mono
     font-awesome
-    symbola
+    # not found symbola
     xorg.fontadobe100dpi
     xorg.fontadobeutopia100dpi
     noto-fonts-color-emoji
