@@ -381,6 +381,5 @@
     NIXOS_OZONE_WL = "1";
     NIXPKGS_ALLOW_UNFREE = "1";
     SCRIPTDIR = "/home/${username}/.local/share/scriptdeps";
-    #KWIN_DRM_NO_DIRECT_SCANOUT = "1";
   };
 }

@@ -26,13 +26,6 @@
       "sd_mod"
     ];
     initrd.kernelModules = [ ];
-    kernel.sysctl = {
-      "vm.max_map_count" = 2147483642;
-      # Prevent OOM killer from killing important processes
-      "vm.oom_kill_allocating_task" = 0;
-      # Reduce memory pressure
-      "vm.min_free_kbytes" = 65536;
-    };
     kernelModules = [
       "kvm-amd"
       "amdgpu"
@@ -43,11 +36,6 @@
     ];
     kernelParams = [
       "pcie_aspm=off"
-      # Prevent watchdog timeouts that cause hard lockups
-      "nmi_watchdog=0"
-      "softlockup_panic=0"
-      # AMD GPU stability
-      "amdgpu.ppfeaturemask=0xffffffff"
     ];
 
     extraModulePackages = [

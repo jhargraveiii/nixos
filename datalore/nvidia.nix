@@ -26,20 +26,9 @@
     # NCCL_P2P_DISABLE = "1"; # Disable peer-to-peer if needed
     XLA_PYTHON_CLIENT_PREALLOCATE = "false"; # For JAX, disables preallocating all VRAM
     TF_FORCE_GPU_ALLOW_GROWTH = "true"; # For TensorFlow, enables dynamic VRAM allocation
-    # Stability improvements for dual GPU setup
-    __GL_SYNC_TO_VBLANK = "0";
-    __GL_THREADED_OPTIMIZATIONS = "1";
-    __GL_YIELD = "NOTHING";
-    # Prevent NVIDIA from interfering with AMD display
-    __NV_PRIME_RENDER_OFFLOAD = "0";
-    __GLX_PREFERRED_PROVIDER = "amd";
   };
 
   services.udev.extraRules = ''
-    # NVIDIA GPU power management
-    SUBSYSTEM=="pci", ATTR{vendor}=="10de", ATTR{device}=="*", ATTR{power_dpm_force_performance_level}="manual"
-    SUBSYSTEM=="pci", ATTR{vendor}=="10de", ATTR{device}=="*", ATTR{pp_dpm_mclk}="*"
-    SUBSYSTEM=="pci", ATTR{vendor}=="10de", ATTR{device}=="*", ATTR{pp_dpm_sclk}="*"
   '';
 
   environment.systemPackages = with pkgs; [
@@ -59,7 +48,7 @@
     nvidiaPersistenced = true;
     modesetting.enable = false;
     forceFullCompositionPipeline = false;
-    powerManagement.enable = true;
+    powerManagement.enable = false;
     powerManagement.finegrained = false;
     open = false;
     nvidiaSettings = false;
