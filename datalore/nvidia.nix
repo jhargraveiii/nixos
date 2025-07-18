@@ -15,17 +15,31 @@
   };
 
   environment.variables = {
-    CUDA_CACHE_MAXSIZE = "4294967296"; # Increase CUDA cache to 4GB
+    CUDA_CACHE_MAXSIZE = "4294967296";
     CUDA_DEVICE_MAX_CONNECTIONS = "32";
-    CUDA_AUTO_BOOST_DEFAULT = "0"; # Disable auto boost for deterministic performance
-    CUDA_MEMORY_ALLOCATION_POLICY = "COMPACT"; # Prefer compact allocations to reduce VRAM fragmentation
-    # Uncomment for debugging:
-    # CUDA_LAUNCH_BLOCKING = "1";
-    # CUDA_FORCE_PTX_JIT = "1";
-    # CUDA_VISIBLE_DEVICES = "0"; # Restrict CUDA to specific GPU(s) if needed
+    CUDA_AUTO_BOOST_DEFAULT = "0";
+    CUDA_MEMORY_ALLOCATION_POLICY = "COMPACT";
+    # Uncomment for debugging or multi-GPU:
+    # CUDA_VISIBLE_DEVICES = "0"; # Restrict CUDA to specific GPU(s)
+    # NVIDIA_VISIBLE_DEVICES = "all"; # For containers
+    # NCCL_DEBUG = "INFO"; # For multi-GPU debugging
+    # NCCL_P2P_DISABLE = "1"; # Disable peer-to-peer if needed
+    XLA_PYTHON_CLIENT_PREALLOCATE = "false"; # For JAX, disables preallocating all VRAM
+    TF_FORCE_GPU_ALLOW_GROWTH = "true"; # For TensorFlow, enables dynamic VRAM allocation
+    # Stability improvements for dual GPU setup
+    __GL_SYNC_TO_VBLANK = "0";
+    __GL_THREADED_OPTIMIZATIONS = "1";
+    __GL_YIELD = "NOTHING";
+    # Prevent NVIDIA from interfering with AMD display
+    __NV_PRIME_RENDER_OFFLOAD = "0";
+    __GLX_PREFERRED_PROVIDER = "amd";
   };
 
   services.udev.extraRules = ''
+    # NVIDIA GPU power management
+    SUBSYSTEM=="pci", ATTR{vendor}=="10de", ATTR{device}=="*", ATTR{power_dpm_force_performance_level}="manual"
+    SUBSYSTEM=="pci", ATTR{vendor}=="10de", ATTR{device}=="*", ATTR{pp_dpm_mclk}="*"
+    SUBSYSTEM=="pci", ATTR{vendor}=="10de", ATTR{device}=="*", ATTR{pp_dpm_sclk}="*"
   '';
 
   environment.systemPackages = with pkgs; [
@@ -45,7 +59,7 @@
     nvidiaPersistenced = true;
     modesetting.enable = false;
     forceFullCompositionPipeline = false;
-    powerManagement.enable = false;
+    powerManagement.enable = true;
     powerManagement.finegrained = false;
     open = false;
     nvidiaSettings = false;
@@ -55,6 +69,7 @@
   boot.extraModprobeConfig = ''
     # Coolbits not needed for compute, but harmless
     options nvidia NVreg_Coolbits=0
+    options nvidia NVreg_RestrictProfilingToAdminUsers=0
   '';
 
   # Ensure both drivers are loaded, AMD for display, NVIDIA for compute

@@ -1,8 +1,8 @@
 self: super: let
   inherit (super.lib) overrideDerivation;
 
-  jdk17 = super.jdk17;
-  jdk21 = super.jdk21;
+  jdk17 = super.jdk17_headless;
+  jdk21 = super.jdk21_headless;
 
 in {
   jetbrains = super.jetbrains // {
