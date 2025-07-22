@@ -21,11 +21,12 @@
     };
   };
 
-  
+
   # You need to ensure your home-manager configuration also uses the overlay.
   # Add the nixpkgs.overlays line to your existing home-manager config.
-  nixpkgs.overlays = [ 
-    (import ./overlays/warp-terminal) 
+  nixpkgs.overlays = [
+   # (import ./overlays/warp-terminal)
+     (import ./overlays/jetbrains)
   ];
 
   # Home Manager Settings
@@ -45,10 +46,8 @@
     clickup
     jetbrains.idea-ultimate
     jetbrains.pycharm-professional
-    github-copilot-intellij-agent
     nodePackages.vscode-langservers-extracted
     firefox
-    librewolf
     thunderbird
     libreoffice
     bleachbit
@@ -62,8 +61,7 @@
     git-cola
     cheese
     warp-terminal
-    mermaid-cli
-    typora
+    code-cursor
   ];
 
   home.file.".jdks/openjdk17".source = pkgs.jdk17;

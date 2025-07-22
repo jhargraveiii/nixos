@@ -50,6 +50,7 @@
     "ideapad_laptop"
     "wireguard"
     "kvm-amd"
+    "ovpn-dco"
   ];
   boot.extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
   boot.extraModprobeConfig = ''

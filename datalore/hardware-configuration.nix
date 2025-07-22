@@ -26,17 +26,16 @@
       "sd_mod"
     ];
     initrd.kernelModules = [ ];
-    kernel.sysctl = {
-      "vm.max_map_count" = 2147483642;
-    };
     kernelModules = [
       "kvm-amd"
       "amdgpu"
       "wireguard"
-      "nvidia" 
+      "nvidia"
       "nvidia_uvm"
+      "ovpn-dco"
     ];
     kernelParams = [
+      "pcie_aspm=off"
     ];
 
     extraModulePackages = [

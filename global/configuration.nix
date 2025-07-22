@@ -27,7 +27,7 @@
       rocmPackages = prev.rocmPackages.overrideScope (rocmFinal: rocmPrev: {
         # Now, inside this scope, override clr
         clr = rocmPrev.clr.overrideAttrs (oldAttrs: {
-          disallowedRequisites = [];
+          disallowedRequisites = [ ];
         });
       });
     })
@@ -79,6 +79,7 @@
       "scanner"
       "lp"
       "video"
+      "piavpn"
     ];
     uid = 1000;
     openssh.authorizedKeys.keys = [
@@ -179,6 +180,8 @@
     pipenv
     pixi
     mecab
+    mermaid-cli
+    uv
 
     # KDE Plasma 6 Wayland essentials
     qt6.qtwayland
@@ -214,6 +217,8 @@
     zip
     bup
     psutils
+    brev-cli
+    inetutils
 
     amd-libflame
     amd-blis
@@ -233,8 +238,9 @@
     powerline-fonts
     nerd-fonts.ubuntu
     nerd-fonts.ubuntu-mono
+    nerd-fonts.jetbrains-mono
     font-awesome
-    symbola
+    # not found symbola
     xorg.fontadobe100dpi
     xorg.fontadobeutopia100dpi
     noto-fonts-color-emoji
@@ -260,40 +266,25 @@
     disabledDefaultBackends = [ "escl" ];
   };
 
-  hardware.printers = {
-    ensurePrinters = [
-      {
-        name = "Canon_MF450_Series";
-        location = "Home";
-        deviceUri = "ipp://192.168.50.29/ipp";
-        model = "CNRCUPSMF450ZS.ppd";
-        ppdOptions = {
-          PageSize = "Letter";
-        };
-      }
-    ];
-    ensureDefaultPrinter = "Canon_MF450_Series";
-  };
-
-  services.pulseaudio.enable = false;
-  hardware.bluetooth.enable = true;
-  hardware.bluetooth.package = pkgs.bluez;
-
-  # global services
+  # use IPP everywhere for printing
   services.printing = {
     enable = true;
     browsing = true;
     stateless = true;
-    drivers = [ pkgs.canon-cups-ufr2 ];
+    webInterface = true;
+
     browsedConf = ''
       BrowseDNSSDSubTypes _cups,_print
       BrowseLocalProtocols all
       BrowseRemoteProtocols all
       CreateIPPPrinterQueues All
-
       BrowseProtocols all
     '';
   };
+
+  services.pulseaudio.enable = false;
+  hardware.bluetooth.enable = true;
+  hardware.bluetooth.package = pkgs.bluez;
 
   services.openssh.enable = true;
   services.fstrim.enable = true;
@@ -390,6 +381,5 @@
     NIXOS_OZONE_WL = "1";
     NIXPKGS_ALLOW_UNFREE = "1";
     SCRIPTDIR = "/home/${username}/.local/share/scriptdeps";
-    #KWIN_DRM_NO_DIRECT_SCANOUT = "1";
   };
 }

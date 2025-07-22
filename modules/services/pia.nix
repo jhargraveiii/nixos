@@ -5,7 +5,7 @@ with lib;
 let
   cfg = config.services.pia;
 
-  version = "3.6.1-08339";
+  version = "3.6.2-08398";
 
   commonPkgs = pkgs: with pkgs; [
     bashInteractive
@@ -26,6 +26,8 @@ let
     iproute2
     psmisc
     libcap_ng
+    xterm
+    libatomic_ops
     xorg.libX11
     xorg.libxcb
     fontconfig
@@ -57,6 +59,7 @@ let
     libcap
     libxml2
     libxslt
+    polkit
   ];
 
   # The actual PIA package (raw files)
@@ -66,17 +69,17 @@ let
 
     src = pkgs.fetchurl {
       url = "https://installers.privateinternetaccess.com/download/pia-linux-${version}.run";
-      sha256 = "04x65h8zmb8k51iid66gigffdbdgh4iv8bzah9s5xg3zgcycc53g";
+      sha256 = "sha256-xRNyHkLnB6X+8DxEgKMB/VQlUco1e9UgUyOslCHfr/0=";
     };
 
-    nativeBuildInputs = with pkgs; [ makeWrapper ];
+    nativeBuildInputs = with pkgs; [ makeWrapper libcap ];
     unpackPhase = "true";
     installPhase = ''
             mkdir -p $out/opt/pia-vpn
             cp $src ./pia-linux-${version}.run
             chmod +x ./pia-linux-${version}.run
             ./pia-linux-${version}.run --target $out/opt/pia-vpn --noexec --accept --keep
-      
+
             mkdir -p $out/bin
       
             # unwrapped-pia-client script
@@ -88,7 +91,7 @@ let
       export QT_OPENSSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt
       export SSL_CERT_DIR=${pkgs.cacert}/etc/ssl/certs
       export OPENSSL_CONF=${pkgs.openssl.out}/etc/ssl/openssl.cnf
-      export LD_LIBRARY_PATH=${pkgs.openssl}/lib:${pkgs.glib}/lib:${pkgs.libxkbcommon}/lib:${pkgs.libnl}/lib:${pkgs.libnsl}/lib:${pkgs.stdenv.cc.cc.lib}/lib:\$LD_LIBRARY_PATH:$out/opt/pia-vpn/piafiles/lib
+      export LD_LIBRARY_PATH=${pkgs.openssl}/lib:${pkgs.glib}/lib:${pkgs.libxkbcommon}/lib:${pkgs.libnl}/lib:${pkgs.libnsl}/lib:${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.libcap}/lib:\$LD_LIBRARY_PATH:$out/opt/pia-vpn/piafiles/lib
       export QT_PLUGIN_PATH=${pkgs.qt6.full}/lib/qt-6/plugins:$out/opt/pia-vpn/piafiles/plugins
       export QML2_IMPORT_PATH=$out/opt/pia-vpn/piafiles/qml:${pkgs.qt6.qtdeclarative}/lib/qt-6/qml
       exec ./pia-client "\$@"
@@ -103,7 +106,7 @@ let
       export SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt
       export SSL_CERT_DIR=${pkgs.cacert}/etc/ssl/certs
       export OPENSSL_CONF=${pkgs.openssl.out}/etc/ssl/openssl.cnf
-      export LD_LIBRARY_PATH=${pkgs.openssl}/lib:${pkgs.glib}/lib:${pkgs.libxkbcommon}/lib:${pkgs.libnl}/lib:${pkgs.libnsl}/lib:${pkgs.stdenv.cc.cc.lib}/lib:\$LD_LIBRARY_PATH:$out/opt/pia-vpn/piafiles/lib
+      export LD_LIBRARY_PATH=${pkgs.openssl}/lib:${pkgs.glib}/lib:${pkgs.libxkbcommon}/lib:${pkgs.libnl}/lib:${pkgs.libnsl}/lib:${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.libcap}/lib:\$LD_LIBRARY_PATH:$out/opt/pia-vpn/piafiles/lib
       export QT_PLUGIN_PATH=${pkgs.qt6.full}/lib/qt-6/plugins:$out/opt/pia-vpn/piafiles/plugins
       exec ./pia-daemon "\$@"
       EOF
@@ -116,7 +119,7 @@ let
       export SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt
       export SSL_CERT_DIR=${pkgs.cacert}/etc/ssl/certs
       export OPENSSL_CONF=${pkgs.openssl.out}/etc/ssl/openssl.cnf
-      export LD_LIBRARY_PATH=${pkgs.openssl}/lib:${pkgs.glib}/lib:${pkgs.libxkbcommon}/lib:${pkgs.libnl}/lib:${pkgs.libnsl}/lib:${pkgs.stdenv.cc.cc.lib}/lib:\$LD_LIBRARY_PATH:$out/opt/pia-vpn/piafiles/lib
+      export LD_LIBRARY_PATH=${pkgs.openssl}/lib:${pkgs.glib}/lib:${pkgs.libxkbcommon}/lib:${pkgs.libnl}/lib:${pkgs.libnsl}/lib:${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.libcap}/lib:\$LD_LIBRARY_PATH:$out/opt/pia-vpn/piafiles/lib
       exec ./piactl "\$@"
       EOF
             chmod +x $out/bin/unwrapped-pia-ctl
@@ -197,6 +200,22 @@ in
       unmanaged-devices=interface-name:wgpia*
     '';
 
+    # Option 1: Use extraConfig for newer systemd features
+    systemd.network.links."99-wgpia" = {
+      matchConfig.Name = "wgpia*";
+      extraConfig = ''
+        [Link]
+        Property=ID_NET_MANAGED_BY=
+      '';
+    };
+
+    security.wrappers.pia-unbound = {
+      owner = "root";
+      group = "root";
+      capabilities = "cap_net_bind_service+ep";
+      source = "${piaRawPkg}/opt/pia-vpn/piafiles/bin/pia-unbound";
+    };
+
     environment.systemPackages = [
       piaFhsClient
       piaFhsCtl
@@ -210,9 +229,21 @@ in
         Type = "simple";
         ExecStart = "${piaFhsDaemon}/bin/piavpn-daemon";
         Restart = "on-failure";
-        RestartSec = 5;
+        RestartSec = 1;
+        Group = "piavpn";
       };
       wantedBy = [ "multi-user.target" ];
     };
+
+    # Polkit policy for managing the PIA service
+    security.polkit.extraConfig = ''
+      polkit.addRule(function(action, subject) {
+        if (action.id == "com.privateinternetaccess.vpn-daemon.manage" &&
+            subject.isInGroup("wheel")) {
+          return polkit.Result.YES;
+        }
+      });
+    '';
+
   };
 }

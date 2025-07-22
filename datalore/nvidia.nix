@@ -15,6 +15,17 @@
   };
 
   environment.variables = {
+    CUDA_CACHE_MAXSIZE = "4294967296";
+    CUDA_DEVICE_MAX_CONNECTIONS = "32";
+    CUDA_AUTO_BOOST_DEFAULT = "0";
+    CUDA_MEMORY_ALLOCATION_POLICY = "COMPACT";
+    # Uncomment for debugging or multi-GPU:
+    # CUDA_VISIBLE_DEVICES = "0"; # Restrict CUDA to specific GPU(s)
+    # NVIDIA_VISIBLE_DEVICES = "all"; # For containers
+    # NCCL_DEBUG = "INFO"; # For multi-GPU debugging
+    # NCCL_P2P_DISABLE = "1"; # Disable peer-to-peer if needed
+    XLA_PYTHON_CLIENT_PREALLOCATE = "false"; # For JAX, disables preallocating all VRAM
+    TF_FORCE_GPU_ALLOW_GROWTH = "true"; # For TensorFlow, enables dynamic VRAM allocation
   };
 
   services.udev.extraRules = ''
@@ -30,25 +41,11 @@
 
   hardware.nvidia-container-toolkit = {
     enable = true;
+    suppressNvidiaDriverAssertion = true;
   };
 
-  # NVIDIA driver requires X server video driver declaration to properly initialize
-  # kernel modules and create device nodes, even in headless/compute-only mode
-  services.xserver = {
-    enable = true;
-    display = null;
-    videoDrivers = [ "nvidia" ];
-    # Minimize X server footprint for compute-only use
-    displayManager.startx.enable = false;
-    displayManager.lightdm.enable = false;
-    desktopManager.xterm.enable = false;
-    autorun = false;
-    windowManager.i3.enable = false;
-    
-  };
-  
   hardware.nvidia = {
-    nvidiaPersistenced = true; 
+    nvidiaPersistenced = true;
     modesetting.enable = false;
     forceFullCompositionPipeline = false;
     powerManagement.enable = false;
@@ -57,4 +54,13 @@
     nvidiaSettings = false;
     package = config.boot.kernelPackages.nvidia_x11_production;
   };
+
+  boot.extraModprobeConfig = ''
+    # Coolbits not needed for compute, but harmless
+    options nvidia NVreg_Coolbits=0
+    options nvidia NVreg_RestrictProfilingToAdminUsers=0
+  '';
+
+  # Ensure both drivers are loaded, AMD for display, NVIDIA for compute
+  services.xserver.videoDrivers = [ "nvidia" ];
 }

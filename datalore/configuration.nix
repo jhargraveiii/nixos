@@ -130,10 +130,10 @@ in
     # GPU preferences for applications
     AMD_VULKAN_ICD = "RADV";
     VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json";
-    
+
     # Prevent NVIDIA from being used for display
     __GLX_VENDOR_LIBRARY_NAME = "amd";
-    
+
     # Use AMD for OpenCL compute when available
     OPENCL_VENDOR_PATH = "/run/opengl-driver/etc/OpenCL/vendors";
   };
