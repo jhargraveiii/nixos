@@ -25,8 +25,6 @@
   # You need to ensure your home-manager configuration also uses the overlay.
   # Add the nixpkgs.overlays line to your existing home-manager config.
   nixpkgs.overlays = [
-   # (import ./overlays/warp-terminal)
-     (import ./overlays/jetbrains)
   ];
 
   # Home Manager Settings
@@ -44,8 +42,12 @@
   home.packages = with pkgs; [
     slack
     clickup
-    jetbrains.idea-ultimate
-    jetbrains.pycharm-professional
+    (jetbrains.idea-ultimate.override {
+      jdk = pkgs.temurin-bin;
+    })
+    (jetbrains.pycharm-professional.override {
+      jdk = pkgs.temurin-bin;
+    })
     nodePackages.vscode-langservers-extracted
     firefox
     thunderbird

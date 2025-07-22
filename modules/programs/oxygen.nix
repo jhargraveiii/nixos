@@ -11,7 +11,7 @@ let
     };
 
     nativeBuildInputs = [ pkgs.makeWrapper ];
-    buildInputs = [ pkgs.jetbrains.jdk-no-jcef-17 ];
+    buildInputs = [ pkgs.temurin-jre-bin-17 ];
 
     installPhase = ''
             # Create destination directory
@@ -39,8 +39,8 @@ let
       # Wrapper script to ensure Oxygen uses JDK 17 with 16GB heap
 
       # Force use of JDK 17
-      OXYGEN_JAVA="${pkgs.jetbrains.jdk-no-jcef-17}/bin/java"
-      export JAVA_HOME="${pkgs.jetbrains.jdk-no-jcef-17}"
+      OXYGEN_JAVA="${pkgs.temurin-jre-bin-17}/bin/java"
+      export JAVA_HOME="${pkgs.temurin-jre-bin-17}"
 
       # Call the modified original script with all arguments
       exec "\$0.modified" "\$@"
