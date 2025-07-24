@@ -25,18 +25,6 @@
   # You need to ensure your home-manager configuration also uses the overlay.
   # Add the nixpkgs.overlays line to your existing home-manager config.
   nixpkgs.overlays = [
-    (final: prev: {
-      code-cursor = prev.code-cursor.overrideAttrs (old: {
-        version = "1.2.4";
-        pname = "cursor";
-        vscodeVersion = "1.96.3";
-
-        source = prev.fetchurl {
-          url = "https://downloads.cursor.com/production/a8e95743c5268be73767c46944a71f4465d05c90/linux/x64/Cursor-1.2.4-x86_64.AppImage";
-          hash = "sha256-5H7PynQYsZN218rdIdNCor9QGkk4GGyLeGGzGwz436o=";
-        };
-      });
-    })
   ];
 
   # Home Manager Settings
@@ -164,6 +152,9 @@
 
   programs.bash = {
     enable = true;
+    initExtra = ''
+      set -h  # Enable bash hashing
+    '';
     enableCompletion = true;
     shellAliases = {
       straker-vpn = "sudo openvpn --config /home/jimh/work/straker_vpn.ovpn";

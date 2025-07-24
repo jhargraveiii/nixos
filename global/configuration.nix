@@ -180,7 +180,6 @@
     pipenv
     pixi
     mecab
-    mermaid-cli
     uv
 
     # KDE Plasma 6 Wayland essentials
@@ -240,7 +239,7 @@
     nerd-fonts.ubuntu-mono
     nerd-fonts.jetbrains-mono
     font-awesome
-    # not found symbola
+    symbola
     xorg.fontadobe100dpi
     xorg.fontadobeutopia100dpi
     noto-fonts-color-emoji
