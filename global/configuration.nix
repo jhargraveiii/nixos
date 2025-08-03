@@ -97,6 +97,12 @@
     magicOrExtension = ''\x7fELF....AI\x02'';
   };
 
+  programs.appimage = {
+    enable = true;
+    binfmt = true;
+    package = pkgs.appimage-run;
+  };
+
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     plasma-browser-integration
     oxygen

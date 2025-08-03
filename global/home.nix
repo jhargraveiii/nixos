@@ -42,12 +42,8 @@
   home.packages = with pkgs; [
     slack
     clickup
-    (jetbrains.idea-ultimate.override {
-      jdk = pkgs.temurin-bin;
-    })
-    (jetbrains.pycharm-professional.override {
-      jdk = pkgs.temurin-bin;
-    })
+    jetbrains.idea-ultimate
+    jetbrains.pycharm-professional
     nodePackages.vscode-langservers-extracted
     firefox
     thunderbird
@@ -140,9 +136,6 @@
     flags = [ "--disable-up-arrow" ];
     settings = { };
   };
-
-  # Nicely reload system units when changing configs
-  systemd.user.startServices = "sd-switch";
 
   home.sessionVariables = {
     EDITOR = "kate";
