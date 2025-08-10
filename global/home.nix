@@ -58,8 +58,7 @@
     insync
     git-cola
     cheese
-    warp-terminal
-    code-cursor
+    gearlever
   ];
 
   home.file.".jdks/openjdk17".source = pkgs.jdk17;
