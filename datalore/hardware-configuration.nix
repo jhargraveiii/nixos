@@ -30,18 +30,36 @@
       "kvm-amd"
       "amdgpu"
       "wireguard"
+      # Load NVIDIA modules after AMD
       "nvidia"
       "nvidia_uvm"
-      "ovpn-dco"
+      # Remove problematic module temporarily
+      # "ovpn-dco"
     ];
     kernelParams = [
       "pcie_aspm=off"
+      "acpi_force=1"
+      "acpi_enforce_resources=lax"
+      "iommu=soft"
+      "intel_iommu=off"
+      "amd_iommu=off"
+      "nvidia-drm.modeset=0"
     ];
 
     extraModulePackages = [
     ];
     tmp.cleanOnBoot = true;
   };
+
+  # Memory management improvements
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 10;
+    "vm.dirty_ratio" = 15;
+    "vm.dirty_background_ratio" = 5;
+    "vm.overcommit_memory" = 1;
+  };
+
+
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/48799b1c-64e9-4d05-abf7-bd0cfc5951c0";

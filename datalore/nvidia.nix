@@ -48,19 +48,22 @@
     nvidiaPersistenced = true;
     modesetting.enable = false;
     forceFullCompositionPipeline = false;
-    powerManagement.enable = false;
-    powerManagement.finegrained = false;
+    powerManagement.enable = true;
+    powerManagement.finegrained = false;  # No need for fine-grained without PRIME
     open = false;
     nvidiaSettings = false;
     package = config.boot.kernelPackages.nvidia_x11_production;
   };
 
   boot.extraModprobeConfig = ''
-    # Coolbits not needed for compute, but harmless
+    # NVIDIA for compute only, not display
     options nvidia NVreg_Coolbits=0
     options nvidia NVreg_RestrictProfilingToAdminUsers=0
+    options nvidia NVreg_UsePageAttributeTable=1
+    options nvidia NVreg_EnablePCIeGen3=1
+    options nvidia NVreg_EnableMSI=1
   '';
 
-  # Ensure both drivers are loaded, AMD for display, NVIDIA for compute
-  services.xserver.videoDrivers = [ "nvidia" ];
+  # Load NVIDIA driver for CUDA compute, but AMD handles display
+  services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
 }

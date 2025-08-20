@@ -14,7 +14,7 @@
       wl-clipboard
       luajitPackages.lua-lsp
       nil
-      rust-analyzer
+      # Broken:rust-analyzer
       nodePackages.bash-language-server
       yaml-language-server
       pyright
