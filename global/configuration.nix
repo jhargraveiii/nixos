@@ -187,6 +187,7 @@
     pixi
     mecab
     uv
+    pqrs
 
     # KDE Plasma 6 Wayland essentials
     qt6.qtwayland

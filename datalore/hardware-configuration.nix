@@ -7,9 +7,13 @@
   boot = {
     extraModprobeConfig = ''
       blacklist nouveau
+      # Apple Magic Trackpad stabilization
+      options bcm5974 debug=0
+      options usbhid quirks=0x05ac:0x0265:0x00000010
     '';
     blacklistedKernelModules = [
       "nouveau"
+      "sp5100_tco"
     ];
     loader = {
       efi.canTouchEfiVariables = true;
@@ -44,6 +48,12 @@
       "intel_iommu=off"
       "amd_iommu=off"
       "nvidia-drm.modeset=0"
+      "nowatchdog"
+      "sp5100_tco.blacklist=1"
+      "nmi_watchdog=0"
+      "rcu_nocbs=0-23"
+      "processor.max_cstate=1"
+      "idle=nomwait"
     ];
 
     extraModulePackages = [
