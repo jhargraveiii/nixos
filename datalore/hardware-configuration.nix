@@ -7,9 +7,14 @@
   boot = {
     extraModprobeConfig = ''
       blacklist nouveau
-      # Apple Magic Trackpad stabilization
+      # Apple Magic Trackpad with aggressive stabilization
       options bcm5974 debug=0
       options usbhid quirks=0x05ac:0x0265:0x00000010
+      options usbhid mousepoll=8
+      # NVMe thermal optimizations for Samsung SM963
+      options nvme use_threaded_interrupts=1
+      options nvme_core default_ps_max_latency_us=0
+      options nvme_core force_apst=0
     '';
     blacklistedKernelModules = [
       "nouveau"
@@ -41,19 +46,13 @@
       # "ovpn-dco"
     ];
     kernelParams = [
-      "pcie_aspm=off"
-      "acpi_force=1"
-      "acpi_enforce_resources=lax"
-      "iommu=soft"
-      "intel_iommu=off"
-      "amd_iommu=off"
-      "nvidia-drm.modeset=0"
+      # Essential stability fixes
       "nowatchdog"
       "sp5100_tco.blacklist=1"
       "nmi_watchdog=0"
-      "rcu_nocbs=0-23"
-      "processor.max_cstate=1"
-      "idle=nomwait"
+      "nvidia-drm.modeset=0"
+      # NVMe thermal management for Samsung SM963
+      "nvme_core.default_ps_max_latency_us=0"
     ];
 
     extraModulePackages = [
@@ -61,12 +60,14 @@
     tmp.cleanOnBoot = true;
   };
 
-  # Memory management improvements
+  # Focused memory management for Samsung SM963 thermal issues
   boot.kernel.sysctl = {
     "vm.swappiness" = 10;
-    "vm.dirty_ratio" = 15;
+    "vm.dirty_ratio" = 10;
     "vm.dirty_background_ratio" = 5;
-    "vm.overcommit_memory" = 1;
+    # Reduce write pressure on root drive
+    "vm.dirty_expire_centisecs" = 1000;
+    "vm.dirty_writeback_centisecs" = 500;
   };
 
 
@@ -78,6 +79,11 @@
       "noatime"
       "nodiratime"
       "discard"
+      # NVMe thermal optimization
+      "commit=120"
+      "data=writeback"
+      "barrier=0"
+      "journal_async_commit"
     ];
   };
 
@@ -114,6 +120,11 @@
       "noatime"
       "nodiratime"
       "discard"
+      # NVMe thermal optimization
+      "commit=120"
+      "data=writeback"
+      "barrier=0"
+      "journal_async_commit"
     ];
   };
 
@@ -125,6 +136,41 @@
       "nodiratime"
       "discard"
     ];
+  };
+
+  # Samsung SM963 ROOT drive thermal protection
+  systemd.services.samsung-thermal-protection = {
+    description = "Samsung SM963 Root Drive Thermal Protection";
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "simple";
+      Restart = "always";
+      RestartSec = 10;
+    };
+    script = ''
+      while true; do
+        # Monitor Samsung SM963 root drive (critical threshold 75°C)
+        temp=$(cat /sys/devices/pci0000:00/0000:00:01.2/0000:02:00.0/0000:03:01.0/0000:04:00.0/nvme/nvme0/hwmon*/temp3_input 2>/dev/null | head -1 || echo 0)
+        temp_c=$((temp / 1000))
+        
+        if [ "$temp_c" -gt 65 ]; then
+          echo "$(date): Samsung ROOT drive critical: $temp_c°C - EMERGENCY THROTTLING" | systemd-cat -t samsung-thermal
+          # Emergency measures for root drive
+          echo 1 > /sys/class/nvme/nvme0/queue_count 2>/dev/null || true
+          echo 16 > /sys/block/nvme0n1/queue/nr_requests 2>/dev/null || true
+          sync && echo 3 > /proc/sys/vm/drop_caches 2>/dev/null || true
+        elif [ "$temp_c" -gt 60 ]; then
+          echo "$(date): Samsung ROOT drive warm: $temp_c°C - Moderate throttling" | systemd-cat -t samsung-thermal
+          echo 2 > /sys/class/nvme/nvme0/queue_count 2>/dev/null || true
+          echo 32 > /sys/block/nvme0n1/queue/nr_requests 2>/dev/null || true
+        elif [ "$temp_c" -lt 55 ] && [ "$temp_c" -gt 0 ]; then
+          # Restore normal operation
+          echo 4 > /sys/class/nvme/nvme0/queue_count 2>/dev/null || true
+          echo 128 > /sys/block/nvme0n1/queue/nr_requests 2>/dev/null || true
+        fi
+        sleep 5
+      done
+    '';
   };
 
   # Disable global DHCP (preferred approach)

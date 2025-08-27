@@ -8,7 +8,7 @@
 
   # AMD GPU stability improvements for Plasma 6
   boot.extraModprobeConfig = ''
-    # AMD GPU stability settings - more conservative
+    # AMD GPU stability settings - conservative
     options amdgpu ppfeaturemask=0xffffffff
     options amdgpu runpm=0
     options amdgpu dpm=1
@@ -24,12 +24,6 @@
     options amdgpu freesync=0
     options amdgpu experimental=0
     options amdgpu timeout=10000
-    # Fix GPU buffer allocation issues
-    options amdgpu lockup_timeout=10000
-    options amdgpu compute_timeout=60000
-    options amdgpu gfx_timeout=60000
-    options amdgpu sdma_timeout=60000
-    options amdgpu video_timeout=60000
   '';
 
   # AMD GPU power management

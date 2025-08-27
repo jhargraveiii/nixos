@@ -225,6 +225,7 @@
     psutils
     brev-cli
     inetutils
+    smartmontools
 
     amd-libflame
     amd-blis

@@ -45,7 +45,7 @@
   };
 
   hardware.nvidia = {
-    nvidiaPersistenced = true;
+    nvidiaPersistenced = false;  # Temporarily disable due to build issues
     modesetting.enable = false;
     forceFullCompositionPipeline = false;
     powerManagement.enable = true;
