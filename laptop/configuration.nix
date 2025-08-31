@@ -42,6 +42,12 @@
     cpuFreqGovernor = "powersave";
   };
 
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 25;
+  };
+
   hardware.bluetooth.powerOnBoot = false;
   services.blueman.enable = false;
 

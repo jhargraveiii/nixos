@@ -295,6 +295,26 @@
 
   services.openssh.enable = true;
   services.fstrim.enable = true;
+  services.fstrim.interval = "weekly";
+
+  services.udev.extraRules = ''
+    # Prefer none for NVMe, mq-deadline for SATA SSD, bfq for HDD
+    ACTION=="add|change", KERNEL=="nvme[0-9]n[0-9]", ATTR{queue/scheduler}="none"
+    ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
+    ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
+    ACTION=="add|change", KERNEL=="mmcblk[0-9]", ATTR{queue/scheduler}="mq-deadline"
+  '';
+
+  # Keep journal bounded to reduce writes
+  services.journald = {
+    extraConfig = ''
+      Storage=auto
+      SystemMaxUse=500M
+      RuntimeMaxUse=500M
+      MaxRetentionSec=2week
+      MaxFileSec=1day
+    '';
+  };
   services.pipewire = {
     enable = true;
     alsa.enable = true;

@@ -27,7 +27,7 @@
     "vm.max_map_count" = 2147483642;
     "vm.dirty_writeback_centisecs" = 6000;
     "vm.laptop_mode" = 5;
-    "vm.swappiness" = 10;
+    "vm.swappiness" = 20;
   };
   boot.kernelParams = [
     "msr.allow_writes=on"
@@ -40,7 +40,6 @@
     "amdgpu.audio=0"
     "amdgpu.dpm=1"
     "pcie_aspm=force"
-    "zswap.enabled=1"
     "mitigations=off"
     "quiet"
   ];
@@ -71,8 +70,7 @@
     fsType = "ext4";
     options = [
       "noatime"
-      "nodiratime"
-      "discard"
+      "commit=120"
     ];
   };
 
@@ -83,8 +81,7 @@
       "fmask=0077"
       "dmask=0077"
       "noatime"
-      "nodiratime"
-      "discard"
+      "flush"
     ];
   };
 
@@ -93,8 +90,7 @@
     fsType = "ext4";
     options = [
       "noatime"
-      "nodiratime"
-      "discard"
+      "commit=120"
     ];
   };
 
