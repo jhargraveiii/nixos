@@ -58,6 +58,7 @@
     extraModulePackages = [
     ];
     tmp.cleanOnBoot = true;
+    supportedFilesystems = [ "btrfs" "ext4" ];
   };
 
   # Focused memory management for Samsung SM963 thermal issues
@@ -67,19 +68,19 @@
   };
 
   fileSystems."/" = {
-    device = "/dev/nvme0n1p2";
+    device = "/dev/disk/by-uuid/2faa8ab4-b54d-4b70-8e2b-873c56d650e1";
     fsType = "btrfs";
     options = [ "subvol=@" "compress=zstd:3" "noatime" ];
   };
 
   fileSystems."/home" = {
-    device = "/dev/nvme0n1p2";
+    device = "/dev/disk/by-uuid/2faa8ab4-b54d-4b70-8e2b-873c56d650e1";
     fsType = "btrfs";
     options = [ "subvol=@home" "compress=zstd:3" "noatime" ];
   };
 
   fileSystems."/boot" = {
-    device = "/dev/nvme0n1p1";
+    device = "/dev/disk/by-uuid/683A-1A12";
     fsType = "vfat";
   };
 

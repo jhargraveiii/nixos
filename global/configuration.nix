@@ -12,8 +12,6 @@
     config = {
       allowUnfree = true;
       allowBroken = true;
-      # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      #allowUnfreePredicate = _: true;
       blasSupport = true;
       blasProvider = pkgs.amd-blis;
       lapackSupport = true;
@@ -22,15 +20,6 @@
   };
 
   nixpkgs.overlays = [
-    (final: prev: {
-      # Target the rocmPackages set specifically
-      rocmPackages = prev.rocmPackages.overrideScope (rocmFinal: rocmPrev: {
-        # Now, inside this scope, override clr
-        clr = rocmPrev.clr.overrideAttrs (oldAttrs: {
-          disallowedRequisites = [ ];
-        });
-      });
-    })
   ];
 
   imports = [
