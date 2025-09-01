@@ -32,15 +32,16 @@
   boot.kernelParams = [
     "msr.allow_writes=on"
     "nmi_watchdog=0"
-    "amd_pstate=active"
+    "amd_pstate=guided"
     "ahci.mobile_lpm_policy=3"
-    "pcie_aspm.policy=powersupersave"
+    "pcie_aspm.policy=powersave"
     "amdgpu.ppfeaturemask=0xffffffff"
     "amdgpu.runpm=1"
     "amdgpu.audio=0"
     "amdgpu.dpm=1"
-    "pcie_aspm=force"
-    "mitigations=off"
+    "mem_sleep_default=deep"
+    "nvme_core.default_ps_max_latency_us=5500"
+    "mitigations=auto"
     "quiet"
   ];
   boot.kernelModules = [
@@ -71,7 +72,8 @@
     fsType = "ext4";
     options = [
       "noatime"
-      "commit=120"
+      "lazytime"
+      "commit=60"
     ];
   };
 
@@ -91,14 +93,15 @@
     fsType = "ext4";
     options = [
       "noatime"
-      "commit=120"
+      "lazytime"
+      "commit=60"
     ];
   };
 
   swapDevices = [{ device = "/dev/disk/by-uuid/1e8f15a3-88e4-4389-9993-bb3ff7b92bac"; }];
 
-  # Hard disk protection if the laptop falls:
-  services.hdapsd.enable = lib.mkDefault true;
+  # Disable hdapsd (ThinkPad-specific)
+  services.hdapsd.enable = lib.mkDefault false;
   hardware.amdgpu.initrd.enable = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.enableAllFirmware = lib.mkDefault true;

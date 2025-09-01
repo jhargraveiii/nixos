@@ -13,8 +13,7 @@
       options usbhid mousepoll=8
       # NVMe thermal optimizations
       options nvme use_threaded_interrupts=1
-      options nvme_core default_ps_max_latency_us=0
-      options nvme_core force_apst=0
+      options nvme_core default_ps_max_latency_us=5500
     '';
     blacklistedKernelModules = [
       "nouveau"
@@ -52,7 +51,7 @@
       "nmi_watchdog=0"
       "nvidia-drm.modeset=0"
       # NVMe thermal management for Samsung SM963
-      "nvme_core.default_ps_max_latency_us=0"
+      "nvme_core.default_ps_max_latency_us=5500"
     ];
 
     extraModulePackages = [
@@ -92,6 +91,7 @@
     fsType = "ext4";
     options = [
       "noatime"
+      "lazytime"
       "commit=120"
     ];
   };
@@ -101,6 +101,7 @@
     fsType = "ext4";
     options = [
       "noatime"
+      "lazytime"
       "commit=120"
     ];
   };
@@ -110,6 +111,7 @@
     fsType = "ext4";
     options = [
       "noatime"
+      "lazytime"
       "commit=120"
     ];
   };

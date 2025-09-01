@@ -11,7 +11,6 @@
   nixpkgs = {
     config = {
       allowUnfree = true;
-      allowBroken = true;
       blasSupport = true;
       blasProvider = pkgs.amd-blis;
       lapackSupport = true;
@@ -37,7 +36,7 @@
 
   # Set your time zone.
   time.timeZone = "${theTimezone}";
-  time.hardwareClockInLocalTime = true;
+  time.hardwareClockInLocalTime = false;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "${theLocale}";
@@ -72,8 +71,7 @@
     ];
     uid = 1000;
     openssh.authorizedKeys.keys = [
-      # Replace with your own public key
-      "sssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPwpk2rfNtxHjaGTucwvBPxcr9D8ly6MXh68/9+VacZy jim.hargrave@strakertranslations.com"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPwpk2rfNtxHjaGTucwvBPxcr9D8ly6MXh68/9+VacZy jim.hargrave@strakertranslations.com"
     ];
   };
 
@@ -283,6 +281,10 @@
   hardware.bluetooth.package = pkgs.bluez;
 
   services.openssh.enable = true;
+  services.openssh.settings = {
+    PasswordAuthentication = false;
+    PermitRootLogin = "no";
+  };
   services.fstrim.enable = true;
   services.fstrim.interval = "weekly";
 
@@ -352,14 +354,14 @@
         "flakes"
       ];
       max-jobs = "auto";
-      cores = 24;
+      cores = 0;
       system-features = [
         "nixos-test"
         "benchmark"
         "big-parallel"
         "kvm"
       ];
-      allowed-users = [ "*" ];
+      allowed-users = [ "root" "${username}" ];
       require-sigs = true;
       sandbox = true;
       sandbox-fallback = false;
