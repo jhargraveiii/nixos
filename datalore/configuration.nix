@@ -65,6 +65,18 @@ in
     enable = true;
   };
 
+  services.btrfs.autoScrub = {
+    enable = true;
+    interval = "weekly";
+    fileSystems = [ "/" "/home" ];
+  };
+
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 25;
+  };
+
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 

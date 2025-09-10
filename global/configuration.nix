@@ -11,9 +11,6 @@
   nixpkgs = {
     config = {
       allowUnfree = true;
-      allowBroken = true;
-      # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      #allowUnfreePredicate = _: true;
       blasSupport = true;
       blasProvider = pkgs.amd-blis;
       lapackSupport = true;
@@ -22,15 +19,6 @@
   };
 
   nixpkgs.overlays = [
-    (final: prev: {
-      # Target the rocmPackages set specifically
-      rocmPackages = prev.rocmPackages.overrideScope (rocmFinal: rocmPrev: {
-        # Now, inside this scope, override clr
-        clr = rocmPrev.clr.overrideAttrs (oldAttrs: {
-          disallowedRequisites = [ ];
-        });
-      });
-    })
   ];
 
   imports = [
@@ -48,7 +36,7 @@
 
   # Set your time zone.
   time.timeZone = "${theTimezone}";
-  time.hardwareClockInLocalTime = true;
+  time.hardwareClockInLocalTime = false;
 
   # Select internationalisation properties.
   i18n.defaultLocale = "${theLocale}";
@@ -83,8 +71,7 @@
     ];
     uid = 1000;
     openssh.authorizedKeys.keys = [
-      # Replace with your own public key
-      "sssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPwpk2rfNtxHjaGTucwvBPxcr9D8ly6MXh68/9+VacZy jim.hargrave@strakertranslations.com"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIPwpk2rfNtxHjaGTucwvBPxcr9D8ly6MXh68/9+VacZy jim.hargrave@strakertranslations.com"
     ];
   };
 
@@ -187,6 +174,7 @@
     pixi
     mecab
     uv
+    pqrs
 
     # KDE Plasma 6 Wayland essentials
     qt6.qtwayland
@@ -224,6 +212,7 @@
     psutils
     brev-cli
     inetutils
+    smartmontools
 
     amd-libflame
     amd-blis
@@ -292,7 +281,31 @@
   hardware.bluetooth.package = pkgs.bluez;
 
   services.openssh.enable = true;
+  services.openssh.settings = {
+    PasswordAuthentication = false;
+    PermitRootLogin = "no";
+  };
   services.fstrim.enable = true;
+  services.fstrim.interval = "weekly";
+
+  services.udev.extraRules = ''
+    # Prefer none for NVMe, mq-deadline for SATA SSD, bfq for HDD
+    ACTION=="add|change", KERNEL=="nvme[0-9]n[0-9]", ATTR{queue/scheduler}="none"
+    ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="0", ATTR{queue/scheduler}="mq-deadline"
+    ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
+    ACTION=="add|change", KERNEL=="mmcblk[0-9]", ATTR{queue/scheduler}="mq-deadline"
+  '';
+
+  # Keep journal bounded to reduce writes
+  services.journald = {
+    extraConfig = ''
+      Storage=auto
+      SystemMaxUse=500M
+      RuntimeMaxUse=500M
+      MaxRetentionSec=2week
+      MaxFileSec=1day
+    '';
+  };
   services.pipewire = {
     enable = true;
     alsa.enable = true;
@@ -341,14 +354,14 @@
         "flakes"
       ];
       max-jobs = "auto";
-      cores = 24;
+      cores = 0;
       system-features = [
         "nixos-test"
         "benchmark"
         "big-parallel"
         "kvm"
       ];
-      allowed-users = [ "*" ];
+      allowed-users = [ "root" "${username}" ];
       require-sigs = true;
       sandbox = true;
       sandbox-fallback = false;

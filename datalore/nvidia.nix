@@ -9,7 +9,7 @@
 
   nixpkgs.config = {
     cudaSupport = true;
-    cudaVersion = "12.8";
+    cudaVersion = "12.9";
     cudaCapabilities = [ "8.9" ];
     nvidia.acceptLicense = true;
   };
@@ -45,11 +45,11 @@
   };
 
   hardware.nvidia = {
-    nvidiaPersistenced = true;
+    nvidiaPersistenced = false;
     modesetting.enable = false;
     forceFullCompositionPipeline = false;
     powerManagement.enable = true;
-    powerManagement.finegrained = false;  # No need for fine-grained without PRIME
+    powerManagement.finegrained = false;
     open = false;
     nvidiaSettings = false;
     package = config.boot.kernelPackages.nvidia_x11_production;

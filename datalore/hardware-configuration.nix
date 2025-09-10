@@ -7,9 +7,17 @@
   boot = {
     extraModprobeConfig = ''
       blacklist nouveau
+      # Apple Magic Trackpad with aggressive stabilization
+      options bcm5974 debug=0
+      options usbhid quirks=0x05ac:0x0265:0x00000010
+      options usbhid mousepoll=8
+      # NVMe thermal optimizations
+      options nvme use_threaded_interrupts=1
+      options nvme_core default_ps_max_latency_us=5500
     '';
     blacklistedKernelModules = [
       "nouveau"
+      "sp5100_tco"
     ];
     loader = {
       efi.canTouchEfiVariables = true;
@@ -37,73 +45,64 @@
       # "ovpn-dco"
     ];
     kernelParams = [
-      "pcie_aspm=off"
-      "acpi_force=1"
-      "acpi_enforce_resources=lax"
-      "iommu=soft"
-      "intel_iommu=off"
-      "amd_iommu=off"
+      # Essential stability fixes
+      "nowatchdog"
+      "sp5100_tco.blacklist=1"
+      "nmi_watchdog=0"
       "nvidia-drm.modeset=0"
+      # NVMe thermal management for Samsung SM963
+      "nvme_core.default_ps_max_latency_us=5500"
     ];
 
     extraModulePackages = [
     ];
     tmp.cleanOnBoot = true;
+    supportedFilesystems = [ "btrfs" "ext4" ];
   };
 
-  # Memory management improvements
+  # Focused memory management for Samsung SM963 thermal issues
   boot.kernel.sysctl = {
-    "vm.swappiness" = 10;
-    "vm.dirty_ratio" = 15;
-    "vm.dirty_background_ratio" = 5;
-    "vm.overcommit_memory" = 1;
+    "vm.swappiness" = 20;
+    "vm.dirty_writeback_centisecs" = 6000;
   };
-
-
 
   fileSystems."/" = {
-    device = "/dev/disk/by-uuid/48799b1c-64e9-4d05-abf7-bd0cfc5951c0";
-    fsType = "ext4";
-    options = [
-      "noatime"
-      "nodiratime"
-      "discard"
-    ];
+    device = "/dev/disk/by-uuid/2faa8ab4-b54d-4b70-8e2b-873c56d650e1";
+    fsType = "btrfs";
+    options = [ "subvol=@" "compress=zstd:3" "noatime" ];
+  };
+
+  fileSystems."/home" = {
+    device = "/dev/disk/by-uuid/2faa8ab4-b54d-4b70-8e2b-873c56d650e1";
+    fsType = "btrfs";
+    options = [ "subvol=@home" "compress=zstd:3" "noatime" ];
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/11D8-3071";
+    device = "/dev/disk/by-uuid/683A-1A12";
     fsType = "vfat";
-    options = [
-      "noatime"
-      "nodiratime"
-      "discard"
-    ];
   };
 
-  swapDevices = [
-    {
-      device = "/dev/disk/by-uuid/20e10911-18b1-47b0-974b-94acfc7fcff5";
-      options = [
-        "noatime"
-        "nodiratime"
-        "discard"
-      ];
-    }
-  ];
+  swapDevices = [ ];
+
 
   fileSystems."/home/jimh/BACKUP" = {
     device = "/dev/disk/by-uuid/76ce4fc4-ccdf-4ca6-8f2c-f10f4aeb5877";
     fsType = "ext4";
+    options = [
+      "noatime"
+      "lazytime"
+      "commit=120"
+    ];
   };
 
   fileSystems."/home/jimh/DATA" = {
-    device = "/dev/disk/by-uuid/8dd490ff-497c-4243-921a-cabfe0e20995";
+    device = "/dev/disk/by-uuid/6c0f6c67-982e-468c-9582-5f042a54d7a2";
     fsType = "ext4";
     options = [
       "noatime"
-      "nodiratime"
-      "discard"
+      "lazytime"
+      "commit=120"
     ];
   };
 
@@ -112,8 +111,8 @@
     fsType = "ext4";
     options = [
       "noatime"
-      "nodiratime"
-      "discard"
+      "lazytime"
+      "commit=120"
     ];
   };
 

@@ -42,15 +42,17 @@
     cpuFreqGovernor = "powersave";
   };
 
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 25;
+  };
+
   hardware.bluetooth.powerOnBoot = false;
   services.blueman.enable = false;
 
   environment.sessionVariables = {
     CMAKE_ARGS = "-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=off";
-
-    # Extend PATH
-    PATH = [
-    ];
 
     # Set library paths
     LD_LIBRARY_PATH = [

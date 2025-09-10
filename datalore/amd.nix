@@ -8,7 +8,7 @@
 
   # AMD GPU stability improvements for Plasma 6
   boot.extraModprobeConfig = ''
-    # AMD GPU stability settings - more conservative
+    # AMD GPU stability settings - conservative
     options amdgpu ppfeaturemask=0xffffffff
     options amdgpu runpm=0
     options amdgpu dpm=1

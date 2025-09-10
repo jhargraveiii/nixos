@@ -27,21 +27,21 @@
     "vm.max_map_count" = 2147483642;
     "vm.dirty_writeback_centisecs" = 6000;
     "vm.laptop_mode" = 5;
-    "vm.swappiness" = 10;
+    "vm.swappiness" = 20;
   };
   boot.kernelParams = [
     "msr.allow_writes=on"
     "nmi_watchdog=0"
-    "amd_pstate=active"
+    "amd_pstate=guided"
     "ahci.mobile_lpm_policy=3"
-    "pcie_aspm.policy=powersupersave"
+    "pcie_aspm.policy=powersave"
     "amdgpu.ppfeaturemask=0xffffffff"
     "amdgpu.runpm=1"
     "amdgpu.audio=0"
     "amdgpu.dpm=1"
-    "pcie_aspm=force"
-    "zswap.enabled=1"
-    "mitigations=off"
+    "mem_sleep_default=deep"
+    "nvme_core.default_ps_max_latency_us=5500"
+    "mitigations=auto"
     "quiet"
   ];
   boot.kernelModules = [
@@ -65,14 +65,15 @@
   '';
 
   boot.tmp.cleanOnBoot = true;
+  boot.supportedFilesystems = [ "ext4" ];
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/892e4229-5260-4957-be9e-df50894ebed2";
     fsType = "ext4";
     options = [
       "noatime"
-      "nodiratime"
-      "discard"
+      "lazytime"
+      "commit=60"
     ];
   };
 
@@ -83,8 +84,7 @@
       "fmask=0077"
       "dmask=0077"
       "noatime"
-      "nodiratime"
-      "discard"
+      "flush"
     ];
   };
 
@@ -93,15 +93,15 @@
     fsType = "ext4";
     options = [
       "noatime"
-      "nodiratime"
-      "discard"
+      "lazytime"
+      "commit=60"
     ];
   };
 
   swapDevices = [{ device = "/dev/disk/by-uuid/1e8f15a3-88e4-4389-9993-bb3ff7b92bac"; }];
 
-  # Hard disk protection if the laptop falls:
-  services.hdapsd.enable = lib.mkDefault true;
+  # Disable hdapsd (ThinkPad-specific)
+  services.hdapsd.enable = lib.mkDefault false;
   hardware.amdgpu.initrd.enable = lib.mkDefault true;
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.enableAllFirmware = lib.mkDefault true;
