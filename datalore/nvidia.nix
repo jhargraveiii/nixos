@@ -8,6 +8,22 @@
   # Nvidia card is used only for compute, not display!!
 
   nixpkgs.config = {
+     allowUnfreePredicate =
+    let
+      ensureList = x: if builtins.isList x then x else [ x ];
+    in
+    package:
+    builtins.all (
+      license:
+      license.free
+      || builtins.elem license.shortName [
+        "CUDA EULA"
+        "cuDNN EULA"
+        "cuSPARSELt EULA"
+        "cuTENSOR EULA"
+        "NVidia OptiX EULA"
+      ]
+    ) (ensureList package.meta.license);
     cudaSupport = true;
     cudaVersion = "12.9";
     cudaCapabilities = [ "8.9" ];
