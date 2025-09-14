@@ -37,10 +37,7 @@
 
   services.power-profiles-daemon.enable = true;
   powerManagement.powertop.enable = true;
-  powerManagement = {
-    enable = true;
-    cpuFreqGovernor = "powersave";
-  };
+  powerManagement.enable = true;
 
   zramSwap = {
     enable = true;
