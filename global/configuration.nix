@@ -26,7 +26,6 @@
     ../modules/services/flatpak.nix
     ../modules/programs/distrobox.nix
     ../modules/services/pia.nix
-    ../modules/programs/stt-whisper.nix
   ];
 
   systemd.enableEmergencyMode = false;
@@ -315,10 +314,6 @@
     pulse.enable = true;
     jack.enable = true;
   };
-
-  programs.sttWhisper.enable = true;
-
-  security.rtkit.enable = true;
 
   security.polkit.enable = true;
   services.udisks2.enable = true;

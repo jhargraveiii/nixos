@@ -48,8 +48,6 @@
   hardware.bluetooth.powerOnBoot = false;
   services.blueman.enable = false;
 
-  # (rtkit is enabled globally)
-
   environment.sessionVariables = {
     CMAKE_ARGS = "-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=off";
 
