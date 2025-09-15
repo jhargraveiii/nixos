@@ -8,7 +8,7 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_6_12;
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   environment.systemPackages = [
   ];
   boot.initrd.availableKernelModules = [
@@ -30,19 +30,25 @@
     "vm.swappiness" = 20;
   };
   boot.kernelParams = [
+    "lsm=landlock,yama,bpf"
     "msr.allow_writes=on"
     "nmi_watchdog=0"
-    "amd_pstate=guided"
+    # BIOS disables CPPC; avoid amd_pstate errors
+    "amd_pstate=disable"
+    # Prefer SATA link power mgmt when applicable
     "ahci.mobile_lpm_policy=3"
+    # Enable PCIe ASPM powersave globally
     "pcie_aspm.policy=powersave"
-    "amdgpu.ppfeaturemask=0xffffffff"
+    # Modern amdgpu defaults are good; do not override full ppfeaturemask
     "amdgpu.runpm=1"
-    "amdgpu.audio=0"
     "amdgpu.dpm=1"
+    # Use deep mem sleep for better standby
     "mem_sleep_default=deep"
+    # Reasonable NVMe latency for Phoenix platforms
     "nvme_core.default_ps_max_latency_us=5500"
     "mitigations=auto"
     "quiet"
+    "loglevel=4"
   ];
   boot.kernelModules = [
     "amdgpu"
@@ -54,13 +60,12 @@
   ];
   boot.extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
   boot.extraModprobeConfig = ''
-    options snd_hda_intel power_save=1
-    options mt7921e power_save=1
-    options usbcore autosuspend=1
+    options snd_hda_intel power_save=1 power_save_controller=Y
+    options mt7921e disable_aspm=0
+    options mt76 disable_usb_sg=0
+    options usbcore autosuspend=2
     options ideapad_laptop force=1
     options btusb enable_autosuspend=1
-    options iwlmvm power_scheme=3
-    options iwlwifi power_save=1
     options cfg80211 ieee80211_regdom=US
   '';
 
@@ -103,6 +108,7 @@
   # Disable hdapsd (ThinkPad-specific)
   services.hdapsd.enable = lib.mkDefault false;
   hardware.amdgpu.initrd.enable = lib.mkDefault true;
+  # thermald is Intel-only; remove to avoid confusion
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.enableAllFirmware = lib.mkDefault true;
   hardware.enableRedistributableFirmware = lib.mkDefault true;

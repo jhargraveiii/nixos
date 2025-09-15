@@ -100,6 +100,7 @@
     jdk21
     nil
     shellcheck
+    marksman
     vale
     hadolint
     yamllint
