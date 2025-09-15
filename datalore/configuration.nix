@@ -23,6 +23,7 @@ in
     ../global/configuration.nix
     ./nvidia.nix
     ./displaymanager.nix
+    ../modules/services/tuxflow.nix
   ];
 
   networking.hostName = "datalore";
@@ -85,6 +86,16 @@ in
     user = "ollama-service";
     group = "ollama-service";
     acceleration = "cuda";
+  };
+
+  # Enable Tux-Flow only on datalore
+  services.tuxflow = {
+    enable = true;
+    model = "medium"; # or "small" for faster download
+    ai = {
+      enable = true;
+      model = "llama3.2";
+    };
   };
 
   environment.sessionVariables = {

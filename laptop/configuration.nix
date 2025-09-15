@@ -20,6 +20,7 @@
     ./hardware-configuration.nix
     ./amd.nix
     ./displaymanager.nix
+    ../modules/services/tuxflow.nix
   ];
 
   networking.hostName = "datalore_laptop";
@@ -66,6 +67,22 @@
       "${pkgs.amd-blis}/include"
       "${pkgs.amd-libflame}/include"
     ];
+  };
+
+  services.ollama = {
+    enable = true;
+    user = "ollama-service";
+    group = "ollama-service";
+    acceleration = null;
+  };
+
+  services.tuxflow = {
+    enable = true;
+    model = "small";
+    ai = {
+      enable = true;
+      model = "llama3.2";
+    };
   };
 
   system.stateVersion = "24.05";
