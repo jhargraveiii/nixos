@@ -64,14 +64,15 @@ let
       notify-send "AI Editor" "AI service error or no response"
       exit 1
     fi
-    echo "$EDITED_TEXT" | wl-copy --paste-once --trim-newline
+    echo "$EDITED_TEXT" | wl-copy --trim-newline
     echo "$EDITED_TEXT" | wl-copy -p --trim-newline
-    sleep 0.15
+    sleep 0.3
     echo "key ctrl+v" | dotool
-    sleep 0.12
+    sleep 0.2
+    # Fallback: try shift+Insert if ctrl+v didn't work
     echo "key shift+Insert" | dotool
-    sleep 0.12
-    # Fallback: type text directly if paste is ignored
+    sleep 0.2
+    # Final fallback: type text directly
     if command -v wtype >/dev/null 2>&1; then
       printf "%s" "$EDITED_TEXT" | wtype -
     fi
@@ -121,13 +122,15 @@ let
       notify-send "AI Editor" "AI service error"
       exit 1
     fi
-    echo "$EDITED_TEXT" | wl-copy --paste-once --trim-newline
+    echo "$EDITED_TEXT" | wl-copy --trim-newline
     echo "$EDITED_TEXT" | wl-copy -p --trim-newline
-    sleep 0.15
+    sleep 0.3
     echo "key ctrl+v" | dotool
-    sleep 0.12
+    sleep 0.2
+    # Fallback: try shift+Insert if ctrl+v didn't work
     echo "key shift+Insert" | dotool
-    sleep 0.12
+    sleep 0.2
+    # Final fallback: type text directly
     if command -v wtype >/dev/null 2>&1; then
       printf "%s" "$EDITED_TEXT" | wtype -
     fi
@@ -192,13 +195,16 @@ let
     }' | curl --fail --max-time 30 -s http://localhost:11434/api/generate -d @- | tee -a "$log_dir/ai-edit.log" | jq -r '.response // (.message.content // empty) // empty')
     [ -z "$EDITED_TEXT" ] && { notify-send "AI Editor" "AI service error"; exit 1; }
 
-    echo "$EDITED_TEXT" | wl-copy --paste-once --trim-newline
+    echo "$EDITED_TEXT" | wl-copy --trim-newline
     echo "$EDITED_TEXT" | wl-copy -p --trim-newline
     notify-send "AI Editor" "Refocus your app. Pasting in 2s…"
     sleep 2
     echo "key ctrl+v" | dotool || true
-    sleep 0.12
+    sleep 0.3
+    # Fallback: try shift+Insert if ctrl+v didn't work
     echo "key shift+Insert" | dotool || true
+    sleep 0.2
+    # Final fallback: type text directly
     if command -v wtype >/dev/null 2>&1; then
       printf "%s" "$EDITED_TEXT" | wtype - || true
     fi
@@ -317,7 +323,7 @@ in
     # Home Manager content for the user
     home-manager.users.${username} = { lib, pkgs, config, ... }: {
       home.packages = [ tuxflowStart tuxflowStop ]
-        ++ lib.optionals cfg.ai.enable [ aiEditSelected aiEditRecent endAndEdit aiUnload aiLoad ];
+        ++ lib.optionals cfg.ai.enable [ aiEditSelected aiEditRecent aiEditClipboard aiEditSelectedDelayed endAndEdit aiUnload aiLoad ];
 
       # Desktop entries to bind shortcuts in Plasma settings
       xdg.desktopEntries = {
@@ -354,6 +360,20 @@ in
           name = "Tuxflow: Unload AI Model";
           exec = "tuxflow-ai-unload";
           icon = "media-eject";
+          terminal = false;
+          categories = [ "Utility" ];
+        };
+        "tuxflow-ai-edit-clipboard" = {
+          name = "Tuxflow: AI Edit Clipboard";
+          exec = "tuxflow-ai-edit-clipboard";
+          icon = "edit-paste";
+          terminal = false;
+          categories = [ "Utility" ];
+        };
+        "tuxflow-ai-edit-selected-delayed" = {
+          name = "Tuxflow: AI Edit Selected (Delayed)";
+          exec = "tuxflow-ai-edit-selected-delayed";
+          icon = "tools-check-spelling";
           terminal = false;
           categories = [ "Utility" ];
         };

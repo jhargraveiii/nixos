@@ -81,7 +81,7 @@
     model = "small";
     ai = {
       enable = true;
-      model = "llama3.2";
+      model = "gemma3";
     };
   };
 
