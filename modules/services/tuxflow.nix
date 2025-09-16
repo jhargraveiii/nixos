@@ -72,8 +72,8 @@ let
     notify-send -u low "AI Editor" "Processing text..." &
     
     # Get AI-edited text
-    EDITED_TEXT=$(jq -n --arg text "$SELECTED_TEXT" '{
-      "model": ${lib.escapeShellArg cfg.ai.model},
+    EDITED_TEXT=$(jq -n --arg text "$SELECTED_TEXT" --arg model ${lib.escapeShellArg cfg.ai.model} '{
+      "model": $model,
       "prompt": ("Fix grammar, spelling, and improve clarity of this text. Return only the corrected text without quotes or explanation:\n\n" + $text),
       "stream": false,
       "keep_alive": "15m",
@@ -180,8 +180,8 @@ let
     notify-send -u low "AI Editor" "Processing text..." &
 
     # Get AI-edited text
-    EDITED_TEXT=$(jq -n --arg text "$SELECTED_TEXT" '{
-      "model": ${lib.escapeShellArg cfg.ai.model},
+    EDITED_TEXT=$(jq -n --arg text "$SELECTED_TEXT" --arg model ${lib.escapeShellArg cfg.ai.model} '{
+      "model": $model,
       "prompt": ("Fix grammar, spelling, and improve clarity of this text. Return only the corrected text without quotes or explanation:\n\n" + $text),
       "stream": false,
       "keep_alive": "15m",
@@ -282,8 +282,8 @@ let
     state_dir="$HOME/.local/state/tuxflow"; log_dir="$state_dir/logs"; mkdir -p "$log_dir"
     echo "[$(date +%F\ %T)] delayed-selected $(printf %s "$SELECTED_TEXT" | wc -c) bytes" >> "$log_dir/ai-edit.log"
 
-    EDITED_TEXT=$(jq -n --arg text "$SELECTED_TEXT" '{
-      "model": ${lib.escapeShellArg cfg.ai.model},
+    EDITED_TEXT=$(jq -n --arg text "$SELECTED_TEXT" --arg model ${lib.escapeShellArg cfg.ai.model} '{
+      "model": $model,
       "prompt": ("Fix grammar, spelling, and improve clarity of this text. Return only the corrected text without quotes or explanation:\n\n" + $text),
       "stream": false,
       "keep_alive": "15m",
@@ -316,10 +316,10 @@ let
   aiUnload = pkgs.writeShellScriptBin "tuxflow-ai-unload" ''
     #!${pkgs.bash}/bin/bash
     set -euo pipefail
-    ${pkgs.curl}/bin/curl -s http://localhost:11434/api/generate -d '{
-      "model": "'${cfg.ai.model}'",
+    ${pkgs.curl}/bin/curl -s http://localhost:11434/api/generate -d "$(jq -n --arg model ${lib.escapeShellArg cfg.ai.model} '{
+      "model": $model,
       "keep_alive": 0
-    }' > /dev/null
+    }')" > /dev/null
     ${pkgs.libnotify}/bin/notify-send "AI System" "Model unloaded - RAM freed"
   '';
 
@@ -327,12 +327,12 @@ let
     #!${pkgs.bash}/bin/bash
     set -euo pipefail
     ${pkgs.libnotify}/bin/notify-send "AI System" "Loading model '${cfg.ai.model}' …"
-    ${pkgs.curl}/bin/curl -s http://localhost:11434/api/generate -d '{
-      "model": "'${cfg.ai.model}'",
+    ${pkgs.curl}/bin/curl -s http://localhost:11434/api/generate -d "$(jq -n --arg model ${lib.escapeShellArg cfg.ai.model} '{
+      "model": $model,
       "prompt": "warmup",
       "stream": false,
       "keep_alive": "15m"
-    }' > /dev/null || true
+    }')" > /dev/null || true
     ${pkgs.libnotify}/bin/notify-send "AI System" "Model '${cfg.ai.model}' loaded (kept alive 15m)"
   '';
 
