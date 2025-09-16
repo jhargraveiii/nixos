@@ -68,6 +68,7 @@
       "lp"
       "video"
       "piavpn"
+      "input"
     ];
     uid = 1000;
     openssh.authorizedKeys.keys = [

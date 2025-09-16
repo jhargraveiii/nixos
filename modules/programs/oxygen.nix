@@ -61,16 +61,16 @@ let
             # Create desktop entry directory
             mkdir -p $out/share/applications
             cat > $out/share/applications/oxygen-xml-developer.desktop << EOF
-            [Desktop Entry]
-            Name=Oxygen XML Developer
-            Comment=XML Development Environment
-            Exec=$out/opt/oxygen-xml-developer/oxygenDeveloper.sh
-            Icon=$out/share/icons/hicolor/128x128/apps/oxygen-xml-developer.png
-            Terminal=false
-            Type=Application
-            Categories=Development;IDE;XML;
-            StartupNotify=true
-            EOF
+[Desktop Entry]
+Name=Oxygen XML Developer
+Comment=XML Development Environment
+Exec=$out/opt/oxygen-xml-developer/oxygenDeveloper.sh
+Icon=$out/share/icons/hicolor/128x128/apps/oxygen-xml-developer.png
+Terminal=false
+Type=Application
+Categories=Development;IDE;XML;
+StartupNotify=true
+EOF
     '';
   };
 in
