@@ -36,9 +36,22 @@ let
   aiEditSelected = pkgs.writeShellScriptBin "tuxflow-ai-edit-selected" ''
     #!${pkgs.bash}/bin/bash
     set -euo pipefail
-    export PATH=${lib.makeBinPath [ pkgs.coreutils pkgs.wl-clipboard pkgs.jq pkgs.curl pkgs.dotool pkgs.libnotify ]}
-    sleep 0.6
+    export PATH=${lib.makeBinPath [ pkgs.coreutils pkgs.wl-clipboard pkgs.jq pkgs.curl pkgs.dotool pkgs.libnotify pkgs.wtype ]}
+    
+    # Get current window info for refocusing later (Plasma 6 compatible)
+    ACTIVE_WINDOW=""
+    if command -v qdbus >/dev/null 2>&1; then
+      # Plasma 6/KWin method
+      ACTIVE_WINDOW=$(qdbus org.kde.KWin /KWin org.kde.KWin.activeWindow 2>/dev/null || echo "")
+    elif command -v xdotool >/dev/null 2>&1; then
+      # X11 fallback
+      ACTIVE_WINDOW=$(xdotool getactivewindow 2>/dev/null || echo "")
+    fi
+    
+    # Copy currently selected text
     echo "key ctrl+c" | dotool
+    sleep 0.2
+    
     # Retry to capture selection from clipboard
     SELECTED_TEXT=""
     for i in $(seq 1 10); do
@@ -46,13 +59,19 @@ let
       SELECTED_TEXT=$(wl-paste 2>/dev/null || true)
       [ -n "$SELECTED_TEXT" ] && break
     done
+    
     if [ -z "$SELECTED_TEXT" ]; then
       notify-send "AI Editor" "No text selected. Please select text first."
       exit 1
     fi
+    
     state_dir="$HOME/.local/state/tuxflow"; log_dir="$state_dir/logs"; mkdir -p "$log_dir"
     echo "[$(date +%F\ %T)] selected $(printf %s "$SELECTED_TEXT" | wc -c) bytes" >> "$log_dir/ai-edit.log"
 
+    # Show processing notification without stealing focus
+    notify-send -u low "AI Editor" "Processing text..." &
+    
+    # Get AI-edited text
     EDITED_TEXT=$(jq -n --arg text "$SELECTED_TEXT" '{
       "model": ${lib.escapeShellArg cfg.ai.model},
       "prompt": ("Fix grammar, spelling, and improve clarity of this text. Return only the corrected text without quotes or explanation:\n\n" + $text),
@@ -60,57 +79,107 @@ let
       "keep_alive": "15m",
       "options": {"temperature": 0.1, "top_p": 0.9}
     }' | curl --fail --max-time 30 -s http://localhost:11434/api/generate -d @- | tee -a "$log_dir/ai-edit.log" | jq -r '.response // (.message.content // empty) // empty')
+    
     if [ -z "$EDITED_TEXT" ]; then
       notify-send "AI Editor" "AI service error or no response"
       exit 1
     fi
+    
+    # Refocus original window if possible (Plasma 6 compatible)
+    if [ -n "$ACTIVE_WINDOW" ]; then
+      if command -v qdbus >/dev/null 2>&1; then
+        # Plasma 6/KWin method
+        qdbus org.kde.KWin /KWin org.kde.KWin.activateWindow "$ACTIVE_WINDOW" 2>/dev/null || true
+      elif command -v xdotool >/dev/null 2>&1; then
+        # X11 fallback
+        xdotool windowactivate "$ACTIVE_WINDOW" 2>/dev/null || true
+      fi
+      sleep 0.2
+    fi
+    
+    # Replace selected text with edited version - multiple methods for reliability
     echo "$EDITED_TEXT" | wl-copy --trim-newline
-    echo "$EDITED_TEXT" | wl-copy -p --trim-newline
-    sleep 0.3
+    sleep 0.1
+    
+    # Method 1: Try ctrl+v
     echo "key ctrl+v" | dotool
     sleep 0.2
-    # Fallback: try shift+Insert if ctrl+v didn't work
-    echo "key shift+Insert" | dotool
-    sleep 0.2
-    # Final fallback: type text directly
-    if command -v wtype >/dev/null 2>&1; then
+    
+    # Method 2: Fallback to typing if paste might have failed
+    # Check if we still have focus by trying to select what we just pasted
+    echo "key ctrl+a" | dotool
+    sleep 0.1
+    echo "key ctrl+c" | dotool  
+    sleep 0.1
+    PASTED_TEXT=$(wl-paste 2>/dev/null || true)
+    
+    # If paste failed or text doesn't match, use wtype as fallback
+    if [ "$PASTED_TEXT" != "$EDITED_TEXT" ]; then
+      # First clear any selected text and position cursor
+      echo "key ctrl+a" | dotool
+      sleep 0.1
+      # Type the text directly
       printf "%s" "$EDITED_TEXT" | wtype -
     fi
-    notify-send "AI Editor" "Text improved!"
+    
+    notify-send -u low "AI Editor" "Text improved!"
   '';
 
   aiEditRecent = pkgs.writeShellScriptBin "tuxflow-ai-edit-recent" ''
     #!${pkgs.bash}/bin/bash
     set -euo pipefail
-    export PATH=${lib.makeBinPath [ pkgs.coreutils pkgs.wl-clipboard pkgs.jq pkgs.curl pkgs.dotool pkgs.libnotify ]}
-    sleep 0.1
+    export PATH=${lib.makeBinPath [ pkgs.coreutils pkgs.wl-clipboard pkgs.jq pkgs.curl pkgs.dotool pkgs.libnotify pkgs.wtype ]}
+    
+    # Get current window info for refocusing later (Plasma 6 compatible)
+    ACTIVE_WINDOW=""
+    if command -v qdbus >/dev/null 2>&1; then
+      # Plasma 6/KWin method
+      ACTIVE_WINDOW=$(qdbus org.kde.KWin /KWin org.kde.KWin.activeWindow 2>/dev/null || echo "")
+    elif command -v xdotool >/dev/null 2>&1; then
+      # X11 fallback
+      ACTIVE_WINDOW=$(xdotool getactivewindow 2>/dev/null || echo "")
+    fi
+    
+    # Try to select recent text using various methods
+    # Method 1: Select paragraph (ctrl+Up, ctrl+shift+Down)
     echo "key ctrl+Up" | dotool; sleep 0.1
     echo "key ctrl+shift+Down" | dotool; sleep 0.1
     echo "key ctrl+c" | dotool; sleep 0.2
+    
     SELECTED_TEXT=""
     for i in $(seq 1 10); do
       sleep 0.1
       SELECTED_TEXT=$(wl-paste 2>/dev/null || true)
       [ -n "$SELECTED_TEXT" ] && break
     done
+    
+    # Method 2: Select current line if paragraph selection failed
     if [ -z "$SELECTED_TEXT" ] || [ "$(printf %s "$SELECTED_TEXT" | wc -c)" -lt 5 ]; then
-      echo "key Home" | dotool; sleep 0.2
-      echo "key shift+End" | dotool; sleep 0.2
-      echo "key ctrl+c" | dotool; sleep 0.3
-      SELECTED_TEXT=$(wl-paste)
+      echo "key Home" | dotool; sleep 0.1
+      echo "key shift+End" | dotool; sleep 0.1
+      echo "key ctrl+c" | dotool; sleep 0.2
+      SELECTED_TEXT=$(wl-paste 2>/dev/null || true)
     fi
+    
+    # Method 3: Select all as last resort
     if [ -z "$SELECTED_TEXT" ] || [ "$(printf %s "$SELECTED_TEXT" | wc -c)" -lt 5 ]; then
       echo "key ctrl+a" | dotool; sleep 0.1
       echo "key ctrl+c" | dotool; sleep 0.1
-      SELECTED_TEXT=$(wl-paste)
+      SELECTED_TEXT=$(wl-paste 2>/dev/null || true)
     fi
+    
     if [ -z "$SELECTED_TEXT" ]; then
       notify-send "AI Editor" "No text found to edit"
       exit 1
     fi
+    
     state_dir="$HOME/.local/state/tuxflow"; log_dir="$state_dir/logs"; mkdir -p "$log_dir"
     echo "[$(date +%F\ %T)] auto-selected $(printf %s "$SELECTED_TEXT" | wc -c) bytes" >> "$log_dir/ai-edit.log"
 
+    # Show processing notification without stealing focus
+    notify-send -u low "AI Editor" "Processing text..." &
+
+    # Get AI-edited text
     EDITED_TEXT=$(jq -n --arg text "$SELECTED_TEXT" '{
       "model": ${lib.escapeShellArg cfg.ai.model},
       "prompt": ("Fix grammar, spelling, and improve clarity of this text. Return only the corrected text without quotes or explanation:\n\n" + $text),
@@ -118,23 +187,50 @@ let
       "keep_alive": "15m",
       "options": {"temperature": 0.1, "top_p": 0.9}
     }' | curl --fail --max-time 30 -s http://localhost:11434/api/generate -d @- | tee -a "$log_dir/ai-edit.log" | jq -r '.response // (.message.content // empty) // empty')
+    
     if [ -z "$EDITED_TEXT" ]; then
       notify-send "AI Editor" "AI service error"
       exit 1
     fi
+    
+    # Refocus original window if possible (Plasma 6 compatible)
+    if [ -n "$ACTIVE_WINDOW" ]; then
+      if command -v qdbus >/dev/null 2>&1; then
+        # Plasma 6/KWin method
+        qdbus org.kde.KWin /KWin org.kde.KWin.activateWindow "$ACTIVE_WINDOW" 2>/dev/null || true
+      elif command -v xdotool >/dev/null 2>&1; then
+        # X11 fallback
+        xdotool windowactivate "$ACTIVE_WINDOW" 2>/dev/null || true
+      fi
+      sleep 0.2
+    fi
+    
+    # Replace selected text with edited version - multiple methods for reliability
     echo "$EDITED_TEXT" | wl-copy --trim-newline
-    echo "$EDITED_TEXT" | wl-copy -p --trim-newline
-    sleep 0.3
+    sleep 0.1
+    
+    # Method 1: Try ctrl+v
     echo "key ctrl+v" | dotool
     sleep 0.2
-    # Fallback: try shift+Insert if ctrl+v didn't work
-    echo "key shift+Insert" | dotool
-    sleep 0.2
-    # Final fallback: type text directly
-    if command -v wtype >/dev/null 2>&1; then
+    
+    # Method 2: Fallback to typing if paste might have failed
+    # Check if we still have focus by trying to select what we just pasted
+    echo "key ctrl+a" | dotool
+    sleep 0.1
+    echo "key ctrl+c" | dotool  
+    sleep 0.1
+    PASTED_TEXT=$(wl-paste 2>/dev/null || true)
+    
+    # If paste failed or text doesn't match, use wtype as fallback
+    if [ "$PASTED_TEXT" != "$EDITED_TEXT" ]; then
+      # First clear any selected text and position cursor
+      echo "key ctrl+a" | dotool
+      sleep 0.1
+      # Type the text directly
       printf "%s" "$EDITED_TEXT" | wtype -
     fi
-    notify-send "AI Editor" "Text improved!"
+    
+    notify-send -u low "AI Editor" "Text improved!"
   '';
 
   aiEditClipboard = pkgs.writeShellScriptBin "tuxflow-ai-edit-clipboard" ''
