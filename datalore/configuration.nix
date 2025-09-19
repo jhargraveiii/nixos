@@ -94,7 +94,7 @@ in
     model = "medium"; # or "small" for faster download
     ai = {
       enable = true;
-      model = "llama3.2";
+      model = "gemma3";
     };
   };
 
