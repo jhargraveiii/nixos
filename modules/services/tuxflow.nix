@@ -22,7 +22,18 @@ let
     state_dir="$HOME/.local/state/tuxflow"
     log_dir="$state_dir/logs"
     mkdir -p "$log_dir"
-    "$HOME/${nerdDirRel}/venv/bin/python" "$HOME/${nerdDirRel}/nerd-dictation" begin --input PW-CAT --simulate-input-tool DOTOOL --vosk-model-dir "$HOME/.config/nerd-dictation/model" > "$log_dir/stt.log" 2>&1
+    run_dir="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/tuxflow"
+    mkdir -p "$run_dir"
+    dict_file="$run_dir/dictation.txt"
+    rm -f "$dict_file"
+
+    if [ "${builtins.toString cfg.dictation.safePasteOnEnd}" = "true" ]; then
+      # Buffer output to a file; paste on end
+      "$HOME/${nerdDirRel}/venv/bin/python" "$HOME/${nerdDirRel}/nerd-dictation" begin --input PW-CAT --output STDOUT --vosk-model-dir "$HOME/.config/nerd-dictation/model" >> "$dict_file" 2> "$log_dir/stt.log"
+    else
+      # Realtime typing into the focused app
+      "$HOME/${nerdDirRel}/venv/bin/python" "$HOME/${nerdDirRel}/nerd-dictation" begin --input PW-CAT --simulate-input-tool DOTOOL --vosk-model-dir "$HOME/.config/nerd-dictation/model" > "$log_dir/stt.log" 2>&1
+    fi
   '';
 
   tuxflowStop = pkgs.writeShellScriptBin "tuxflow-stop" ''
@@ -30,7 +41,24 @@ let
     set -euo pipefail
     export PATH=${lib.makeBinPath [ pkgs.coreutils pkgs.libnotify ]}
     notify-send "Tux-Flow" "STT Stopped"
-    "$HOME/${nerdDirRel}/venv/bin/python" "$HOME/${nerdDirRel}/nerd-dictation" end
+    "$HOME/${nerdDirRel}/venv/bin/python" "$HOME/${nerdDirRel}/nerd-dictation" end || true
+
+    # Paste buffered text if safePasteOnEnd
+    if [ "${builtins.toString cfg.dictation.safePasteOnEnd}" = "true" ]; then
+      run_dir="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}/tuxflow"
+      dict_file="$run_dir/dictation.txt"
+      if [ -s "$dict_file" ]; then
+        TEXT=$(cat "$dict_file")
+        if [ -n "$TEXT" ]; then
+          ${pkgs.wl-clipboard}/bin/wl-copy --paste-once --trim-newline <<< "$TEXT"
+          sleep 0.15
+          ${pkgs.dotool}/bin/dotool <<< "key ctrl+v" || true
+          sleep 0.12
+          ${pkgs.dotool}/bin/dotool <<< "key shift+Insert" || true
+        fi
+      fi
+      : > "$dict_file" || true
+    fi
   '';
 
   aiEditSelected = pkgs.writeShellScriptBin "tuxflow-ai-edit-selected" ''
@@ -382,6 +410,14 @@ in
         type = types.str;
         default = "gemma3:latest";
         description = "Ollama model name for editing.";
+      };
+    };
+
+    dictation = {
+      safePasteOnEnd = mkOption {
+        type = types.bool;
+        default = true;
+        description = "Buffer dictation to a file and paste once on end to avoid random keystrokes during dictation.";
       };
     };
   };
