@@ -261,78 +261,7 @@ let
     notify-send -u low "AI Editor" "Text improved!"
   '';
 
-  aiEditClipboard = pkgs.writeShellScriptBin "tuxflow-ai-edit-clipboard" ''
-    #!${pkgs.bash}/bin/bash
-    set -euo pipefail
-    export PATH=${lib.makeBinPath [ pkgs.coreutils pkgs.wl-clipboard pkgs.jq pkgs.curl pkgs.libnotify ]}
-
-    CLIP=$(wl-paste 2>/dev/null || true)
-    if [ -z "$CLIP" ]; then
-      notify-send "AI Editor" "Clipboard empty"
-      exit 1
-    fi
-    state_dir="$HOME/.local/state/tuxflow"; log_dir="$state_dir/logs"; mkdir -p "$log_dir"
-    echo "[$(date +%F\ %T)] clipboard $(printf %s "$CLIP" | wc -c) bytes" >> "$log_dir/ai-edit.log"
-
-    EDITED_TEXT=$(jq -n --arg text "$CLIP" '{
-      "model": ${lib.escapeShellArg cfg.ai.model},
-      "prompt": ("Fix grammar, spelling, and improve clarity of this text. Return only the corrected text without quotes or explanation:\n\n" + $text),
-      "stream": false,
-      "keep_alive": "15m",
-      "options": {"temperature": 0.1, "top_p": 0.9}
-    }' | curl --fail --max-time 30 -s http://localhost:11434/api/generate -d @- | tee -a "$log_dir/ai-edit.log" | jq -r '.response // (.message.content // empty) // empty')
-
-    if [ -z "$EDITED_TEXT" ]; then
-      notify-send "AI Editor" "AI service error"
-      exit 1
-    fi
-    echo "$EDITED_TEXT" | wl-copy --trim-newline
-    echo "$EDITED_TEXT" | wl-copy -p --trim-newline
-    notify-send "AI Editor" "Edited text copied. Paste in your app."
-  '';
-
-  aiEditSelectedDelayed = pkgs.writeShellScriptBin "tuxflow-ai-edit-selected-delayed" ''
-    #!${pkgs.bash}/bin/bash
-    set -euo pipefail
-    export PATH=${lib.makeBinPath [ pkgs.coreutils pkgs.wl-clipboard pkgs.jq pkgs.curl pkgs.dotool pkgs.libnotify pkgs.wtype ]}
-    sleep 0.6
-    echo "key ctrl+c" | dotool
-    SELECTED_TEXT=""
-    for i in $(seq 1 10); do
-      sleep 0.1
-      SELECTED_TEXT=$(wl-paste 2>/dev/null || true)
-      [ -n "$SELECTED_TEXT" ] && break
-    done
-    if [ -z "$SELECTED_TEXT" ]; then
-      notify-send "AI Editor" "No text selected."
-      exit 1
-    fi
-    state_dir="$HOME/.local/state/tuxflow"; log_dir="$state_dir/logs"; mkdir -p "$log_dir"
-    echo "[$(date +%F\ %T)] delayed-selected $(printf %s "$SELECTED_TEXT" | wc -c) bytes" >> "$log_dir/ai-edit.log"
-
-    EDITED_TEXT=$(jq -n --arg text "$SELECTED_TEXT" --arg model ${lib.escapeShellArg cfg.ai.model} '{
-      "model": $model,
-      "prompt": ("Fix grammar, spelling, and improve clarity of this text. Return only the corrected text without quotes or explanation:\n\n" + $text),
-      "stream": false,
-      "keep_alive": "15m",
-      "options": {"temperature": 0.1, "top_p": 0.9}
-    }' | curl --fail --max-time 30 -s http://localhost:11434/api/generate -d @- | tee -a "$log_dir/ai-edit.log" | jq -r '.response // (.message.content // empty) // empty')
-    [ -z "$EDITED_TEXT" ] && { notify-send "AI Editor" "AI service error"; exit 1; }
-
-    echo "$EDITED_TEXT" | wl-copy --trim-newline
-    echo "$EDITED_TEXT" | wl-copy -p --trim-newline
-    notify-send "AI Editor" "Refocus your app. Pasting in 2s…"
-    sleep 2
-    echo "key ctrl+v" | dotool || true
-    sleep 0.3
-    # Fallback: try shift+Insert if ctrl+v didn't work
-    echo "key shift+Insert" | dotool || true
-    sleep 0.2
-    # Final fallback: type text directly
-    if command -v wtype >/dev/null 2>&1; then
-      printf "%s" "$EDITED_TEXT" | wtype - || true
-    fi
-  '';
+  
 
   endAndEdit = pkgs.writeShellScriptBin "tuxflow-end-and-edit" ''
     #!${pkgs.bash}/bin/bash
@@ -433,29 +362,13 @@ in
     '';
 
     users.users.${username}.extraGroups = [ "input" ];
-    # PipeWire: add a WebRTC echo-cancel module to provide a noise-cancelled source
-    services.pipewire.extraConfig.pipewire."92-webrtc-noise-cancel.conf" = {
-      "context.modules" = [
-        {
-          name = "libpipewire-module-echo-cancel";
-          args = {
-            "monitor.mode" = false;
-            "aec.method" = "webrtc";
-            "source.props" = {
-              "node.description" = "Noise Cancelled Source";
-              "media.class" = "Audio/Source";
-            };
-          };
-        }
-      ];
-    };
 
     environment.systemPackages = [ pkgs.dotool pkgs.wtype ];
 
     # Home Manager content for the user
     home-manager.users.${username} = { lib, pkgs, config, ... }: {
       home.packages = [ tuxflowStart tuxflowStop ]
-        ++ lib.optionals cfg.ai.enable [ aiEditSelected aiEditRecent aiEditClipboard aiEditSelectedDelayed endAndEdit aiUnload aiLoad ];
+        ++ lib.optionals cfg.ai.enable [ aiEditSelected aiEditRecent endAndEdit aiUnload aiLoad ];
 
       # Desktop entries to bind shortcuts in Plasma settings
       xdg.desktopEntries = {
@@ -495,20 +408,7 @@ in
           terminal = false;
           categories = [ "Utility" ];
         };
-        "tuxflow-ai-edit-clipboard" = {
-          name = "Tuxflow: AI Edit Clipboard";
-          exec = "tuxflow-ai-edit-clipboard";
-          icon = "edit-paste";
-          terminal = false;
-          categories = [ "Utility" ];
-        };
-        "tuxflow-ai-edit-selected-delayed" = {
-          name = "Tuxflow: AI Edit Selected (Delayed)";
-          exec = "tuxflow-ai-edit-selected-delayed";
-          icon = "tools-check-spelling";
-          terminal = false;
-          categories = [ "Utility" ];
-        };
+        
       };
 
       # Systemd user service to download and install the VOSK model once
