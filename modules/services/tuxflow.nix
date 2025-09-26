@@ -293,11 +293,7 @@ let
     ${pkgs.libnotify}/bin/notify-send "AI System" "Model '${cfg.ai.model}' loaded (kept alive 15m)"
   '';
 
-  modelInfo = rec {
-    small = {
-      url = "https://alphacephei.com/kaldi/models/vosk-model-small-en-us-0.15.zip";
-      dir = "vosk-model-small-en-us-0.15";
-    };
+  modelInfo = {
     medium = {
       url = "https://alphacephei.com/vosk/models/vosk-model-en-us-0.22.zip";
       dir = "vosk-model-en-us-0.22";
@@ -309,9 +305,9 @@ in
     enable = mkEnableOption "Tux-Flow (nerd-dictation + dotool + Ollama helpers)";
 
     model = mkOption {
-      type = types.enum [ "small" "medium" ];
+      type = types.enum [ "medium" ];
       default = "medium";
-      description = "VOSK model size to auto-install into XDG config on first login.";
+      description = "VOSK model to auto-install (best quality).";
     };
 
     # key bindings removed per user request

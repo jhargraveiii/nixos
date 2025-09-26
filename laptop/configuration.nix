@@ -78,7 +78,7 @@
 
   services.tuxflow = {
     enable = true;
-    model = "small";
+    model = "medium";
     ai = {
       enable = true;
       model = "gemma3";
