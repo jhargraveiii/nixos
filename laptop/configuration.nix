@@ -20,7 +20,6 @@
     ./hardware-configuration.nix
     ./amd.nix
     ./displaymanager.nix
-    ../modules/services/tuxflow.nix
   ];
 
   networking.hostName = "datalore_laptop";
@@ -74,15 +73,6 @@
     user = "ollama-service";
     group = "ollama-service";
     acceleration = null;
-  };
-
-  services.tuxflow = {
-    enable = true;
-    model = "medium";
-    ai = {
-      enable = true;
-      model = "gemma3";
-    };
   };
 
   system.stateVersion = "24.05";
