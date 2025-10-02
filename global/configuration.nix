@@ -347,6 +347,12 @@
 
   programs.ccache.enable = true;
   programs.ccache.cacheDir = "/nix/var/cache/ccache";
+
+  programs.ydotool = {
+    enable = true;
+    group = "input";
+  };
+
   nix = {
     settings = {
       auto-optimise-store = true;
