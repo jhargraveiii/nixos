@@ -9,7 +9,6 @@
     settings = {
       disable_ligatures = "never";
       scrollback_lines = 5000;
-      scrollbar = "right";
       allow_remote_control = false;
       wheel_scroll_min_lines = 5;
       window_padding_width = 0;

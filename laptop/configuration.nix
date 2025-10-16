@@ -22,7 +22,7 @@
     ./displaymanager.nix
   ];
 
-  networking.hostName = "datalore_laptop";
+  networking.hostName = "datalore-laptop";
 
   environment.systemPackages = with pkgs; [
     kdePackages.wacomtablet

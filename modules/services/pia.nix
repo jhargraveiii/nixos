@@ -202,7 +202,7 @@ in
 
     # Option 1: Use extraConfig for newer systemd features
     systemd.network.links."99-wgpia" = {
-      matchConfig.Name = "wgpia*";
+      matchConfig.OriginalName = "wgpia*";
       extraConfig = ''
         [Link]
         Property=ID_NET_MANAGED_BY=
