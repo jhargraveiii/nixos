@@ -20,10 +20,9 @@
     ./hardware-configuration.nix
     ./amd.nix
     ./displaymanager.nix
-    ../modules/services/tuxflow.nix
   ];
 
-  networking.hostName = "datalore_laptop";
+  networking.hostName = "datalore-laptop";
 
   environment.systemPackages = with pkgs; [
     kdePackages.wacomtablet
@@ -74,15 +73,6 @@
     user = "ollama-service";
     group = "ollama-service";
     acceleration = null;
-  };
-
-  services.tuxflow = {
-    enable = true;
-    model = "small";
-    ai = {
-      enable = true;
-      model = "gemma3";
-    };
   };
 
   system.stateVersion = "24.05";
