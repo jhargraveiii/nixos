@@ -13,7 +13,8 @@ let
     shadow
     stdenv.cc.cc.lib
     glibc
-    qt6.full
+    qt6.qtbase
+    qt6.qtdeclarative
     openssl
     cacert
     gnutls
@@ -92,7 +93,7 @@ let
       export SSL_CERT_DIR=${pkgs.cacert}/etc/ssl/certs
       export OPENSSL_CONF=${pkgs.openssl.out}/etc/ssl/openssl.cnf
       export LD_LIBRARY_PATH=${pkgs.openssl}/lib:${pkgs.glib}/lib:${pkgs.libxkbcommon}/lib:${pkgs.libnl}/lib:${pkgs.libnsl}/lib:${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.libcap}/lib:\$LD_LIBRARY_PATH:$out/opt/pia-vpn/piafiles/lib
-      export QT_PLUGIN_PATH=${pkgs.qt6.full}/lib/qt-6/plugins:$out/opt/pia-vpn/piafiles/plugins
+      export QT_PLUGIN_PATH=${pkgs.qt6.qtbase}/lib/qt-6/plugins:$out/opt/pia-vpn/piafiles/plugins
       export QML2_IMPORT_PATH=$out/opt/pia-vpn/piafiles/qml:${pkgs.qt6.qtdeclarative}/lib/qt-6/qml
       exec ./pia-client "\$@"
       EOF
@@ -107,7 +108,7 @@ let
       export SSL_CERT_DIR=${pkgs.cacert}/etc/ssl/certs
       export OPENSSL_CONF=${pkgs.openssl.out}/etc/ssl/openssl.cnf
       export LD_LIBRARY_PATH=${pkgs.openssl}/lib:${pkgs.glib}/lib:${pkgs.libxkbcommon}/lib:${pkgs.libnl}/lib:${pkgs.libnsl}/lib:${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.libcap}/lib:\$LD_LIBRARY_PATH:$out/opt/pia-vpn/piafiles/lib
-      export QT_PLUGIN_PATH=${pkgs.qt6.full}/lib/qt-6/plugins:$out/opt/pia-vpn/piafiles/plugins
+      export QT_PLUGIN_PATH=${pkgs.qt6.qtbase}/lib/qt-6/plugins:$out/opt/pia-vpn/piafiles/plugins
       exec ./pia-daemon "\$@"
       EOF
             chmod +x $out/bin/unwrapped-pia-daemon

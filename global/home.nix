@@ -91,9 +91,13 @@
   programs.git = {
     enable = true;
     lfs.enable = true;
-    userName = "${gitUsername}";
-    userEmail = "${gitEmail}";
     package = pkgs.gitFull;
+    settings = {
+      user = {
+        name = "${gitUsername}";
+        email = "${gitEmail}";
+      };
+    };
   };
 
   # Starship Prompt
