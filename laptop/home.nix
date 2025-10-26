@@ -16,7 +16,7 @@
 
   # Install Packages For The User
   home.packages = with pkgs; [
-    calibre
+    #calibre
     unetbootin
     # stremio - installed via Flatpak to avoid insecure qtwebengine dependency
   ];
