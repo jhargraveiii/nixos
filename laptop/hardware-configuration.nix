@@ -56,7 +56,7 @@
     "ideapad_laptop"
     "wireguard"
     "kvm-amd"
-    "ovpn-dco"
+    # "ovpn-dco" # OpenVPN DCO module not available in current kernel
   ];
   boot.extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
   boot.extraModprobeConfig = ''
