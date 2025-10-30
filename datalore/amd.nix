@@ -4,6 +4,7 @@
   hardware.amdgpu.initrd.enable = lib.mkDefault true;
   hardware.graphics.extraPackages = with pkgs; [
     rocmPackages.clr.icd
+    libva-vdpau-driver
   ];
 
   # AMD GPU stability improvements for Plasma 6
