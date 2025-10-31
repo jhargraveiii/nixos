@@ -54,7 +54,6 @@ in
     current_cudaPackages.libnpp
     current_cudaPackages.libnvjpeg
     current_cudaPackages.libnvjitlink
-    current_cudaPackages.cutensor
     current_cudaPackages.cudnn
     current_cudaPackages.nccl
     current_cudaPackages.tensorrt
