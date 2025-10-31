@@ -33,8 +33,12 @@
     "lsm=landlock,yama,bpf"
     "msr.allow_writes=on"
     "nmi_watchdog=0"
-    # BIOS disables CPPC; avoid amd_pstate errors
+    # TSC clock stability fix for CPU timing
+    "tsc=reliable"
+    # BIOS doesn't support CPPC; keep amd_pstate disabled to avoid warnings
     "amd_pstate=disable"
+    # Use acpi-cpufreq as fallback for CPU frequency scaling
+    "initcall_blacklist=amd_pstate_init"
     # Prefer SATA link power mgmt when applicable
     "ahci.mobile_lpm_policy=3"
     # Enable PCIe ASPM powersave globally
@@ -44,8 +48,8 @@
     "amdgpu.dpm=1"
     # Use deep mem sleep for better standby
     "mem_sleep_default=deep"
-    # Reasonable NVMe latency for Phoenix platforms
-    "nvme_core.default_ps_max_latency_us=5500"
+    # Disable NVMe power state transitions to avoid data buffer warnings
+    "nvme_core.default_ps_max_latency_us=0"
     "mitigations=auto"
     "quiet"
     "loglevel=4"
@@ -62,11 +66,11 @@
   boot.extraModprobeConfig = ''
     options snd_hda_intel power_save=1 power_save_controller=Y
     options mt7921e disable_aspm=0
-    options mt76 disable_usb_sg=0
     options usbcore autosuspend=2
-    options ideapad_laptop force=1
     options btusb enable_autosuspend=1
     options cfg80211 ieee80211_regdom=US
+    # NVMe power management and quirks
+    options nvme_core default_ps_max_latency_us=0
   '';
 
   boot.tmp.cleanOnBoot = true;
