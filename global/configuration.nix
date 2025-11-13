@@ -246,7 +246,10 @@
   # Enable network discovery if scanner is network-connected
   services.avahi = {
     enable = true;
-    nssmdns4 = true;
+    nssmdns4 = true; # Enable mDNS NSS support for IPv4
+    nssmdns6 = true; # Enable mDNS NSS support for IPv6
+    publish.enable = true;
+    publish.addresses = true;
   };
 
   # enable pia
@@ -315,9 +318,13 @@
     jack.enable = true;
   };
 
+  # Enable RTKit for audio real-time priority
+  security.rtkit.enable = true;
+
   security.polkit.enable = true;
   services.udisks2.enable = true;
   services.dbus.enable = true;
+  services.upower.enable = true; # Battery management and power status
 
   # globl programs
   programs.direnv = {
