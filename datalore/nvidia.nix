@@ -25,7 +25,7 @@
       ]
     ) (ensureList package.meta.license);
     cudaSupport = true;
-    cudaVersion = "12.9";
+    cudaVersion = "13.0";
     cudaCapabilities = [ "8.9" ];
     nvidia.acceptLicense = true;
   };

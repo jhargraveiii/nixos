@@ -13,7 +13,7 @@
 }:
 let
   nvidia_driver = config.boot.kernelPackages.nvidia_x11_production;
-  current_cudaPackages = pkgs.cudaPackages_12_9;
+  current_cudaPackages = pkgs.cudaPackages;
 in
 {
   imports = [
@@ -23,24 +23,6 @@ in
     ../global/configuration.nix
     ./nvidia.nix
     ./displaymanager.nix
-  ];
-
-  # Ensure UCX gets CUDA 12.9 packages as build inputs
-  # With cudaVersion = "12.9" in nvidia.nix, UCX should automatically use CUDA 12.9,
-  # but we explicitly ensure it gets the cudatoolkit to find cuda_runtime.h
-  nixpkgs.overlays = [
-    (final: prev: let
-      cudaPkgs = final.cudaPackages_12_9;
-    in {
-      ucx = prev.ucx.overrideAttrs (oldAttrs: {
-        buildInputs = (oldAttrs.buildInputs or []) ++ [
-          cudaPkgs.cudatoolkit
-        ];
-        nativeBuildInputs = (oldAttrs.nativeBuildInputs or []) ++ [
-          cudaPkgs.cudatoolkit
-        ];
-      });
-    })
   ];
 
   networking.hostName = "datalore";
