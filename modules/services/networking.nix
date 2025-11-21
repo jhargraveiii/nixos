@@ -56,6 +56,7 @@
       extraCommands = ''
         iptables -A INPUT -i wgpia+ -j ACCEPT
         iptables -A OUTPUT -o wgpia+ -p udp --dport 53 -j ACCEPT
+        iptables -A OUTPUT -o wgpia+ -p tcp --dport 53 -j ACCEPT
         iptables -A OUTPUT -o wgpia+ -p udp --dport 1317 -j ACCEPT
       '';
     };

@@ -11,7 +11,7 @@
       let
         pkgs = import nixpkgs { inherit system; };
         
-        # Core GTK and SWT runtime libraries
+        # Core GTK runtime libraries needed by SWT native libraries
         runtimeLibs = with pkgs; [
           gtk3
           cairo
@@ -20,70 +20,44 @@
           gdk-pixbuf
           atk
           webkitgtk_4_1
-          swt
         ];
         
         # Build library path from runtime libs
         libraryPath = pkgs.lib.makeLibraryPath runtimeLibs;
         
-        # Create a wrapper with symlinks for SWT libraries
-        # Note: RPATH patching doesn't work well with JNI libraries
-        # We rely on LD_LIBRARY_PATH instead, set by the Maven wrapper
-        swtLibs = pkgs.runCommand "swt-libs-wrapped" {} ''
-          mkdir -p $out/lib
-          
-          # Copy all SWT libraries
-          cp -L ${pkgs.swt}/lib/*.so $out/lib/
-          
-          # Create symlinks for different version naming patterns
-          cd $out/lib
-          for lib in libswt-*.so; do
-            # Create generic symlinks without version suffix
-            base=$(echo $lib | sed 's/-[0-9]*r[0-9]*\.so$//')
-            ln -sf $lib $base.so
-          done
-          
-          # Create symlinks for the specific version the tests expect
-          for lib in libswt-*-4967r8.so; do
-            newname=$(echo $lib | sed 's/4967r8/4969r18/')
-            ln -sf $lib $newname
-          done
-        '';
-        
-        # Wrapper for maven that ensures LD_LIBRARY_PATH is set for forked processes
-        # and configures Surefire to pass environment variables
+        # Wrapper for maven that ensures paths are set for forked JVMs
         mavenWrapped = pkgs.writeShellScriptBin "mvn" ''
-          export LD_LIBRARY_PATH="${swtLibs}/lib:${libraryPath}:''${LD_LIBRARY_PATH:-}"
+          export LD_LIBRARY_PATH="${libraryPath}:''${LD_LIBRARY_PATH:-}"
           
-          # Configure Surefire to pass LD_LIBRARY_PATH to forked JVMs
-          # This is critical for SWT/GTK3 tests - both argLine AND environmentVariables
-          export MAVEN_OPTS="''${MAVEN_OPTS:-} -Djava.library.path=${swtLibs}/lib:${pkgs.gtk3}/lib:${pkgs.cairo}/lib"
+          # SWT extracts native libraries to ~/.swt/lib/linux/x86_64/ automatically
+          # We just need to ensure this directory exists and is in java.library.path
+          SWT_EXTRACT_DIR="$HOME/.swt/lib/linux/x86_64"
+          mkdir -p "$SWT_EXTRACT_DIR"
+          
+          # Remove broken symlinks (from old nixpkgs SWT package) so Maven can extract fresh libs
+          find "$SWT_EXTRACT_DIR" -type l ! -exec test -e {} \; -delete 2>/dev/null || true
+          
+          # Build java.library.path: SWT extraction dir + GTK libs
+          JAVA_LIB_PATH="$SWT_EXTRACT_DIR:${pkgs.gtk3}/lib:${pkgs.cairo}/lib"
+          
+          # Build LD_LIBRARY_PATH for environment variable
+          LD_LIB_PATH="${libraryPath}"
           
           # Surefire argLine for java.library.path
-          SUREFIRE_ARG="-Djava.library.path=${swtLibs}/lib:${pkgs.gtk3}/lib:${pkgs.cairo}/lib"
+          SUREFIRE_ARG="-Djava.library.path=$JAVA_LIB_PATH"
           
-          # Surefire environment variable configuration to pass LD_LIBRARY_PATH
-          SUREFIRE_ENV_VAR="-DargLine=$SUREFIRE_ARG -Dsurefire.environmentVariables=LD_LIBRARY_PATH=${swtLibs}/lib:${libraryPath}"
+          # Surefire environment variable configuration
+          SUREFIRE_ENV="LD_LIBRARY_PATH=$LD_LIB_PATH"
           
           # Check if user provided custom configuration
           if [[ "$*" != *"-DargLine="* ]] && [[ "$*" != *"surefire.environmentVariables"* ]]; then
-            # Add our configuration
-            exec ${pkgs.maven}/bin/mvn $SUREFIRE_ENV_VAR "$@"
+            exec ${pkgs.maven}/bin/mvn \
+              -DargLine="$SUREFIRE_ARG" \
+              -Dsurefire.environmentVariables="$SUREFIRE_ENV" \
+              "$@"
           else
-            # User provided custom config, just run as-is
             exec ${pkgs.maven}/bin/mvn "$@"
           fi
-        '';
-        
-        # Helper script for running tests with proper SWT/GTK3 configuration
-        mvnTestScript = pkgs.writeShellScriptBin "mvn-test-swt" ''
-          export LD_LIBRARY_PATH="${swtLibs}/lib:${libraryPath}:''${LD_LIBRARY_PATH:-}"
-          export MAVEN_OPTS="-Djava.library.path=${swtLibs}/lib:${pkgs.gtk3}/lib:${pkgs.cairo}/lib"
-          
-          echo "Running Maven tests with SWT/GTK3 in headless mode (xvfb)..."
-          exec ${pkgs.xvfb-run}/bin/xvfb-run -a ${pkgs.maven}/bin/mvn "$@" \
-            -DargLine="-Djava.library.path=${swtLibs}/lib:${pkgs.gtk3}/lib:${pkgs.cairo}/lib" \
-            -Dsurefire.environmentVariables=LD_LIBRARY_PATH="${swtLibs}/lib:${libraryPath}"
         '';
       in
       {
@@ -93,13 +67,11 @@
           buildInputs = (with pkgs; [
             # Build tools
             jdk17
-            # maven - using wrapped version instead
             
-            # GTK/UI runtime dependencies
+            # GTK/UI runtime dependencies (SWT JAR comes from Maven)
             gtk3
             cairo
             webkitgtk_4_1
-            swt
             gdk-pixbuf
             librsvg
             
@@ -116,32 +88,30 @@
             xvfb-run
             xorg.xorgserver
           ]) ++ [
-            # Wrapped maven with LD_LIBRARY_PATH set for forked processes
+            # Wrapped maven with path setup
             mavenWrapped
-            mvnTestScript
           ];
 
           shellHook = ''
-            # Set up library paths for SWT native libraries (using wrapped SWT with symlinks)
-            export LD_LIBRARY_PATH="${swtLibs}/lib:${libraryPath}:''${LD_LIBRARY_PATH:-}"
+            # Set up library paths - GTK libs for SWT native libraries to link against
+            export LD_LIBRARY_PATH="${libraryPath}:''${LD_LIBRARY_PATH:-}"
             
-            # Java library path for SWT JNI (using wrapped SWT libs)
-            export _JAVA_OPTIONS="-Djava.library.path=${swtLibs}/lib:${pkgs.gtk3}/lib:${pkgs.cairo}/lib"
+            # SWT extracts native libraries to ~/.swt/lib/linux/x86_64/ automatically
+            SWT_EXTRACT_DIR="$HOME/.swt/lib/linux/x86_64"
+            mkdir -p "$SWT_EXTRACT_DIR"
             
-            # Maven/Surefire needs to pass library path and LD_LIBRARY_PATH to forked JVMs
-            export MAVEN_OPTS="-Djava.library.path=${swtLibs}/lib:${pkgs.gtk3}/lib:${pkgs.cairo}/lib"
+            # Remove broken symlinks (from old nixpkgs SWT package) so Maven can extract fresh libs
+            find "$SWT_EXTRACT_DIR" -type l ! -exec test -e {} \; -delete 2>/dev/null || true
             
-            # Surefire argLine for forked test JVMs
-            export MAVEN_ARGS="-DargLine=-Djava.library.path=${swtLibs}/lib:${pkgs.gtk3}/lib:${pkgs.cairo}/lib"
+            # Java library path - SWT will extract libs here, they need GTK via LD_LIBRARY_PATH
+            JAVA_LIB_PATH="$SWT_EXTRACT_DIR:${pkgs.gtk3}/lib:${pkgs.cairo}/lib"
+            export _JAVA_OPTIONS="-Djava.library.path=$JAVA_LIB_PATH"
+            export MAVEN_OPTS="-Djava.library.path=$JAVA_LIB_PATH"
             
             # GTK configuration
             export GSETTINGS_SCHEMA_DIR="${pkgs.gsettings-desktop-schemas}/share/gsettings-schemas/${pkgs.gsettings-desktop-schemas.name}/glib-2.0/schemas/"
             export XDG_DATA_DIRS="${pkgs.gsettings-desktop-schemas}/share:${pkgs.gtk3}/share:${pkgs.shared-mime-info}/share:${pkgs.hicolor-icon-theme}/share:''${XDG_DATA_DIRS:-}"
-            
-            # SWT configuration
             export SWT_GTK3=1
-            
-            # Ensure GTK can find its modules and libraries
             export GTK_PATH="${pkgs.gtk3}/lib/gtk-3.0"
             export GDK_PIXBUF_MODULE_FILE="${pkgs.librsvg}/lib/gdk-pixbuf-2.0/2.10.0/loaders.cache"
             
@@ -150,24 +120,7 @@
             echo "========================================="
             echo "Java: $(java -version 2>&1 | head -1)"
             echo "Maven: $(mvn -version | head -1)"
-            echo ""
-            echo "SWT/GTK3: ✓ Configured with library symlinks"
-            echo ""
-            echo "Commands:"
-            echo "  mvn clean install -DskipTests"
-            echo "    └─ Build without running tests (RECOMMENDED)"
-            echo ""
-            echo "  mvn clean install -Dmaven.test.skip=true"
-            echo "    └─ Build, skip compilation & execution of tests"
-            echo ""
-            echo "Note: SWT/GTK3 GUI tests have known issues with"
-            echo "Maven Surefire on NixOS due to forked JVM not"
-            echo "inheriting LD_LIBRARY_PATH. Non-GUI tests work fine."
-            echo ""
-            echo "To fix GUI tests, add to module POM.xml:"
-            echo '  <plugin><artifactId>maven-surefire-plugin</artifactId>'
-            echo '    <configuration><forkMode>never</forkMode></configuration>'
-            echo "  </plugin>"
+            echo "SWT: ✓ Maven will extract libraries to ~/.swt/lib/linux/x86_64/"
             echo "========================================="
           '';
         };

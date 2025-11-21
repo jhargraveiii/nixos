@@ -11,10 +11,6 @@
 , config
 , ...
 }:
-let
-  nvidia_driver = config.boot.kernelPackages.nvidia_x11_production;
-  current_cudaPackages = pkgs.cudaPackages_12_9;
-in
 {
   imports = [
     # Include the results of the hardware scan.
@@ -25,56 +21,12 @@ in
     ./displaymanager.nix
   ];
 
-  # Ensure UCX gets CUDA 12.9 packages as build inputs
-  # With cudaVersion = "12.9" in nvidia.nix, UCX should automatically use CUDA 12.9,
-  # but we explicitly ensure it gets the cudatoolkit to find cuda_runtime.h
-  nixpkgs.overlays = [
-    (final: prev: let
-      cudaPkgs = final.cudaPackages_12_9;
-    in {
-      ucx = prev.ucx.overrideAttrs (oldAttrs: {
-        buildInputs = (oldAttrs.buildInputs or []) ++ [
-          cudaPkgs.cudatoolkit
-        ];
-        nativeBuildInputs = (oldAttrs.nativeBuildInputs or []) ++ [
-          cudaPkgs.cudatoolkit
-        ];
-      });
-    })
-  ];
-
   networking.hostName = "datalore";
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
   ];
 
   environment.systemPackages = with pkgs; [
-    ollama-cuda
-    llama-cpp
-
-    # CUDA Toolkit and related packages
-    current_cudaPackages.cuda_cudart
-    current_cudaPackages.cuda_cupti
-    current_cudaPackages.cuda_cccl
-    current_cudaPackages.cuda_nvcc
-    current_cudaPackages.cuda_nvtx
-    current_cudaPackages.cudatoolkit
-    current_cudaPackages.cuda_gdb
-    current_cudaPackages.cuda_nsight
-
-    # CUDA libraries
-    current_cudaPackages.libcublas
-    current_cudaPackages.libcufft
-    current_cudaPackages.libcurand
-    current_cudaPackages.libcusolver
-    current_cudaPackages.libcusparse
-    current_cudaPackages.libcufile
-    current_cudaPackages.libnpp
-    current_cudaPackages.libnvjpeg
-    current_cudaPackages.libnvjitlink
-    current_cudaPackages.cudnn
-    current_cudaPackages.nccl
-    current_cudaPackages.tensorrt
   ];
 
   powerManagement = {
@@ -97,65 +49,7 @@ in
   hardware.bluetooth.powerOnBoot = true;
   services.blueman.enable = true;
 
-  services.ollama = {
-    enable = true;
-    user = "ollama-service";
-    group = "ollama-service";
-    acceleration = "cuda";
-  };
-
   environment.sessionVariables = {
-    # CUDA-related environment variables (only for compute)
-    CUDA_PATH = "${current_cudaPackages.cudatoolkit}";
-    CUDA_HOME = "${current_cudaPackages.cudatoolkit}";
-    CUDA_ROOT = "${current_cudaPackages.cudatoolkit}";
-    CUDACXX = "${current_cudaPackages.cudatoolkit}/bin/nvcc";
-    CUDAHOSTCXX = "${pkgs.gcc}/bin/g++";
-    CMAKE_CUDA_HOST_COMPILER = "${pkgs.gcc}/bin/gcc";
-    CUDA_HOST_COMPILER = "${pkgs.gcc}/bin/gcc";
-    CC = "${pkgs.gcc}/bin/gcc";
-    CXX = "${pkgs.gcc}/bin/g++";
-    CUDA_TOOLKIT_ROOT_DIR = "${current_cudaPackages.cudatoolkit}";
-    CUDNN_ROOT = "${current_cudaPackages.cudnn}";
-
-    # for llama.cpp mostly
-    CMAKE_ARGS = "-DGGML_BLAS=ON -DGGML_BLAS_VENDOR=FLAME -DGGML_CUDA=on";
-
-    # Extend PATH
-    PATH = [
-      "${current_cudaPackages.cudatoolkit}/bin"
-    ];
-
-    # Set library paths - NVIDIA compute libraries only
-    LD_LIBRARY_PATH = [
-      "${nvidia_driver}/lib"
-      "${current_cudaPackages.nccl}/lib"
-      "${current_cudaPackages.cudatoolkit}/lib"
-      "${current_cudaPackages.cudnn}/lib"
-      "${current_cudaPackages.tensorrt}/lib"
-      "${pkgs.amd-blis}/lib"
-      "${pkgs.amd-libflame}/lib"
-    ];
-
-    LIBRARY_PATH = [
-      "${nvidia_driver}/lib"
-      "${current_cudaPackages.nccl}/lib"
-      "${current_cudaPackages.cudatoolkit}/lib"
-      "${current_cudaPackages.cudnn}/lib"
-      "${current_cudaPackages.tensorrt}/lib"
-      "${pkgs.amd-blis}/lib"
-      "${pkgs.amd-libflame}/lib"
-    ];
-
-    CPATH = [
-      "${current_cudaPackages.nccl}/include"
-      "${current_cudaPackages.cudatoolkit}/include"
-      "${current_cudaPackages.cudnn}/include"
-      "${current_cudaPackages.tensorrt}/include"
-      "${pkgs.amd-blis}/include"
-      "${pkgs.amd-libflame}/include"
-    ];
-
     # GPU preferences for applications
     AMD_VULKAN_ICD = "RADV";
     VK_ICD_FILENAMES = "/run/opengl-driver/share/vulkan/icd.d/radeon_icd.x86_64.json";
@@ -169,4 +63,3 @@ in
 
   system.stateVersion = "23.11";
 }
-

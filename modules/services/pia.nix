@@ -5,7 +5,7 @@ with lib;
 let
   cfg = config.services.pia;
 
-  version = "3.6.2-08398";
+  version = "3.7-08412";
 
   commonPkgs = pkgs: with pkgs; [
     bashInteractive
@@ -61,6 +61,11 @@ let
     libxml2
     libxslt
     polkit
+    # openresolv # Removed to avoid conflict with systemd-resolved
+    systemd # Provides resolvectl / systemd-resolve / resolvconf compatibility
+    nettools
+    procps
+    which
   ];
 
   # The actual PIA package (raw files)
@@ -70,21 +75,21 @@ let
 
     src = pkgs.fetchurl {
       url = "https://installers.privateinternetaccess.com/download/pia-linux-${version}.run";
-      sha256 = "sha256-xRNyHkLnB6X+8DxEgKMB/VQlUco1e9UgUyOslCHfr/0=";
+      sha256 = "sha256-MotPBGgi0gz8OwF19snlN3PBdlsNQIRV2jfp9tXL2os=";
     };
 
     nativeBuildInputs = with pkgs; [ makeWrapper libcap ];
     unpackPhase = "true";
     installPhase = ''
-            mkdir -p $out/opt/pia-vpn
-            cp $src ./pia-linux-${version}.run
-            chmod +x ./pia-linux-${version}.run
-            ./pia-linux-${version}.run --target $out/opt/pia-vpn --noexec --accept --keep
+      mkdir -p $out/opt/pia-vpn
+      cp $src ./pia-linux-${version}.run
+      chmod +x ./pia-linux-${version}.run
+      ./pia-linux-${version}.run --target $out/opt/pia-vpn --noexec --accept --keep
 
-            mkdir -p $out/bin
-      
-            # unwrapped-pia-client script
-            cat > $out/bin/unwrapped-pia-client << EOF
+      mkdir -p $out/bin
+
+      # unwrapped-pia-client script
+      cat > $out/bin/unwrapped-pia-client << EOF
       #!/bin/sh
       cd $out/opt/pia-vpn/piafiles/bin
       export XDG_SESSION_TYPE=X11 
@@ -97,10 +102,10 @@ let
       export QML2_IMPORT_PATH=$out/opt/pia-vpn/piafiles/qml:${pkgs.qt6.qtdeclarative}/lib/qt-6/qml
       exec ./pia-client "\$@"
       EOF
-            chmod +x $out/bin/unwrapped-pia-client
+      chmod +x $out/bin/unwrapped-pia-client
 
-            # unwrapped-pia-daemon script
-            cat > $out/bin/unwrapped-pia-daemon << EOF
+      # unwrapped-pia-daemon script
+      cat > $out/bin/unwrapped-pia-daemon << EOF
       #!/bin/sh
       cd $out/opt/pia-vpn/piafiles/bin
       # The piavpn group should be created by the NixOS module.
@@ -111,10 +116,10 @@ let
       export QT_PLUGIN_PATH=${pkgs.qt6.qtbase}/lib/qt-6/plugins:$out/opt/pia-vpn/piafiles/plugins
       exec ./pia-daemon "\$@"
       EOF
-            chmod +x $out/bin/unwrapped-pia-daemon
-      
-            # unwrapped-pia-ctl script
-            cat > $out/bin/unwrapped-pia-ctl << EOF
+      chmod +x $out/bin/unwrapped-pia-daemon
+
+      # unwrapped-pia-ctl script
+      cat > $out/bin/unwrapped-pia-ctl << EOF
       #!/bin/sh
       cd $out/opt/pia-vpn/piafiles/bin
       export SSL_CERT_FILE=${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt
@@ -123,17 +128,17 @@ let
       export LD_LIBRARY_PATH=${pkgs.openssl}/lib:${pkgs.glib}/lib:${pkgs.libxkbcommon}/lib:${pkgs.libnl}/lib:${pkgs.libnsl}/lib:${pkgs.stdenv.cc.cc.lib}/lib:${pkgs.libcap}/lib:\$LD_LIBRARY_PATH:$out/opt/pia-vpn/piafiles/lib
       exec ./piactl "\$@"
       EOF
-            chmod +x $out/bin/unwrapped-pia-ctl
+      chmod +x $out/bin/unwrapped-pia-ctl
 
-            mkdir -p $out/share/icons/hicolor/128x128/apps
-            if [ -f "$out/opt/pia-vpn/installfiles/app-icon.png" ]; then
-              cp "$out/opt/pia-vpn/installfiles/app-icon.png" "$out/share/icons/hicolor/128x128/apps/pia-vpn.png"
-            else
-              ICON_SEARCH=$(find $out/opt/pia-vpn -name "*.png" | grep -i pia | head -n 1)
-              if [ -n "$ICON_SEARCH" ]; then
-                cp "$ICON_SEARCH" "$out/share/icons/hicolor/128x128/apps/pia-vpn.png"
-              fi
-            fi
+      mkdir -p $out/share/icons/hicolor/128x128/apps
+      if [ -f "$out/opt/pia-vpn/installfiles/app-icon.png" ]; then
+        cp "$out/opt/pia-vpn/installfiles/app-icon.png" "$out/share/icons/hicolor/128x128/apps/pia-vpn.png"
+      else
+        ICON_SEARCH=$(find $out/opt/pia-vpn -name "*.png" | grep -i pia | head -n 1)
+        if [ -n "$ICON_SEARCH" ]; then
+          cp "$ICON_SEARCH" "$out/share/icons/hicolor/128x128/apps/pia-vpn.png"
+        fi
+      fi
     '';
   };
 
