@@ -39,7 +39,7 @@ in
   # Extend timeout for nvidia device detection (fixes boot race condition)
   systemd.services.nvidia-container-toolkit-cdi-generator = {
     serviceConfig = {
-      TimeoutStartSec = "300"; # 5 minutes
+      TimeoutStartSec = "30"; # 30 seconds
     };
   };
 
