@@ -3,6 +3,7 @@
 {
   hardware.graphics = {
     enable = true;
+    enable32Bit = true;
   };
 
   services.xserver.enable = true;
@@ -11,6 +12,10 @@
     enable = true;
   };
   services.xserver.xkb.layout = theKBDLayout;
+
+
+  # Load AMD first, then NVIDIA!!!
+  services.xserver.videoDrivers = [ "amdgpu" "nvidia" ];
 
   services.displayManager = {
     defaultSession = "plasma";
