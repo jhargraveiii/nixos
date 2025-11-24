@@ -20,14 +20,16 @@
   ];
 
   boot.blacklistedKernelModules = [
+    "lenovo_wmi_gamezone" # Probing fails on this model
   ];
 
   boot.initrd.kernelModules = [ ];
   boot.kernel.sysctl = {
     "vm.max_map_count" = 2147483642;
-    "vm.dirty_writeback_centisecs" = 6000;
-    "vm.laptop_mode" = 5;
     "vm.swappiness" = 20;
+    # TLP manages dirty_writeback_centisecs and laptop_mode
+    # "vm.dirty_writeback_centisecs" = 6000;
+    # "vm.laptop_mode" = 5;
   };
   boot.kernelParams = [
     "lsm=landlock,yama,bpf"
@@ -35,10 +37,10 @@
     "nmi_watchdog=0"
     # TSC clock stability fix for CPU timing
     "tsc=reliable"
-    # BIOS doesn't support CPPC; keep amd_pstate disabled to avoid warnings
-    "amd_pstate=disable"
-    # Use acpi-cpufreq as fallback for CPU frequency scaling
-    "initcall_blacklist=amd_pstate_init"
+    # Model 83DR (IdeaPad Slim 5) supports amd_pstate if BIOS is updated to enable CPPC.
+    # We enable 'active' mode to use EPP hints via TLP.
+    # If BIOS lacks CPPC, this will fail safely and fallback to acpi-cpufreq.
+    "amd_pstate=active"
     # Prefer SATA link power mgmt when applicable
     "ahci.mobile_lpm_policy=3"
     # Enable PCIe ASPM powersave globally
@@ -48,11 +50,12 @@
     "amdgpu.dpm=1"
     # Use deep mem sleep for better standby
     "mem_sleep_default=deep"
-    # Disable NVMe power state transitions to avoid data buffer warnings
-    "nvme_core.default_ps_max_latency_us=0"
+    # NVMe power saving: APST enabled by default (removed latency fix)
+    # "nvme_core.default_ps_max_latency_us=0"
     "mitigations=auto"
     "quiet"
     "loglevel=4"
+    "i8042.nopnp" # Fix PS/2 AUX port disabled warning
   ];
   boot.kernelModules = [
     "amdgpu"
@@ -69,8 +72,7 @@
     options usbcore autosuspend=2
     options btusb enable_autosuspend=1
     options cfg80211 ieee80211_regdom=US
-    # NVMe power management and quirks
-    options nvme_core default_ps_max_latency_us=0
+    options rtsx_pci_sdmmc debug_quirks=0x4
   '';
 
   boot.tmp.cleanOnBoot = true;
