@@ -30,6 +30,9 @@
   # Home Manager Settings
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
+  # We are on unstable/master, so versions may differ in name (e.g. 26.05 vs 25.11)
+  # But we use inputs.nixpkgs.follows so they share the exact same pkgs.
+  home.enableNixpkgsReleaseCheck = false;
 
   imports = [
     ../config/files.nix
