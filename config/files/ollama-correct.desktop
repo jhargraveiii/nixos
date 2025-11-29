@@ -10,3 +10,5 @@ Terminal=false
 Categories=Utility;TextTools;
 Keywords=speech;dictation;voice;transcribe;ollama;correct;
 StartupNotify=false
+
+

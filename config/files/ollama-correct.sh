@@ -76,3 +76,5 @@ notify "⌨️ Typing..."
 # 3. Type Result
 sleep 0.2
 ydotool type -- "$CORRECTED "
+
+
