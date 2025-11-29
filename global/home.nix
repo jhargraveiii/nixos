@@ -147,6 +147,7 @@
     EDITOR = "kate";
     BROWSER = "firefox";
     TERMINAL = "konsole";
+    PATH = "$HOME/.local/bin:$PATH";
   };
 
   programs.bash = {

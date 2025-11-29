@@ -124,7 +124,12 @@
     enable = true;
     user = "ollama-service";
     group = "ollama-service";
-    acceleration = null;
+    acceleration = "rocm";
+    # HawkPoint iGPU is gfx1103, map to supported gfx1100
+    environmentVariables = {
+      HSA_OVERRIDE_GFX_VERSION = "11.0.0";
+    };
+    rocmOverrideGfx = "11.0.0";
   };
 
   system.stateVersion = "24.05";

@@ -1,0 +1,12 @@
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=Ollama Correct
+GenericName=Autocorrect Clipboard
+Comment=Corrects text in clipboard and types it out
+Exec=/home/jimh/.local/bin/ollama-correct
+Icon=/home/jimh/.local/share/icons/ollama-correct.png
+Terminal=false
+Categories=Utility;TextTools;
+Keywords=speech;dictation;voice;transcribe;ollama;correct;
+StartupNotify=false
