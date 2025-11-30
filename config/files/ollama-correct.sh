@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
 #
 # Ollama Correct - Clipboard Autocorrect
-# 1. Reads text ALREADY in clipboard (you must copy it first!)
+# 1. Reads text from clipboard
 # 2. Sends to Ollama (Gemma 3) for grammar/spelling fix
-# 3. Types corrected text via ydotool
+# 3. Copies result BACK to clipboard
 #
 
 set -euo pipefail
 
 # Configuration
-export YDOTOOL_SOCKET="${YDOTOOL_SOCKET:-/run/ydotoold/socket}"
 MODEL="gemma3:latest"
 API_URL="http://localhost:11434/api/generate"
 
@@ -18,6 +17,7 @@ SYSTEM_PROMPT="You are a dictation assistant. Your ONLY job is to fix grammar, s
 - Do NOT add explanations
 - Do NOT change the meaning
 - Preserve the original tone
+- Combine multiple sentences into a single sentence if needed
 - If the text looks fine, return it unchanged"
 
 ICON="/home/jimh/.local/share/icons/ollama-correct.png"
@@ -32,12 +32,9 @@ error_exit() {
 }
 
 # Check dependencies
-for cmd in ydotool wl-copy wl-paste curl jq notify-send; do
+for cmd in wl-copy wl-paste curl jq notify-send; do
     command -v "$cmd" &>/dev/null || error_exit "Missing: $cmd"
 done
-
-# Check ydotool socket
-[[ -S "$YDOTOOL_SOCKET" ]] || error_exit "ydotool daemon not running"
 
 # Check Ollama
 curl -s --connect-timeout 1 "http://localhost:11434/api/tags" &>/dev/null || error_exit "Ollama not running"
@@ -64,17 +61,14 @@ CORRECTED=$(echo "$RESPONSE" | jq -r '.response // empty' 2>/dev/null)
 
 # Fallback
 if [[ -z "$CORRECTED" ]]; then
-    notify "⚠️ Correction failed, using original"
-    CORRECTED="$SPEECH_TEXT"
+    notify "⚠️ Correction failed, keeping original"
+    exit 1
 fi
 
 # Clean up whitespace/quotes
 CORRECTED=$(echo "$CORRECTED" | sed -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//' -e 's/^"//g' -e 's/"$//g')
 
-notify "⌨️ Typing..."
+# 3. Copy Result to Clipboard
+echo -n "$CORRECTED" | wl-copy
 
-# 3. Type Result
-sleep 0.2
-ydotool type -- "$CORRECTED "
-
-
+notify "✅ Copied to clipboard!"
