@@ -22,10 +22,6 @@
     ./displaymanager.nix
   ];
 
-  # Force AMDGPU to allow larger GTT (shared memory) size
-  # This allows the iGPU to use more system RAM than the BIOS dedicated limit
-  boot.kernelParams = [ "amdgpu.gttsize=8192" ];
-
   networking.hostName = "datalore-laptop";
 
   environment.systemPackages = with pkgs; [
@@ -134,15 +130,6 @@
     environmentVariables = {
       # Critical for HawkPoint (gfx1103) -> gfx1100
       HSA_OVERRIDE_GFX_VERSION = "11.0.0";
-      
-      # APU Memory Fixes
-      HSA_ENABLE_SDMA = "0";           # Disable SDMA (stability)
-      HSA_XNACK = "1";                 # Enable unified memory (System RAM as VRAM)
-      
-      # Force use of GTT (System RAM)
-      AMD_IOMMU_V2 = "1";
-      HSA_AMD_SVM = "1";               # Shared Virtual Memory
-      AMD_GPU_FORCE_DL_TB = "1";       # Force Device Local to Translation Buffer (System RAM)
     };
     rocmOverrideGfx = "11.0.0";
   };

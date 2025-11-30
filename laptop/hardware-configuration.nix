@@ -45,9 +45,6 @@
     "ahci.mobile_lpm_policy=3"
     # Enable PCIe ASPM powersave globally
     "pcie_aspm.policy=powersave"
-    # Modern amdgpu defaults are good; do not override full ppfeaturemask
-    "amdgpu.runpm=1"
-    "amdgpu.dpm=1"
     # Use deep mem sleep for better standby
     "mem_sleep_default=deep"
     # NVMe power saving: APST enabled by default (removed latency fix)
