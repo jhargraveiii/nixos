@@ -54,9 +54,10 @@ JSON_PAYLOAD=$(jq -n \
     --arg model "$MODEL" \
     --arg prompt "$SPEECH_TEXT" \
     --arg system "$SYSTEM_PROMPT" \
-    '{model: $model, prompt: $prompt, system: $system, stream: false}')
+    '{model: $model, prompt: $prompt, system: $system, stream: false, keep_alive: "60m"}')
 
-RESPONSE=$(curl -s --max-time 30 "$API_URL" -d "$JSON_PAYLOAD" 2>/dev/null)
+# Increase timeout to 120s to allow for initial model loading
+RESPONSE=$(curl -s --max-time 120 "$API_URL" -d "$JSON_PAYLOAD" 2>/dev/null)
 CORRECTED=$(echo "$RESPONSE" | jq -r '.response // empty' 2>/dev/null)
 
 # Fallback

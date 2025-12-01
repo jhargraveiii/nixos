@@ -118,6 +118,11 @@
       "${pkgs.amd-blis}/include"
       "${pkgs.amd-libflame}/include"
     ];
+
+    # Apply ROCm overrides globally so CLI tools (ollama run) work too
+    HSA_OVERRIDE_GFX_VERSION = "11.0.0";
+    HSA_ENABLE_SDMA = "0";
+    HSA_XNACK = "1";
   };
 
   services.ollama = {
