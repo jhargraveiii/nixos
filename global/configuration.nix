@@ -139,6 +139,7 @@
     ack
     lolcat
     fastfetch
+    psutils
     btop
     iotop
     lm_sensors
