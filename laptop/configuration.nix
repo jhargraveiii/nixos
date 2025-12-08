@@ -130,7 +130,6 @@
     enable = true;
     user = "ollama-service";
     group = "ollama-service";
-    acceleration = "rocm";
     # HawkPoint iGPU is gfx1103, map to supported gfx1100
     environmentVariables = {
       # Critical for HawkPoint (gfx1103) -> gfx1100
