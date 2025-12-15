@@ -1,14 +1,18 @@
-local lspconfig = require("lspconfig")
+-- LSP server configuration (using vim.lsp.config for Neovim 0.11+)
+local lsp_servers = {
+  'pyright',
+  'nil_ls',
+  'marksman',
+  'rust_analyzer',
+  'yamlls',
+  'bashls',
+  'java_language_server',
+  'lemminx',
+  'taplo',
+  'html',
+  'ccls',
+  'jsonls',
+}
 
-require'lspconfig'.pyright.setup{}
-require'lspconfig'.nil_ls.setup{}
-require'lspconfig'.marksman.setup{}
-require'lspconfig'.rust_analyzer.setup{}
-require'lspconfig'.yamlls.setup{}
-require'lspconfig'.bashls.setup{}
-require'lspconfig'.java_language_server.setup{}
-require'lspconfig'.lemminx.setup{}
-require'lspconfig'.taplo.setup{}
-require'lspconfig'.html.setup{}
-require'lspconfig'.ccls.setup{}
-require'lspconfig'.jsonls.setup{}
+-- Enable all configured LSP servers
+vim.lsp.enable(lsp_servers)

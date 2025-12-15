@@ -69,6 +69,7 @@
       "video"
       "piavpn"
       "input"
+      "render"  # GPU compute access for ROCm/Ollama
     ];
     uid = 1000;
     openssh.authorizedKeys.keys = [
@@ -138,6 +139,7 @@
     ack
     lolcat
     fastfetch
+    psutils
     btop
     iotop
     lm_sensors

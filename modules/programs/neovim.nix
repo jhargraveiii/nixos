@@ -36,7 +36,7 @@
       indent-blankline-nvim
       nui-nvim
       nvim-treesitter.withAllGrammars
-      lualine-nvim
+      # lualine-nvim
       nvim-autopairs
       nvim-web-devicons
       nvim-cmp
@@ -86,10 +86,10 @@
 
       require("ibl").setup()
       require("bufferline").setup{}
-      require("lualine").setup({
-        icons_enabled = true,
-        theme = 'dracula',
-      })
+      -- require("lualine").setup({
+      --   icons_enabled = true,
+      --   theme = 'dracula',
+      -- })
     '';
   };
 }

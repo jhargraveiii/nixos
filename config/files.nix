@@ -9,4 +9,12 @@
     source = ./files/fonts;
     recursive = true;
   };
+
+  # Ollama Correct - Select All & Fix Grammar
+  home.file.".local/share/icons/ollama-correct.png".source = ./files/ollama-icon.png;
+  home.file.".local/bin/ollama-correct" = {
+    source = ./files/ollama-correct.sh;
+    executable = true;
+  };
+  home.file.".local/share/applications/ollama-correct.desktop".source = ./files/ollama-correct.desktop;
 }

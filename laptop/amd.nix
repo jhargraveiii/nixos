@@ -9,6 +9,8 @@
     extraPackages = with pkgs; [
       libva
       libva-vdpau-driver
+      # ROCm for GPU compute (Ollama acceleration)
+      rocmPackages.clr.icd
     ];
   };
 
@@ -17,6 +19,9 @@
     ocl-icd
     vulkan-tools
     clinfo
+    # ROCm tools
+    rocmPackages.rocminfo
+    rocmPackages.rocm-smi
   ];
 
   environment.sessionVariables = {
