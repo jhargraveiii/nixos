@@ -126,26 +126,17 @@
   # IdeaPad Slim 5 Specific Hardware Settings
   # ============================================
 
-  # Turn off keyboard backlight on boot (runs after systemd-backlight restores saved state)
-  systemd.services.kbd-backlight-off = {
-    description = "Turn off keyboard backlight on boot";
-    wantedBy = [ "multi-user.target" ];
-    after = [ "systemd-backlight@leds:platform::kbd_backlight.service" ];
-    serviceConfig = {
-      Type = "oneshot";
-      ExecStart = "${pkgs.coreutils}/bin/sh -c 'echo 0 > /sys/class/leds/platform::kbd_backlight/brightness'";
-    };
-  };
-
   # IdeaPad conservation mode - limits charging to ~60% for battery longevity
   # Uncomment to enable (recommended if laptop is often plugged in)
   # systemd.services.ideapad-conservation = {
   #   description = "Enable IdeaPad battery conservation mode";
   #   wantedBy = [ "multi-user.target" ];
+  #   script = ''
+  #     echo 1 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode
+  #   '';
   #   serviceConfig = {
   #     Type = "oneshot";
   #     RemainAfterExit = true;
-  #     ExecStart = "${pkgs.coreutils}/bin/sh -c 'echo 1 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode'";
   #   };
   # };
 }

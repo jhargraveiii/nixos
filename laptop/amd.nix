@@ -22,17 +22,18 @@
     # ROCm tools
     rocmPackages.rocminfo
     rocmPackages.rocm-smi
+    # AMD GPU control GUI
+    corectrl
   ];
+
+  # CoreCtrl requires polkit to control GPU without root
+  programs.corectrl.enable = true;
+  # Enable AMD GPU overdrive for full control
+  hardware.amdgpu.overdrive.enable = true;
 
   environment.sessionVariables = {
     AMD_VULKAN_ICD = "RADV";
     LIBVA_DRIVER_NAME = "radeonsi";
     VDPAU_DRIVER = "radeonsi";
   };
-
-  # AMDGPU power management for battery life
-  services.udev.extraRules = ''
-    # Enable AMDGPU power management (auto DPM)
-    ACTION=="add", SUBSYSTEM=="drm", KERNEL=="card[0-9]*", DRIVERS=="amdgpu", ATTR{device/power_dpm_force_performance_level}="auto"
-  '';
 }
