@@ -70,10 +70,11 @@
   services.resolved = {
     enable = true;
     dnssec = "allow-downgrade"; # Compatible with PIA's DNS
-    # Don't hardcode DNS - let NetworkManager and PIA manage it dynamically
-    # extraConfig = ''
-    #   DNS = 192.168.50.1
-    # '';
+    llmnr = "true"; # Keep LLMNR enabled for local name resolution
+    # Disable mDNS in resolved - avahi handles mDNS exclusively
+    extraConfig = ''
+      MulticastDNS=no
+    '';
     fallbackDns = [
       "1.1.1.1" # Cloudflare DNS
       "1.0.0.1" # Cloudflare DNS

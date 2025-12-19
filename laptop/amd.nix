@@ -29,4 +29,10 @@
     LIBVA_DRIVER_NAME = "radeonsi";
     VDPAU_DRIVER = "radeonsi";
   };
+
+  # AMDGPU power management for battery life
+  services.udev.extraRules = ''
+    # Enable AMDGPU power management (auto DPM)
+    ACTION=="add", SUBSYSTEM=="drm", KERNEL=="card[0-9]*", DRIVERS=="amdgpu", ATTR{device/power_dpm_force_performance_level}="auto"
+  '';
 }
