@@ -45,8 +45,8 @@
   home.packages = with pkgs; [
     slack
     clickup
-    jetbrains.idea-ultimate
-    jetbrains.pycharm-professional
+    jetbrains.idea
+    jetbrains.pycharm
     nodePackages.vscode-langservers-extracted
     firefox
     thunderbird
