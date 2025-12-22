@@ -272,6 +272,8 @@
     browsing = true;
     stateless = true;
     webInterface = true;
+    startWhenNeeded = true; # Socket-activated for faster boot
+    cups-pdf.enable = true; # Enable PDF printer
 
     browsedConf = ''
       BrowseDNSSDSubTypes _cups,_print
@@ -280,6 +282,26 @@
       CreateIPPPrinterQueues All
       BrowseProtocols all
     '';
+  };
+
+  # Canon MF450 printer via IPP Everywhere (driverless)
+  hardware.printers = {
+    ensurePrinters = [
+      {
+        name = "Canon-MF450";
+        location = "Home Office";
+        description = "Canon imageCLASS MF450 Series";
+        # Replace PRINTER_IP with your printer's IP address or hostname
+        # Examples: ipp://192.168.1.100/ipp/print or ipp://canon-mf450.local/ipp/print
+        deviceUri = "ipp://192.168.50.29/ipp/print";
+        model = "everywhere"; # IPP Everywhere driverless printing
+        ppdOptions = {
+          PageSize = "Letter";
+          Duplex = "DuplexNoTumble"; # Two-sided long-edge
+        };
+      }
+    ];
+    ensureDefaultPrinter = "Canon-MF450";
   };
 
   services.pulseaudio.enable = false;
