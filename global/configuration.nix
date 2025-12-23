@@ -86,6 +86,12 @@
     magicOrExtension = ''\x7fELF....AI\x02'';
   };
 
+  # Suppress ACPI BIOS errors and other boot noise
+  boot.kernelParams = [
+    "loglevel=3"
+    "pci=noaer" # Disable Advanced Error Reporting if PCI errors persist
+  ];
+
   programs.appimage = {
     enable = true;
     binfmt = true;
@@ -270,38 +276,31 @@
   services.printing = {
     enable = true;
     browsing = true;
-    stateless = true;
     webInterface = true;
     startWhenNeeded = true; # Socket-activated for faster boot
     cups-pdf.enable = true; # Enable PDF printer
-
-    browsedConf = ''
-      BrowseDNSSDSubTypes _cups,_print
-      BrowseLocalProtocols all
-      BrowseRemoteProtocols all
-      CreateIPPPrinterQueues All
-      BrowseProtocols all
-    '';
+    drivers = [ pkgs.cups-filters ]; # Essential for driverless/IPP discovery
   };
 
   # Canon MF450 printer via IPP Everywhere (driverless)
+  # This stays in your system even when the printer is off.
+  # It will "just work" as soon as you turn the printer on.
   hardware.printers = {
     ensurePrinters = [
       {
-        name = "Canon-MF450";
+        name = "Canon_MF450";
         location = "Home Office";
         description = "Canon imageCLASS MF450 Series";
-        # Replace PRINTER_IP with your printer's IP address or hostname
-        # Examples: ipp://192.168.1.100/ipp/print or ipp://canon-mf450.local/ipp/print
+        # Use .local mDNS name so it works regardless of IP changes
         deviceUri = "ipp://192.168.50.29/ipp/print";
-        model = "everywhere"; # IPP Everywhere driverless printing
+        model = "driverless:ipp://192.168.50.29/ipp/print";
         ppdOptions = {
           PageSize = "Letter";
-          Duplex = "DuplexNoTumble"; # Two-sided long-edge
+          Duplex = "DuplexNoTumble";
         };
       }
     ];
-    ensureDefaultPrinter = "Canon-MF450";
+    ensureDefaultPrinter = "Canon_MF450";
   };
 
   services.pulseaudio.enable = false;
