@@ -19,6 +19,7 @@
   };
 
   nixpkgs.overlays = [
+    (import ../overlays/default.nix)
   ];
 
   imports = [
@@ -88,8 +89,11 @@
 
   # Suppress ACPI BIOS errors and other boot noise
   boot.kernelParams = [
+    "quiet"
     "loglevel=3"
-    "pci=noaer" # Disable Advanced Error Reporting if PCI errors persist
+    "systemd.show_status=auto"
+    "rd.udev.log_level=3"
+    "pci=noaer"
   ];
 
   programs.appimage = {
@@ -280,27 +284,17 @@
     startWhenNeeded = true; # Socket-activated for faster boot
     cups-pdf.enable = true; # Enable PDF printer
     drivers = [ pkgs.cups-filters ]; # Essential for driverless/IPP discovery
-  };
 
-  # Canon MF450 printer via IPP Everywhere (driverless)
-  # This stays in your system even when the printer is off.
-  # It will "just work" as soon as you turn the printer on.
-  hardware.printers = {
-    ensurePrinters = [
-      {
-        name = "Canon_MF450";
-        location = "Home Office";
-        description = "Canon imageCLASS MF450 Series";
-        # Use .local mDNS name so it works regardless of IP changes
-        deviceUri = "ipp://192.168.50.29/ipp/print";
-        model = "driverless:ipp://192.168.50.29/ipp/print";
-        ppdOptions = {
-          PageSize = "Letter";
-          Duplex = "DuplexNoTumble";
-        };
-      }
-    ];
-    ensureDefaultPrinter = "Canon_MF450";
+    # Use browsed for "normally off" printers.
+    # It auto-detects the printer as soon as you turn it on.
+    browsed.enable = true;
+    browsedConf = ''
+      BrowseDNSSDSubTypes _cups,_print
+      BrowseLocalProtocols all
+      BrowseRemoteProtocols all
+      CreateIPPPrinterQueues All
+      BrowseProtocols all
+    '';
   };
 
   services.pulseaudio.enable = false;
