@@ -27,9 +27,13 @@
   boot.kernel.sysctl = {
     "vm.max_map_count" = 2147483642;
     "vm.swappiness" = 20;
-    # TLP manages dirty_writeback_centisecs and laptop_mode
-    # "vm.dirty_writeback_centisecs" = 6000;
-    # "vm.laptop_mode" = 5;
+    # Reduce disk writes - delay flushing dirty pages (60 seconds)
+    "vm.dirty_writeback_centisecs" = 6000;
+    # Enable laptop mode for aggressive write caching on battery
+    "vm.laptop_mode" = 5;
+    # Increase dirty ratio thresholds (more RAM caching before disk writes)
+    "vm.dirty_ratio" = 40;
+    "vm.dirty_background_ratio" = 10;
   };
   boot.kernelParams = [
     "lsm=landlock,yama,bpf"
@@ -69,7 +73,6 @@
     options usbcore autosuspend=2
     options btusb enable_autosuspend=1
     options cfg80211 ieee80211_regdom=US
-    options rtsx_pci_sdmmc debug_quirks=0x4
   '';
 
   boot.tmp.cleanOnBoot = true;
@@ -103,6 +106,8 @@
       "noatime"
       "lazytime"
       "commit=60"
+      "nofail"        # Don't fail boot if SD card is missing
+      "x-systemd.device-timeout=5s"  # Short timeout for faster boot without card
     ];
   };
 
@@ -116,4 +121,22 @@
   hardware.enableAllFirmware = lib.mkDefault true;
   hardware.enableRedistributableFirmware = lib.mkDefault true;
   hardware.cpu.amd.updateMicrocode = lib.mkDefault true;
+
+  # ============================================
+  # IdeaPad Slim 5 Specific Hardware Settings
+  # ============================================
+
+  # IdeaPad conservation mode - limits charging to ~60% for battery longevity
+  # Uncomment to enable (recommended if laptop is often plugged in)
+  # systemd.services.ideapad-conservation = {
+  #   description = "Enable IdeaPad battery conservation mode";
+  #   wantedBy = [ "multi-user.target" ];
+  #   script = ''
+  #     echo 1 > /sys/bus/platform/drivers/ideapad_acpi/VPC2004:00/conservation_mode
+  #   '';
+  #   serviceConfig = {
+  #     Type = "oneshot";
+  #     RemainAfterExit = true;
+  #   };
+  # };
 }

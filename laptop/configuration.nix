@@ -85,6 +85,21 @@
       SOUND_POWER_SAVE_ON_BAT = 1;
       SOUND_POWER_SAVE_CONTROLLER = "Y";
 
+      # WiFi Power Management
+      WIFI_PWR_ON_AC = "off";
+      WIFI_PWR_ON_BAT = "on";
+
+      # Disk APM (Advanced Power Management) - lower = more power saving
+      DISK_APM_LEVEL_ON_AC = "254";
+      DISK_APM_LEVEL_ON_BAT = "128";
+
+      # AHCI Link Power Management - med_power_with_dipm is best balance
+      SATA_LINKPWR_ON_AC = "med_power_with_dipm";
+      SATA_LINKPWR_ON_BAT = "med_power_with_dipm";
+
+      # NVMe Runtime PM (auto-suspend)
+      RUNTIME_PM_DRIVER_DENYLIST = "";
+
       # Battery Care (if supported by Lenovo driver)
       # START_CHARGE_THRESH_BAT0 = 75;
       # STOP_CHARGE_THRESH_BAT0 = 80;

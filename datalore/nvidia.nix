@@ -104,6 +104,7 @@ in
   
   services.ollama = {
     enable = true;
+    package = pkgs.ollama-cuda;
     user = "ollama-service";
     group = "ollama-service";
   };

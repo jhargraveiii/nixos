@@ -19,6 +19,7 @@
   };
 
   nixpkgs.overlays = [
+    (import ../overlays/default.nix)
   ];
 
   imports = [
@@ -85,6 +86,15 @@
     mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
     magicOrExtension = ''\x7fELF....AI\x02'';
   };
+
+  # Suppress ACPI BIOS errors and other boot noise
+  boot.kernelParams = [
+    "quiet"
+    "loglevel=3"
+    "systemd.show_status=auto"
+    "rd.udev.log_level=3"
+    "pci=noaer"
+  ];
 
   programs.appimage = {
     enable = true;
@@ -270,9 +280,14 @@
   services.printing = {
     enable = true;
     browsing = true;
-    stateless = true;
     webInterface = true;
+    startWhenNeeded = true; # Socket-activated for faster boot
+    cups-pdf.enable = true; # Enable PDF printer
+    drivers = [ pkgs.cups-filters ]; # Essential for driverless/IPP discovery
 
+    # Use browsed for "normally off" printers.
+    # It auto-detects the printer as soon as you turn it on.
+    browsed.enable = true;
     browsedConf = ''
       BrowseDNSSDSubTypes _cups,_print
       BrowseLocalProtocols all
@@ -397,7 +412,7 @@
   environment.sessionVariables = {
     #SAL_USE_VCLPLUGIN = "kf5"; # For KDE Plasma 6
     # Other environment variables
-    SSH_AUTH_SOCK = "~/.1password/agent.sock";
+    SSH_AUTH_SOCK = "$HOME/.1password/agent.sock";
     TERMINAL = "konsole";
     EDITOR = "kate";
     BROWSER = "firefox";

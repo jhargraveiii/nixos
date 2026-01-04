@@ -22,7 +22,14 @@
     # ROCm tools
     rocmPackages.rocminfo
     rocmPackages.rocm-smi
+    # AMD GPU control GUI
+    corectrl
   ];
+
+  # CoreCtrl requires polkit to control GPU without root
+  programs.corectrl.enable = true;
+  # Enable AMD GPU overdrive for full control
+  hardware.amdgpu.overdrive.enable = true;
 
   environment.sessionVariables = {
     AMD_VULKAN_ICD = "RADV";
