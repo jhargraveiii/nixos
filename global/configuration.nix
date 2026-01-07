@@ -376,6 +376,19 @@
     group = "input";
   };
 
+  programs.firefox = {
+    enable = true;
+    policies = {
+      DisableTelemetry = true;
+      DisablePocket = true;
+      DisableFirefoxStudies = true;
+      DNSOverHTTPS = {
+        Enabled = true;
+        ProviderURL = "https://cloudflare-dns.com/dns-query";
+      };
+    };
+  };
+
   nix = {
     settings = {
       auto-optimise-store = true;

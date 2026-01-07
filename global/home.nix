@@ -48,7 +48,6 @@
     jetbrains.idea
     jetbrains.pycharm
     nodePackages.vscode-langservers-extracted
-    firefox
     thunderbird
     libreoffice
     bleachbit
@@ -63,6 +62,16 @@
     cheese
     gearlever
   ];
+
+  programs.firefox.profiles.default = {
+    settings = {
+      "privacy.resistFingerprinting" = true;
+      "network.cookie.cookieBehavior" = 1; # block third-party
+      "network.trr.mode" = 2;              # DoH only
+      "browser.safebrowsing.malware.enabled" = true;
+      "browser.safebrowsing.phishing.enabled" = true;
+    };
+  };
 
   home.file.".jdks/openjdk17".source = pkgs.jdk17;
 
