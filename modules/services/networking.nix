@@ -69,16 +69,14 @@
 
   services.resolved = {
     enable = true;
-    dnssec = "allow-downgrade"; # Compatible with PIA's DNS
-    llmnr = "true"; # Keep LLMNR enabled for local name resolution
-    # Disable mDNS in resolved - avahi handles mDNS exclusively
-    extraConfig = ''
-      MulticastDNS=no
-    '';
-    fallbackDns = [
-      "1.1.1.1" # Cloudflare DNS
-      "1.0.0.1" # Cloudflare DNS
-    ];
+    settings = {
+      Resolve = {
+        DNSSEC = "allow-downgrade"; # Compatible with PIA's DNS
+        LLMNR = "true"; # Keep LLMNR enabled for local name resolution
+        MulticastDNS = "no";
+        FallbackDNS = "1.1.1.1 1.0.0.1"; # Cloudflare DNS
+      };
+    };
   };
 
   networking.timeServers = [ "pool.ntp.org" ];

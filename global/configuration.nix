@@ -183,7 +183,7 @@
     dotenv-linter
     shellharden
     aocl-utils
-    poetry
+    # poetry # Temporarily disabled due to nixpkgs-unstable breakage (pbs-installer conflict)
     pipenv
     pixi
     mecab
