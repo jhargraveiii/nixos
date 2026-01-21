@@ -189,6 +189,7 @@
     mecab
     uv
     pqrs
+    filezilla
 
     # KDE Plasma 6 Wayland essentials
     qt6.qtwayland
