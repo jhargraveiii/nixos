@@ -70,7 +70,7 @@
     extraConfig = ''
       set noemoji
     '';
-    extraLuaConfig = ''
+    initLua = ''
       ${builtins.readFile ../../config/nvim/options.lua}
       ${builtins.readFile ../../config/nvim/keymaps.lua}
       ${builtins.readFile ../../config/nvim/plugins/alpha.lua}
