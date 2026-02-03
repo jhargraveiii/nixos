@@ -14,73 +14,67 @@ let
     buildInputs = [ pkgs.temurin-jre-bin-17 ];
 
     installPhase = ''
-            # Create destination directory
-            mkdir -p $out/opt/oxygen-xml-developer
-      
-            # Extract the tarball with verbose output and error checking
-            echo "Extracting tarball..."
-            tar xzvf $src -C $out/opt/oxygen-xml-developer --strip-components=1
+      runHook preInstall
 
-            # Check if extraction succeeded
-            if [ ! -f $out/opt/oxygen-xml-developer/oxygenDeveloper.sh ]; then
-              echo "Error: Failed to extract oxygenDeveloper script"
-              exit 1
-            fi
-      
-            # Create a wrapper script that uses JDK 17
-            mv $out/opt/oxygen-xml-developer/oxygenDeveloper.sh $out/opt/oxygen-xml-developer/oxygenDeveloper.sh.orig
-      
-            # Modify the original script to use 16GB heap instead of 1GB
-            sed 's/-Xmx1g\\/-Xmx16g\\/g' $out/opt/oxygen-xml-developer/oxygenDeveloper.sh.orig > $out/opt/oxygen-xml-developer/oxygenDeveloper.sh.modified
-            chmod +x $out/opt/oxygen-xml-developer/oxygenDeveloper.sh.modified
-      
-            cat > $out/opt/oxygen-xml-developer/oxygenDeveloper.sh << EOF
-      #!/bin/sh
-      # Wrapper script to ensure Oxygen uses JDK 17 with 16GB heap
+      # Create destination directory
+      mkdir -p $out/opt/oxygen-xml-developer
+      mkdir -p $out/bin
 
-      # Force use of JDK 17
-      OXYGEN_JAVA="${pkgs.temurin-jre-bin-17}/bin/java"
-      export JAVA_HOME="${pkgs.temurin-jre-bin-17}"
+      # Extract the tarball
+      echo "Extracting tarball..."
+      tar xzf $src -C $out/opt/oxygen-xml-developer --strip-components=1
 
-      # Call the modified original script with all arguments
-      exec "\$0.modified" "\$@"
-      EOF
-            chmod +x $out/opt/oxygen-xml-developer/oxygenDeveloper.sh
-      
-            # Create icon directory
-            mkdir -p $out/share/icons/hicolor/128x128/apps
-      
-            # Copy icon file if it exists
-            if [ -f $out/opt/oxygen-xml-developer/Developer128.png ]; then
-              cp $out/opt/oxygen-xml-developer/Developer128.png $out/share/icons/hicolor/128x128/apps/oxygen-xml-developer.png
-            else
-              echo "Warning: Developer128.png not found, looking for alternatives..."
-              find $out/opt/oxygen-xml-developer -name "*.ico" -o -name "*.png" | head -n 1 | xargs -I{} cp {} $out/share/icons/hicolor/128x128/apps/oxygen-xml-developer.png
-            fi
-      
-            # Create desktop entry directory
-            mkdir -p $out/share/applications
-            cat > $out/share/applications/oxygen-xml-developer.desktop << EOF
-[Desktop Entry]
-Name=Oxygen XML Developer
-Comment=XML Development Environment
-Exec=$out/opt/oxygen-xml-developer/oxygenDeveloper.sh
-Icon=$out/share/icons/hicolor/128x128/apps/oxygen-xml-developer.png
-Terminal=false
-Type=Application
-Categories=Development;IDE;XML;
-StartupNotify=true
-EOF
+      # Check if extraction succeeded
+      if [ ! -f $out/opt/oxygen-xml-developer/oxygenDeveloper.sh ]; then
+        echo "Error: Failed to extract oxygenDeveloper script"
+        exit 1
+      fi
+
+      # Modify the original script to use 16GB heap instead of 1GB
+      sed -i 's/-Xmx1g/-Xmx16g/g' $out/opt/oxygen-xml-developer/oxygenDeveloper.sh
+      chmod +x $out/opt/oxygen-xml-developer/oxygenDeveloper.sh
+
+      # Create wrapper script using makeWrapper (handles permissions properly)
+      makeWrapper $out/opt/oxygen-xml-developer/oxygenDeveloper.sh $out/bin/oxygen-xml-developer \
+        --set JAVA_HOME "${pkgs.temurin-jre-bin-17}" \
+        --prefix PATH : "${pkgs.temurin-jre-bin-17}/bin"
+
+      # Create icon directory and copy icon
+      mkdir -p $out/share/icons/hicolor/128x128/apps
+      if [ -f $out/opt/oxygen-xml-developer/Developer128.png ]; then
+        cp $out/opt/oxygen-xml-developer/Developer128.png $out/share/icons/hicolor/128x128/apps/oxygen-xml-developer.png
+      else
+        echo "Warning: Developer128.png not found, looking for alternatives..."
+        find $out/opt/oxygen-xml-developer -name "*.png" -type f | head -n 1 | xargs -I{} cp {} $out/share/icons/hicolor/128x128/apps/oxygen-xml-developer.png || true
+      fi
+
+      runHook postInstall
     '';
   };
 in
 {
   home.packages = [ oxygen-xml-developer ];
   home.file.".oxygen-xml-developer-profile".text = ''
-    export PATH=$PATH:${oxygen-xml-developer.out}/opt/oxygen-xml-developer
+    export PATH=$PATH:${oxygen-xml-developer}/bin
   '';
 
-  # Link desktop file to user applications directory
-  home.file.".local/share/applications/oxygen-xml-developer.desktop".source =
-    "${oxygen-xml-developer}/share/applications/oxygen-xml-developer.desktop";
+  # Copy icon to local icons directory so KDE can find it
+  home.file.".local/share/icons/hicolor/128x128/apps/oxygen-xml-developer.png".source =
+    "${oxygen-xml-developer}/share/icons/hicolor/128x128/apps/oxygen-xml-developer.png";
+
+  # Write desktop file directly (symlinks can cause issues with some desktop environments)
+  home.file.".local/share/applications/oxygen-xml-developer.desktop" = {
+    text = ''
+      [Desktop Entry]
+      Name=Oxygen XML Developer
+      Comment=XML Development Environment
+      Exec=${oxygen-xml-developer}/bin/oxygen-xml-developer
+      Icon=oxygen-xml-developer
+      Terminal=false
+      Type=Application
+      Categories=Development;IDE;XML;
+      StartupNotify=true
+    '';
+    executable = true;
+  };
 }
