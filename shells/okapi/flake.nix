@@ -86,7 +86,7 @@
             
             # For running GUI tests in headless mode
             xvfb-run
-            xorg.xorgserver
+            xorg-server
           ]) ++ [
             # Wrapped maven with path setup
             mavenWrapped

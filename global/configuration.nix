@@ -250,8 +250,8 @@
     nerd-fonts.jetbrains-mono
     font-awesome
     symbola
-    xorg.fontadobe100dpi
-    xorg.fontadobeutopia100dpi
+    font-adobe-100dpi
+    font-adobe-utopia-100dpi
     noto-fonts-color-emoji
     noto-fonts-cjk-sans
   ];
