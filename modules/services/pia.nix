@@ -29,23 +29,23 @@ let
     libcap_ng
     xterm
     libatomic_ops
-    xorg.libX11
-    xorg.libxcb
+    libx11
+    libxcb
     fontconfig
     freetype
     gtk3
     pango
     cairo
-    xorg.libXcomposite
-    xorg.libXcursor
-    xorg.libXdamage
-    xorg.libXext
-    xorg.libXfixes
-    xorg.libXi
-    xorg.libXrandr
-    xorg.libXrender
-    xorg.libXtst
-    xorg.libXScrnSaver
+    libxcomposite
+    libxcursor
+    libxdamage
+    libxext
+    libxfixes
+    libxi
+    libxrandr
+    libxrender
+    libxtst
+    libxscrnsaver
     mesa
     libGL
     libGLU
