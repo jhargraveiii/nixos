@@ -33,7 +33,7 @@
   # Start fingerprint service
   services.fprintd.enable = true;
 
-  networking.networkmanager.wifi.powersave = true;
+  networking.networkmanager.wifi.powersave = false;
 
   # Power Management - TLP (Best practices for Nov 2025)
   services.power-profiles-daemon.enable = false; # Disable conflicting service
@@ -87,7 +87,7 @@
 
       # WiFi Power Management
       WIFI_PWR_ON_AC = "off";
-      WIFI_PWR_ON_BAT = "on";
+      WIFI_PWR_ON_BAT = "off";
 
       # Disk APM (Advanced Power Management) - lower = more power saving
       DISK_APM_LEVEL_ON_AC = "254";
