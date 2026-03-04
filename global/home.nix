@@ -60,7 +60,7 @@
     insync
     git-cola
     cheese
-    gearlever
+    # broken build gearlever
   ];
 
   programs.firefox.profiles.default = {

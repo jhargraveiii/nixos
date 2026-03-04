@@ -98,7 +98,8 @@
       SATA_LINKPWR_ON_BAT = "med_power_with_dipm";
 
       # NVMe Runtime PM (auto-suspend)
-      RUNTIME_PM_DRIVER_DENYLIST = "";
+      RUNTIME_PM_DRIVER_DENYLIST = "mt7921e";
+      RUNTIME_PM_DENYLIST = "02:00.0";
 
       # Battery Care (if supported by Lenovo driver)
       # START_CHARGE_THRESH_BAT0 = 75;
@@ -111,6 +112,11 @@
     algorithm = "zstd";
     memoryPercent = 25;
   };
+
+  services.udev.extraRules = ''
+    # Prevent runtime PM from suspending MT7921 WiFi (causes random disconnects)
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x14c3", ATTR{device}=="0x7961", ATTR{power/control}="on"
+  '';
 
   hardware.bluetooth.powerOnBoot = false;
   services.blueman.enable = false;
