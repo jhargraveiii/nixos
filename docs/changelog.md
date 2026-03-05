@@ -1,5 +1,9 @@
 # Changelog
 
+- Changed: Temporarily disabled `gearlever` in `global/home.nix` — upstream `dwarfs-0.12.4` fails to build with boost 1.89 on nixos-unstable, blocking the entire home-manager generation (Jim Hargrave, 2026-03-05)
+
+- Fixed: Home Manager activation failure at boot caused by stale `mimeapps.list.backup` blocking backup of `mimeapps.list` — removed stale backup and added `xdg.configFile."mimeapps.list".force = true` in `global/home.nix` to prevent recurrence (Jim Hargrave, 2026-03-05)
+
 - Fixed: MT7921 WiFi random disconnects — added `power_save=0` modprobe option, udev rule to disable PCI runtime PM for the WiFi adapter, and TLP denylist entries for the MT7921 driver and PCI address (Jim Hargrave, 2026-03-04)
 
 - Changed: Removed TPM kernel module blacklist from `laptop/hardware-configuration.nix` after BIOS reset resolved the field failure (Jim Hargrave, 2026-02-18)

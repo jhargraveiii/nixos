@@ -60,7 +60,7 @@
     insync
     git-cola
     cheese
-    # broken build gearlever
+    # gearlever  # temporarily disabled: dwarfs build broken with boost 1.89 on unstable
   ];
 
   programs.firefox.profiles.default = {
@@ -77,6 +77,7 @@
 
   # Create XDG Dirs
   xdg = {
+    configFile."mimeapps.list".force = true;
     mimeApps = {
       enable = true;
     };
