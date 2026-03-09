@@ -49,8 +49,8 @@
       TLP_PERSISTENT_DEFAULT = 0;
 
       # CPU Scaling (acpi-cpufreq via kernel params)
-      CPU_SCALING_GOVERNOR_ON_AC = "schedutil";
-      CPU_SCALING_GOVERNOR_ON_BAT = "schedutil"; # schedutil is usually better than powersave for modern kernels
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
 
       # CPU Energy Performance (Intel/AMD P-state, though p-state is disabled in hw-config)
       # These might not apply if amd_pstate is disabled, but good to have if user enables it later
@@ -117,6 +117,17 @@
     # Prevent runtime PM from suspending MT7921 WiFi (causes random disconnects)
     ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x14c3", ATTR{device}=="0x7961", ATTR{power/control}="on"
   '';
+
+  # Fix amdxdna NPU firmware: upstream linux-firmware redirected npu.sbin to an
+  # empty v1.5.2.380 placeholder while the real blob moved to npu_7.sbin.
+  # Provide the real firmware uncompressed so the kernel finds it first.
+  hardware.firmware = [
+    (pkgs.runCommand "amdnpu-firmware-fix" {} ''
+      mkdir -p $out/lib/firmware/amdnpu/1502_00
+      cp ${pkgs.linux-firmware}/lib/firmware/amdnpu/1502_00/npu.sbin.1.5.5.391 \
+        $out/lib/firmware/amdnpu/1502_00/npu.sbin
+    '')
+  ];
 
   hardware.bluetooth.powerOnBoot = false;
   services.blueman.enable = false;

@@ -1,6 +1,11 @@
 # Changelog
 
-- Changed: Temporarily disabled `gearlever` in `global/home.nix` — upstream `dwarfs-0.12.4` fails to build with boost 1.89 on nixos-unstable, blocking the entire home-manager generation (Jim Hargrave, 2026-03-05)
+- Fixed: TLP `CPU_SCALING_GOVERNOR_ON_BAT="schedutil"` error — `schedutil` is unavailable with `amd-pstate-epp` driver; changed to `performance`/`powersave` which are the only supported governors for this driver (Jim Hargrave, 2026-03-08)
+- Fixed: AMD XDNA (NPU) firmware probe failure after flake.lock update — upstream `linux-firmware` redirected `amdnpu/1502_00/npu.sbin` to an empty v1.5.2.380 placeholder; added `hardware.firmware` overlay in `laptop/configuration.nix` that provides the real v1.5.5.391 blob uncompressed so the kernel finds it first (Jim Hargrave, 2026-03-08)
+- Fixed: `pre-shutdown.service` and `pre-sleep.service` boot errors caused by systemd 259 rejecting empty oneshot stubs from upstream `power-management.nix` — added `powerManagement.powerDownCommands = "true"` in `global/configuration.nix` as a no-op workaround (Jim Hargrave, 2026-03-08)
+
+- Added: `nixpkgs-stable` (nixos-24.11) flake input as a fallback package source for broken unstable packages; threaded `pkgs-stable` through `extraSpecialArgs` for both datalore and laptop hosts (Jim Hargrave, 2026-03-05)
+- Changed: Switched `gearlever` to `pkgs-stable.gearlever` in `global/home.nix` — upstream `dwarfs-0.12.4` fails to build with boost 1.89 on nixos-unstable (Jim Hargrave, 2026-03-05)
 
 - Fixed: Home Manager activation failure at boot caused by stale `mimeapps.list.backup` blocking backup of `mimeapps.list` — removed stale backup and added `xdg.configFile."mimeapps.list".force = true` in `global/home.nix` to prevent recurrence (Jim Hargrave, 2026-03-05)
 

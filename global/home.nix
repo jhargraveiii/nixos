@@ -1,4 +1,5 @@
 { pkgs
+, pkgs-stable
 , username
 , gitUsername
 , gitEmail
@@ -53,14 +54,13 @@
     bleachbit
     hunspell
     hunspellDicts.en_US
-    klavaro
     meld
     okteta
     vlc
     insync
     git-cola
     cheese
-    # gearlever  # temporarily disabled: dwarfs build broken with boost 1.89 on unstable
+    pkgs-stable.gearlever  # from stable; dwarfs broken on unstable with boost 1.89
   ];
 
   programs.firefox.profiles.default = {

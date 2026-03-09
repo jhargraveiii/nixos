@@ -35,6 +35,10 @@
   services.smartd.enable = true;
   hardware.usbStorage.manageShutdown = true;
 
+  # Workaround: systemd 259 refuses oneshot services with no ExecStart.
+  # Upstream power-management.nix creates empty pre-shutdown/pre-sleep stubs.
+  powerManagement.powerDownCommands = "true";
+
   # Set your time zone.
   time.timeZone = "${theTimezone}";
   time.hardwareClockInLocalTime = false;
