@@ -65,9 +65,10 @@
 
   programs.firefox.profiles.default = {
     settings = {
-      "privacy.resistFingerprinting" = true;
-      "network.cookie.cookieBehavior" = 1; # block third-party
-      "network.trr.mode" = 2;              # DoH only
+      "privacy.fingerprintingProtection" = true;
+      "network.cookie.cookieBehavior" = 5;  # Total Cookie Protection (isolate per-site, don't block)
+      "network.cookie.lifetimePolicy" = 0;  # keep cookies until they expire
+      "network.trr.mode" = 2;               # DoH only
       "browser.safebrowsing.malware.enabled" = true;
       "browser.safebrowsing.phishing.enabled" = true;
     };
