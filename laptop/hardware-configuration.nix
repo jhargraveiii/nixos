@@ -21,6 +21,7 @@
 
   boot.blacklistedKernelModules = [
     "lenovo_wmi_gamezone" # Probing fails on this model
+    "sp5100_tco" # AMD watchdog — not needed, consumes resources
   ];
 
   boot.initrd.kernelModules = [ ];
@@ -36,7 +37,6 @@
     "vm.dirty_background_ratio" = 10;
   };
   boot.kernelParams = [
-    "lsm=landlock,yama,bpf"
     "msr.allow_writes=on"
     "nmi_watchdog=0"
     # TSC clock stability fix for CPU timing
@@ -47,14 +47,11 @@
     "amd_pstate=active"
     # Prefer SATA link power mgmt when applicable
     "ahci.mobile_lpm_policy=3"
-    # Enable PCIe ASPM powersave globally
-    "pcie_aspm.policy=powersave"
+    # PCIe ASPM managed by TLP (PCIE_ASPM_ON_BAT=powersave, PCIE_ASPM_ON_AC=default)
+    # Do NOT set pcie_aspm.policy here — global powersave at boot locks I2C input devices
     # Use deep mem sleep for better standby
     "mem_sleep_default=deep"
-    # NVMe power saving: APST enabled by default (removed latency fix)
-    # "nvme_core.default_ps_max_latency_us=0"
     "mitigations=auto"
-    "quiet"
     "loglevel=4"
     "i8042.nopnp" # Fix PS/2 AUX port disabled warning
   ];
@@ -69,8 +66,7 @@
   boot.extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
   boot.extraModprobeConfig = ''
     options snd_hda_intel power_save=1 power_save_controller=Y
-    options mt7921e disable_aspm=1 power_save=0
-    options usbcore autosuspend=2
+    options mt7921e disable_aspm=1
     options btusb enable_autosuspend=1
     options cfg80211 ieee80211_regdom=US
   '';
