@@ -67,6 +67,7 @@
   boot.extraModprobeConfig = ''
     options snd_hda_intel power_save=1 power_save_controller=Y
     options mt7921e disable_aspm=1
+    options mt7921_common disable_clc=1
     options btusb enable_autosuspend=1
     options cfg80211 ieee80211_regdom=US
   '';

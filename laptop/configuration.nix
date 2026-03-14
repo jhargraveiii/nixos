@@ -67,9 +67,9 @@
       RADEON_POWER_PROFILE_ON_AC = "default";
       RADEON_POWER_PROFILE_ON_BAT = "low";
 
-      # PCIe ASPM
+      # PCIe ASPM — avoid "powersave" which re-enables L1 on mt7921e (disconnects)
       PCIE_ASPM_ON_AC = "default";
-      PCIE_ASPM_ON_BAT = "powersave";
+      PCIE_ASPM_ON_BAT = "default";
 
       # Runtime Power Management for PCI devices
       RUNTIME_PM_ON_AC = "on";
