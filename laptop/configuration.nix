@@ -33,7 +33,7 @@
   # Start fingerprint service
   services.fprintd.enable = true;
 
-  networking.networkmanager.wifi.powersave = true;
+  networking.networkmanager.wifi.powersave = false;
 
   # Power Management - TLP (Best practices for Nov 2025)
   services.power-profiles-daemon.enable = false; # Disable conflicting service
@@ -49,8 +49,8 @@
       TLP_PERSISTENT_DEFAULT = 0;
 
       # CPU Scaling (acpi-cpufreq via kernel params)
-      CPU_SCALING_GOVERNOR_ON_AC = "schedutil";
-      CPU_SCALING_GOVERNOR_ON_BAT = "schedutil"; # schedutil is usually better than powersave for modern kernels
+      CPU_SCALING_GOVERNOR_ON_AC = "performance";
+      CPU_SCALING_GOVERNOR_ON_BAT = "powersave";
 
       # CPU Energy Performance (Intel/AMD P-state, though p-state is disabled in hw-config)
       # These might not apply if amd_pstate is disabled, but good to have if user enables it later
@@ -67,9 +67,9 @@
       RADEON_POWER_PROFILE_ON_AC = "default";
       RADEON_POWER_PROFILE_ON_BAT = "low";
 
-      # PCIe ASPM
+      # PCIe ASPM — avoid "powersave" which re-enables L1 on mt7921e (disconnects)
       PCIE_ASPM_ON_AC = "default";
-      PCIE_ASPM_ON_BAT = "powersave";
+      PCIE_ASPM_ON_BAT = "default";
 
       # Runtime Power Management for PCI devices
       RUNTIME_PM_ON_AC = "on";
@@ -87,7 +87,7 @@
 
       # WiFi Power Management
       WIFI_PWR_ON_AC = "off";
-      WIFI_PWR_ON_BAT = "on";
+      WIFI_PWR_ON_BAT = "off";
 
       # Disk APM (Advanced Power Management) - lower = more power saving
       DISK_APM_LEVEL_ON_AC = "254";
@@ -98,7 +98,8 @@
       SATA_LINKPWR_ON_BAT = "med_power_with_dipm";
 
       # NVMe Runtime PM (auto-suspend)
-      RUNTIME_PM_DRIVER_DENYLIST = "";
+      RUNTIME_PM_DRIVER_DENYLIST = "mt7921e";
+      RUNTIME_PM_DENYLIST = "02:00.0";
 
       # Battery Care (if supported by Lenovo driver)
       # START_CHARGE_THRESH_BAT0 = 75;
@@ -111,6 +112,22 @@
     algorithm = "zstd";
     memoryPercent = 25;
   };
+
+  services.udev.extraRules = ''
+    # Prevent runtime PM from suspending MT7921 WiFi (causes random disconnects)
+    ACTION=="add", SUBSYSTEM=="pci", ATTR{vendor}=="0x14c3", ATTR{device}=="0x7961", ATTR{power/control}="on"
+  '';
+
+  # Fix amdxdna NPU firmware: upstream linux-firmware redirected npu.sbin to an
+  # empty v1.5.2.380 placeholder while the real blob moved to npu_7.sbin.
+  # Provide the real firmware uncompressed so the kernel finds it first.
+  hardware.firmware = [
+    (pkgs.runCommand "amdnpu-firmware-fix" {} ''
+      mkdir -p $out/lib/firmware/amdnpu/1502_00
+      cp ${pkgs.linux-firmware}/lib/firmware/amdnpu/1502_00/npu.sbin.1.5.5.391 \
+        $out/lib/firmware/amdnpu/1502_00/npu.sbin
+    '')
+  ];
 
   hardware.bluetooth.powerOnBoot = false;
   services.blueman.enable = false;

@@ -1,5 +1,13 @@
 { pkgs, lib, ... }:
 {
+  nixpkgs.overlays = [
+    (final: prev: {
+      rocmPackages = prev.rocmPackages.overrideScope (rfinal: rprev: {
+        gpuTargets = [ "gfx1100" ];
+      });
+    })
+  ];
+
   services.xserver.videoDrivers = [ "amdgpu" ];
   hardware.amdgpu.initrd.enable = lib.mkDefault true;
 
@@ -9,7 +17,6 @@
     extraPackages = with pkgs; [
       libva
       libva-vdpau-driver
-      # ROCm for GPU compute (Ollama acceleration)
       rocmPackages.clr.icd
     ];
   };

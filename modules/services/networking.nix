@@ -63,7 +63,15 @@
 
     networkmanager = {
       enable = true;
-      dns = "systemd-resolved"; # Let NetworkManager manage DNS dynamically
+      dns = "systemd-resolved";
+      wifi = {
+        scanRandMacAddress = true;
+        backend = "wpa_supplicant";
+      };
+      connectionConfig = {
+        "wifi.cloned-mac-address" = lib.mkForce "stable";
+        "connection.auth-retries" = "5";
+      };
     };
   };
 

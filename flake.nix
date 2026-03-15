@@ -3,6 +3,7 @@
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
+    nixpkgs-stable.url = "github:nixos/nixpkgs/nixos-24.11";
     home-manager = {
       url = "github:nix-community/home-manager/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -16,6 +17,7 @@
   outputs =
     { self
     , nixpkgs
+    , nixpkgs-stable
     , home-manager
     , ...
     }@inputs:
@@ -23,6 +25,10 @@
       inherit (self) outputs;
       system = "x86_64-linux";
       pkgs = import nixpkgs { inherit system; };
+      pkgs-stable = import nixpkgs-stable {
+        inherit system;
+        config.allowUnfree = true;
+      };
 
       # User Variables
       username = "jimh";
@@ -68,6 +74,7 @@
                 inherit gitUsername;
                 inherit gitEmail;
                 inherit inputs;
+                inherit pkgs-stable;
               };
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";
@@ -102,6 +109,7 @@
                 inherit gitUsername;
                 inherit gitEmail;
                 inherit inputs;
+                inherit pkgs-stable;
               };
               home-manager.useUserPackages = true;
               home-manager.backupFileExtension = "backup";

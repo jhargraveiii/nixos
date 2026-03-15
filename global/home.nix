@@ -1,4 +1,5 @@
 { pkgs
+, pkgs-stable
 , username
 , gitUsername
 , gitEmail
@@ -53,21 +54,21 @@
     bleachbit
     hunspell
     hunspellDicts.en_US
-    klavaro
     meld
     okteta
     vlc
     insync
     git-cola
     cheese
-    gearlever
+    pkgs-stable.gearlever  # from stable; dwarfs broken on unstable with boost 1.89
   ];
 
   programs.firefox.profiles.default = {
     settings = {
-      "privacy.resistFingerprinting" = true;
-      "network.cookie.cookieBehavior" = 1; # block third-party
-      "network.trr.mode" = 2;              # DoH only
+      "privacy.fingerprintingProtection" = true;
+      "network.cookie.cookieBehavior" = 5;  # Total Cookie Protection (isolate per-site, don't block)
+      "network.cookie.lifetimePolicy" = 0;  # keep cookies until they expire
+      "network.trr.mode" = 2;               # DoH only
       "browser.safebrowsing.malware.enabled" = true;
       "browser.safebrowsing.phishing.enabled" = true;
     };
@@ -77,6 +78,7 @@
 
   # Create XDG Dirs
   xdg = {
+    configFile."mimeapps.list".force = true;
     mimeApps = {
       enable = true;
     };
