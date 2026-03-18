@@ -60,6 +60,7 @@
     insync
     git-cola
     cheese
+    chromium
     pkgs-stable.gearlever  # from stable; dwarfs broken on unstable with boost 1.89
   ];
 
