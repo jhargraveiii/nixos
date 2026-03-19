@@ -1,4 +1,5 @@
 { pkgs
+, pkgs-stable
 , username
 , gitUsername
 , theLocale
@@ -82,15 +83,6 @@
     ];
   };
 
-  boot.binfmt.registrations.appimage = {
-    wrapInterpreterInShell = false;
-    interpreter = "${pkgs.appimage-run}/bin/appimage-run";
-    recognitionType = "magic";
-    offset = 0;
-    mask = ''\xff\xff\xff\xff\x00\x00\x00\x00\xff\xff\xff'';
-    magicOrExtension = ''\x7fELF....AI\x02'';
-  };
-
   # Suppress ACPI BIOS errors and other boot noise
   boot.kernelParams = [
     "quiet"
@@ -127,7 +119,6 @@
     checkstyle
     gitlint
     checkmake
-    cppcheck
     stylelint
     nixpkgs-lint
     nixpkgs-fmt
@@ -178,10 +169,7 @@
     libinput-gestures
     aha
     pciutils
-    clinfo
-    vulkan-tools
     wayland-utils
-    fwupd
     lazygit
     wl-clipboard
     dotenv-linter
@@ -228,7 +216,6 @@
     nix-ld
     zip
     bup
-    psutils
     brev-cli
     inetutils
     smartmontools
@@ -383,6 +370,7 @@
 
   programs.firefox = {
     enable = true;
+    package = pkgs.firefox;
     policies = {
       DisableTelemetry = true;
       DisablePocket = true;
@@ -437,7 +425,6 @@
     XDG_SESSION_TYPE = "wayland";
     MOZ_ENABLE_WAYLAND = "1";
     ELECTRON_OZONE_PLATFORM_HINT = "wayland";
-    WLR_NO_HARDWARE_CURSORS = "1";
     QT_QPA_PLATFORM = "wayland;xcb";
     QT_QPA_PLATFORMTHEME = "qt6ct";
     HF_HOME = "/home/${username}/DATA2/.cache/huggingface";
