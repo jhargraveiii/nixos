@@ -1,5 +1,6 @@
 # Changelog
 
+- Changed: Silenced Home Manager deprecation warnings in `global/home.nix` — explicitly set `xdg.userDirs.setSessionVariables = true` (keep legacy behavior, ensures XDG dir env vars are available to scripts) and `programs.git.signing.format = null` (adopt new default, no git signing configured) (Jim Hargrave, 2026-03-22)
 - Changed: Removed `tsc=reliable` kernel parameter from `laptop/hardware-configuration.nix` — lets the kernel auto-detect TSC reliability on Zen4 and fall back if deep sleep ever desynchronizes it across cores, rather than unconditionally trusting TSC (Jim Hargrave, 2026-03-19)
 - Changed: Relaxed TLP `PLATFORM_PROFILE_ON_BAT` from `low-power` to `balanced` in `laptop/configuration.nix` — the BIOS-level `low-power` profile caps total CPU power budget too aggressively, starving WebRTC encoder threads during video calls; `balanced` lifts the firmware power ceiling while still deferring to the `balance_power` EPP hint for per-core frequency decisions (Jim Hargrave, 2026-03-19)
 - Changed: Switched `boot.kernelPackages` from `linuxPackages_latest` (6.19.x) to `linuxPackages_6_12` (LTS) in `laptop/hardware-configuration.nix` — kernel 6.12.x is the current LTS with mature amdgpu support for gfx1103, reducing exposure to bleeding-edge driver regressions and scheduler bugs (Jim Hargrave, 2026-03-19)

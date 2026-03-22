@@ -86,6 +86,7 @@
     userDirs = {
       enable = true;
       createDirectories = true;
+      setSessionVariables = true;
     };
   };
 
@@ -107,6 +108,7 @@
     enable = true;
     lfs.enable = true;
     package = pkgs.gitFull;
+    signing.format = null;
     settings = {
       user = {
         name = "${gitUsername}";
