@@ -39,7 +39,6 @@
     ../config/files.nix
     ../modules/programs/kitty.nix
     ../modules/programs/oxygen.nix
-    ../modules/programs/neovim.nix
     ../modules/programs/vscode.nix
   ];
 
@@ -48,7 +47,7 @@
     clickup
     jetbrains.idea
     jetbrains.pycharm
-    nodePackages.vscode-langservers-extracted
+    vscode-langservers-extracted
     thunderbird
     libreoffice
     bleachbit

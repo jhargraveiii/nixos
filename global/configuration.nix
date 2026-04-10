@@ -340,8 +340,8 @@
     enable = true;
     nix-direnv.enable = true;
     direnvrcExtra = ''
-      export EDITOR=nvim
-      export VISUAL=nvim
+      export EDITOR=kate
+      export VISUAL=kate
     '';
   };
 

@@ -1,5 +1,7 @@
 # Changelog
 
+- Removed: Neovim (`modules/programs/neovim.nix`) — removed import from `global/home.nix` and updated direnv `EDITOR`/`VISUAL` from `nvim` to `kate` in `global/configuration.nix` (Jim Hargrave, 2026-04-10)
+- Fixed: Build failure caused by removed `nodePackages` set — replaced `nodePackages.vscode-langservers-extracted` with top-level `vscode-langservers-extracted` in `global/home.nix` (Jim Hargrave, 2026-04-10)
 - Changed: Silenced Home Manager deprecation warnings in `global/home.nix` — explicitly set `xdg.userDirs.setSessionVariables = true` (keep legacy behavior, ensures XDG dir env vars are available to scripts) and `programs.git.signing.format = null` (adopt new default, no git signing configured) (Jim Hargrave, 2026-03-22)
 - Changed: Removed `tsc=reliable` kernel parameter from `laptop/hardware-configuration.nix` — lets the kernel auto-detect TSC reliability on Zen4 and fall back if deep sleep ever desynchronizes it across cores, rather than unconditionally trusting TSC (Jim Hargrave, 2026-03-19)
 - Changed: Relaxed TLP `PLATFORM_PROFILE_ON_BAT` from `low-power` to `balanced` in `laptop/configuration.nix` — the BIOS-level `low-power` profile caps total CPU power budget too aggressively, starving WebRTC encoder threads during video calls; `balanced` lifts the firmware power ceiling while still deferring to the `balance_power` EPP hint for per-core frequency decisions (Jim Hargrave, 2026-03-19)
