@@ -43,7 +43,6 @@
   ];
 
   home.packages = with pkgs; [
-    slack
     clickup
     jetbrains.idea
     jetbrains.pycharm
@@ -54,13 +53,12 @@
     hunspell
     hunspellDicts.en_US
     meld
-    okteta
     vlc
     insync
     git-cola
     cheese
     chromium
-    pkgs-stable.gearlever  # from stable; dwarfs broken on unstable with boost 1.89
+    gearlever  # from stable; dwarfs broken on unstable with boost 1.89
   ];
 
   programs.firefox.profiles.default = {
