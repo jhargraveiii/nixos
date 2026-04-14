@@ -39,28 +39,26 @@
     ../config/files.nix
     ../modules/programs/kitty.nix
     ../modules/programs/oxygen.nix
-    ../modules/programs/neovim.nix
     ../modules/programs/vscode.nix
   ];
 
   home.packages = with pkgs; [
-    slack
     clickup
     jetbrains.idea
     jetbrains.pycharm
-    nodePackages.vscode-langservers-extracted
+    vscode-langservers-extracted
     thunderbird
     libreoffice
     bleachbit
     hunspell
     hunspellDicts.en_US
     meld
-    okteta
     vlc
     insync
     git-cola
     cheese
-    pkgs-stable.gearlever  # from stable; dwarfs broken on unstable with boost 1.89
+    chromium
+    gearlever  # from stable; dwarfs broken on unstable with boost 1.89
   ];
 
   programs.firefox.profiles.default = {
@@ -85,6 +83,7 @@
     userDirs = {
       enable = true;
       createDirectories = true;
+      setSessionVariables = true;
     };
   };
 
@@ -106,6 +105,7 @@
     enable = true;
     lfs.enable = true;
     package = pkgs.gitFull;
+    signing.format = null;
     settings = {
       user = {
         name = "${gitUsername}";

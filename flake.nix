@@ -59,6 +59,7 @@
             inherit gitEmail;
             inherit theLocale;
             inherit theTimezone;
+            inherit pkgs-stable;
           };
           modules = [
             ./datalore/configuration.nix
@@ -94,6 +95,7 @@
             inherit gitEmail;
             inherit theLocale;
             inherit theTimezone;
+            inherit pkgs-stable;
           };
           modules = [
             ./laptop/configuration.nix

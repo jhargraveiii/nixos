@@ -8,9 +8,7 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages_latest;
-  environment.systemPackages = [
-  ];
+  boot.kernelPackages = pkgs.linuxPackages_6_12;
   boot.initrd.availableKernelModules = [
     "nvme"
     "xhci_pci"
@@ -24,36 +22,20 @@
     "sp5100_tco" # AMD watchdog — not needed, consumes resources
   ];
 
-  boot.initrd.kernelModules = [ ];
   boot.kernel.sysctl = {
     "vm.max_map_count" = 2147483642;
     "vm.swappiness" = 20;
-    # Reduce disk writes - delay flushing dirty pages (60 seconds)
-    "vm.dirty_writeback_centisecs" = 6000;
-    # Enable laptop mode for aggressive write caching on battery
-    "vm.laptop_mode" = 5;
-    # Increase dirty ratio thresholds (more RAM caching before disk writes)
-    "vm.dirty_ratio" = 40;
-    "vm.dirty_background_ratio" = 10;
   };
   boot.kernelParams = [
     "msr.allow_writes=on"
     "nmi_watchdog=0"
-    # TSC clock stability fix for CPU timing
-    "tsc=reliable"
     # Model 83DR (IdeaPad Slim 5) supports amd_pstate if BIOS is updated to enable CPPC.
     # We enable 'active' mode to use EPP hints via TLP.
     # If BIOS lacks CPPC, this will fail safely and fallback to acpi-cpufreq.
     "amd_pstate=active"
-    # Prefer SATA link power mgmt when applicable
-    "ahci.mobile_lpm_policy=3"
-    # PCIe ASPM managed by TLP (PCIE_ASPM_ON_BAT=powersave, PCIE_ASPM_ON_AC=default)
-    # Do NOT set pcie_aspm.policy here — global powersave at boot locks I2C input devices
-    # Use deep mem sleep for better standby
     "mem_sleep_default=deep"
     "mitigations=auto"
-    "loglevel=4"
-    "i8042.nopnp" # Fix PS/2 AUX port disabled warning
+    "i8042.nopnp"
   ];
   boot.kernelModules = [
     "amdgpu"
@@ -65,15 +47,12 @@
   ];
   boot.extraModulePackages = [ config.boot.kernelPackages.acpi_call ];
   boot.extraModprobeConfig = ''
-    options snd_hda_intel power_save=1 power_save_controller=Y
     options mt7921e disable_aspm=1
     options mt7921_common disable_clc=1
-    options btusb enable_autosuspend=1
     options cfg80211 ieee80211_regdom=US
   '';
 
   boot.tmp.cleanOnBoot = true;
-  boot.supportedFilesystems = [ "ext4" ];
 
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/892e4229-5260-4957-be9e-df50894ebed2";
@@ -110,13 +89,8 @@
 
   swapDevices = [{ device = "/dev/disk/by-uuid/1e8f15a3-88e4-4389-9993-bb3ff7b92bac"; }];
 
-  # Disable hdapsd (ThinkPad-specific)
-  services.hdapsd.enable = lib.mkDefault false;
-  hardware.amdgpu.initrd.enable = lib.mkDefault true;
-  # thermald is Intel-only; remove to avoid confusion
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
   hardware.enableAllFirmware = lib.mkDefault true;
-  hardware.enableRedistributableFirmware = lib.mkDefault true;
   hardware.cpu.amd.updateMicrocode = lib.mkDefault true;
 
   # ============================================
