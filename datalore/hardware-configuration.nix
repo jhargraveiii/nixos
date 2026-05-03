@@ -7,10 +7,12 @@
   boot = {
     extraModprobeConfig = ''
       blacklist nouveau
-      # Apple Magic Trackpad with aggressive stabilization
-      options bcm5974 debug=0
       options usbhid quirks=0x05ac:0x0265:0x00000010
       options usbhid mousepoll=8
+      # Intel WiFi — disable power save for reliable connectivity
+      options iwlwifi power_save=0
+      options iwlmvm power_scheme=1
+      options cfg80211 ieee80211_regdom=US
       # NVMe thermal optimizations
       options nvme use_threaded_interrupts=1
       options nvme_core default_ps_max_latency_us=5500
@@ -23,7 +25,7 @@
       efi.canTouchEfiVariables = true;
       systemd-boot.enable = true;
     };
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackages;
     initrd.availableKernelModules = [
       "thunderbolt"
       "nvme"
@@ -37,12 +39,10 @@
     kernelModules = [
       "kvm-amd"
       "amdgpu"
+      "iwlwifi"
       "wireguard"
-      # Load NVIDIA modules after AMD
       "nvidia"
       "nvidia_uvm"
-      # Remove problematic module temporarily
-      # "ovpn-dco"
     ];
     kernelParams = [
       # Essential stability fixes
@@ -81,6 +81,7 @@
   fileSystems."/boot" = {
     device = "/dev/disk/by-uuid/683A-1A12";
     fsType = "vfat";
+    options = [ "fmask=0077" "dmask=0077" ];
   };
 
   swapDevices = [ ];

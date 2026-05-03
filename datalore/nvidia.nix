@@ -24,11 +24,8 @@ in
     package = nvidia_driver;
   };
 
-  # Optimizations for Compute-Only (Save VRAM, improve performance)
   boot.extraModprobeConfig = ''
-    options nvidia NVreg_RegistryDwords="RMUseSwI2c=0x01;RMI2cSpeed=100" 
-    options nvidia NVreg_EnablePCIeGen3=1
-    options nvidia NVreg_UsePageAttributeTable=1
+    options nvidia NVreg_RegistryDwords="RMUseSwI2c=0x01;RMI2cSpeed=100"
   '';
 
   # Container Toolkit

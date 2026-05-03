@@ -95,7 +95,9 @@
   programs.appimage = {
     enable = true;
     binfmt = true;
-    package = pkgs.appimage-run;
+    package = pkgs.appimage-run.override {
+      extraPkgs = pkgs: [ pkgs.gpgme pkgs.gnupg ];
+    };
   };
 
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
@@ -291,6 +293,11 @@
   services.pulseaudio.enable = false;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.package = pkgs.bluez;
+  hardware.bluetooth.settings = {
+    General = {
+      AutoEnable = true;
+    };
+  };
 
   services.openssh.enable = true;
   services.openssh.settings = {
