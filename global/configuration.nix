@@ -96,7 +96,7 @@
     enable = true;
     binfmt = true;
     package = pkgs.appimage-run.override {
-      extraPkgs = pkgs: [ pkgs.gpgme pkgs.gnupg ];
+      extraPkgs = pkgs: [ pkgs.gpgme pkgs.gnupg pkgs.libgpg-error ];
     };
   };
 
@@ -269,17 +269,14 @@
     disabledDefaultBackends = [ "escl" ];
   };
 
-  # use IPP everywhere for printing
   services.printing = {
     enable = true;
     browsing = true;
     webInterface = true;
-    startWhenNeeded = true; # Socket-activated for faster boot
-    cups-pdf.enable = true; # Enable PDF printer
-    drivers = [ pkgs.cups-filters ]; # Essential for driverless/IPP discovery
+    startWhenNeeded = true;
+    cups-pdf.enable = true;
+    drivers = [ pkgs.cups-filters ];
 
-    # Use browsed for "normally off" printers.
-    # It auto-detects the printer as soon as you turn it on.
     browsed.enable = true;
     browsedConf = ''
       BrowseDNSSDSubTypes _cups,_print
@@ -287,7 +284,21 @@
       BrowseRemoteProtocols all
       CreateIPPPrinterQueues All
       BrowseProtocols all
+      AutoShutdown No
     '';
+  };
+
+  hardware.printers = {
+    ensurePrinters = [{
+      name = "Canon-MF450-Series";
+      deviceUri = "ipp://192.168.50.29/ipp/print";
+      model = "everywhere";
+      ppdOptions = {
+        PageSize = "Letter";
+        media-default = "na_letter_8.5x11in";
+      };
+    }];
+    ensureDefaultPrinter = "Canon-MF450-Series";
   };
 
   services.pulseaudio.enable = false;

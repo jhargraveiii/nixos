@@ -55,9 +55,12 @@ in
         "nccl"
         "magma"
         "cupti"
-        # Add other specific unfree packages if needed
       ] || (builtins.parseDrvName (lib.getName pkg)).name == "nvidia-x11";
-      
+
+    permittedInsecurePackages = [
+      "cuda12.9-tensorrt-10.14.1.48"
+    ];
+
     cudaSupport = true;
   };
 
