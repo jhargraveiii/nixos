@@ -47,7 +47,16 @@
   };
 
   hardware.bluetooth.powerOnBoot = true;
-  services.blueman.enable = true;
+
+  systemd.services.bluetooth-rfkill-unblock = {
+    description = "Unblock Bluetooth rfkill at boot";
+    after = [ "bluetooth.service" ];
+    wantedBy = [ "multi-user.target" ];
+    serviceConfig = {
+      Type = "oneshot";
+      ExecStart = "${pkgs.util-linux}/bin/rfkill unblock bluetooth";
+    };
+  };
 
   environment.sessionVariables = {
     # GPU preferences for applications
