@@ -141,9 +141,6 @@
     maven
     fd
     ripgrep
-    silver-searcher
-    platinum-searcher
-    ack
     lolcat
     fastfetch
     psutils
@@ -301,14 +298,51 @@
     ensureDefaultPrinter = "Canon-MF450-Series";
   };
 
+  systemd.services.ensure-printers = {
+    after = [ "network-online.target" ];
+    wants = [ "network-online.target" ];
+    serviceConfig = {
+      Restart = "no";
+      SuccessExitStatus = "0 1";
+    };
+  };
+
+  systemd.services.ensure-printers-retry = {
+    description = "Retry CUPS printer setup if printer was offline at boot";
+    after = [ "cups.service" "network-online.target" ];
+    wants = [ "network-online.target" ];
+    serviceConfig.Type = "oneshot";
+    script = ''
+      # Skip if the printer is already configured
+      if ${pkgs.cups}/bin/lpstat -p Canon-MF450-Series 2>/dev/null | grep -q "idle\|printing"; then
+        echo "Canon-MF450-Series already configured, skipping"
+        exit 0
+      fi
+      # Only attempt if the printer is reachable
+      if ${pkgs.iputils}/bin/ping -c1 -W2 192.168.50.29 >/dev/null 2>&1; then
+        echo "Printer reachable, running ensure-printers"
+        systemctl start ensure-printers.service || true
+      else
+        echo "Printer offline, will retry later"
+        exit 0
+      fi
+    '';
+  };
+
+  systemd.timers.ensure-printers-retry = {
+    description = "Periodically check for Canon printer availability";
+    wantedBy = [ "timers.target" ];
+    timerConfig = {
+      OnBootSec = "2min";
+      OnUnitActiveSec = "5min";
+      AccuracySec = "1min";
+    };
+  };
+
   services.pulseaudio.enable = false;
   hardware.bluetooth.enable = true;
   hardware.bluetooth.package = pkgs.bluez;
-  hardware.bluetooth.settings = {
-    General = {
-      AutoEnable = true;
-    };
-  };
+  hardware.bluetooth.settings = { };
 
   services.openssh.enable = true;
   services.openssh.settings = {
