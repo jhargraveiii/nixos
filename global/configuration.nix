@@ -183,7 +183,7 @@
 
     # KDE Plasma 6 Wayland essentials
     qt6.qtwayland
-    libsForQt5.qt5.qtwayland
+    qt5.qtwayland
     wayland
     xwayland
     xkeyboard-config
@@ -430,6 +430,50 @@
         Enabled = true;
         ProviderURL = "https://cloudflare-dns.com/dns-query";
       };
+    };
+  };
+
+  programs.chromium = {
+    enable = true;
+    extraOpts = {
+      # --- Cookies & Sessions (keep logins) ---
+      "DefaultCookiesSetting" = 1;
+      "BlockThirdPartyCookies" = true;
+
+      # --- Clear on exit (but not cookies) ---
+      "ClearBrowsingDataOnExitList" = [ "cached_images_and_files" "autofill" "download_history" ];
+
+      # --- Safe browsing ---
+      "SafeBrowsingProtectionLevel" = 2;
+
+      # --- HTTPS & DNS ---
+      "HttpsOnlyMode" = "force_enabled";
+      "DnsOverHttpsMode" = "secure";
+      "DnsOverHttpsTemplates" = "https://cloudflare-dns.com/dns-query";
+
+      # --- Tracking & Privacy ---
+      "PrivacySandboxPromptEnabled" = false;
+      "PrivacySandboxAdTopicsEnabled" = false;
+      "PrivacySandboxSiteEnabledAdsEnabled" = false;
+      "PrivacySandboxAdMeasurementEnabled" = false;
+      "WebRtcIPHandling" = "default_public_interface_only";
+
+      # --- Disable telemetry & reporting ---
+      "MetricsReportingEnabled" = false;
+      "SpellCheckServiceEnabled" = false;
+      "AlternateErrorPagesEnabled" = false;
+      "UrlKeyedAnonymizedDataCollectionEnabled" = false;
+
+      # --- Disable autofill ---
+      "AutofillAddressEnabled" = false;
+      "AutofillCreditCardEnabled" = false;
+      "PasswordManagerEnabled" = false;
+
+      # --- Misc hardening ---
+      "NetworkPredictionOptions" = 2;
+      "SearchSuggestEnabled" = false;
+      "TranslateEnabled" = false;
+      "SyncDisabled" = true;
     };
   };
 

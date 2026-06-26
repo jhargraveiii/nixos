@@ -63,12 +63,53 @@
 
   programs.firefox.profiles.default = {
     settings = {
+      # --- Cookies & Sessions (keep logins) ---
+      "network.cookie.cookieBehavior" = 5;
+      "network.cookie.lifetimePolicy" = 0;
+      "privacy.clearOnShutdown.cookies" = false;
+      "privacy.clearOnShutdown.sessions" = false;
+      "privacy.clearOnShutdown.offlineApps" = false;
+
+      # --- Clear everything else on shutdown ---
+      "privacy.sanitize.sanitizeOnShutdown" = true;
+      "privacy.clearOnShutdown.cache" = true;
+      "privacy.clearOnShutdown.formdata" = true;
+      "privacy.clearOnShutdown.downloads" = true;
+      "privacy.clearOnShutdown.history" = false;
+
+      # --- Tracking & Fingerprinting ---
       "privacy.fingerprintingProtection" = true;
-      "network.cookie.cookieBehavior" = 5;  # Total Cookie Protection (isolate per-site, don't block)
-      "network.cookie.lifetimePolicy" = 0;  # keep cookies until they expire
-      "network.trr.mode" = 2;               # DoH only
+      "privacy.trackingprotection.enabled" = true;
+      "privacy.trackingprotection.socialtracking.enabled" = true;
+      "browser.contentblocking.category" = "strict";
+      "privacy.donottrackheader.enabled" = true;
+      "privacy.globalprivacycontrol.enabled" = true;
+
+      # --- Network hardening ---
+      "network.trr.mode" = 2;
+      "dom.security.https_only_mode" = true;
+      "network.prefetch-next" = false;
+      "network.dns.disablePrefetch" = true;
+      "network.http.speculative-parallel-limit" = 0;
+      "media.peerconnection.ice.default_address_only" = true;
+
+      # --- Disable telemetry & data collection ---
+      "toolkit.telemetry.enabled" = false;
+      "toolkit.telemetry.unified" = false;
+      "datareporting.healthreport.uploadEnabled" = false;
+      "app.shield.optoutstudies.enabled" = false;
+      "browser.newtabpage.activity-stream.feeds.telemetry" = false;
+      "browser.newtabpage.activity-stream.telemetry" = false;
+
+      # --- Safe browsing ---
       "browser.safebrowsing.malware.enabled" = true;
       "browser.safebrowsing.phishing.enabled" = true;
+
+      # --- Misc hardening ---
+      "browser.formfill.enable" = false;
+      "signon.autofillForms" = false;
+      "extensions.formautofill.addresses.enabled" = false;
+      "extensions.formautofill.creditCards.enabled" = false;
     };
   };
 
