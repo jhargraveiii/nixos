@@ -1,14 +1,8 @@
 { config
-, lib
-, pkgs
 , ...
 }:
 
 {
-  # Bootloader.
-  boot.loader.systemd-boot.enable = true;
-  boot.loader.efi.canTouchEfiVariables = true;
-  boot.kernelPackages = pkgs.linuxPackages;
   boot.initrd.availableKernelModules = [
     "nvme"
     "xhci_pci"
@@ -52,8 +46,6 @@
     options cfg80211 ieee80211_regdom=US
   '';
 
-  boot.tmp.cleanOnBoot = true;
-
   fileSystems."/" = {
     device = "/dev/disk/by-uuid/892e4229-5260-4957-be9e-df50894ebed2";
     fsType = "ext4";
@@ -88,10 +80,6 @@
   };
 
   swapDevices = [{ device = "/dev/disk/by-uuid/1e8f15a3-88e4-4389-9993-bb3ff7b92bac"; }];
-
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.enableAllFirmware = lib.mkDefault true;
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault true;
 
   # ============================================
   # IdeaPad Slim 5 Specific Hardware Settings

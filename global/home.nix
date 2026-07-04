@@ -1,52 +1,29 @@
 { pkgs
-, pkgs-stable
 , username
 , gitUsername
 , gitEmail
+, flakeDir
 , ...
 }:
 {
-  nixpkgs = {
-    # Configure your nixpkgs instance
-    config = {
-      # Nvidia is used only for compute!!
-      allowBroken = true;
-      blasSupport = true;
-      blasProvider = pkgs.amd-blis;
-      lapackSupport = true;
-      lapackProvider = pkgs.amd-libflame;
-      # Disable if you don't want unfree packages
-      allowUnfree = true;
-      # Workaround for https://github.com/nix-community/home-manager/issues/2942
-      allowUnfreePredicate = _: true;
-    };
+  nixpkgs.config = (import ../config/nixpkgs-config.nix { inherit pkgs; }) // {
+    allowBroken = true;
+    # Workaround for https://github.com/nix-community/home-manager/issues/2942
+    allowUnfreePredicate = _: true;
   };
 
-
-  # You need to ensure your home-manager configuration also uses the overlay.
-  # Add the nixpkgs.overlays line to your existing home-manager config.
-  nixpkgs.overlays = [
-  ];
-
-  # Home Manager Settings
+  # We are on unstable/master, so versions may differ
+  home.enableNixpkgsReleaseCheck = false;
   home.username = "${username}";
   home.homeDirectory = "/home/${username}";
-  # We are on unstable/master, so versions may differ in name (e.g. 26.05 vs 25.11)
-  # But we use inputs.nixpkgs.follows so they share the exact same pkgs.
-  home.enableNixpkgsReleaseCheck = false;
 
   imports = [
     ../config/files.nix
     ../modules/programs/kitty.nix
     ../modules/programs/oxygen.nix
-    ../modules/programs/vscode.nix
   ];
 
   home.packages = with pkgs; [
-    clickup
-    jetbrains.idea
-    jetbrains.pycharm
-    vscode-langservers-extracted
     thunderbird
     libreoffice
     bleachbit
@@ -58,7 +35,7 @@
     git-cola
     cheese
     chromium
-    gearlever  # from stable; dwarfs broken on unstable with boost 1.89
+    gearlever
   ];
 
   programs.firefox.profiles.default = {
@@ -113,14 +90,9 @@
     };
   };
 
-  home.file.".jdks/openjdk17".source = pkgs.jdk17;
-
-  # Create XDG Dirs
   xdg = {
     configFile."mimeapps.list".force = true;
-    mimeApps = {
-      enable = true;
-    };
+    mimeApps.enable = true;
     userDirs = {
       enable = true;
       createDirectories = true;
@@ -128,34 +100,28 @@
     };
   };
 
-  # Theme GTK
   dconf = {
     enable = true;
     settings."org/gnome/desktop/interface".color-scheme = "prefer-dark";
   };
 
-  # global home programs
   programs.fzf = {
     enable = true;
     enableBashIntegration = true;
-    # Enable fzf key bindings
+    historyWidget.command = "";
   };
 
-  # Install & Configure Git
   programs.git = {
     enable = true;
     lfs.enable = true;
     package = pkgs.gitFull;
-    signing.format = null;
-    settings = {
-      user = {
-        name = "${gitUsername}";
-        email = "${gitEmail}";
-      };
+    signing.format = null; # no git signing configured
+    settings.user = {
+      name = "${gitUsername}";
+      email = "${gitEmail}";
     };
   };
 
-  # Starship Prompt
   programs.starship = {
     enable = true;
     package = pkgs.starship;
@@ -174,17 +140,15 @@
     bookmarks = {
       H = "/home/${username}";
     };
-    plugins = {
-      mappings = {
-        c = "fzcd";
-        f = "finder";
-        v = "imgview";
-        o = "xdg-open";
-        t = "trash";
-        d = "diffs";
-        x = "!chmod +x $nnn";
-        q = "preview";
-      };
+    plugins.mappings = {
+      c = "fzcd";
+      f = "finder";
+      v = "imgview";
+      o = "xdg-open";
+      t = "trash";
+      d = "diffs";
+      x = "!chmod +x $nnn";
+      q = "preview";
     };
   };
 
@@ -195,23 +159,42 @@
     settings = { };
   };
 
-  home.sessionVariables = {
-    EDITOR = "kate";
-    BROWSER = "firefox";
-    TERMINAL = "konsole";
-    PATH = "$HOME/.local/bin:$PATH";
-  };
+  home.sessionPath = [ "$HOME/.local/bin" ];
 
   programs.bash = {
     enable = true;
-    initExtra = ''
-      set -h  # Enable bash hashing
-    '';
     enableCompletion = true;
+    profileExtra = ''
+      if [ -f $HOME/.oxygen-xml-developer-profile ]; then
+        source $HOME/.oxygen-xml-developer-profile
+      fi
+      export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+    '';
+    bashrcExtra = ''
+      export NNN_PLUG='p:preview-tui;l:lastdir'
+      export NNN_OPENER="${pkgs.xdg-utils}/bin/xdg-open"
+      export NNN_TRASH="1"
+      export NNN_ARCHIVE="\\.(7z|a|ace|alz|arc|arj|bz|bz2|cab|cpio|deb|gz|jar|lha|lz|lzh|lzma|lzo|rar|rpm|rz|t7z|tar|tbz|tbz2|tgz|tlz|txz|tZ|tzo|war|xpi|xz|Z|zip)$"
+    '';
+    initExtra = ''
+      set -h
+      fastfetch
+      if [ -f $HOME/.bashrc-personal ]; then
+        source $HOME/.bashrc-personal
+      fi
+    '';
     shellAliases = {
-      straker-vpn = "sudo openvpn --config /home/jimh/work/straker_vpn.ovpn";
-      straker-office-vpn = "sudo openvpn --config /home/jimh/work/straker_office_vpn.ovpn";
+      straker-vpn = "sudo openvpn --config /home/${username}/work/straker_vpn.ovpn";
+      straker-office-vpn = "sudo openvpn --config /home/${username}/work/straker_office_vpn.ovpn";
+      flake-check = "nix flake check --verbose --show-trace ${flakeDir}";
+      flake-update = "sudo nix flake update --flake ${flakeDir}";
+      gcCleanup = "nix-collect-garbage --delete-old && sudo nix-collect-garbage -d && sudo /run/current-system/bin/switch-to-configuration boot";
+      less = "most";
+      cat = "bat";
+      ll = "ls -alF";
+      lg = "lazygit";
     };
   };
+
   programs.home-manager.enable = true;
 }

@@ -1,8 +1,4 @@
-{ config
-, lib
-, pkgs
-, ...
-}:
+{ ... }:
 {
   boot = {
     extraModprobeConfig = ''
@@ -21,11 +17,6 @@
       "nouveau"
       "sp5100_tco"
     ];
-    loader = {
-      efi.canTouchEfiVariables = true;
-      systemd-boot.enable = true;
-    };
-    kernelPackages = pkgs.linuxPackages;
     initrd.availableKernelModules = [
       "thunderbolt"
       "nvme"
@@ -56,7 +47,6 @@
 
     extraModulePackages = [
     ];
-    tmp.cleanOnBoot = true;
     supportedFilesystems = [ "btrfs" "ext4" ];
   };
 
@@ -119,8 +109,4 @@
 
   # Disable global DHCP (preferred approach)
   networking.useDHCP = false;
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.enableAllFirmware = lib.mkDefault true;
-  hardware.cpu.amd.updateMicrocode = lib.mkDefault true;
-  hardware.enableRedistributableFirmware = lib.mkDefault true;
 }

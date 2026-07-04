@@ -1,5 +1,4 @@
 { pkgs
-, pkgs-stable
 , username
 , gitUsername
 , theLocale
@@ -9,15 +8,7 @@
 , ...
 }:
 {
-  nixpkgs = {
-    config = {
-      allowUnfree = true;
-      blasSupport = true;
-      blasProvider = pkgs.amd-blis;
-      lapackSupport = true;
-      lapackProvider = pkgs.amd-libflame;
-    };
-  };
+  nixpkgs.config = import ../config/nixpkgs-config.nix { inherit pkgs; };
 
   nixpkgs.overlays = [
     (import ../overlays/default.nix)
@@ -29,6 +20,21 @@
     ../modules/programs/distrobox.nix
     ../modules/services/pia.nix
   ];
+
+  # Shared boot and hardware baseline
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+  boot.kernelPackages = lib.mkDefault pkgs.linuxPackages;
+  boot.tmp.cleanOnBoot = true;
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  hardware.enableAllFirmware = lib.mkDefault true;
+  hardware.cpu.amd.updateMicrocode = lib.mkDefault true;
+
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 25;
+  };
 
   systemd.enableEmergencyMode = false;
   services.timesyncd.enable = true;
@@ -108,9 +114,18 @@
   environment.systemPackages = with pkgs; [
     openvpn
     jdk21
+    # Language servers (used by Kate/KWrite LSP client)
     nil
-    shellcheck
     marksman
+    yaml-language-server
+    taplo
+    vscode-langservers-extracted  # HTML, CSS, JSON, ESLint LSPs
+    bash-language-server
+    python3Packages.python-lsp-server
+    gopls
+
+    # Linters and formatters
+    shellcheck
     vale
     hadolint
     yamllint
@@ -124,11 +139,9 @@
     stylelint
     nixpkgs-lint
     nixpkgs-fmt
-    yaml-language-server
     protobuf
     statix
     shfmt
-    taplo
     jq
     jsonfmt
     yamlfmt
@@ -386,7 +399,7 @@
   services.dbus.enable = true;
   services.upower.enable = true; # Battery management and power status
 
-  # globl programs
+  # Global programs
   programs.direnv = {
     enable = true;
     nix-direnv.enable = true;
@@ -401,7 +414,7 @@
   programs._1password-gui = {
     enable = true;
     polkitPolicyOwners = [
-      "jimh"
+      username
       "root"
     ];
   };

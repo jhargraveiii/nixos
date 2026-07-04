@@ -1,28 +1,12 @@
-{ pkgs, theKBDLayout, ... }:
-
+{ ... }:
 {
-  services.desktopManager.plasma6.enable = true;
-  services.libinput = {
-    enable = true;
-  };
+  imports = [ ../modules/services/displaymanager.nix ];
+
   services.iptsd = {
     enable = true;
     config.Touchscreen.DisableOnStylus = true;
     config.Touchscreen.DisableOnPalm = true;
   };
-  services.xserver.enable = true;
   services.xserver.wacom.enable = true;
-
   hardware.sensor.iio.enable = true;
-  services.xserver.xkb.layout = theKBDLayout;
-
-  services.displayManager = {
-    enable = true;
-    defaultSession = "plasma";
-    sddm = {
-      enable = true;
-      autoNumlock = true;
-      wayland.enable = true;
-    };
-  };
 }

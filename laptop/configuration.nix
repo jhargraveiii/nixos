@@ -1,10 +1,4 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { pkgs
-, username
-, inputs
 , ...
 }:
 {
@@ -15,7 +9,7 @@
     ./displaymanager.nix
   ];
 
-  networking.hostName = "datalore-laptop";
+  networking.hostName = "laptop";
 
   environment.systemPackages = with pkgs; [
     kdePackages.wacomtablet
@@ -75,12 +69,6 @@
       RUNTIME_PM_DRIVER_DENYLIST = "mt7921e";
       RUNTIME_PM_DENYLIST = "02:00.0";
     };
-  };
-
-  zramSwap = {
-    enable = true;
-    algorithm = "zstd";
-    memoryPercent = 25;
   };
 
   services.udev.extraRules = ''

@@ -15,7 +15,4 @@
   environment.systemPackages = with pkgs; [
     nvtopPackages.amd
   ];
-
-  # Ensure your user is in the video group for GPU access
-  users.users.jimh.extraGroups = [ "render" "video" ];
 }

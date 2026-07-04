@@ -1,5 +1,5 @@
 {
-  description = "Datalore OS Configuration";
+  description = "NixOS Configuration";
 
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
@@ -39,87 +39,37 @@
       theKBDLayout = "us";
       flakeDir = "/home/${username}/nixos";
       wallpaperDir = "/home/${username}/Pictures/Wallpapers";
+
+      commonSpecialArgs = {
+        inherit system inputs outputs theKBDLayout username
+                gitUsername gitEmail theLocale theTimezone pkgs-stable;
+      };
+
+      commonHomeManagerArgs = {
+        inherit username system theKBDLayout wallpaperDir outputs
+                flakeDir gitUsername gitEmail inputs pkgs-stable;
+      };
+
+      mkHost = hostDir: nixpkgs.lib.nixosSystem {
+        specialArgs = commonSpecialArgs;
+        modules = [
+          ./${hostDir}/configuration.nix
+          home-manager.nixosModules.home-manager
+          {
+            home-manager.extraSpecialArgs = commonHomeManagerArgs;
+            home-manager.useUserPackages = true;
+            home-manager.backupFileExtension = "backup";
+            home-manager.users.${username} = import ./${hostDir}/home.nix;
+          }
+        ];
+      };
     in
     {
       formatter.${system} = pkgs.nixpkgs-fmt;
 
-      # Your custom packages and modifications, exported as overlays
-      #overlays = import ./modules/overlays { inherit inputs pkgs; };
-
       nixosConfigurations = {
-
-        "datalore" = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit system;
-            inherit inputs;
-            inherit outputs;
-            inherit theKBDLayout;
-            inherit username;
-            inherit gitUsername;
-            inherit gitEmail;
-            inherit theLocale;
-            inherit theTimezone;
-            inherit pkgs-stable;
-          };
-          modules = [
-            ./datalore/configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.extraSpecialArgs = {
-                inherit username;
-                inherit system;
-                inherit theKBDLayout;
-                inherit wallpaperDir;
-                inherit outputs;
-                inherit flakeDir;
-                inherit gitUsername;
-                inherit gitEmail;
-                inherit inputs;
-                inherit pkgs-stable;
-              };
-              home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "backup";
-              home-manager.users.${username} = import ./datalore/home.nix;
-            }
-          ];
-        };
-
-        "laptop" = nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit system;
-            inherit inputs;
-            inherit outputs;
-            inherit theKBDLayout;
-            inherit username;
-            inherit gitUsername;
-            inherit gitEmail;
-            inherit theLocale;
-            inherit theTimezone;
-            inherit pkgs-stable;
-          };
-          modules = [
-            ./laptop/configuration.nix
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.extraSpecialArgs = {
-                inherit username;
-                inherit system;
-                inherit theKBDLayout;
-                inherit wallpaperDir;
-                inherit outputs;
-                inherit flakeDir;
-                inherit gitUsername;
-                inherit gitEmail;
-                inherit inputs;
-                inherit pkgs-stable;
-              };
-              home-manager.useUserPackages = true;
-              home-manager.backupFileExtension = "backup";
-              home-manager.users.${username} = import ./laptop/home.nix;
-            }
-          ];
-        };
-
+        "datalore" = mkHost "datalore";
+        "laptop" = mkHost "laptop";
       };
     };
 }

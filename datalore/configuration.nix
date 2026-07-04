@@ -1,14 +1,4 @@
 { pkgs
-, username
-, gitUsername
-, theLocale
-, theTimezone
-, outputs
-, theKBDLayout
-, inputs
-, system
-, lib
-, config
 , ...
 }:
 {
@@ -23,12 +13,6 @@
 
   networking.hostName = "datalore";
 
-  environment.plasma6.excludePackages = with pkgs.kdePackages; [
-  ];
-
-  environment.systemPackages = with pkgs; [
-  ];
-
   powerManagement = {
     cpuFreqGovernor = "ondemand";
     enable = true;
@@ -38,12 +22,6 @@
     enable = true;
     interval = "weekly";
     fileSystems = [ "/" "/home" ];
-  };
-
-  zramSwap = {
-    enable = true;
-    algorithm = "zstd";
-    memoryPercent = 25;
   };
 
   hardware.bluetooth.powerOnBoot = true;
