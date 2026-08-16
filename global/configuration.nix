@@ -242,19 +242,16 @@
     ibm-plex
     source-code-pro
     nanum-gothic-coding
-    jetbrains-mono
     iosevka
     spleen
     fira-code-symbols
     powerline-fonts
     nerd-fonts.ubuntu
     nerd-fonts.ubuntu-mono
-    nerd-fonts.jetbrains-mono
     font-awesome
     symbola
     font-adobe-100dpi
     font-adobe-utopia-100dpi
-    noto-fonts-color-emoji
     noto-fonts-cjk-sans
   ];
 

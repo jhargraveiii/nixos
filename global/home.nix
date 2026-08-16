@@ -35,7 +35,6 @@
     git-cola
     cheese
     chromium
-    gearlever
   ];
 
   programs.firefox.profiles.default = {
