@@ -34,7 +34,6 @@
     insync
     git-cola
     cheese
-    chromium
   ];
 
   programs.firefox.profiles.default = {
