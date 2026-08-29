@@ -38,19 +38,28 @@
 
   programs.firefox.profiles.default = {
     settings = {
-      # --- Cookies & Sessions (keep logins) ---
+      # --- Cookies & site data (keep logins / "remember this device" for 2FA) ---
+      # cookieBehavior 5 = Total Cookie Protection (partition third-party, allow first-party)
+      # Do not enable privacy.resistFingerprinting — it changes browser identity each session
       "network.cookie.cookieBehavior" = 5;
       "network.cookie.lifetimePolicy" = 0;
       "privacy.clearOnShutdown.cookies" = false;
       "privacy.clearOnShutdown.sessions" = false;
       "privacy.clearOnShutdown.offlineApps" = false;
+      "privacy.clearOnShutdown.siteSettings" = false;
+      # Firefox 128+ v2 shutdown prefs — must be false or device-trust tokens are wiped
+      "privacy.clearOnShutdown_v2.cookiesAndStorage" = false;
+      "privacy.clearOnShutdown_v2.browsingHistoryAndDownloads" = false;
+      "privacy.clearOnShutdown_v2.siteSettings" = false;
 
-      # --- Clear everything else on shutdown ---
+      # --- Clear non-auth data on shutdown ---
       "privacy.sanitize.sanitizeOnShutdown" = true;
       "privacy.clearOnShutdown.cache" = true;
       "privacy.clearOnShutdown.formdata" = true;
       "privacy.clearOnShutdown.downloads" = true;
       "privacy.clearOnShutdown.history" = false;
+      "privacy.clearOnShutdown_v2.cache" = true;
+      "privacy.clearOnShutdown_v2.formdata" = true;
 
       # --- Tracking & Fingerprinting ---
       "privacy.fingerprintingProtection" = true;

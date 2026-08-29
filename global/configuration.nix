@@ -249,7 +249,6 @@
     nerd-fonts.ubuntu
     nerd-fonts.ubuntu-mono
     font-awesome
-    symbola
     font-adobe-100dpi
     font-adobe-utopia-100dpi
     noto-fonts-cjk-sans
@@ -439,6 +438,18 @@
       DNSOverHTTPS = {
         Enabled = true;
         ProviderURL = "https://cloudflare-dns.com/dns-query";
+      };
+      Cookies = {
+        Behavior = "partition-foreign";
+      };
+      SanitizeOnShutdown = {
+        Cache = true;
+        FormData = true;
+        Cookies = false;
+        Sessions = false;
+        History = false;
+        SiteSettings = false;
+        Locked = true;
       };
     };
   };
