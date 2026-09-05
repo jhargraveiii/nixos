@@ -370,14 +370,12 @@
   '';
 
   # Keep journal bounded to reduce writes
-  services.journald = {
-    extraConfig = ''
-      Storage=auto
-      SystemMaxUse=500M
-      RuntimeMaxUse=500M
-      MaxRetentionSec=2week
-      MaxFileSec=1day
-    '';
+  services.journald.settings.Journal = {
+    Storage = "auto";
+    SystemMaxUse = "500M";
+    RuntimeMaxUse = "500M";
+    MaxRetentionSec = "2week";
+    MaxFileSec = "1day";
   };
   services.pipewire = {
     enable = true;

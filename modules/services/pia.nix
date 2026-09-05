@@ -5,7 +5,7 @@ with lib;
 let
   cfg = config.services.pia;
 
-  version = "3.7-08412";
+  version = "3.7.2-08420";
 
   commonPkgs = pkgs: with pkgs; [
     bashInteractive
@@ -74,8 +74,8 @@ let
     version = version;
 
     src = pkgs.fetchurl {
-      url = "https://installers.privateinternetaccess.com/download/pia-linux-${version}.run";
-      sha256 = "sha256-MotPBGgi0gz8OwF19snlN3PBdlsNQIRV2jfp9tXL2os=";
+      url = "https://privateinternetaccess-storage.s3.amazonaws.com/pub/pia_desktop/builds/pia-linux-${version}.run";
+      hash = "sha256-CKiK8ERiqeB4ru9SsmvNtW8Kmwh6D7dgb5i363m7Pdk=";
     };
 
     nativeBuildInputs = with pkgs; [ makeWrapper libcap ];
