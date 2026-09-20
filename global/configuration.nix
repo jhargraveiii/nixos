@@ -433,15 +433,16 @@
       DisableTelemetry = true;
       DisablePocket = true;
       DisableFirefoxStudies = true;
+      # DoH disabled here — Firefox uses systemd-resolved (see home.nix network.trr.mode).
+      # Policy-level DoH stacked on resolved and blocked speculative DNS and felt slow on cold start.
       DNSOverHTTPS = {
-        Enabled = true;
-        ProviderURL = "https://cloudflare-dns.com/dns-query";
+        Enabled = false;
       };
       Cookies = {
         Behavior = "partition-foreign";
       };
       SanitizeOnShutdown = {
-        Cache = true;
+        Cache = false;
         FormData = true;
         Cookies = false;
         Sessions = false;

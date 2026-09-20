@@ -25,6 +25,7 @@
 
   home.packages = with pkgs; [
     thunderbird
+    brave
     libreoffice
     bleachbit
     hunspell
@@ -52,13 +53,13 @@
       "privacy.clearOnShutdown_v2.browsingHistoryAndDownloads" = false;
       "privacy.clearOnShutdown_v2.siteSettings" = false;
 
-      # --- Clear non-auth data on shutdown ---
+      # --- Clear non-auth data on shutdown (keep disk cache for faster page loads) ---
       "privacy.sanitize.sanitizeOnShutdown" = true;
-      "privacy.clearOnShutdown.cache" = true;
+      "privacy.clearOnShutdown.cache" = false;
       "privacy.clearOnShutdown.formdata" = true;
       "privacy.clearOnShutdown.downloads" = true;
       "privacy.clearOnShutdown.history" = false;
-      "privacy.clearOnShutdown_v2.cache" = true;
+      "privacy.clearOnShutdown_v2.cache" = false;
       "privacy.clearOnShutdown_v2.formdata" = true;
 
       # --- Tracking & Fingerprinting ---
@@ -69,12 +70,13 @@
       "privacy.donottrackheader.enabled" = true;
       "privacy.globalprivacycontrol.enabled" = true;
 
-      # --- Network hardening ---
-      "network.trr.mode" = 2;
+      # --- Network (DoH + HTTPS-only; allow DNS/speculative connect for load speed) ---
+      # Use system DNS via systemd-resolved (Cloudflare fallback in networking.nix) — avoids
+      # double DoH with the enterprise policy and cuts first-query latency.
+      "network.trr.mode" = 5;
       "dom.security.https_only_mode" = true;
       "network.prefetch-next" = false;
-      "network.dns.disablePrefetch" = true;
-      "network.http.speculative-parallel-limit" = 0;
+      "network.dns.disablePrefetch" = false;
       "media.peerconnection.ice.default_address_only" = true;
 
       # --- Disable telemetry & data collection ---
