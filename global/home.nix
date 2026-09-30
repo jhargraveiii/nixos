@@ -70,15 +70,6 @@
       "privacy.donottrackheader.enabled" = true;
       "privacy.globalprivacycontrol.enabled" = true;
 
-      # --- Network (DoH + HTTPS-only; allow DNS/speculative connect for load speed) ---
-      # Use system DNS via systemd-resolved (Cloudflare fallback in networking.nix) — avoids
-      # double DoH with the enterprise policy and cuts first-query latency.
-      "network.trr.mode" = 5;
-      "dom.security.https_only_mode" = true;
-      "network.prefetch-next" = false;
-      "network.dns.disablePrefetch" = false;
-      "media.peerconnection.ice.default_address_only" = true;
-
       # --- Disable telemetry & data collection ---
       "toolkit.telemetry.enabled" = false;
       "toolkit.telemetry.unified" = false;

@@ -294,26 +294,38 @@
     '';
   };
 
-  hardware.printers = {
-    ensurePrinters = [{
-      name = "Canon-MF450-Series";
-      deviceUri = "ipp://192.168.50.29/ipp/print";
-      model = "everywhere";
-      ppdOptions = {
-        PageSize = "Letter";
-        media-default = "na_letter_8.5x11in";
-      };
-    }];
-    ensureDefaultPrinter = "Canon-MF450-Series";
-  };
+  # Do not use hardware.printers.ensurePrinters — it runs lpadmin in cups.service
+  # ExecStartPost and fails the whole scheduler when the printer is offline.
 
   systemd.services.ensure-printers = {
-    after = [ "network-online.target" ];
+    description = "Configure Canon MF450 when reachable";
+    after = [ "cups.service" "network-online.target" ];
+    requires = [ "cups.service" ];
     wants = [ "network-online.target" ];
     serviceConfig = {
+      Type = "oneshot";
       Restart = "no";
       SuccessExitStatus = "0 1";
     };
+    script = ''
+      printer=Canon-MF450-Series
+      host=192.168.50.29
+
+      if ! ${pkgs.iputils}/bin/ping -c1 -W2 "$host" >/dev/null 2>&1; then
+        echo "Printer offline ($host), skipping lpadmin"
+        exit 0
+      fi
+
+      ${pkgs.cups}/bin/lpadmin -p "$printer" \
+        -v "ipp://$host/ipp/print" \
+        -m everywhere \
+        -o PageSize=Letter \
+        -o media-default=na_letter_8.5x11in \
+        -E || exit 1
+
+      ${pkgs.cups}/bin/lpadmin -d "$printer" || true
+    '';
+    wantedBy = [ "multi-user.target" ];
   };
 
   systemd.services.ensure-printers-retry = {
@@ -322,19 +334,11 @@
     wants = [ "network-online.target" ];
     serviceConfig.Type = "oneshot";
     script = ''
-      # Skip if the printer is already configured
       if ${pkgs.cups}/bin/lpstat -p Canon-MF450-Series 2>/dev/null | grep -q "idle\|printing"; then
         echo "Canon-MF450-Series already configured, skipping"
         exit 0
       fi
-      # Only attempt if the printer is reachable
-      if ${pkgs.iputils}/bin/ping -c1 -W2 192.168.50.29 >/dev/null 2>&1; then
-        echo "Printer reachable, running ensure-printers"
-        systemctl start ensure-printers.service || true
-      else
-        echo "Printer offline, will retry later"
-        exit 0
-      fi
+      systemctl start ensure-printers.service || true
     '';
   };
 
