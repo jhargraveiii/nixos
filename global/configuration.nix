@@ -112,6 +112,9 @@
   ];
 
   environment.systemPackages = with pkgs; [
+    antigravity-cli
+    antigravity      # Base Desktop App
+    antigravity-ide  # Standalone IDE Editor
     openvpn
     jdk21
     # Language servers (used by Kate/KWrite LSP client)
@@ -259,8 +262,6 @@
     enable = true;
     nssmdns4 = true; # Enable mDNS NSS support for IPv4
     nssmdns6 = true; # Enable mDNS NSS support for IPv6
-    publish.enable = true;
-    publish.addresses = true;
   };
 
   # enable pia

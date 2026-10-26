@@ -12,6 +12,7 @@
       url = "github:oxalica/nil";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    antigravity.url = "github:Hy4ri/antigravity-flake";
   };
 
   outputs =

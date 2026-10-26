@@ -32,7 +32,7 @@
     hunspellDicts.en_US
     meld
     vlc
-    insync
+    #insync
     git-cola
     cheese
   ];

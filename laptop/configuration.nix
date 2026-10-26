@@ -12,7 +12,6 @@
   networking.hostName = "laptop";
 
   environment.systemPackages = with pkgs; [
-    kdePackages.wacomtablet
     iio-sensor-proxy
     onboard # On-screen keyboard
   ];
