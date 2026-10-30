@@ -113,7 +113,6 @@
 
   environment.systemPackages = with pkgs; [
     antigravity-cli
-    antigravity      # Base Desktop App
     antigravity-ide  # Standalone IDE Editor
     openvpn
     jdk21
